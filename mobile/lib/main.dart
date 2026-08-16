@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'screens/marketplace_screen.dart';
 import 'screens/camera_scan_screen.dart';
+import 'screens/epr_calculator_screen.dart';
 import 'screens/verify_audit_screen.dart';
+import 'screens/leaderboard_screen.dart';
 import 'theme/app_theme.dart';
 
 void main() {
@@ -35,19 +37,27 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
   final List<Widget> _screens = const [
     MarketplaceScreen(),
     CameraScanScreen(),
+    EPRCalculatorScreen(),
     VerifyAuditScreen(),
+    LeaderboardScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_currentIndex],
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _screens,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) => setState(() => _currentIndex = index),
         backgroundColor: AppTheme.surface,
         selectedItemColor: AppTheme.moss,
         unselectedItemColor: AppTheme.muted,
+        type: BottomNavigationBarType.fixed,
+        selectedLabelStyle: const TextStyle(fontFamily: 'monospace', fontSize: 10, fontWeight: FontWeight.bold),
+        unselectedLabelStyle: const TextStyle(fontFamily: 'monospace', fontSize: 9),
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.inventory_2_outlined),
@@ -60,9 +70,19 @@ class _MainNavigationShellState extends State<MainNavigationShell> {
             label: 'AI Scanner',
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.calculate_outlined),
+            activeIcon: Icon(Icons.calculate),
+            label: 'EPR Calc',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.verified_outlined),
             activeIcon: Icon(Icons.verified),
-            label: 'Verify Audit',
+            label: 'Verify',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.leaderboard_outlined),
+            activeIcon: Icon(Icons.leaderboard),
+            label: 'Rankings',
           ),
         ],
       ),
