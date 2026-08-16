@@ -81,7 +81,7 @@ class ApiService {
       }
     } catch (_) {}
 
-    return [
+    return const [
       {"symbol": "ALUM-6063", "name": "Aluminum Extrusions (6063)", "unitPriceINR": 215.0, "unit": "kg", "change": "+2.4%", "trend": "up", "exchange": "MCX Spot"},
       {"symbol": "CU-BERRY", "name": "Copper Scrap (Heavy Berry No. 1)", "unitPriceINR": 760.0, "unit": "kg", "change": "+1.8%", "trend": "up", "exchange": "MCX Continuous"},
       {"symbol": "PET-WASH", "name": "PET Bottle Flakes (Hot Washed)", "unitPriceINR": 48.0, "unit": "kg", "change": "+3.1%", "trend": "up", "exchange": "IPex Polymer Index"},
@@ -122,7 +122,7 @@ class ApiService {
       }
     } catch (_) {}
 
-    final double targetPct = 0.75;
+    const double targetPct = 0.75;
     final double mandatoryMT = productionMT * targetPct;
     final double carbonKg = mandatoryMT * 1000 * 9.13;
     final double pcrMT = productionMT * 0.25;
@@ -196,7 +196,7 @@ class ApiService {
       }
     } catch (_) {}
 
-    final Map<String, double> priceMap = {
+    const Map<String, double> priceMap = {
       'aluminum': 215.0,
       'steel': 42.5,
       'copper': 760.0,
@@ -280,26 +280,40 @@ class ApiService {
 
     final lower = transcript.toLowerCase();
     String cat = 'plastic_pet';
-    if (lower.contains('aluminum') || lower.contains('aluminium')) cat = 'aluminum';
-    else if (lower.contains('loha') || lower.contains('steel')) cat = 'steel';
-    else if (lower.contains('copper') || lower.contains('tamba')) cat = 'copper';
-    else if (lower.contains('cardboard') || lower.contains('gatta') || lower.contains('paper')) cat = 'paper';
-    else if (lower.contains('electronic') || lower.contains('pcb')) cat = 'electronic';
+    if (lower.contains('aluminum') || lower.contains('aluminium')) {
+      cat = 'aluminum';
+    } else if (lower.contains('loha') || lower.contains('steel')) {
+      cat = 'steel';
+    } else if (lower.contains('copper') || lower.contains('tamba')) {
+      cat = 'copper';
+    } else if (lower.contains('cardboard') || lower.contains('gatta') || lower.contains('paper')) {
+      cat = 'paper';
+    } else if (lower.contains('electronic') || lower.contains('pcb')) {
+      cat = 'electronic';
+    }
 
     double weight = 450;
     final match = RegExp(r'(\d+(\.\d+)?)\s*(kilo|kg|ton|tonne|quintal)').firstMatch(lower);
     if (match != null) {
       final val = double.tryParse(match.group(1) ?? '450') ?? 450;
       final unit = match.group(3) ?? 'kg';
-      if (unit.contains('ton')) weight = val * 1000;
-      else if (unit.contains('quintal')) weight = val * 100;
-      else weight = val;
+      if (unit.contains('ton')) {
+        weight = val * 1000;
+      } else if (unit.contains('quintal')) {
+        weight = val * 100;
+      } else {
+        weight = val;
+      }
     }
 
     String loc = 'Noida, UP';
-    if (lower.contains('pune')) loc = 'Pune, MH';
-    else if (lower.contains('gurgaon') || lower.contains('gurugram')) loc = 'Gurugram, HR';
-    else if (lower.contains('bangalore') || lower.contains('bengaluru')) loc = 'Bengaluru, KA';
+    if (lower.contains('pune')) {
+      loc = 'Pune, MH';
+    } else if (lower.contains('gurgaon') || lower.contains('gurugram')) {
+      loc = 'Gurugram, HR';
+    } else if (lower.contains('bangalore') || lower.contains('bengaluru')) {
+      loc = 'Bengaluru, KA';
+    }
 
     return {
       'category': cat,

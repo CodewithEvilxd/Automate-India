@@ -1,4 +1,3 @@
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 
@@ -8,11 +7,11 @@ class VerificationStampWidget extends StatelessWidget {
   final double rotation;
 
   const VerificationStampWidget({
-    Key? key,
+    super.key,
     this.txHash,
     this.size = 110,
     this.rotation = -0.05, // ~-3 degrees
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
