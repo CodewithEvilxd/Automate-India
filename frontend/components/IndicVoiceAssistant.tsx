@@ -46,7 +46,7 @@ export default function IndicVoiceAssistant({ onParsed }: IndicVoiceAssistantPro
     }
 
     const recognition = new SpeechRecognition();
-    recognition.lang = "hi-IN"; // Supports Hindi & Hinglish
+    recognition.lang = "hi-IN";
     recognition.continuous = false;
     recognition.interimResults = false;
 
@@ -64,37 +64,37 @@ export default function IndicVoiceAssistant({ onParsed }: IndicVoiceAssistantPro
   };
 
   return (
-    <div className="bg-[#1B211A] border border-[#2E362C] rounded-[6px] p-5 font-mono text-xs mb-8">
+    <div className="rounded-2xl glass-panel p-6 border border-slate-200/80 dark:border-white/10 shadow-xl mb-8">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-[#2E362C] pb-3 mb-4">
+      <div className="flex items-center justify-between border-b border-slate-200/60 dark:border-white/5 pb-3 mb-4">
         <div className="flex items-center gap-2">
-          <Volume2 className="w-4 h-4 text-[#D98A3D]" />
-          <span className="font-mono text-[11px] uppercase tracking-wider text-[#EDEAE0] font-semibold">
+          <Volume2 className="w-4 h-4 text-amber-500" />
+          <span className="font-display text-xs uppercase tracking-wider text-slate-900 dark:text-white font-bold">
             Multilingual Indic Voice & Chat Ingestion (Hindi / English)
           </span>
         </div>
-        <span className="px-2 py-0.5 rounded bg-[#D98A3D]/20 border border-[#D98A3D]/40 text-[#D98A3D] text-[10px] font-bold uppercase tracking-wider">
+        <span className="px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 text-[10px] font-mono font-bold uppercase tracking-wider">
           Informal Sector Bridge
         </span>
       </div>
 
-      <p className="text-[#8B9188] font-sans text-xs mb-4">
-        Weighbridge workers or scrap aggregators can speak or type natural Hindi/Hinglish scrap details. CircularChain AI extracts category, mass, and location to auto-fill the lot.
+      <p className="text-slate-600 dark:text-slate-400 text-xs mb-4 leading-relaxed">
+        Weighbridge operators or scrap aggregators can speak or type natural Hindi/Hinglish lot descriptions. AI extracts category, mass, and location to auto-populate the smart contract listing.
       </p>
 
       {/* Voice & Input Bar */}
-      <div className="flex items-center gap-2 mb-3">
+      <div className="flex items-center gap-2 mb-4">
         <button
           type="button"
           onClick={handleSpeech}
-          className={`px-3 py-2.5 rounded-[4px] border font-mono text-xs font-semibold flex items-center gap-2 transition-colors ${
+          className={`px-3.5 py-2.5 rounded-xl border text-xs font-semibold flex items-center gap-2 transition-all ${
             isListening
-              ? "bg-[#E57373]/20 border-[#E57373] text-[#E57373] animate-pulse"
-              : "bg-[#10140F] border-[#2E362C] hover:border-[#D98A3D]/50 text-[#EDEAE0]"
+              ? "bg-rose-500/20 border-rose-500 text-rose-600 dark:text-rose-400 animate-pulse"
+              : "bg-slate-100 dark:bg-white/[0.04] border-slate-200 dark:border-white/10 hover:border-amber-500/50 text-slate-800 dark:text-slate-200"
           }`}
         >
-          {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4 text-[#D98A3D]" />}
-          <span className="hidden sm:inline">{isListening ? "Listening..." : "Speak (Hindi/Eng)"}</span>
+          {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4 text-amber-500" />}
+          <span className="hidden sm:inline font-mono">{isListening ? "Listening..." : "Speak (Hindi/Eng)"}</span>
         </button>
 
         <input
@@ -103,24 +103,24 @@ export default function IndicVoiceAssistant({ onParsed }: IndicVoiceAssistantPro
           onChange={(e) => setInputText(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), handleParse(inputText))}
           placeholder="e.g. Noida Sec 63 me 450 kilo clean aluminum scrap ready hai..."
-          className="flex-1 bg-[#10140F] border border-[#2E362C] focus:border-[#4E9B6F] rounded-[4px] px-3.5 py-2.5 text-xs text-[#EDEAE0] outline-none font-sans"
+          className="flex-1 bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 focus:border-cyan-500 rounded-xl px-4 py-2.5 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 outline-none transition-all"
         />
 
         <button
           type="button"
           disabled={loading || !inputText.trim()}
           onClick={() => handleParse(inputText)}
-          className="px-4 py-2.5 bg-[#4E9B6F] hover:bg-[#64B587] disabled:opacity-50 text-[#10140F] rounded-[4px] font-mono text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-1.5 shrink-0"
+          className="px-5 py-2.5 bg-gradient-to-r from-cyan-500 via-teal-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 disabled:opacity-50 text-slate-950 rounded-xl font-display text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shrink-0 shadow-md shadow-cyan-500/20"
         >
           <Sparkles className="w-3.5 h-3.5" />
           <span>{loading ? "Parsing..." : "Auto-Fill"}</span>
         </button>
       </div>
 
-      {/* Sample Quick Prompt Chips */}
-      <div className="space-y-1.5">
-        <span className="text-[10px] text-[#8B9188] uppercase tracking-wider block">
-          Quick Demo Voice Prompts (Click to Test):
+      {/* Sample Quick Prompts */}
+      <div className="space-y-2">
+        <span className="text-[11px] font-mono text-slate-400 dark:text-slate-500 uppercase tracking-wider block">
+          Quick Demo Voice Prompts (Click to test):
         </span>
         <div className="flex flex-wrap gap-2">
           {samplePrompts.map((prompt, idx) => (
@@ -131,7 +131,7 @@ export default function IndicVoiceAssistant({ onParsed }: IndicVoiceAssistantPro
                 setInputText(prompt);
                 handleParse(prompt);
               }}
-              className="px-2.5 py-1 rounded bg-[#10140F] hover:bg-[#232B22] border border-[#2E362C] hover:border-[#4E9B6F]/40 text-[#8B9188] hover:text-[#EDEAE0] font-sans text-[11px] text-left transition-colors"
+              className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/[0.03] hover:bg-slate-200 dark:hover:bg-white/10 border border-slate-200/80 dark:border-white/5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white text-xs text-left transition-all"
             >
               &ldquo;{prompt}&rdquo;
             </button>
@@ -141,14 +141,14 @@ export default function IndicVoiceAssistant({ onParsed }: IndicVoiceAssistantPro
 
       {/* Parsed Result Flash Alert */}
       {recentParsed && (
-        <div className="mt-4 p-3 bg-[#10140F] border border-[#4E9B6F]/40 rounded flex items-center justify-between">
+        <div className="mt-4 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#4E9B6F]" />
-            <span className="text-[#4E9B6F] font-bold text-xs">
-              Extracted: {recentParsed.category.toUpperCase()} &bull; {recentParsed.estimated_weight_kg} kg &bull; {recentParsed.location}
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+            <span className="text-emerald-700 dark:text-emerald-300 font-mono font-bold text-xs">
+              Extracted: {recentParsed.category.toUpperCase()} • {recentParsed.estimated_weight_kg} kg • {recentParsed.location}
             </span>
           </div>
-          <span className="text-[10px] text-[#8B9188]">Form Auto-Populated</span>
+          <span className="text-[11px] font-mono text-emerald-600 dark:text-emerald-400">Form Auto-Populated</span>
         </div>
       )}
     </div>

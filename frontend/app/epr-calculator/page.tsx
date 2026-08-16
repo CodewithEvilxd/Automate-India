@@ -14,7 +14,8 @@ import {
   Leaf,
   Scale,
   Sparkles,
-  AlertCircle
+  Award,
+  CheckCircle2,
 } from "lucide-react";
 import Link from "next/link";
 import { DEMO_MATERIALS } from "@/lib/demo-data";
@@ -24,16 +25,15 @@ export default function EPRCalculatorPage() {
   const [productionMT, setProductionMT] = useState<number>(350);
   const [materialCategory, setMaterialCategory] = useState("aluminum");
   const [companyName, setCompanyName] = useState("Tata Motors Ancillary Unit / NCR");
-  const [isGenerated, setIsGenerated] = useState(false);
 
   // CPCB 2026 Mandate Target Percentages
   const CPCB_TARGETS: Record<string, number> = {
-    aluminum: 0.75, // 75% recycling mandate
-    steel: 0.70,    // 70%
-    plastic_pet: 0.80, // 80% Category I Rigid
-    plastic_hdpe: 0.70, // 70% Category II Flexible
-    paper: 0.65,    // 65% Corrugated
-    electronic: 0.85, // 85% Schedule I E-Waste
+    aluminum: 0.75,
+    steel: 0.70,
+    plastic_pet: 0.80,
+    plastic_hdpe: 0.70,
+    paper: 0.65,
+    electronic: 0.85,
   };
 
   const targetPct = CPCB_TARGETS[materialCategory] || 0.70;
@@ -58,98 +58,99 @@ export default function EPRCalculatorPage() {
     m.category.toLowerCase().includes(materialCategory.replace("plastic_", ""))
   );
 
-  const totalMatchingMassAvailable = matchingLots.reduce((acc, curr) => acc + curr.estimated_weight_kg, 0);
+  const totalMatchingMassAvailable = matchingLots.reduce(
+    (acc, curr) => acc + curr.estimated_weight_kg,
+    0
+  );
 
   const handlePrint = () => {
     window.print();
   };
 
   return (
-    <div className="min-h-screen bg-[#10140F] text-[#EDEAE0] flex flex-col">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#030712] text-slate-900 dark:text-white transition-colors duration-300 flex flex-col">
       <Navbar />
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-1">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-1">
         {/* Header */}
-        <div className="border-b border-[#2E362C] pb-6 mb-8">
-          <div className="flex items-center gap-2 mb-1.5">
-            <span className="px-2 py-0.5 rounded bg-[#4E9B6F]/20 text-[#4E9B6F] border border-[#4E9B6F]/40 font-mono text-[10px] font-bold uppercase tracking-widest">
-              CPCB EPR Compliance &bull; FY 2026-27
-            </span>
-            <span className="font-mono text-[10px] text-[#8B9188]">
-              Central Pollution Control Board Rules 2022/2024
-            </span>
+        <div className="border-b border-slate-200/80 dark:border-white/10 pb-6 mb-8">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 dark:bg-cyan-400/10 border border-cyan-500/20 text-cyan-600 dark:text-cyan-400 font-mono text-[11px] font-bold uppercase tracking-wider mb-3">
+            <Scale className="w-3.5 h-3.5" />
+            <span>Central Pollution Control Board (CPCB) • FY 2026-27 Mandate</span>
           </div>
-          <h1 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-[#EDEAE0]">
+          <h1 className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
             Corporate EPR Liability Simulator
           </h1>
-          <p className="text-[#8B9188] text-sm mt-1 max-w-2xl font-sans">
-            Calculate your mandatory Indian Extended Producer Responsibility (EPR) recycling obligation and simulate 100% offset fulfillment with audited on-chain scrap lots.
+          <p className="text-slate-600 dark:text-slate-400 text-sm mt-1 max-w-2xl font-normal leading-relaxed">
+            Calculate your statutory recycling quota under Indian Plastic & E-Waste Management Rules and match verified secondary scrap lots to achieve 100% audited compliance.
           </p>
         </div>
 
-        {/* Input Form & Instant Output Grid */}
+        {/* Input Form & Output Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
-          {/* Form Controls (5 cols) */}
-          <div className="lg:col-span-5 bg-[#1B211A] border border-[#2E362C] rounded-[6px] p-6 font-mono text-xs space-y-5">
-            <div className="flex items-center gap-2 pb-3 border-b border-[#2E362C]">
-              <Calculator className="w-4 h-4 text-[#4E9B6F]" />
-              <span className="font-bold text-[#EDEAE0] uppercase tracking-wider text-xs">
+          {/* Controls Panel (5 cols) */}
+          <div className="lg:col-span-5 rounded-2xl glass-panel p-6 border border-slate-200/80 dark:border-white/10 shadow-xl space-y-5">
+            <div className="flex items-center gap-2 pb-3 border-b border-slate-200/60 dark:border-white/5">
+              <Calculator className="w-4 h-4 text-cyan-500" />
+              <span className="font-display font-bold text-slate-900 dark:text-white text-xs uppercase tracking-wider">
                 Enterprise Input Parameters
               </span>
             </div>
 
             <div>
-              <label className="block text-[#8B9188] text-[10px] uppercase mb-1.5">
-                Corporate Entity / Manufacturing Plant
+              <label className="block text-slate-600 dark:text-slate-400 text-[11px] font-medium mb-1.5">
+                Corporate Entity / Manufacturing Plant Name
               </label>
               <input
                 type="text"
                 value={companyName}
                 onChange={(e) => setCompanyName(e.target.value)}
-                className="w-full bg-[#10140F] border border-[#2E362C] focus:border-[#4E9B6F] rounded px-3 py-2 text-[#EDEAE0] font-sans text-xs outline-none"
+                className="w-full bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 focus:border-cyan-500 rounded-xl px-3.5 py-2.5 text-slate-900 dark:text-white text-xs outline-none transition-all"
               />
             </div>
 
             <div>
-              <label className="block text-[#8B9188] text-[10px] uppercase mb-1.5">
-                Target Industry Sector
+              <label className="block text-slate-600 dark:text-slate-400 text-[11px] font-medium mb-1.5">
+                Industrial Sector
               </label>
               <select
                 value={industry}
                 onChange={(e) => setIndustry(e.target.value)}
-                className="w-full bg-[#10140F] border border-[#2E362C] focus:border-[#4E9B6F] rounded px-3 py-2 text-[#EDEAE0] font-sans text-xs outline-none"
+                className="w-full bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 focus:border-cyan-500 rounded-xl px-3.5 py-2.5 text-slate-900 dark:text-white text-xs outline-none cursor-pointer"
               >
-                <option value="automotive">Automotive & Heavy Engineering</option>
-                <option value="fmcg">FMCG & Consumer Packaging</option>
-                <option value="electronics">Electronics & Telecom Equipment</option>
-                <option value="construction">Infrastructure & Construction</option>
+                <option value="automotive">Automotive & Precision Engineering</option>
+                <option value="fmcg">FMCG & Rigid/Flexible Packaging</option>
+                <option value="electronics">Electronics & Telecom Infrastructure</option>
+                <option value="construction">Industrial Infrastructure & Metals</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-[#8B9188] text-[10px] uppercase mb-1.5">
-                Material Class (CPCB Schedule)
+              <label className="block text-slate-600 dark:text-slate-400 text-[11px] font-medium mb-1.5">
+                Material Class (CPCB Statutory Schedule)
               </label>
               <select
                 value={materialCategory}
                 onChange={(e) => setMaterialCategory(e.target.value)}
-                className="w-full bg-[#10140F] border border-[#2E362C] focus:border-[#4E9B6F] rounded px-3 py-2 text-[#EDEAE0] font-sans text-xs outline-none"
+                className="w-full bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 focus:border-cyan-500 rounded-xl px-3.5 py-2.5 text-slate-900 dark:text-white text-xs outline-none cursor-pointer font-medium"
               >
-                <option value="aluminum">Aluminum Scrap (Automotive/Architectural)</option>
-                <option value="steel">Steel Scrap & Heavy Ferrous</option>
-                <option value="plastic_pet">PET Plastic (Rigid Category I)</option>
-                <option value="plastic_hdpe">HDPE Plastic (Flexible Category II)</option>
-                <option value="paper">Corrugated Packaging (OCC Paper)</option>
-                <option value="electronic">E-Waste (Schedule I IT & Telecom)</option>
+                <option value="aluminum">Aluminum Scrap (Automotive/Architectural 6063)</option>
+                <option value="steel">Steel Scrap & Heavy Melting Ferrous (HMS 1/2)</option>
+                <option value="plastic_pet">PET Plastic (Category I - Rigid Containers)</option>
+                <option value="plastic_hdpe">HDPE Plastic (Category II - Flexible Packaging)</option>
+                <option value="paper">Corrugated Packaging (OCC Grade 11 Paper)</option>
+                <option value="electronic">E-Waste (Schedule I IT & Telecom PCBs)</option>
               </select>
             </div>
 
             <div>
-              <div className="flex justify-between items-center mb-1.5">
-                <label className="text-[#8B9188] text-[10px] uppercase">
+              <div className="flex justify-between items-center mb-2">
+                <label className="text-slate-600 dark:text-slate-400 text-[11px] font-medium">
                   Annual Material Consumption
                 </label>
-                <span className="font-bold text-[#4E9B6F] text-xs">{productionMT} MT</span>
+                <span className="font-mono font-bold text-cyan-600 dark:text-cyan-400 text-sm">
+                  {productionMT} Metric Tonnes
+                </span>
               </div>
               <input
                 type="range"
@@ -158,117 +159,137 @@ export default function EPRCalculatorPage() {
                 step={10}
                 value={productionMT}
                 onChange={(e) => setProductionMT(Number(e.target.value))}
-                className="w-full accent-[#4E9B6F] cursor-pointer"
+                className="w-full accent-cyan-500 cursor-pointer h-2 bg-slate-200 dark:bg-slate-800 rounded-lg"
               />
-              <div className="flex justify-between text-[10px] text-[#8B9188] mt-1">
+              <div className="flex justify-between text-[10px] text-slate-400 dark:text-slate-500 font-mono mt-1">
                 <span>20 MT</span>
                 <span>1,000 MT</span>
                 <span>2,000 MT</span>
               </div>
             </div>
 
-            <div className="p-3 bg-[#10140F] border border-[#2E362C] rounded text-[11px] text-[#8B9188] font-sans">
-              <span className="font-bold text-[#4E9B6F]">CPCB 2026 Mandate:</span> Under EPR rules, your industry must divert at least <span className="text-[#EDEAE0] font-bold">{(targetPct * 100).toFixed(0)}%</span> of total consumed mass via certified recycling ledgers.
+            <div className="p-3.5 rounded-xl bg-cyan-500/5 dark:bg-cyan-500/10 border border-cyan-500/20 text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+              <span className="font-bold text-cyan-600 dark:text-cyan-400">Statutory Quota:</span> Under CPCB 2026 norms, your enterprise is mandated to recycle at least{" "}
+              <strong className="text-slate-900 dark:text-white font-mono">{(targetPct * 100).toFixed(0)}%</strong> of consumed mass through verified on-chain channels.
             </div>
           </div>
 
-          {/* Output Results & Official Audit Sheet (7 cols) */}
-          <div className="lg:col-span-7 space-y-6 font-mono text-xs">
-            {/* Top Metric Cards */}
+          {/* Results Panel & Form 1 Sheet (7 cols) */}
+          <div className="lg:col-span-7 space-y-6">
+            {/* Top Stat Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="p-4 bg-[#1B211A] border border-[#2E362C] rounded-[6px]">
-                <span className="text-[10px] text-[#8B9188] uppercase tracking-wider block mb-1">
+              <div className="p-5 rounded-2xl glass-panel border border-slate-200/80 dark:border-white/10 shadow-lg">
+                <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-1">
                   Mandatory EPR Offset
                 </span>
-                <span className="font-display text-2xl font-bold text-[#EDEAE0] block">
+                <span className="font-display text-2xl font-extrabold text-slate-900 dark:text-white block">
                   {mandatoryLiabilityMT.toLocaleString("en-IN")} MT
                 </span>
-                <span className="text-[10px] text-[#4E9B6F] mt-1 block font-semibold">
-                  {(targetPct * 100).toFixed(0)}% statutory requirement
+                <span className="text-[11px] text-cyan-600 dark:text-cyan-400 font-mono mt-1 block font-semibold">
+                  {(targetPct * 100).toFixed(0)}% statutory quota
                 </span>
               </div>
 
-              <div className="p-4 bg-[#1B211A] border border-[#2E362C] rounded-[6px]">
-                <span className="text-[10px] text-[#8B9188] uppercase tracking-wider block mb-1">
-                  Required CO₂ Abatement
+              <div className="p-5 rounded-2xl glass-panel border border-slate-200/80 dark:border-white/10 shadow-lg">
+                <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-1">
+                  Required Carbon Abatement
                 </span>
-                <span className="font-display text-2xl font-bold text-[#4E9B6F] block">
+                <span className="font-display text-2xl font-extrabold text-emerald-600 dark:text-emerald-400 block">
                   {(requiredCarbonAbatementKg / 1000).toFixed(1)} MT
                 </span>
-                <span className="text-[10px] text-[#8B9188] mt-1 block">
+                <span className="text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-1 block">
                   EPA WARM Standard
                 </span>
               </div>
 
-              <div className="p-4 bg-[#1B211A] border border-[#2E362C] rounded-[6px]">
-                <span className="text-[10px] text-[#8B9188] uppercase tracking-wider block mb-1">
-                  Marketplace Lots Match
+              <div className="p-5 rounded-2xl glass-panel border border-slate-200/80 dark:border-white/10 shadow-lg">
+                <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-1">
+                  Matching Ledger Lots
                 </span>
-                <span className="font-display text-2xl font-bold text-[#D98A3D] block">
-                  {matchingLots.length} Lots
+                <span className="font-display text-2xl font-extrabold text-amber-600 dark:text-amber-400 block">
+                  {matchingLots.length} Available
                 </span>
-                <span className="text-[10px] text-[#8B9188] mt-1 block">
-                  {(totalMatchingMassAvailable / 1000).toFixed(1)} MT available
+                <span className="text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-1 block">
+                  {(totalMatchingMassAvailable / 1000).toFixed(1)} MT supply
                 </span>
               </div>
             </div>
 
-            {/* Official EPR Filing Sheet Card */}
-            <div className="bg-[#1B211A] border border-[#2E362C] rounded-[6px] overflow-hidden">
-              <div className="bg-[#232B22] px-5 py-3 border-b border-[#2E362C] flex items-center justify-between">
+            {/* Official Form 1 Certificate Assessment Card */}
+            <div className="rounded-2xl glass-panel border border-slate-200/80 dark:border-white/10 shadow-2xl overflow-hidden">
+              <div className="bg-slate-100 dark:bg-white/[0.04] px-6 py-4 border-b border-slate-200/60 dark:border-white/5 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <FileCheck className="w-4 h-4 text-[#4E9B6F]" />
-                  <span className="font-bold text-xs uppercase tracking-widest text-[#EDEAE0]">
-                    Form 1 &bull; CPCB Corporate EPR Filing Assessment
+                  <FileCheck className="w-4 h-4 text-emerald-500" />
+                  <span className="font-display font-bold text-xs uppercase tracking-wider text-slate-900 dark:text-white">
+                    Form 1 • Official CPCB Corporate EPR Assessment Sheet
                   </span>
                 </div>
                 <button
                   type="button"
                   onClick={handlePrint}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#10140F] hover:bg-[#2E362C] border border-[#2E362C] text-[#EDEAE0] rounded text-[10px] font-bold uppercase transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/15 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white rounded-lg text-xs font-semibold transition-all shadow-sm"
                 >
                   <Printer className="w-3.5 h-3.5" />
-                  <span>Print / PDF</span>
+                  <span>Print Assessment</span>
                 </button>
               </div>
 
-              <div className="p-6 space-y-4 font-mono text-xs">
-                <div className="grid grid-cols-2 gap-4 pb-3 border-b border-[#2E362C]">
+              <div className="p-6 space-y-4 text-xs">
+                <div className="grid grid-cols-2 gap-4 pb-3 border-b border-slate-200/60 dark:border-white/5">
                   <div>
-                    <span className="text-[#8B9188] block text-[9px] uppercase">Corporate Entity</span>
-                    <span className="text-[#EDEAE0] font-bold text-xs">{companyName}</span>
+                    <span className="text-slate-400 dark:text-slate-500 block text-[10px] uppercase font-mono">
+                      Corporate Entity
+                    </span>
+                    <span className="text-slate-900 dark:text-white font-bold text-sm">
+                      {companyName}
+                    </span>
                   </div>
                   <div>
-                    <span className="text-[#8B9188] block text-[9px] uppercase">Filing Year & Jurisdiction</span>
-                    <span className="text-[#EDEAE0] font-bold text-xs">FY 2026-2027 (CPCB India)</span>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 pb-3 border-b border-[#2E362C]">
-                  <div>
-                    <span className="text-[#8B9188] block text-[9px] uppercase">Declared Consumption</span>
-                    <span className="text-[#EDEAE0] font-bold text-xs">{productionMT} Metric Tonnes</span>
-                  </div>
-                  <div>
-                    <span className="text-[#8B9188] block text-[9px] uppercase">Statutory EPR Offset Obligation</span>
-                    <span className="text-[#4E9B6F] font-bold text-xs">{mandatoryLiabilityMT} MT ({mandatoryLiabilityKg.toLocaleString("en-IN")} kg)</span>
+                    <span className="text-slate-400 dark:text-slate-500 block text-[10px] uppercase font-mono">
+                      Statutory Jurisdiction
+                    </span>
+                    <span className="text-slate-900 dark:text-white font-bold text-sm">
+                      CPCB India (MoEFCC Guidelines)
+                    </span>
                   </div>
                 </div>
 
-                <div className="p-3 bg-[#10140F] border border-[#2E362C] rounded text-[11px] leading-relaxed font-sans text-[#8B9188]">
-                  &ldquo;This corporate assessment confirms that <strong className="text-[#EDEAE0]">{companyName}</strong> requires an audited diversion of <strong className="text-[#4E9B6F]">{mandatoryLiabilityMT} MT</strong> of {materialCategory} scrap to maintain 100% CPCB regulatory compliance and abate <strong className="text-[#4E9B6F]">{requiredCarbonAbatementKg.toLocaleString("en-IN")} kg CO₂e</strong>.&rdquo;
+                <div className="grid grid-cols-2 gap-4 pb-3 border-b border-slate-200/60 dark:border-white/5">
+                  <div>
+                    <span className="text-slate-400 dark:text-slate-500 block text-[10px] uppercase font-mono">
+                      Annual Material Volume
+                    </span>
+                    <span className="text-slate-900 dark:text-white font-bold font-mono text-sm">
+                      {productionMT} MT
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-slate-400 dark:text-slate-500 block text-[10px] uppercase font-mono">
+                      Statutory Diversion Obligation
+                    </span>
+                    <span className="text-cyan-600 dark:text-cyan-400 font-bold font-mono text-sm">
+                      {mandatoryLiabilityMT} MT ({mandatoryLiabilityKg.toLocaleString("en-IN")} kg)
+                    </span>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-xl bg-slate-100 dark:bg-white/[0.02] border border-slate-200/60 dark:border-white/5 text-xs leading-relaxed text-slate-700 dark:text-slate-300 italic">
+                  &ldquo;This corporate assessment certifies that <strong className="text-slate-900 dark:text-white not-italic">{companyName}</strong> is obligated to divert at least <strong className="text-cyan-600 dark:text-cyan-400 not-italic">{mandatoryLiabilityMT} MT</strong> of {materialCategory} scrap into certified secondary processing facilities to fulfill 100% CPCB statutory compliance and abate <strong className="text-emerald-600 dark:text-emerald-400 not-italic">{requiredCarbonAbatementKg.toLocaleString("en-IN")} kg CO₂e</strong>.&rdquo;
                 </div>
 
                 <div className="pt-2 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#4E9B6F]" />
-                    <span className="text-[10px] text-[#4E9B6F] font-semibold uppercase">
-                      CircularChain On-Chain Ledger Verification Active
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-mono font-semibold uppercase">
+                      Audited Polygon Amoy Consensus Ready
                     </span>
                   </div>
                   <Link
                     href="/marketplace"
-                    className="inline-flex items-center gap-1.5 text-xs text-[#4E9B6F] hover:underline font-bold uppercase"
+                    className="inline-flex items-center gap-1 text-xs text-cyan-600 dark:text-cyan-400 hover:underline font-bold"
                   >
                     <span>Browse Matching Lots</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -279,30 +300,6 @@ export default function EPRCalculatorPage() {
           </div>
         </div>
       </main>
-
-      {/* Footer */}
-      <footer className="border-t border-[#2E362C] bg-[#10140F] py-8 text-center font-mono text-xs text-[#8B9188]">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#4E9B6F]" />
-            <span>CircularChain Corporate EPR Simulator</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <Link href="/" className="hover:text-[#4E9B6F] transition-colors">
-              Overview
-            </Link>
-            <span>&bull;</span>
-            <Link href="/marketplace" className="hover:text-[#4E9B6F] transition-colors">
-              Marketplace
-            </Link>
-            <span>&bull;</span>
-            <Link href="/verify" className="hover:text-[#4E9B6F] transition-colors">
-              Verify
-            </Link>
-          </div>
-          <div className="text-[10px]">Ministry of Environment, Forest and Climate Change (MoEFCC) Guidelines</div>
-        </div>
-      </footer>
     </div>
   );
 }

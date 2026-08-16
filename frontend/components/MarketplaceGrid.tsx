@@ -4,13 +4,15 @@ import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import { MaterialItem } from "@/lib/demo-data";
 import CategoryBadge from "@/components/CategoryBadge";
-import WalletBadge from "@/components/WalletBadge";
 import VerificationStamp from "@/components/VerificationStamp";
 import {
   Search,
   ArrowUpDown,
   MapPin,
   Boxes,
+  Sparkles,
+  TrendingUp,
+  SlidersHorizontal,
 } from "lucide-react";
 
 interface MarketplaceGridProps {
@@ -27,23 +29,23 @@ export default function MarketplaceGrid({
   const [sortBy, setSortBy] = useState<"co2" | "weight" | "newest">("co2");
 
   const categories = [
-    { label: "All Categories", value: "all" },
-    { label: "Aluminum / Metal", value: "aluminum" },
-    { label: "Plastic (PET)", value: "plastic_pet" },
-    { label: "Plastic (HDPE)", value: "plastic_hdpe" },
-    { label: "Paper / Fiber", value: "paper" },
-    { label: "Cullet Glass", value: "glass" },
-    { label: "Electronics", value: "electronic" },
+    { label: "All Materials", value: "all" },
+    { label: "Aluminum & Non-Ferrous", value: "aluminum" },
+    { label: "PET Plastic (Cat I)", value: "plastic_pet" },
+    { label: "HDPE Plastic (Cat II)", value: "plastic_hdpe" },
+    { label: "Heavy Ferrous / Steel", value: "steel" },
+    { label: "Corrugated OCC Paper", value: "paper" },
+    { label: "E-Waste / Telecom PCB", value: "electronic" },
   ];
 
   const regions = [
-    { label: "All Regions (India)", value: "all" },
-    { label: "Noida / NCR", value: "noida" },
-    { label: "Pune / Mumbai", value: "pune" },
-    { label: "Gurugram / Haryana", value: "gurugram" },
-    { label: "Ahmedabad / Gujarat", value: "ahmedabad" },
-    { label: "Bengaluru / Karnataka", value: "bengaluru" },
-    { label: "Chennai / Tamil Nadu", value: "chennai" },
+    { label: "All Hubs (India)", value: "all" },
+    { label: "Noida / NCR Hub", value: "noida" },
+    { label: "Pune / Chakan Corridor", value: "pune" },
+    { label: "Gurugram / Manesar", value: "gurugram" },
+    { label: "Ahmedabad / Sanand", value: "ahmedabad" },
+    { label: "Bengaluru / Peenya", value: "bengaluru" },
+    { label: "Chennai / Sriperumbudur", value: "chennai" },
   ];
 
   const filteredAndSortedMaterials = useMemo(() => {
@@ -88,44 +90,61 @@ export default function MarketplaceGrid({
       });
   }, [initialMaterials, search, selectedCategory, selectedRegion, selectedStatus, sortBy]);
 
+  // Price calculation helper
+  const getEstimatedValue = (cat: string, weight: number) => {
+    const priceMap: Record<string, number> = {
+      aluminum: 215,
+      steel: 42.5,
+      copper: 760,
+      plastic_pet: 48,
+      plastic_hdpe: 58,
+      paper: 14.5,
+      electronic: 340,
+    };
+    const rate = priceMap[cat.toLowerCase()] || 30;
+    return Math.round(rate * weight);
+  };
+
   return (
-    <div className="space-y-6">
-      <div className="bg-[#1B211A] border border-[#2E362C] rounded-[6px] p-5 space-y-4">
+    <div className="space-y-8">
+      {/* Search & Control Center */}
+      <div className="rounded-2xl glass-panel p-5 sm:p-6 border border-slate-200/80 dark:border-white/10 shadow-xl space-y-4">
         <div className="flex flex-col md:flex-row gap-3 items-center justify-between">
           <div className="relative w-full md:flex-1">
-            <Search className="w-4 h-4 text-[#8B9188] absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-slate-400 dark:text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder="Search by material title, category, city hub (e.g. Noida, Pune), or lot ID..."
+              placeholder="Search by lot title, category, city hub (e.g. Noida, Pune), or lot ID..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-[#10140F] border border-[#2E362C] focus:border-[#4E9B6F] rounded-[4px] pl-10 pr-4 py-2.5 font-mono text-xs text-[#EDEAE0] placeholder:text-[#8B9188]/50 focus:outline-none transition-colors"
+              className="w-full bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 focus:border-cyan-500 rounded-xl pl-10 pr-4 py-2.5 font-sans text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none transition-all shadow-inner"
             />
           </div>
 
           <div className="flex items-center gap-2 w-full md:w-auto font-mono text-xs shrink-0">
-            <span className="text-[#8B9188] flex items-center gap-1">
+            <span className="text-slate-500 dark:text-slate-400 flex items-center gap-1">
               <ArrowUpDown className="w-3.5 h-3.5" /> Sort:
             </span>
             <select
               value={sortBy}
               onChange={(e: any) => setSortBy(e.target.value)}
-              className="bg-[#10140F] border border-[#2E362C] focus:border-[#4E9B6F] rounded-[4px] px-3 py-2 text-[#EDEAE0] font-mono text-xs focus:outline-none cursor-pointer"
+              className="bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 focus:border-cyan-500 rounded-xl px-3 py-2 text-slate-800 dark:text-slate-200 font-sans text-xs focus:outline-none cursor-pointer"
             >
-              <option value="co2">Highest CO₂ Impact</option>
-              <option value="weight">Heaviest Mass (kg)</option>
-              <option value="newest">Newest Listed</option>
+              <option value="co2">Highest CO₂ Impact (EPA Math)</option>
+              <option value="weight">Heaviest Lot Mass (kg)</option>
+              <option value="newest">Recently Registered</option>
             </select>
           </div>
         </div>
 
-        <div className="pt-3 border-t border-[#2E362C] flex flex-wrap items-center gap-3 font-mono text-xs">
+        {/* Filter Pills & Selectors */}
+        <div className="pt-3 border-t border-slate-200/60 dark:border-white/5 flex flex-wrap items-center gap-3 text-xs">
           <div className="flex items-center gap-1.5">
-            <span className="text-[#8B9188]">Category:</span>
+            <span className="text-slate-500 dark:text-slate-400 font-medium">Category:</span>
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="bg-[#10140F] border border-[#2E362C] rounded-[4px] px-2.5 py-1 text-[#EDEAE0] focus:border-[#4E9B6F] focus:outline-none cursor-pointer text-xs"
+              className="bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 rounded-lg px-2.5 py-1 text-slate-800 dark:text-slate-200 focus:border-cyan-500 focus:outline-none cursor-pointer"
             >
               {categories.map((c) => (
                 <option key={c.value} value={c.value}>
@@ -136,11 +155,11 @@ export default function MarketplaceGrid({
           </div>
 
           <div className="flex items-center gap-1.5">
-            <span className="text-[#8B9188]">Location Hub:</span>
+            <span className="text-slate-500 dark:text-slate-400 font-medium">Logistics Hub:</span>
             <select
               value={selectedRegion}
               onChange={(e) => setSelectedRegion(e.target.value)}
-              className="bg-[#10140F] border border-[#2E362C] rounded-[4px] px-2.5 py-1 text-[#EDEAE0] focus:border-[#4E9B6F] focus:outline-none cursor-pointer text-xs"
+              className="bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 rounded-lg px-2.5 py-1 text-slate-800 dark:text-slate-200 focus:border-cyan-500 focus:outline-none cursor-pointer"
             >
               {regions.map((r) => (
                 <option key={r.value} value={r.value}>
@@ -151,34 +170,34 @@ export default function MarketplaceGrid({
           </div>
 
           <div className="flex items-center gap-1.5 ml-auto">
-            <span className="text-[#8B9188]">Status:</span>
-            <div className="inline-flex rounded-[4px] border border-[#2E362C] p-0.5 bg-[#10140F]">
+            <span className="text-slate-500 dark:text-slate-400 font-medium">Status:</span>
+            <div className="inline-flex rounded-lg border border-slate-200 dark:border-white/10 p-0.5 bg-slate-100 dark:bg-white/[0.03]">
               <button
                 onClick={() => setSelectedStatus("all")}
-                className={`px-2 py-0.5 rounded-[2px] text-[11px] transition-colors ${
+                className={`px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all ${
                   selectedStatus === "all"
-                    ? "bg-[#232B22] text-[#EDEAE0] font-bold"
-                    : "text-[#8B9188] hover:text-[#EDEAE0]"
+                    ? "bg-white dark:bg-white/15 text-slate-900 dark:text-white shadow-sm"
+                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                 }`}
               >
-                All
+                All Lots
               </button>
               <button
                 onClick={() => setSelectedStatus("listed")}
-                className={`px-2 py-0.5 rounded-[2px] text-[11px] transition-colors ${
+                className={`px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all ${
                   selectedStatus === "listed"
-                    ? "bg-[#232B22] text-[#D98A3D] font-bold"
-                    : "text-[#8B9188] hover:text-[#EDEAE0]"
+                    ? "bg-amber-500/20 text-amber-600 dark:text-amber-400 font-bold shadow-sm"
+                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                 }`}
               >
                 Open Lots
               </button>
               <button
                 onClick={() => setSelectedStatus("transferred")}
-                className={`px-2 py-0.5 rounded-[2px] text-[11px] transition-colors ${
+                className={`px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all ${
                   selectedStatus === "transferred"
-                    ? "bg-[#232B22] text-[#4E9B6F] font-bold"
-                    : "text-[#8B9188] hover:text-[#EDEAE0]"
+                    ? "bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-bold shadow-sm"
+                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                 }`}
               >
                 Settled
@@ -188,13 +207,14 @@ export default function MarketplaceGrid({
         </div>
       </div>
 
-      <div className="flex items-center justify-between border-b border-[#2E362C] pb-3">
-        <div className="flex items-center gap-2 font-mono text-xs text-[#8B9188]">
+      {/* Grid Meta Header */}
+      <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-white/10 pb-3">
+        <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
           <span>Displaying</span>
-          <span className="text-[#EDEAE0] font-bold">
+          <span className="text-slate-900 dark:text-white font-bold font-mono">
             {filteredAndSortedMaterials.length}
           </span>
-          <span>verified material lots</span>
+          <span>verified secondary material lots</span>
         </div>
 
         {(search || selectedCategory !== "all" || selectedRegion !== "all" || selectedStatus !== "all") && (
@@ -205,21 +225,22 @@ export default function MarketplaceGrid({
               setSelectedRegion("all");
               setSelectedStatus("all");
             }}
-            className="font-mono text-xs text-[#4E9B6F] hover:underline"
+            className="text-xs text-cyan-600 dark:text-cyan-400 hover:underline font-medium"
           >
             Reset Filters
           </button>
         )}
       </div>
 
+      {/* Material Lot Cards */}
       {filteredAndSortedMaterials.length === 0 ? (
-        <div className="text-center py-16 bg-[#1B211A] rounded-[6px] border border-[#2E362C] border-dashed manifest-grid">
-          <Boxes className="w-10 h-10 text-[#8B9188] mx-auto mb-3 opacity-50" />
-          <h3 className="font-display text-lg font-bold text-[#EDEAE0]">
+        <div className="text-center py-20 rounded-2xl glass-panel border border-dashed border-slate-300 dark:border-white/10">
+          <Boxes className="w-12 h-12 text-slate-400 dark:text-slate-600 mx-auto mb-3 opacity-60" />
+          <h3 className="font-display text-lg font-bold text-slate-800 dark:text-slate-200">
             No matching material lots found
           </h3>
-          <p className="text-[#8B9188] text-xs font-mono mt-1 max-w-sm mx-auto">
-            Try adjusting your search keywords, category, or logistics region filter.
+          <p className="text-slate-500 dark:text-slate-400 text-xs mt-1 max-w-sm mx-auto">
+            Try adjusting your search query, material category, or logistics cluster.
           </p>
         </div>
       ) : (
@@ -227,38 +248,42 @@ export default function MarketplaceGrid({
           {filteredAndSortedMaterials.map((item) => {
             const isTransferred = item.status === "transferred";
             const latestTx = item.transactions?.[0]?.tx_hash;
+            const estimatedValue = getEstimatedValue(item.category, item.estimated_weight_kg || 100);
 
             return (
               <Link
                 href={`/material/${item.id}`}
                 key={item.id}
-                className="group bg-[#1B211A] border border-[#2E362C] hover:border-[#4E9B6F]/60 rounded-[6px] overflow-hidden flex flex-col transition-all duration-200"
+                className="group rounded-2xl glass-panel glass-panel-hover border border-slate-200/80 dark:border-white/10 overflow-hidden flex flex-col relative"
               >
-                <div className="aspect-[16/10] bg-[#10140F] relative overflow-hidden border-b border-[#2E362C]">
+                {/* Image Aspect Box */}
+                <div className="aspect-[16/10] bg-slate-900 relative overflow-hidden">
                   {item.image_url ? (
                     <img
                       src={item.image_url}
                       alt={item.title}
-                      className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300 opacity-90 group-hover:opacity-100"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
                     />
                   ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center text-[#8B9188] manifest-grid">
+                    <div className="w-full h-full flex flex-col items-center justify-center text-slate-500 bg-slate-950">
                       <Boxes className="w-8 h-8 opacity-40 mb-1" />
-                      <span className="font-mono text-xs">No Specimen Photo</span>
+                      <span className="font-mono text-xs">Specimen Pinned</span>
                     </div>
                   )}
 
+                  {/* Badges Over Image */}
                   <div className="absolute top-3 left-3">
                     <CategoryBadge category={item.category} />
                   </div>
 
-                  <div className="absolute top-3 right-3 font-mono text-[10px] px-2 py-0.5 rounded-[4px] bg-[#10140F]/90 backdrop-blur-sm border border-[#2E362C] text-[#EDEAE0] flex items-center gap-1">
-                    <MapPin className="w-3 h-3 text-[#4E9B6F]" />
+                  <div className="absolute top-3 right-3 font-mono text-[10px] font-semibold px-2.5 py-1 rounded-full bg-slate-950/80 backdrop-blur-md border border-white/10 text-white flex items-center gap-1 shadow-lg">
+                    <MapPin className="w-3 h-3 text-cyan-400" />
                     <span>{item.location || "Noida, UP"}</span>
                   </div>
 
+                  {/* Settled Stamp Overlay */}
                   {isTransferred && (
-                    <div className="absolute inset-0 bg-[#10140F]/65 backdrop-blur-[2px] flex items-center justify-center p-4">
+                    <div className="absolute inset-0 bg-slate-950/70 backdrop-blur-[2px] flex items-center justify-center p-4">
                       <VerificationStamp
                         txHash={latestTx}
                         size="md"
@@ -270,49 +295,63 @@ export default function MarketplaceGrid({
                   )}
                 </div>
 
+                {/* Card Content Body */}
                 <div className="p-5 flex-1 flex flex-col justify-between">
                   <div>
-                    <h3 className="font-display font-bold text-lg text-[#EDEAE0] group-hover:text-[#4E9B6F] transition-colors line-clamp-1 mb-1">
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="font-mono text-xs font-bold text-amber-600 dark:text-amber-400">
+                        ₹{estimatedValue.toLocaleString("en-IN")}
+                      </span>
+                      <span className="font-mono text-[10px] text-slate-500 dark:text-slate-400">
+                        MCX Benchmark
+                      </span>
+                    </div>
+
+                    <h3 className="font-display font-bold text-base text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors line-clamp-1">
                       {item.title}
                     </h3>
-                    <p className="text-[#8B9188] text-xs line-clamp-2 mb-4 font-sans leading-relaxed">
+                    <p className="text-slate-600 dark:text-slate-400 text-xs line-clamp-2 mt-1 leading-relaxed">
                       {item.description}
                     </p>
                   </div>
 
-                  <div className="pt-3 border-t border-[#2E362C] space-y-2 font-mono text-xs">
-                    <div className="flex justify-between items-center text-[#8B9188]">
-                      <span className="text-[11px] uppercase tracking-wider">Lot Mass:</span>
-                      <span className="font-data font-semibold text-[#EDEAE0]">
+                  {/* Metrics Footer */}
+                  <div className="mt-4 pt-3 border-t border-slate-200/60 dark:border-white/5 space-y-1.5 text-xs">
+                    <div className="flex justify-between items-center text-slate-500 dark:text-slate-400">
+                      <span className="text-[11px] font-medium">Physical Mass:</span>
+                      <span className="font-mono font-bold text-slate-800 dark:text-slate-200">
                         {item.estimated_weight_kg} kg
                       </span>
                     </div>
 
-                    <div className="flex justify-between items-center text-[#8B9188]">
-                      <span className="text-[11px] uppercase tracking-wider">CO₂ Impact:</span>
-                      <span className="font-data font-bold text-[#4E9B6F]">
+                    <div className="flex justify-between items-center text-slate-500 dark:text-slate-400">
+                      <span className="text-[11px] font-medium">EPA Carbon Saved:</span>
+                      <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400">
                         +{item.co2_saved_kg?.toFixed(1)} kg CO₂e
                       </span>
                     </div>
 
-                    <div className="flex justify-between items-center text-[#8B9188] pt-1">
-                      <span className="text-[11px] uppercase tracking-wider">Origin Org:</span>
-                      <span className="text-[#EDEAE0] font-semibold truncate max-w-[150px]">
-                        {item.owner_name || "Industrial Partner"}
+                    <div className="flex justify-between items-center text-slate-500 dark:text-slate-400 pt-1">
+                      <span className="text-[11px] font-medium">Origin Plant:</span>
+                      <span className="text-slate-800 dark:text-slate-200 font-semibold truncate max-w-[160px]">
+                        {item.owner_name || "Certified Partner"}
                       </span>
                     </div>
                   </div>
 
-                  <div className="mt-4 pt-3 border-t border-[#2E362C]/60 flex items-center justify-between font-mono text-[11px]">
+                  {/* Card Action Link */}
+                  <div className="mt-4 pt-3 border-t border-slate-200/60 dark:border-white/5 flex items-center justify-between text-[11px]">
                     <span
-                      className={`uppercase tracking-wider font-semibold ${
-                        isTransferred ? "text-[#4E9B6F]" : "text-[#D98A3D]"
+                      className={`font-semibold uppercase tracking-wider ${
+                        isTransferred
+                          ? "text-emerald-600 dark:text-emerald-400"
+                          : "text-amber-600 dark:text-amber-400"
                       }`}
                     >
-                      &bull; {isTransferred ? "Settled on-chain" : "Active lot"}
+                      &bull; {isTransferred ? "Settled On Ledger" : "Ready For Offtake"}
                     </span>
-                    <span className="text-[#8B9188] group-hover:text-[#EDEAE0] flex items-center gap-1 transition-colors">
-                      Inspect &rarr;
+                    <span className="font-display font-semibold text-cyan-600 dark:text-cyan-400 group-hover:translate-x-1 transition-transform">
+                      Inspect Lot &rarr;
                     </span>
                   </div>
                 </div>

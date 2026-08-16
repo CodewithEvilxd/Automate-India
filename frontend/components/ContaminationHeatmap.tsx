@@ -21,20 +21,20 @@ export default function ContaminationHeatmap({
   const isHighQuality = purityPercentage >= 90;
 
   return (
-    <div className="bg-[#1B211A] border border-[#2E362C] rounded-[6px] p-5 font-mono text-xs">
+    <div className="rounded-2xl glass-panel p-6 border border-slate-200/80 dark:border-white/10 shadow-xl">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-[#2E362C] pb-3 mb-4">
+      <div className="flex items-center justify-between border-b border-slate-200/60 dark:border-white/5 pb-3 mb-4">
         <div className="flex items-center gap-2">
-          <Layers className="w-4 h-4 text-[#4E9B6F]" />
-          <span className="font-mono text-[11px] uppercase tracking-wider text-[#EDEAE0] font-semibold">
-            Visual Contamination & Quality Audit
+          <Layers className="w-4 h-4 text-cyan-500" />
+          <span className="font-display text-xs uppercase tracking-wider text-slate-900 dark:text-white font-bold">
+            Optical Contamination & Quality Audit
           </span>
         </div>
         <span
-          className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+          className={`px-3 py-1 rounded-full text-[11px] font-mono font-bold uppercase tracking-wider ${
             isHighQuality
-              ? "bg-[#4E9B6F]/20 text-[#4E9B6F] border border-[#4E9B6F]/40"
-              : "bg-[#D98A3D]/20 text-[#D98A3D] border border-[#D98A3D]/40"
+              ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30"
+              : "bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/30"
           }`}
         >
           {recyclabilityGrade}
@@ -43,45 +43,55 @@ export default function ContaminationHeatmap({
 
       {/* Purity vs Contamination Bar */}
       <div className="space-y-2 mb-4">
-        <div className="flex justify-between text-[11px]">
-          <span className="text-[#8B9188] flex items-center gap-1.5">
-            <CheckCircle2 className="w-3.5 h-3.5 text-[#4E9B6F]" />
-            <span>Material Purity</span>
+        <div className="flex justify-between text-xs">
+          <span className="text-slate-600 dark:text-slate-400 flex items-center gap-1.5 font-medium">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+            <span>Certified Material Purity</span>
           </span>
-          <span className="font-bold text-[#4E9B6F]">{purityPercentage.toFixed(1)}%</span>
+          <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400 text-sm">
+            {purityPercentage.toFixed(1)}%
+          </span>
         </div>
-        <div className="w-full bg-[#10140F] border border-[#2E362C] h-2.5 rounded-full overflow-hidden flex">
+
+        <div className="w-full bg-slate-200 dark:bg-slate-800 h-3 rounded-full overflow-hidden flex p-0.5 border border-slate-300 dark:border-white/5 shadow-inner">
           <div
-            className="bg-[#4E9B6F] h-full transition-all duration-500"
+            className="bg-gradient-to-r from-cyan-500 via-teal-500 to-emerald-500 h-full rounded-full transition-all duration-700"
             style={{ width: `${purityPercentage}%` }}
           />
           <div
-            className="bg-[#D98A3D] h-full transition-all duration-500"
+            className="bg-amber-500 h-full rounded-full transition-all duration-700 ml-0.5"
             style={{ width: `${contaminationPercentage}%` }}
           />
         </div>
-        <div className="flex justify-between text-[10px] text-[#8B9188]">
-          <span>Clean Fraction: {purityPercentage.toFixed(1)}%</span>
-          <span className="text-[#D98A3D]">Contamination: {contaminationPercentage.toFixed(1)}%</span>
+
+        <div className="flex justify-between text-[11px] font-mono text-slate-500 dark:text-slate-400">
+          <span>Clean Usable Fraction: {purityPercentage.toFixed(1)}%</span>
+          <span className="text-amber-600 dark:text-amber-400 font-semibold">
+            Impurities: {contaminationPercentage.toFixed(1)}%
+          </span>
         </div>
       </div>
 
       {/* Contamination Specs Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3 border-t border-[#2E362C]">
-        <div className="p-2.5 bg-[#10140F] border border-[#2E362C] rounded">
-          <span className="text-[#8B9188] block text-[9px] uppercase tracking-wider mb-1 flex items-center gap-1">
-            <AlertTriangle className="w-3 h-3 text-[#D98A3D]" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3 border-t border-slate-200/60 dark:border-white/5 text-xs">
+        <div className="p-3 rounded-xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200/60 dark:border-white/5">
+          <span className="text-slate-500 dark:text-slate-400 block text-[10px] uppercase font-mono tracking-wider mb-1 flex items-center gap-1">
+            <AlertTriangle className="w-3 h-3 text-amber-500" />
             <span>Identified Impurities</span>
           </span>
-          <span className="text-[#EDEAE0] font-sans text-xs line-clamp-2">{contaminationType}</span>
+          <span className="text-slate-900 dark:text-white font-medium line-clamp-2">
+            {contaminationType}
+          </span>
         </div>
 
-        <div className="p-2.5 bg-[#10140F] border border-[#2E362C] rounded">
-          <span className="text-[#8B9188] block text-[9px] uppercase tracking-wider mb-1 flex items-center gap-1">
-            <Droplets className="w-3 h-3 text-[#4E9B6F]" />
+        <div className="p-3 rounded-xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200/60 dark:border-white/5">
+          <span className="text-slate-500 dark:text-slate-400 block text-[10px] uppercase font-mono tracking-wider mb-1 flex items-center gap-1">
+            <Droplets className="w-3 h-3 text-cyan-500" />
             <span>Moisture Fraction</span>
           </span>
-          <span className="text-[#EDEAE0] font-bold text-xs">{moistureLevel}</span>
+          <span className="text-slate-900 dark:text-white font-bold font-mono">
+            {moistureLevel}
+          </span>
         </div>
       </div>
     </div>

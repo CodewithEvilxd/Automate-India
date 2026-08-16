@@ -80,7 +80,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                   final bool isFirst = index == 0;
 
                   return Container(
-                    margin: const EdgeInsets.bottom(12),
+                    margin: const EdgeInsets.only(bottom: 12),
                     padding: const EdgeInsets.all(14),
                     decoration: BoxDecoration(
                       color: AppTheme.surface,
