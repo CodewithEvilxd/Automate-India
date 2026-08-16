@@ -21,21 +21,71 @@ import {
   FileCode,
   MapPin,
   Flame,
+  Zap,
 } from "lucide-react";
 import Link from "next/link";
 import { DEMO_MATERIALS } from "@/lib/demo-data";
 
 export default function EPRCalculatorPage() {
-  const [companyName, setCompanyName] = useState("Tata Motors Ancillary Unit / NCR");
-  const [piboNo, setPiboNo] = useState("CPCB/PIBO/2026/08941");
-  const [stateJurisdiction, setStateJurisdiction] = useState("UPPCB (Uttar Pradesh - Noida)");
-  const [industry, setIndustry] = useState("automotive");
-  const [materialCategory, setMaterialCategory] = useState("aluminum");
-  const [productionMT, setProductionMT] = useState<number>(350);
+  // Preset profiles for 1-click live presentation to judges
+  const DEMO_PRESETS = [
+    {
+      label: "Tata Motors (Auto Plant - Pune / MPCB)",
+      name: "Tata Motors Commercial Vehicle Ancillary",
+      pibo: "CPCB/PIBO/2026/MH/08941",
+      state: "Maharashtra (MPCB - Pune/Chakan)",
+      industry: "automotive",
+      material: "aluminum",
+      volume: 450,
+    },
+    {
+      label: "PepsiCo / Bottler (Noida / UPPCB)",
+      name: "Moon Beverages & Rigid Packaging Unit",
+      pibo: "CPCB/PIBO/2026/UP/04512",
+      state: "Uttar Pradesh (UPPCB - Noida)",
+      industry: "fmcg",
+      material: "plastic_pet",
+      volume: 850,
+    },
+    {
+      label: "Foxconn Electronics (Chennai / TNPCB)",
+      name: "Foxconn Hon Hai Precision Electronics",
+      pibo: "CPCB/PIBO/2026/TN/09142",
+      state: "Tamil Nadu (TNPCB - Sriperumbudur)",
+      industry: "electronics",
+      material: "electronic",
+      volume: 240,
+    },
+    {
+      label: "Amazon India Hub (Sanand / GPCB)",
+      name: "Amazon Fulfilment Center Packaging Division",
+      pibo: "CPCB/PIBO/2026/GJ/07821",
+      state: "Gujarat (GPCB - Sanand Industrial Hub)",
+      industry: "fmcg",
+      material: "paper",
+      volume: 1200,
+    },
+  ];
+
+  const [companyName, setCompanyName] = useState(DEMO_PRESETS[0].name);
+  const [piboNo, setPiboNo] = useState(DEMO_PRESETS[0].pibo);
+  const [stateJurisdiction, setStateJurisdiction] = useState(DEMO_PRESETS[0].state);
+  const [industry, setIndustry] = useState(DEMO_PRESETS[0].industry);
+  const [materialCategory, setMaterialCategory] = useState(DEMO_PRESETS[0].material);
+  const [productionMT, setProductionMT] = useState<number>(DEMO_PRESETS[0].volume);
   const [apiData, setApiData] = useState<any>(null);
   const [loadingApi, setLoadingApi] = useState(false);
 
-  // Fetch real CPCB compliance math from our CPCB API
+  const applyPreset = (preset: typeof DEMO_PRESETS[0]) => {
+    setCompanyName(preset.name);
+    setPiboNo(preset.pibo);
+    setStateJurisdiction(preset.state);
+    setIndustry(preset.industry);
+    setMaterialCategory(preset.material);
+    setProductionMT(preset.volume);
+  };
+
+  // Live dynamic calculation via backend API
   useEffect(() => {
     setLoadingApi(true);
     fetch("/api/cpcb", {
@@ -101,6 +151,32 @@ export default function EPRCalculatorPage() {
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-1">
+        {/* Top Presets Quick Selector for Judges Presentation */}
+        <div className="mb-6 p-4 rounded-2xl glass-panel border border-zinc-200 dark:border-white/10 shadow-lg">
+          <div className="flex items-center gap-2 mb-2.5">
+            <Zap className="w-4 h-4 text-amber-500" />
+            <span className="font-display text-xs font-bold uppercase tracking-wider text-zinc-900 dark:text-white">
+              Presentation Demo Profiles (1-Click Enterprise Presets)
+            </span>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {DEMO_PRESETS.map((preset, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => applyPreset(preset)}
+                className={`px-3 py-1.5 rounded-xl border text-xs font-medium transition-all ${
+                  companyName === preset.name
+                    ? "bg-emerald-500 text-zinc-950 font-bold border-emerald-500 shadow-sm"
+                    : "bg-zinc-100 dark:bg-white/[0.03] border-zinc-200 dark:border-white/10 hover:border-emerald-500/50 text-zinc-700 dark:text-zinc-300"
+                }`}
+              >
+                {preset.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* Header Banner */}
         <div className="border-b border-zinc-200 dark:border-white/10 pb-6 mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
@@ -112,7 +188,7 @@ export default function EPRCalculatorPage() {
               Corporate EPR & Carbon Mandate Simulator
             </h1>
             <p className="text-zinc-600 dark:text-zinc-400 text-sm mt-1 max-w-2xl font-normal leading-relaxed">
-              Real-time statutory obligation calculation under Plastic Waste Management Rules (PWM), E-Waste Schedule I, and Battery Waste Directives (BWMR 2026).
+              Statutory obligation calculation under Plastic Waste Management Rules (PWM), E-Waste Schedule I, and Battery Waste Directives (BWMR 2026) across all 28 State SPCB jurisdictions.
             </p>
           </div>
 
@@ -122,7 +198,7 @@ export default function EPRCalculatorPage() {
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
             <span className="font-mono text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-              Live CPCB API Sync Active
+              Live Backend API Sync Active
             </span>
           </div>
         </div>
@@ -194,7 +270,7 @@ export default function EPRCalculatorPage() {
                 </span>
               </div>
               <span className="font-mono text-[10px] text-zinc-500 dark:text-zinc-400">
-                FY 2026-27
+                Customizable Real Inputs
               </span>
             </div>
 
@@ -206,6 +282,7 @@ export default function EPRCalculatorPage() {
                 type="text"
                 value={companyName}
                 onChange={(e) => setCompanyName(e.target.value)}
+                placeholder="Type any company name..."
                 className="w-full bg-zinc-100 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 focus:border-emerald-500 rounded-xl px-3.5 py-2.5 text-zinc-900 dark:text-white text-xs outline-none transition-all"
               />
             </div>
@@ -218,6 +295,7 @@ export default function EPRCalculatorPage() {
                 type="text"
                 value={piboNo}
                 onChange={(e) => setPiboNo(e.target.value)}
+                placeholder="e.g. CPCB/PIBO/2026/..."
                 className="w-full bg-zinc-100 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 focus:border-emerald-500 rounded-xl px-3.5 py-2.5 font-mono text-zinc-900 dark:text-white text-xs outline-none transition-all"
               />
             </div>
@@ -231,12 +309,16 @@ export default function EPRCalculatorPage() {
                 onChange={(e) => setStateJurisdiction(e.target.value)}
                 className="w-full bg-zinc-100 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 focus:border-emerald-500 rounded-xl px-3.5 py-2.5 text-zinc-900 dark:text-white text-xs outline-none cursor-pointer"
               >
-                <option value="UPPCB (Uttar Pradesh - Noida/NCR)">UPPCB (Uttar Pradesh - Noida / Greater Noida)</option>
-                <option value="MPCB (Maharashtra - Pune/Chakan)">MPCB (Maharashtra - Pune / Chakan Auto Belt)</option>
-                <option value="GPCB (Gujarat - Ahmedabad/Sanand)">GPCB (Gujarat - Ahmedabad / Sanand Industrial Park)</option>
-                <option value="KSPCB (Karnataka - Bengaluru/Peenya)">KSPCB (Karnataka - Bengaluru / Peenya Hub)</option>
-                <option value="TNPCB (Tamil Nadu - Chennai/Sriperumbudur)">TNPCB (Tamil Nadu - Chennai / Sriperumbudur)</option>
-                <option value="HSPCB (Haryana - Gurugram/Manesar)">HSPCB (Haryana - Gurugram / Manesar Auto Cluster)</option>
+                <option value="Maharashtra (MPCB - Pune/Chakan)">Maharashtra (MPCB - Pune / Chakan Auto Belt)</option>
+                <option value="Uttar Pradesh (UPPCB - Noida)">Uttar Pradesh (UPPCB - Noida / Greater Noida)</option>
+                <option value="Gujarat (GPCB - Sanand Industrial Hub)">Gujarat (GPCB - Ahmedabad / Sanand)</option>
+                <option value="Karnataka (KSPCB - Bengaluru/Peenya)">Karnataka (KSPCB - Bengaluru / Peenya Hub)</option>
+                <option value="Tamil Nadu (TNPCB - Sriperumbudur)">Tamil Nadu (TNPCB - Chennai / Sriperumbudur)</option>
+                <option value="Haryana (HSPCB - Gurugram/Manesar)">Haryana (HSPCB - Gurugram / Manesar Auto Cluster)</option>
+                <option value="Delhi (DPCC - Okhla Industrial Area)">Delhi (DPCC - Okhla & Mayapuri Industrial Area)</option>
+                <option value="West Bengal (WBPCB - Kolkata/Howrah)">West Bengal (WBPCB - Kolkata / Howrah)</option>
+                <option value="Rajasthan (RSPCB - Bhiwadi Corridor)">Rajasthan (RSPCB - Bhiwadi / Alwar Corridor)</option>
+                <option value="Telangana (TSPCB - Hyderabad/Patancheru)">Telangana (TSPCB - Hyderabad / Patancheru)</option>
               </select>
             </div>
 
@@ -272,7 +354,7 @@ export default function EPRCalculatorPage() {
               <input
                 type="range"
                 min={20}
-                max={2500}
+                max={3000}
                 step={10}
                 value={productionMT}
                 onChange={(e) => setProductionMT(Number(e.target.value))}
@@ -280,8 +362,8 @@ export default function EPRCalculatorPage() {
               />
               <div className="flex justify-between text-[10px] text-zinc-400 dark:text-zinc-500 font-mono mt-1">
                 <span>20 MT</span>
-                <span>1,250 MT</span>
-                <span>2,500 MT</span>
+                <span>1,500 MT</span>
+                <span>3,000 MT</span>
               </div>
             </div>
 

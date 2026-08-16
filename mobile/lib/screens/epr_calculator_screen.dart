@@ -4,7 +4,7 @@ import '../models/material_model.dart';
 import '../services/api_service.dart';
 
 class EPRCalculatorScreen extends StatefulWidget {
-  const EPRCalculatorScreen({Key? key}) : super(key: key);
+  const EPRCalculatorScreen({super.key});
 
   @override
   State<EPRCalculatorScreen> createState() => _EPRCalculatorScreenState();
@@ -12,12 +12,43 @@ class EPRCalculatorScreen extends StatefulWidget {
 
 class _EPRCalculatorScreenState extends State<EPRCalculatorScreen> {
   final ApiService _apiService = ApiService();
-  String _companyName = "Tata Motors Ancillary Unit / NCR";
-  String _piboNo = "CPCB/PIBO/2026/08941";
-  String _stateJurisdiction = "UPPCB (Uttar Pradesh - Noida)";
-  String _industry = "automotive";
-  String _materialCategory = "aluminum";
-  double _productionMT = 350;
+
+  final List<Map<String, dynamic>> _demoPresets = [
+    {
+      'label': 'Tata Motors (Pune/MPCB)',
+      'name': 'Tata Motors Commercial Vehicle Ancillary',
+      'pibo': 'CPCB/PIBO/2026/MH/08941',
+      'state': 'Maharashtra (MPCB - Pune/Chakan)',
+      'industry': 'automotive',
+      'material': 'aluminum',
+      'volume': 450.0,
+    },
+    {
+      'label': 'PepsiCo / Bottler (Noida/UP)',
+      'name': 'Moon Beverages & Rigid Packaging Unit',
+      'pibo': 'CPCB/PIBO/2026/UP/04512',
+      'state': 'Uttar Pradesh (UPPCB - Noida)',
+      'industry': 'fmcg',
+      'material': 'plastic_pet',
+      'volume': 850.0,
+    },
+    {
+      'label': 'Foxconn (Chennai/TNPCB)',
+      'name': 'Foxconn Hon Hai Precision Electronics',
+      'pibo': 'CPCB/PIBO/2026/TN/09142',
+      'state': 'Tamil Nadu (TNPCB - Sriperumbudur)',
+      'industry': 'electronics',
+      'material': 'electronic',
+      'volume': 240.0,
+    },
+  ];
+
+  late String _companyName;
+  late String _piboNo;
+  late String _stateJurisdiction;
+  late String _industry;
+  late String _materialCategory;
+  late double _productionMT;
   List<MaterialItem> _allMaterials = [];
   Map<String, dynamic>? _apiData;
   bool _loading = true;
@@ -25,8 +56,22 @@ class _EPRCalculatorScreenState extends State<EPRCalculatorScreen> {
   @override
   void initState() {
     super.initState();
+    _applyPreset(_demoPresets[0], shouldFetch: false);
     _fetchMaterials();
     _recalculate();
+  }
+
+  void _applyPreset(Map<String, dynamic> preset, {bool shouldFetch = true}) {
+    _companyName = preset['name'];
+    _piboNo = preset['pibo'];
+    _stateJurisdiction = preset['state'];
+    _industry = preset['industry'];
+    _materialCategory = preset['material'];
+    _productionMT = preset['volume'];
+    if (shouldFetch) {
+      setState(() {});
+      _recalculate();
+    }
   }
 
   Future<void> _fetchMaterials() async {
@@ -98,6 +143,57 @@ class _EPRCalculatorScreenState extends State<EPRCalculatorScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Quick Demo Presets for Presentation
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: AppTheme.surface,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: AppTheme.border),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "PRESENTATION DEMO PRESETS (1-CLICK)",
+                    style: TextStyle(fontFamily: 'monospace', fontSize: 9, fontWeight: FontWeight.bold, color: AppTheme.ochre),
+                  ),
+                  const SizedBox(height: 8),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: _demoPresets.map((preset) {
+                        final isSelected = _companyName == preset['name'];
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 6),
+                          child: InkWell(
+                            onTap: () => _applyPreset(preset),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: isSelected ? AppTheme.moss : AppTheme.ink,
+                                borderRadius: BorderRadius.circular(4),
+                                border: Border.all(color: isSelected ? AppTheme.moss : AppTheme.border),
+                              ),
+                              child: Text(
+                                preset['label'],
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                  color: isSelected ? AppTheme.ink : AppTheme.bone,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 14),
+
             // Top Live Status
             Row(
               children: [
@@ -122,12 +218,7 @@ class _EPRCalculatorScreenState extends State<EPRCalculatorScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 8),
-            const Text(
-              "Real-time statutory obligation calculation under Plastic Waste Management Rules (PWM), E-Waste Schedule I, and Battery Waste Directives (BWMR 2026).",
-              style: TextStyle(fontSize: 11, color: AppTheme.muted, height: 1.4),
-            ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
 
             // 4 Stats Overview Cards (2x2 Grid)
             Row(
@@ -284,11 +375,13 @@ class _EPRCalculatorScreenState extends State<EPRCalculatorScreen> {
                         isExpanded: true,
                         dropdownColor: AppTheme.surface,
                         items: const [
-                          DropdownMenuItem(value: "UPPCB (Uttar Pradesh - Noida)", child: Text("UPPCB (Uttar Pradesh - Noida)", style: TextStyle(fontSize: 11, color: AppTheme.bone))),
-                          DropdownMenuItem(value: "MPCB (Maharashtra - Pune/Chakan)", child: Text("MPCB (Maharashtra - Pune/Chakan)", style: TextStyle(fontSize: 11, color: AppTheme.bone))),
-                          DropdownMenuItem(value: "GPCB (Gujarat - Ahmedabad/Sanand)", child: Text("GPCB (Gujarat - Ahmedabad/Sanand)", style: TextStyle(fontSize: 11, color: AppTheme.bone))),
-                          DropdownMenuItem(value: "KSPCB (Karnataka - Bengaluru)", child: Text("KSPCB (Karnataka - Bengaluru)", style: TextStyle(fontSize: 11, color: AppTheme.bone))),
-                          DropdownMenuItem(value: "TNPCB (Tamil Nadu - Chennai)", child: Text("TNPCB (Tamil Nadu - Chennai)", style: TextStyle(fontSize: 11, color: AppTheme.bone))),
+                          DropdownMenuItem(value: "Maharashtra (MPCB - Pune/Chakan)", child: Text("Maharashtra (MPCB - Pune/Chakan)", style: TextStyle(fontSize: 11, color: AppTheme.bone))),
+                          DropdownMenuItem(value: "Uttar Pradesh (UPPCB - Noida)", child: Text("Uttar Pradesh (UPPCB - Noida)", style: TextStyle(fontSize: 11, color: AppTheme.bone))),
+                          DropdownMenuItem(value: "Gujarat (GPCB - Sanand Industrial Hub)", child: Text("Gujarat (GPCB - Ahmedabad/Sanand)", style: TextStyle(fontSize: 11, color: AppTheme.bone))),
+                          DropdownMenuItem(value: "Karnataka (KSPCB - Bengaluru/Peenya)", child: Text("Karnataka (KSPCB - Bengaluru/Peenya)", style: TextStyle(fontSize: 11, color: AppTheme.bone))),
+                          DropdownMenuItem(value: "Tamil Nadu (TNPCB - Sriperumbudur)", child: Text("Tamil Nadu (TNPCB - Chennai/Sriperumbudur)", style: TextStyle(fontSize: 11, color: AppTheme.bone))),
+                          DropdownMenuItem(value: "Haryana (HSPCB - Gurugram/Manesar)", child: Text("Haryana (HSPCB - Gurugram/Manesar)", style: TextStyle(fontSize: 11, color: AppTheme.bone))),
+                          DropdownMenuItem(value: "Delhi (DPCC - Okhla Industrial Area)", child: Text("Delhi (DPCC - Okhla Industrial)", style: TextStyle(fontSize: 11, color: AppTheme.bone))),
                         ],
                         onChanged: (val) {
                           setState(() => _stateJurisdiction = val!);
@@ -347,8 +440,8 @@ class _EPRCalculatorScreenState extends State<EPRCalculatorScreen> {
                   Slider(
                     value: _productionMT,
                     min: 20,
-                    max: 2000,
-                    divisions: 198,
+                    max: 2500,
+                    divisions: 248,
                     activeColor: AppTheme.moss,
                     inactiveColor: AppTheme.border,
                     onChanged: (val) {
@@ -414,7 +507,7 @@ class _EPRCalculatorScreenState extends State<EPRCalculatorScreen> {
                       border: Border.all(color: AppTheme.border),
                     ),
                     child: Text(
-                      "\"This statutory assessment certifies that $_companyName (PIBO: $_piboNo) is obligated under CPCB 2026 guidelines to divert at least ${mandatoryMT.toStringAsFixed(1)} MT of $_materialCategory into authorized secondary recycling facilities to fulfill compliance and abate ${(carbonKg / 1000).toStringAsFixed(1)} MT CO₂e.\"",
+                      "\"This statutory assessment certifies that $_companyName (PIBO: $_piboNo) in $_stateJurisdiction is obligated under CPCB 2026 guidelines to divert at least ${mandatoryMT.toStringAsFixed(1)} MT of $_materialCategory into authorized secondary recycling facilities to fulfill compliance and abate ${(carbonKg / 1000).toStringAsFixed(1)} MT CO₂e.\"",
                       style: const TextStyle(fontSize: 11, color: AppTheme.bone, height: 1.4, fontStyle: FontStyle.italic),
                     ),
                   ),
