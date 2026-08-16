@@ -12,7 +12,6 @@ import {
   Boxes,
   Sparkles,
   TrendingUp,
-  SlidersHorizontal,
 } from "lucide-react";
 
 interface MarketplaceGridProps {
@@ -90,7 +89,6 @@ export default function MarketplaceGrid({
       });
   }, [initialMaterials, search, selectedCategory, selectedRegion, selectedStatus, sortBy]);
 
-  // Price calculation helper
   const getEstimatedValue = (cat: string, weight: number) => {
     const priceMap: Record<string, number> = {
       aluminum: 215,
@@ -107,28 +105,28 @@ export default function MarketplaceGrid({
 
   return (
     <div className="space-y-8">
-      {/* Search & Control Center */}
-      <div className="rounded-2xl glass-panel p-5 sm:p-6 border border-slate-200/80 dark:border-white/10 shadow-xl space-y-4">
+      {/* Search & Filter Bar */}
+      <div className="rounded-2xl glass-panel p-5 sm:p-6 border border-zinc-200 dark:border-white/10 shadow-xl space-y-4">
         <div className="flex flex-col md:flex-row gap-3 items-center justify-between">
           <div className="relative w-full md:flex-1">
-            <Search className="w-4 h-4 text-slate-400 dark:text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-zinc-400 dark:text-zinc-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Search by lot title, category, city hub (e.g. Noida, Pune), or lot ID..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 focus:border-cyan-500 rounded-xl pl-10 pr-4 py-2.5 font-sans text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none transition-all shadow-inner"
+              className="w-full bg-zinc-100 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 focus:border-emerald-500 rounded-xl pl-10 pr-4 py-2.5 font-sans text-xs text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-500 focus:outline-none transition-all"
             />
           </div>
 
           <div className="flex items-center gap-2 w-full md:w-auto font-mono text-xs shrink-0">
-            <span className="text-slate-500 dark:text-slate-400 flex items-center gap-1">
+            <span className="text-zinc-500 dark:text-zinc-400 flex items-center gap-1">
               <ArrowUpDown className="w-3.5 h-3.5" /> Sort:
             </span>
             <select
               value={sortBy}
               onChange={(e: any) => setSortBy(e.target.value)}
-              className="bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 focus:border-cyan-500 rounded-xl px-3 py-2 text-slate-800 dark:text-slate-200 font-sans text-xs focus:outline-none cursor-pointer"
+              className="bg-zinc-100 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 focus:border-emerald-500 rounded-xl px-3 py-2 text-zinc-800 dark:text-zinc-200 font-sans text-xs focus:outline-none cursor-pointer"
             >
               <option value="co2">Highest CO₂ Impact (EPA Math)</option>
               <option value="weight">Heaviest Lot Mass (kg)</option>
@@ -137,14 +135,14 @@ export default function MarketplaceGrid({
           </div>
         </div>
 
-        {/* Filter Pills & Selectors */}
-        <div className="pt-3 border-t border-slate-200/60 dark:border-white/5 flex flex-wrap items-center gap-3 text-xs">
+        {/* Filter Pills */}
+        <div className="pt-3 border-t border-zinc-200 dark:border-white/[0.06] flex flex-wrap items-center gap-3 text-xs">
           <div className="flex items-center gap-1.5">
-            <span className="text-slate-500 dark:text-slate-400 font-medium">Category:</span>
+            <span className="text-zinc-500 dark:text-zinc-400 font-medium">Category:</span>
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 rounded-lg px-2.5 py-1 text-slate-800 dark:text-slate-200 focus:border-cyan-500 focus:outline-none cursor-pointer"
+              className="bg-zinc-100 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 rounded-lg px-2.5 py-1 text-zinc-800 dark:text-zinc-200 focus:border-emerald-500 focus:outline-none cursor-pointer"
             >
               {categories.map((c) => (
                 <option key={c.value} value={c.value}>
@@ -155,11 +153,11 @@ export default function MarketplaceGrid({
           </div>
 
           <div className="flex items-center gap-1.5">
-            <span className="text-slate-500 dark:text-slate-400 font-medium">Logistics Hub:</span>
+            <span className="text-zinc-500 dark:text-zinc-400 font-medium">Logistics Hub:</span>
             <select
               value={selectedRegion}
               onChange={(e) => setSelectedRegion(e.target.value)}
-              className="bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 rounded-lg px-2.5 py-1 text-slate-800 dark:text-slate-200 focus:border-cyan-500 focus:outline-none cursor-pointer"
+              className="bg-zinc-100 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 rounded-lg px-2.5 py-1 text-zinc-800 dark:text-zinc-200 focus:border-emerald-500 focus:outline-none cursor-pointer"
             >
               {regions.map((r) => (
                 <option key={r.value} value={r.value}>
@@ -170,14 +168,14 @@ export default function MarketplaceGrid({
           </div>
 
           <div className="flex items-center gap-1.5 ml-auto">
-            <span className="text-slate-500 dark:text-slate-400 font-medium">Status:</span>
-            <div className="inline-flex rounded-lg border border-slate-200 dark:border-white/10 p-0.5 bg-slate-100 dark:bg-white/[0.03]">
+            <span className="text-zinc-500 dark:text-zinc-400 font-medium">Status:</span>
+            <div className="inline-flex rounded-lg border border-zinc-200 dark:border-white/10 p-0.5 bg-zinc-100 dark:bg-white/[0.02]">
               <button
                 onClick={() => setSelectedStatus("all")}
                 className={`px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all ${
                   selectedStatus === "all"
-                    ? "bg-white dark:bg-white/15 text-slate-900 dark:text-white shadow-sm"
-                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    ? "bg-white dark:bg-white/15 text-zinc-900 dark:text-white shadow-sm"
+                    : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white"
                 }`}
               >
                 All Lots
@@ -187,7 +185,7 @@ export default function MarketplaceGrid({
                 className={`px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all ${
                   selectedStatus === "listed"
                     ? "bg-amber-500/20 text-amber-600 dark:text-amber-400 font-bold shadow-sm"
-                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white"
                 }`}
               >
                 Open Lots
@@ -197,7 +195,7 @@ export default function MarketplaceGrid({
                 className={`px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all ${
                   selectedStatus === "transferred"
                     ? "bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-bold shadow-sm"
-                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white"
                 }`}
               >
                 Settled
@@ -207,11 +205,11 @@ export default function MarketplaceGrid({
         </div>
       </div>
 
-      {/* Grid Meta Header */}
-      <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-white/10 pb-3">
-        <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+      {/* Meta Count */}
+      <div className="flex items-center justify-between border-b border-zinc-200 dark:border-white/10 pb-3">
+        <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
           <span>Displaying</span>
-          <span className="text-slate-900 dark:text-white font-bold font-mono">
+          <span className="text-zinc-900 dark:text-white font-bold font-mono">
             {filteredAndSortedMaterials.length}
           </span>
           <span>verified secondary material lots</span>
@@ -225,7 +223,7 @@ export default function MarketplaceGrid({
               setSelectedRegion("all");
               setSelectedStatus("all");
             }}
-            className="text-xs text-cyan-600 dark:text-cyan-400 hover:underline font-medium"
+            className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline font-medium"
           >
             Reset Filters
           </button>
@@ -234,12 +232,12 @@ export default function MarketplaceGrid({
 
       {/* Material Lot Cards */}
       {filteredAndSortedMaterials.length === 0 ? (
-        <div className="text-center py-20 rounded-2xl glass-panel border border-dashed border-slate-300 dark:border-white/10">
-          <Boxes className="w-12 h-12 text-slate-400 dark:text-slate-600 mx-auto mb-3 opacity-60" />
-          <h3 className="font-display text-lg font-bold text-slate-800 dark:text-slate-200">
+        <div className="text-center py-20 rounded-2xl glass-panel border border-dashed border-zinc-300 dark:border-white/10">
+          <Boxes className="w-12 h-12 text-zinc-400 dark:text-zinc-600 mx-auto mb-3 opacity-60" />
+          <h3 className="font-display text-lg font-bold text-zinc-800 dark:text-zinc-200">
             No matching material lots found
           </h3>
-          <p className="text-slate-500 dark:text-slate-400 text-xs mt-1 max-w-sm mx-auto">
+          <p className="text-zinc-500 dark:text-zinc-400 text-xs mt-1 max-w-sm mx-auto">
             Try adjusting your search query, material category, or logistics cluster.
           </p>
         </div>
@@ -254,10 +252,10 @@ export default function MarketplaceGrid({
               <Link
                 href={`/material/${item.id}`}
                 key={item.id}
-                className="group rounded-2xl glass-panel glass-panel-hover border border-slate-200/80 dark:border-white/10 overflow-hidden flex flex-col relative"
+                className="group rounded-2xl glass-panel glass-panel-hover border border-zinc-200 dark:border-white/10 overflow-hidden flex flex-col relative"
               >
-                {/* Image Aspect Box */}
-                <div className="aspect-[16/10] bg-slate-900 relative overflow-hidden">
+                {/* Image Aspect */}
+                <div className="aspect-[16/10] bg-[#121215] relative overflow-hidden">
                   {item.image_url ? (
                     <img
                       src={item.image_url}
@@ -265,25 +263,23 @@ export default function MarketplaceGrid({
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
                     />
                   ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center text-slate-500 bg-slate-950">
+                    <div className="w-full h-full flex flex-col items-center justify-center text-zinc-500 bg-[#121215]">
                       <Boxes className="w-8 h-8 opacity-40 mb-1" />
                       <span className="font-mono text-xs">Specimen Pinned</span>
                     </div>
                   )}
 
-                  {/* Badges Over Image */}
                   <div className="absolute top-3 left-3">
                     <CategoryBadge category={item.category} />
                   </div>
 
-                  <div className="absolute top-3 right-3 font-mono text-[10px] font-semibold px-2.5 py-1 rounded-full bg-slate-950/80 backdrop-blur-md border border-white/10 text-white flex items-center gap-1 shadow-lg">
-                    <MapPin className="w-3 h-3 text-cyan-400" />
+                  <div className="absolute top-3 right-3 font-mono text-[10px] font-semibold px-2.5 py-1 rounded-full bg-zinc-950/80 backdrop-blur-md border border-white/10 text-white flex items-center gap-1 shadow-lg">
+                    <MapPin className="w-3 h-3 text-emerald-400" />
                     <span>{item.location || "Noida, UP"}</span>
                   </div>
 
-                  {/* Settled Stamp Overlay */}
                   {isTransferred && (
-                    <div className="absolute inset-0 bg-slate-950/70 backdrop-blur-[2px] flex items-center justify-center p-4">
+                    <div className="absolute inset-0 bg-zinc-950/70 backdrop-blur-[2px] flex items-center justify-center p-4">
                       <VerificationStamp
                         txHash={latestTx}
                         size="md"
@@ -295,62 +291,62 @@ export default function MarketplaceGrid({
                   )}
                 </div>
 
-                {/* Card Content Body */}
+                {/* Content */}
                 <div className="p-5 flex-1 flex flex-col justify-between">
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="font-mono text-xs font-bold text-amber-600 dark:text-amber-400">
+                      <span className="font-mono text-xs font-bold text-amber-500">
                         ₹{estimatedValue.toLocaleString("en-IN")}
                       </span>
-                      <span className="font-mono text-[10px] text-slate-500 dark:text-slate-400">
+                      <span className="font-mono text-[10px] text-zinc-500 dark:text-zinc-400">
                         MCX Benchmark
                       </span>
                     </div>
 
-                    <h3 className="font-display font-bold text-base text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors line-clamp-1">
+                    <h3 className="font-display font-bold text-base text-zinc-900 dark:text-white group-hover:text-emerald-500 dark:group-hover:text-emerald-400 transition-colors line-clamp-1">
                       {item.title}
                     </h3>
-                    <p className="text-slate-600 dark:text-slate-400 text-xs line-clamp-2 mt-1 leading-relaxed">
+                    <p className="text-zinc-600 dark:text-zinc-400 text-xs line-clamp-2 mt-1 leading-relaxed">
                       {item.description}
                     </p>
                   </div>
 
                   {/* Metrics Footer */}
-                  <div className="mt-4 pt-3 border-t border-slate-200/60 dark:border-white/5 space-y-1.5 text-xs">
-                    <div className="flex justify-between items-center text-slate-500 dark:text-slate-400">
+                  <div className="mt-4 pt-3 border-t border-zinc-200 dark:border-white/[0.06] space-y-1.5 text-xs">
+                    <div className="flex justify-between items-center text-zinc-500 dark:text-zinc-400">
                       <span className="text-[11px] font-medium">Physical Mass:</span>
-                      <span className="font-mono font-bold text-slate-800 dark:text-slate-200">
+                      <span className="font-mono font-bold text-zinc-800 dark:text-zinc-200">
                         {item.estimated_weight_kg} kg
                       </span>
                     </div>
 
-                    <div className="flex justify-between items-center text-slate-500 dark:text-slate-400">
+                    <div className="flex justify-between items-center text-zinc-500 dark:text-zinc-400">
                       <span className="text-[11px] font-medium">EPA Carbon Saved:</span>
                       <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400">
                         +{item.co2_saved_kg?.toFixed(1)} kg CO₂e
                       </span>
                     </div>
 
-                    <div className="flex justify-between items-center text-slate-500 dark:text-slate-400 pt-1">
+                    <div className="flex justify-between items-center text-zinc-500 dark:text-zinc-400 pt-1">
                       <span className="text-[11px] font-medium">Origin Plant:</span>
-                      <span className="text-slate-800 dark:text-slate-200 font-semibold truncate max-w-[160px]">
+                      <span className="text-zinc-800 dark:text-zinc-200 font-semibold truncate max-w-[160px]">
                         {item.owner_name || "Certified Partner"}
                       </span>
                     </div>
                   </div>
 
-                  {/* Card Action Link */}
-                  <div className="mt-4 pt-3 border-t border-slate-200/60 dark:border-white/5 flex items-center justify-between text-[11px]">
+                  {/* Link */}
+                  <div className="mt-4 pt-3 border-t border-zinc-200 dark:border-white/[0.06] flex items-center justify-between text-[11px]">
                     <span
                       className={`font-semibold uppercase tracking-wider ${
                         isTransferred
                           ? "text-emerald-600 dark:text-emerald-400"
-                          : "text-amber-600 dark:text-amber-400"
+                          : "text-amber-500"
                       }`}
                     >
                       &bull; {isTransferred ? "Settled On Ledger" : "Ready For Offtake"}
                     </span>
-                    <span className="font-display font-semibold text-cyan-600 dark:text-cyan-400 group-hover:translate-x-1 transition-transform">
+                    <span className="font-display font-semibold text-zinc-900 dark:text-white group-hover:translate-x-1 transition-transform">
                       Inspect Lot &rarr;
                     </span>
                   </div>

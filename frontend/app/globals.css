@@ -4,26 +4,26 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  /* Light Theme Master Tokens (Swiss Luxury Alabaster & Liquid Azure) */
-  --bg-canvas: #F8FAFC;
+  /* Light Theme Master Tokens (Swiss Minimalist Neutral & Crisp Emerald/Amber) */
+  --bg-canvas: #FAFAFA;
   --bg-surface: #FFFFFF;
-  --bg-surface-raised: #F1F5F9;
-  --border-subtle: #E2E8F0;
-  --border-strong: #CBD5E1;
+  --bg-surface-raised: #F4F4F5;
+  --border-subtle: #E4E4E7;
+  --border-strong: #D4D4D8;
   
-  --text-primary: #0F172A;
-  --text-secondary: #475569;
-  --text-muted: #64748B;
+  --text-primary: #09090B;
+  --text-secondary: #52525B;
+  --text-muted: #71717A;
   
-  --accent-primary: #0284C7;       /* Electric Azure */
-  --accent-primary-light: #38BDF8;
-  --accent-value: #D97706;         /* Molten Copper / Amber */
-  --accent-proof: #059669;         /* Forest Mint */
+  --accent-primary: #10B981;       /* Clean Emerald */
+  --accent-primary-light: #34D399;
+  --accent-value: #D97706;         /* Warm Amber / Gold */
+  --accent-proof: #059669;
   --accent-coral: #E11D48;
   
-  --card-glass: rgba(255, 255, 255, 0.85);
-  --card-glass-border: rgba(226, 232, 240, 0.8);
-  --specular-highlight: rgba(255, 255, 255, 0.9);
+  --card-glass: rgba(255, 255, 255, 0.90);
+  --card-glass-border: rgba(228, 228, 231, 0.9);
+  --specular-highlight: rgba(255, 255, 255, 1);
 
   --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -31,26 +31,26 @@
 }
 
 .dark {
-  /* Dark Theme Master Tokens (Midnight Void & Luminous Cyan / Molten Gold) */
-  --bg-canvas: #030712;
-  --bg-surface: #0B1120;
-  --bg-surface-raised: #11192C;
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.16);
+  /* Dark Theme Master Tokens (True Neutral Onyx & Carbon Studio - Zero Blue Tint) */
+  --bg-canvas: #09090B;            /* Pure Neutral Onyx / Zinc-950 */
+  --bg-surface: #121215;           /* Rich Neutral Studio Card */
+  --bg-surface-raised: #18181B;    /* Zinc-900 Elevation */
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-strong: rgba(255, 255, 255, 0.14);
   
-  --text-primary: #FFFFFF;
-  --text-secondary: #94A3B8;
-  --text-muted: #64748B;
+  --text-primary: #F4F4F5;         /* Ultra-crisp bright text */
+  --text-secondary: #A1A1AA;       /* Neutral Silver Zinc */
+  --text-muted: #71717A;           /* Neutral Slate Zinc */
   
-  --accent-primary: #00D2FF;       /* Luminous Cyan */
-  --accent-primary-light: #38BDF8;
-  --accent-value: #FB923C;         /* Molten Gold / Copper */
-  --accent-proof: #10B981;         /* Phosphor Emerald */
+  --accent-primary: #10B981;       /* High-tech Emerald Jade */
+  --accent-primary-light: #34D399;
+  --accent-value: #F59E0B;         /* Molten Gold / MCX Amber */
+  --accent-proof: #059669;
   --accent-coral: #F43F5E;
   
-  --card-glass: rgba(11, 17, 32, 0.70);
+  --card-glass: rgba(18, 18, 21, 0.78);
   --card-glass-border: rgba(255, 255, 255, 0.08);
-  --specular-highlight: rgba(255, 255, 255, 0.12);
+  --specular-highlight: rgba(255, 255, 255, 0.10);
 }
 
 html, body {
@@ -62,7 +62,7 @@ html, body {
   padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 .font-display {
@@ -74,13 +74,13 @@ html, body {
   font-family: var(--font-mono);
 }
 
-/* Glassmorphism Luxury Utilities */
+/* Luxury Glassmorphism Utilities */
 .glass-panel {
   background: var(--card-glass);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--card-glass-border);
-  box-shadow: inset 0 1px 0 0 var(--specular-highlight), 0 8px 32px 0 rgba(0, 0, 0, 0.08);
+  box-shadow: inset 0 1px 0 0 var(--specular-highlight), 0 8px 32px 0 rgba(0, 0, 0, 0.35);
 }
 
 .glass-panel-hover {
@@ -89,31 +89,22 @@ html, body {
 
 .glass-panel-hover:hover {
   transform: translateY(-2px);
-  border-color: rgba(0, 210, 255, 0.3);
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.2), 0 16px 40px -10px rgba(0, 210, 255, 0.15);
-}
-
-/* Ambient Radial Glows */
-.ambient-glow-top {
-  background: radial-gradient(ellipse 70% 40% at 50% -10%, rgba(0, 210, 255, 0.12), transparent 70%);
-}
-
-.ambient-glow-copper {
-  background: radial-gradient(ellipse 60% 40% at 50% 50%, rgba(251, 146, 60, 0.10), transparent 70%);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.2), 0 16px 36px -10px rgba(0, 0, 0, 0.5);
 }
 
 /* Subtle Architectural Grid */
 .bg-grid-pattern {
   background-size: 32px 32px;
   background-image: 
-    linear-gradient(to right, rgba(148, 163, 184, 0.07) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(148, 163, 184, 0.07) 1px, transparent 1px);
+    linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
 }
 
 .dark .bg-grid-pattern {
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
 }
 
 /* Custom Scrollbar */
@@ -133,28 +124,4 @@ html, body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted);
-}
-
-/* Shimmer & Glow Keyframes */
-@keyframes shimmerText {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-.animate-shimmer {
-  background-size: 200% 100%;
-  animation: shimmerText 4s linear infinite;
-}
-
-@keyframes pulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(0, 210, 255, 0);
-  }
-  50% {
-    box-shadow: 0 0 16px 2px rgba(0, 210, 255, 0.25);
-  }
-}
-
-.glow-cyan {
-  animation: pulseGlow 2.5s ease-in-out infinite;
 }

@@ -21,12 +21,12 @@ export default function ContaminationHeatmap({
   const isHighQuality = purityPercentage >= 90;
 
   return (
-    <div className="rounded-2xl glass-panel p-6 border border-slate-200/80 dark:border-white/10 shadow-xl">
+    <div className="rounded-2xl glass-panel p-6 border border-zinc-200 dark:border-white/10 shadow-xl">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-slate-200/60 dark:border-white/5 pb-3 mb-4">
+      <div className="flex items-center justify-between border-b border-zinc-200 dark:border-white/[0.06] pb-3 mb-4">
         <div className="flex items-center gap-2">
-          <Layers className="w-4 h-4 text-cyan-500" />
-          <span className="font-display text-xs uppercase tracking-wider text-slate-900 dark:text-white font-bold">
+          <Layers className="w-4 h-4 text-emerald-500" />
+          <span className="font-display text-xs uppercase tracking-wider text-zinc-900 dark:text-white font-bold">
             Optical Contamination & Quality Audit
           </span>
         </div>
@@ -44,7 +44,7 @@ export default function ContaminationHeatmap({
       {/* Purity vs Contamination Bar */}
       <div className="space-y-2 mb-4">
         <div className="flex justify-between text-xs">
-          <span className="text-slate-600 dark:text-slate-400 flex items-center gap-1.5 font-medium">
+          <span className="text-zinc-600 dark:text-zinc-400 flex items-center gap-1.5 font-medium">
             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
             <span>Certified Material Purity</span>
           </span>
@@ -53,9 +53,9 @@ export default function ContaminationHeatmap({
           </span>
         </div>
 
-        <div className="w-full bg-slate-200 dark:bg-slate-800 h-3 rounded-full overflow-hidden flex p-0.5 border border-slate-300 dark:border-white/5 shadow-inner">
+        <div className="w-full bg-zinc-200 dark:bg-zinc-800 h-3 rounded-full overflow-hidden flex p-0.5 border border-zinc-300 dark:border-white/5 shadow-inner">
           <div
-            className="bg-gradient-to-r from-cyan-500 via-teal-500 to-emerald-500 h-full rounded-full transition-all duration-700"
+            className="bg-emerald-500 h-full rounded-full transition-all duration-700"
             style={{ width: `${purityPercentage}%` }}
           />
           <div
@@ -64,7 +64,7 @@ export default function ContaminationHeatmap({
           />
         </div>
 
-        <div className="flex justify-between text-[11px] font-mono text-slate-500 dark:text-slate-400">
+        <div className="flex justify-between text-[11px] font-mono text-zinc-500 dark:text-zinc-400">
           <span>Clean Usable Fraction: {purityPercentage.toFixed(1)}%</span>
           <span className="text-amber-600 dark:text-amber-400 font-semibold">
             Impurities: {contaminationPercentage.toFixed(1)}%
@@ -73,23 +73,23 @@ export default function ContaminationHeatmap({
       </div>
 
       {/* Contamination Specs Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3 border-t border-slate-200/60 dark:border-white/5 text-xs">
-        <div className="p-3 rounded-xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200/60 dark:border-white/5">
-          <span className="text-slate-500 dark:text-slate-400 block text-[10px] uppercase font-mono tracking-wider mb-1 flex items-center gap-1">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3 border-t border-zinc-200 dark:border-white/[0.06] text-xs">
+        <div className="p-3 rounded-xl bg-zinc-100 dark:bg-white/[0.02] border border-zinc-200 dark:border-white/[0.06]">
+          <span className="text-zinc-500 dark:text-zinc-400 block text-[10px] uppercase font-mono tracking-wider mb-1 flex items-center gap-1">
             <AlertTriangle className="w-3 h-3 text-amber-500" />
             <span>Identified Impurities</span>
           </span>
-          <span className="text-slate-900 dark:text-white font-medium line-clamp-2">
+          <span className="text-zinc-900 dark:text-white font-medium line-clamp-2">
             {contaminationType}
           </span>
         </div>
 
-        <div className="p-3 rounded-xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200/60 dark:border-white/5">
-          <span className="text-slate-500 dark:text-slate-400 block text-[10px] uppercase font-mono tracking-wider mb-1 flex items-center gap-1">
-            <Droplets className="w-3 h-3 text-cyan-500" />
+        <div className="p-3 rounded-xl bg-zinc-100 dark:bg-white/[0.02] border border-zinc-200 dark:border-white/[0.06]">
+          <span className="text-zinc-500 dark:text-zinc-400 block text-[10px] uppercase font-mono tracking-wider mb-1 flex items-center gap-1">
+            <Droplets className="w-3 h-3 text-emerald-500" />
             <span>Moisture Fraction</span>
           </span>
-          <span className="text-slate-900 dark:text-white font-bold font-mono">
+          <span className="text-zinc-900 dark:text-white font-bold font-mono">
             {moistureLevel}
           </span>
         </div>

@@ -270,7 +270,7 @@ export default function ListMaterial() {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-[#030712] text-slate-900 dark:text-white flex flex-col transition-colors duration-300">
+      <div className="min-h-screen bg-zinc-50 dark:bg-[#09090B] text-zinc-900 dark:text-zinc-100 flex flex-col transition-colors duration-250">
         <Navbar />
         <div className="flex-1 flex items-center justify-center p-6">
           <div className="rounded-3xl glass-panel border border-emerald-500/40 p-8 md:p-12 text-center max-w-lg w-full relative overflow-hidden shadow-2xl">
@@ -288,34 +288,34 @@ export default function ListMaterial() {
               On-Chain Registration Confirmed
             </span>
 
-            <h2 className="font-display text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white mb-3">
+            <h2 className="font-display text-2xl md:text-3xl font-extrabold text-zinc-900 dark:text-white mb-3">
               Material Lot #{createdId} Registered
             </h2>
 
-            <p className="text-slate-600 dark:text-slate-400 text-sm mb-6 leading-relaxed">
+            <p className="text-zinc-600 dark:text-zinc-400 text-sm mb-6 leading-relaxed">
               Your secondary lot is immutably logged on the Polygon Amoy blockchain. Certified buyers can inspect verified specifications and execute EPR transfers.
             </p>
 
-            <div className="rounded-2xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/5 p-4 text-left font-mono text-xs space-y-2 mb-8">
+            <div className="rounded-2xl bg-zinc-100 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/[0.06] p-4 text-left font-mono text-xs space-y-2 mb-8">
               <div className="flex justify-between">
-                <span className="text-slate-500 dark:text-slate-400">Category:</span>
-                <span className="text-slate-900 dark:text-white font-bold">{formData.category}</span>
+                <span className="text-zinc-500 dark:text-zinc-400">Category:</span>
+                <span className="text-zinc-900 dark:text-white font-bold">{formData.category}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500 dark:text-slate-400">Lot Mass:</span>
-                <span className="text-slate-900 dark:text-white">{formData.estimated_weight_kg} kg</span>
+                <span className="text-zinc-500 dark:text-zinc-400">Lot Mass:</span>
+                <span className="text-zinc-900 dark:text-white">{formData.estimated_weight_kg} kg</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500 dark:text-slate-400">Calculated CO₂:</span>
+                <span className="text-zinc-500 dark:text-zinc-400">Calculated CO₂:</span>
                 <span className="text-emerald-600 dark:text-emerald-400 font-bold">+{calculatedCO2.toFixed(1)} kg CO₂e</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500 dark:text-slate-400">Tx Hash:</span>
+                <span className="text-zinc-500 dark:text-zinc-400">Tx Hash:</span>
                 <a
                   href={`https://amoy.polygonscan.com/tx/${createdTx}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-cyan-600 dark:text-cyan-400 hover:underline truncate max-w-[180px]"
+                  className="text-emerald-600 dark:text-emerald-400 hover:underline truncate max-w-[180px]"
                 >
                   {createdTx || "0x..."}
                 </a>
@@ -325,14 +325,14 @@ export default function ListMaterial() {
             <div className="flex flex-col sm:flex-row gap-3">
               <Link
                 href={`/material/${createdId}`}
-                className="flex-1 inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-cyan-500 via-teal-500 to-emerald-500 text-slate-950 font-display font-bold text-xs uppercase tracking-wider shadow-lg shadow-cyan-500/20 hover:scale-105 transition-all"
+                className="flex-1 inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-display font-bold text-xs uppercase tracking-wider shadow-md shadow-emerald-500/20 hover:scale-105 transition-all"
               >
                 <span>Inspect Material Lot</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
                 href="/marketplace"
-                className="inline-flex items-center justify-center py-3 px-4 rounded-xl bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/20 text-slate-900 dark:text-white font-display text-xs font-semibold uppercase tracking-wider transition-all border border-slate-200 dark:border-white/10"
+                className="inline-flex items-center justify-center py-3 px-4 rounded-xl bg-zinc-100 dark:bg-white/10 hover:bg-zinc-200 dark:hover:bg-white/20 text-zinc-900 dark:text-white font-display text-xs font-semibold uppercase tracking-wider transition-all border border-zinc-200 dark:border-white/10"
               >
                 Back to Ledger
               </Link>
@@ -344,19 +344,19 @@ export default function ListMaterial() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#030712] text-slate-900 dark:text-white flex flex-col pb-28 transition-colors duration-300">
+    <div className="min-h-screen bg-zinc-50 dark:bg-[#09090B] text-zinc-900 dark:text-zinc-100 flex flex-col pb-28 transition-colors duration-250">
       <Navbar />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-1">
-        <div className="mb-8 border-b border-slate-200/80 dark:border-white/10 pb-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 dark:bg-cyan-400/10 border border-cyan-500/20 text-cyan-600 dark:text-cyan-400 font-mono text-[11px] font-bold uppercase tracking-wider mb-3">
+        <div className="mb-8 border-b border-zinc-200 dark:border-white/10 pb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-mono text-[11px] font-bold uppercase tracking-wider mb-3">
             <Camera className="w-3.5 h-3.5" />
             <span>AI Multi-Modal Ingestion & Smart Contract Settlement</span>
           </div>
-          <h1 className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+          <h1 className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
             List Industrial Scrap Lot
           </h1>
-          <p className="text-slate-600 dark:text-slate-400 text-sm mt-1 max-w-2xl font-normal leading-relaxed">
+          <p className="text-zinc-600 dark:text-zinc-400 text-sm mt-1 max-w-2xl font-normal leading-relaxed">
             Upload specimen photography of reusable industrial scrap or speak into the Indic voice assistant. AI Agent 1 classifies material composition and computes EPA WARM carbon abatement.
           </p>
         </div>
@@ -373,29 +373,29 @@ export default function ListMaterial() {
 
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* 1. Specimen Photography Dropzone */}
-          <div className="rounded-2xl glass-panel p-6 border border-slate-200/80 dark:border-white/10 shadow-xl">
-            <div className="flex items-center justify-between border-b border-slate-200/60 dark:border-white/5 pb-3 mb-4">
+          <div className="rounded-2xl glass-panel p-6 border border-zinc-200 dark:border-white/10 shadow-xl">
+            <div className="flex items-center justify-between border-b border-zinc-200 dark:border-white/[0.06] pb-3 mb-4">
               <div className="flex items-center gap-2">
-                <Camera className="w-4 h-4 text-cyan-500" />
-                <h2 className="font-display text-xs uppercase tracking-wider text-slate-900 dark:text-white font-bold">
+                <Camera className="w-4 h-4 text-emerald-500" />
+                <h2 className="font-display text-xs uppercase tracking-wider text-zinc-900 dark:text-white font-bold">
                   1. Material Specimen Photography
                 </h2>
               </div>
-              <span className="font-mono text-[10px] text-slate-400 dark:text-slate-500">
+              <span className="font-mono text-[10px] text-zinc-400 dark:text-zinc-500">
                 IPFS IMMUTABLE PINNING
               </span>
             </div>
 
-            <div className="border-2 border-dashed border-slate-300 dark:border-white/15 hover:border-cyan-500/50 rounded-2xl p-4 transition-all bg-slate-100/50 dark:bg-white/[0.02]">
+            <div className="border-2 border-dashed border-zinc-300 dark:border-white/15 hover:border-emerald-500/50 rounded-2xl p-4 transition-all bg-zinc-100/50 dark:bg-white/[0.02]">
               {previewUrl ? (
                 <div className="flex flex-col md:flex-row items-center gap-6">
-                  <div className="w-full md:w-56 h-44 rounded-xl overflow-hidden border border-slate-200 dark:border-white/10 relative shrink-0">
+                  <div className="w-full md:w-56 h-44 rounded-xl overflow-hidden border border-zinc-200 dark:border-white/10 relative shrink-0">
                     <img
                       src={previewUrl}
                       alt="Uploaded Specimen"
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute top-2 right-2 bg-slate-950/80 backdrop-blur-md px-2 py-0.5 rounded text-[9px] font-mono text-cyan-400 border border-white/10 font-bold">
+                    <div className="absolute top-2 right-2 bg-zinc-950/80 backdrop-blur-md px-2 py-0.5 rounded text-[9px] font-mono text-emerald-400 border border-white/10 font-bold">
                       READY FOR AI
                     </div>
                   </div>
@@ -404,20 +404,20 @@ export default function ListMaterial() {
                     <div>
                       <div className="flex items-center gap-2 mb-1">
                         <FileCheck className="w-4 h-4 text-emerald-500" />
-                        <span className="font-sans text-xs font-bold text-slate-900 dark:text-white truncate max-w-xs">
+                        <span className="font-sans text-xs font-bold text-zinc-900 dark:text-white truncate max-w-xs">
                           {file?.name || "specimen_image.jpg"}
                         </span>
                       </div>
-                      <p className="font-mono text-[11px] text-slate-500 dark:text-slate-400">
+                      <p className="font-mono text-[11px] text-zinc-500 dark:text-zinc-400">
                         Size: {file ? (file.size / 1024).toFixed(1) : 0} KB • Type: {file?.type}
                       </p>
-                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">
+                      <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-2">
                         Specimen image will be cryptographically pinned to IPFS upon smart contract confirmation.
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-3 mt-4 pt-3 border-t border-slate-200/60 dark:border-white/5">
-                      <label className="cursor-pointer text-xs px-3 py-1.5 rounded-lg bg-slate-200 dark:bg-white/10 hover:bg-slate-300 dark:hover:bg-white/15 text-slate-800 dark:text-slate-200 font-semibold transition-all">
+                    <div className="flex items-center gap-3 mt-4 pt-3 border-t border-zinc-200 dark:border-white/[0.06]">
+                      <label className="cursor-pointer text-xs px-3 py-1.5 rounded-lg bg-zinc-200 dark:bg-white/10 hover:bg-zinc-300 dark:hover:bg-white/15 text-zinc-800 dark:text-zinc-200 font-semibold transition-all">
                         <span>Change Photo</span>
                         <input
                           type="file"
@@ -431,7 +431,7 @@ export default function ListMaterial() {
                         type="button"
                         onClick={analyzeImage}
                         disabled={analyzing}
-                        className="inline-flex items-center gap-2 text-xs uppercase tracking-wider font-display font-bold px-4 py-1.5 rounded-lg bg-gradient-to-r from-cyan-500 via-teal-500 to-emerald-500 text-slate-950 transition-all disabled:opacity-50 shadow-lg shadow-cyan-500/20"
+                        className="inline-flex items-center gap-2 text-xs uppercase tracking-wider font-display font-bold px-4 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-zinc-950 transition-all disabled:opacity-50 shadow-sm shadow-emerald-500/20"
                       >
                         {analyzing ? (
                           <>
@@ -450,10 +450,10 @@ export default function ListMaterial() {
                 </div>
               ) : (
                 <div className="py-12 text-center flex flex-col items-center">
-                  <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-3">
-                    <UploadCloud className="w-6 h-6 text-cyan-600 dark:text-cyan-400" />
+                  <div className="w-12 h-12 rounded-2xl bg-zinc-200 dark:bg-white/[0.05] border border-zinc-300 dark:border-white/10 flex items-center justify-center mb-3">
+                    <UploadCloud className="w-6 h-6 text-emerald-500" />
                   </div>
-                  <label className="cursor-pointer font-display text-xs font-bold uppercase tracking-wider text-slate-950 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 via-teal-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 transition-all shadow-md shadow-cyan-500/20 hover:scale-105">
+                  <label className="cursor-pointer font-display text-xs font-bold uppercase tracking-wider text-zinc-950 px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 transition-all shadow-md shadow-emerald-500/20 hover:scale-105">
                     <span>Select Specimen File</span>
                     <input
                       type="file"
@@ -462,7 +462,7 @@ export default function ListMaterial() {
                       onChange={handleFileChange}
                     />
                   </label>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-2 font-mono">
+                  <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-2 font-mono">
                     High-resolution PNG, JPG, WEBP (Max 10MB)
                   </p>
                 </div>
@@ -470,8 +470,8 @@ export default function ListMaterial() {
             </div>
 
             {analyzing && (
-              <div className="mt-4 p-3.5 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-xs text-cyan-700 dark:text-cyan-300 font-medium flex items-center gap-3 animate-pulse">
-                <Loader2 className="animate-spin w-4 h-4 text-cyan-500" />
+              <div className="mt-4 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs text-emerald-700 dark:text-emerald-300 font-medium flex items-center gap-3 animate-pulse">
+                <Loader2 className="animate-spin w-4 h-4 text-emerald-500" />
                 <span>{analysisStep}</span>
               </div>
             )}
@@ -487,42 +487,42 @@ export default function ListMaterial() {
           />
 
           {/* 3. Lot Description & Origin */}
-          <div className="rounded-2xl glass-panel p-6 border border-slate-200/80 dark:border-white/10 shadow-xl space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-200/60 dark:border-white/5 pb-3 mb-2">
+          <div className="rounded-2xl glass-panel p-6 border border-zinc-200 dark:border-white/10 shadow-xl space-y-4">
+            <div className="flex items-center justify-between border-b border-zinc-200 dark:border-white/[0.06] pb-3 mb-2">
               <div className="flex items-center gap-2">
-                <FileText className="w-4 h-4 text-cyan-500" />
-                <h2 className="font-display text-xs uppercase tracking-wider text-slate-900 dark:text-white font-bold">
+                <FileText className="w-4 h-4 text-emerald-500" />
+                <h2 className="font-display text-xs uppercase tracking-wider text-zinc-900 dark:text-white font-bold">
                   2. Lot Description & Source
                 </h2>
               </div>
-              <span className="font-mono text-[10px] text-slate-400 dark:text-slate-500">
+              <span className="font-mono text-[10px] text-zinc-400 dark:text-zinc-500">
                 GENERAL MANIFEST
               </span>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">
+              <label className="block text-xs font-medium text-zinc-600 dark:text-zinc-400 mb-1.5">
                 Material Lot Title
               </label>
               <input
                 type="text"
                 required
                 placeholder="e.g. Clean Sorted High-Density Polyethylene Crushed Drums"
-                className="w-full bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-cyan-500 transition-all"
+                className="w-full bg-zinc-100 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-500 focus:outline-none focus:border-emerald-500 transition-all"
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">
+              <label className="block text-xs font-medium text-zinc-600 dark:text-zinc-400 mb-1.5">
                 Detailed Composition & Origin
               </label>
               <textarea
                 required
                 rows={3}
                 placeholder="Provide physical condition, previous industrial usage, and packaging state..."
-                className="w-full bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-cyan-500 transition-all"
+                className="w-full bg-zinc-100 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-500 focus:outline-none focus:border-emerald-500 transition-all"
                 value={formData.description}
                 onChange={(e) =>
                   setFormData({ ...formData, description: e.target.value })
@@ -532,32 +532,32 @@ export default function ListMaterial() {
           </div>
 
           {/* 4. AI Classification & Fingerprint */}
-          <div className="rounded-2xl glass-panel p-6 border border-slate-200/80 dark:border-white/10 shadow-xl space-y-6">
-            <div className="flex items-center justify-between border-b border-slate-200/60 dark:border-white/5 pb-3">
+          <div className="rounded-2xl glass-panel p-6 border border-zinc-200 dark:border-white/10 shadow-xl space-y-6">
+            <div className="flex items-center justify-between border-b border-zinc-200 dark:border-white/[0.06] pb-3">
               <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-cyan-500" />
-                <h2 className="font-display text-xs uppercase tracking-wider text-slate-900 dark:text-white font-bold">
+                <Sparkles className="w-4 h-4 text-emerald-500" />
+                <h2 className="font-display text-xs uppercase tracking-wider text-zinc-900 dark:text-white font-bold">
                   3. Physical Fingerprint & Specifications
                 </h2>
               </div>
-              <span className="font-mono text-[10px] text-cyan-600 dark:text-cyan-400 px-2.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 font-bold">
+              <span className="font-mono text-[10px] text-emerald-600 dark:text-emerald-400 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 font-bold">
                 AGENT 1 VISION VERIFIED
               </span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
               <div>
-                <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5 flex items-center justify-between">
+                <label className="block text-xs font-medium text-zinc-600 dark:text-zinc-400 mb-1.5 flex items-center justify-between">
                   <span>Category</span>
                   {revealedFields.category && (
-                    <span className="text-cyan-500 text-[10px] font-mono font-bold">AI EXTRACTED</span>
+                    <span className="text-emerald-500 text-[10px] font-mono font-bold">AI EXTRACTED</span>
                   )}
                 </label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. plastic_hdpe, aluminum"
-                  className="w-full bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 rounded-xl px-3.5 py-2.5 font-mono text-sm text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500 transition-all"
+                  className="w-full bg-zinc-100 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 rounded-xl px-3.5 py-2.5 font-mono text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500 transition-all"
                   value={formData.category}
                   onChange={(e) =>
                     setFormData({ ...formData, category: e.target.value })
@@ -566,10 +566,10 @@ export default function ListMaterial() {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5 flex items-center justify-between">
+                <label className="block text-xs font-medium text-zinc-600 dark:text-zinc-400 mb-1.5 flex items-center justify-between">
                   <span>Est. Weight (kg)</span>
                   {revealedFields.weight && (
-                    <span className="text-cyan-500 text-[10px] font-mono font-bold">AI ESTIMATED</span>
+                    <span className="text-emerald-500 text-[10px] font-mono font-bold">AI ESTIMATED</span>
                   )}
                 </label>
                 <input
@@ -578,7 +578,7 @@ export default function ListMaterial() {
                   min="0.1"
                   step="0.1"
                   placeholder="e.g. 250"
-                  className="w-full bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 rounded-xl px-3.5 py-2.5 font-mono text-sm text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500 transition-all"
+                  className="w-full bg-zinc-100 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 rounded-xl px-3.5 py-2.5 font-mono text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500 transition-all"
                   value={formData.estimated_weight_kg || ""}
                   onChange={(e) =>
                     setFormData({
@@ -590,17 +590,17 @@ export default function ListMaterial() {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5 flex items-center justify-between">
+                <label className="block text-xs font-medium text-zinc-600 dark:text-zinc-400 mb-1.5 flex items-center justify-between">
                   <span>Condition Grade</span>
                   {revealedFields.condition && (
-                    <span className="text-cyan-500 text-[10px] font-mono font-bold">INSPECTED</span>
+                    <span className="text-emerald-500 text-[10px] font-mono font-bold">INSPECTED</span>
                   )}
                 </label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Recyclable, Good, Fair"
-                  className="w-full bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 rounded-xl px-3.5 py-2.5 font-mono text-sm text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500 transition-all"
+                  className="w-full bg-zinc-100 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 rounded-xl px-3.5 py-2.5 font-mono text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500 transition-all"
                   value={formData.condition}
                   onChange={(e) =>
                     setFormData({ ...formData, condition: e.target.value })
@@ -609,7 +609,7 @@ export default function ListMaterial() {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">
+                <label className="block text-xs font-medium text-zinc-600 dark:text-zinc-400 mb-1.5">
                   Logistics Region / City Hub
                 </label>
                 <select
@@ -617,7 +617,7 @@ export default function ListMaterial() {
                   onChange={(e) =>
                     setFormData({ ...formData, location: e.target.value })
                   }
-                  className="w-full bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 focus:border-cyan-500 rounded-xl px-3.5 py-2.5 font-mono text-sm text-slate-900 dark:text-white focus:outline-none transition-all cursor-pointer"
+                  className="w-full bg-zinc-100 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 focus:border-emerald-500 rounded-xl px-3.5 py-2.5 font-mono text-sm text-zinc-900 dark:text-white focus:outline-none transition-all cursor-pointer"
                 >
                   <option value="Noida, UP">Noida / NCR Hub, UP</option>
                   <option value="Pune, MH">Pune / Chakan Corridor, MH</option>
@@ -630,14 +630,14 @@ export default function ListMaterial() {
               </div>
             </div>
 
-            <div className="mt-4 p-4 rounded-xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="mt-4 p-4 rounded-xl bg-zinc-100 dark:bg-white/[0.02] border border-zinc-200 dark:border-white/[0.06] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div className="flex items-center gap-2.5">
                 <Leaf className="w-5 h-5 text-emerald-500 shrink-0" />
                 <div>
-                  <span className="text-xs font-semibold text-slate-900 dark:text-white block">
+                  <span className="text-xs font-semibold text-zinc-900 dark:text-white block">
                     EPA WARM Deterministic Factor Preview
                   </span>
-                  <span className="font-mono text-[11px] text-slate-500 dark:text-slate-400">
+                  <span className="font-mono text-[11px] text-zinc-500 dark:text-zinc-400">
                     {formData.category
                       ? `Category: ${formData.category} • Mass: ${formData.estimated_weight_kg} kg`
                       : "Awaiting material category input"}
@@ -646,7 +646,7 @@ export default function ListMaterial() {
               </div>
 
               <div className="font-mono text-right shrink-0">
-                <span className="text-[10px] text-slate-400 uppercase block">
+                <span className="text-[10px] text-zinc-400 uppercase block">
                   Estimated CO₂ Abatement
                 </span>
                 <span className="text-base font-bold text-emerald-600 dark:text-emerald-400">
@@ -666,15 +666,15 @@ export default function ListMaterial() {
           )}
 
           {/* Sticky Bottom Action Bar */}
-          <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/80 dark:bg-slate-950/80 backdrop-blur-2xl border-t border-slate-200/80 dark:border-white/10 py-4 px-4 sm:px-8 shadow-2xl">
+          <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/85 dark:bg-[#09090B]/85 backdrop-blur-2xl border-t border-zinc-200 dark:border-white/10 py-4 px-4 sm:px-8 shadow-2xl">
             <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <ShieldCheck className="w-5 h-5 text-cyan-500 shrink-0" />
+                <ShieldCheck className="w-5 h-5 text-emerald-500 shrink-0" />
                 <div className="text-xs">
-                  <span className="text-slate-900 dark:text-white font-semibold block">
+                  <span className="text-zinc-900 dark:text-white font-semibold block">
                     Ready for On-Chain Inscription • Polygon Amoy
                   </span>
-                  <span className="font-mono text-slate-500 dark:text-slate-400 text-[11px]">
+                  <span className="font-mono text-zinc-500 dark:text-zinc-400 text-[11px]">
                     Smart contract: MaterialRegistry.sol • Token: CIRC
                   </span>
                 </div>
@@ -683,7 +683,7 @@ export default function ListMaterial() {
               <div className="flex items-center gap-4 w-full sm:w-auto">
                 <Link
                   href="/"
-                  className="text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-semibold transition-colors py-2.5 px-4 rounded-xl"
+                  className="text-xs text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white font-semibold transition-colors py-2.5 px-4 rounded-xl"
                 >
                   Cancel
                 </Link>
@@ -691,7 +691,7 @@ export default function ListMaterial() {
                 <button
                   type="submit"
                   disabled={submitting || !file}
-                  className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 font-display text-xs uppercase tracking-wider font-bold py-3 px-8 rounded-xl bg-gradient-to-r from-cyan-500 via-teal-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-slate-950 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-cyan-500/25 hover:scale-105"
+                  className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 font-display text-xs uppercase tracking-wider font-bold py-3 px-8 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm shadow-emerald-500/20 hover:scale-105"
                 >
                   {submitting ? (
                     <>

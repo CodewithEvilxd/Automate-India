@@ -15,6 +15,7 @@ import {
   Sun,
   Moon,
   ShieldCheck,
+  Sparkles,
 } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 
@@ -79,20 +80,20 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full backdrop-blur-2xl bg-white/70 dark:bg-slate-950/75 border-b border-slate-200/80 dark:border-white/[0.08] transition-colors duration-300">
+    <header className="sticky top-0 z-50 w-full backdrop-blur-2xl bg-white/80 dark:bg-[#09090B]/85 border-b border-zinc-200 dark:border-white/[0.08] transition-colors duration-250">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo & Brand */}
           <div className="flex items-center space-x-6">
             <Link href="/" className="flex items-center space-x-3 group">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500/20 via-blue-500/10 to-amber-500/20 border border-cyan-500/30 dark:border-cyan-400/40 flex items-center justify-center shadow-lg shadow-cyan-500/10 group-hover:scale-105 transition-all">
-                <Layers className="w-5 h-5 text-cyan-600 dark:text-cyan-400 group-hover:rotate-12 transition-transform" />
+              <div className="w-9 h-9 rounded-xl bg-zinc-100 dark:bg-white/[0.06] border border-zinc-300 dark:border-white/10 flex items-center justify-center shadow-sm group-hover:border-emerald-500/50 transition-all">
+                <Layers className="w-4.5 h-4.5 text-zinc-900 dark:text-white group-hover:rotate-12 transition-transform" />
               </div>
               <div>
-                <span className="font-display font-extrabold text-lg text-slate-900 dark:text-white tracking-tight block">
-                  Circular<span className="text-cyan-600 dark:text-cyan-400">Chain</span>
+                <span className="font-display font-extrabold text-base text-zinc-900 dark:text-white tracking-tight block">
+                  Circular<span className="text-emerald-500">Chain</span>
                 </span>
-                <span className="font-mono text-[9px] uppercase tracking-widest text-slate-500 dark:text-slate-400 block -mt-1 font-semibold">
+                <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-500 dark:text-zinc-400 block -mt-1 font-semibold">
                   Verifiable Industrial Ledger
                 </span>
               </div>
@@ -109,8 +110,8 @@ export default function Navbar() {
                     href={link.href}
                     className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${
                       isActive
-                        ? "bg-slate-900 text-white dark:bg-white/10 dark:text-cyan-400 font-semibold shadow-sm"
-                        : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5"
+                        ? "bg-zinc-900 text-white dark:bg-white/10 dark:text-white font-semibold shadow-sm"
+                        : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-white/5"
                     }`}
                   >
                     {Icon && <Icon className="w-3.5 h-3.5" />}
@@ -127,12 +128,12 @@ export default function Navbar() {
             <button
               onClick={toggleTheme}
               aria-label="Toggle Theme"
-              className="p-2 rounded-lg bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:text-cyan-500 dark:hover:text-cyan-400 transition-all hover:scale-105"
+              className="p-2 rounded-xl bg-zinc-100 dark:bg-white/[0.06] border border-zinc-200 dark:border-white/10 text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white transition-all hover:scale-105"
             >
               {theme === "dark" ? (
-                <Sun className="w-4 h-4 text-amber-400 animate-spin-slow" />
+                <Sun className="w-4 h-4 text-amber-400" />
               ) : (
-                <Moon className="w-4 h-4 text-slate-700" />
+                <Moon className="w-4 h-4 text-zinc-700" />
               )}
             </button>
 
@@ -140,9 +141,9 @@ export default function Navbar() {
             <button
               onClick={connectWallet}
               disabled={connecting}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 text-slate-800 dark:text-slate-200 font-mono text-xs transition-all shadow-sm"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-zinc-100 dark:bg-white/[0.06] hover:bg-zinc-200 dark:hover:bg-white/10 border border-zinc-200 dark:border-white/10 text-zinc-800 dark:text-zinc-200 font-mono text-xs transition-all shadow-sm"
             >
-              <Wallet className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
+              <Wallet className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400" />
               {account ? (
                 <span className="flex items-center gap-1.5">
                   <span className="relative flex h-2 w-2">
@@ -159,7 +160,7 @@ export default function Navbar() {
             {/* List Material CTA */}
             <Link
               href="/list"
-              className="inline-flex items-center gap-1.5 bg-gradient-to-r from-cyan-500 via-teal-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-slate-950 px-4 py-1.5 rounded-lg font-display text-xs font-bold uppercase tracking-wider transition-all shadow-md shadow-cyan-500/20 hover:scale-102"
+              className="inline-flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 px-4 py-1.5 rounded-xl font-display text-xs font-bold uppercase tracking-wider transition-all shadow-sm shadow-emerald-500/20 hover:scale-105"
             >
               <Plus className="w-3.5 h-3.5 stroke-[3]" />
               <span>List Material</span>

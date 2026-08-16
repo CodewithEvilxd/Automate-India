@@ -103,7 +103,7 @@ export default function MaterialDetail({
         {
           margin: 1,
           color: {
-            dark: "#030712",
+            dark: "#09090B",
             light: "#FFFFFF",
           },
         }
@@ -119,11 +119,11 @@ export default function MaterialDetail({
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-[#030712] text-slate-900 dark:text-white flex flex-col transition-colors duration-300">
+      <div className="min-h-screen bg-zinc-50 dark:bg-[#09090B] text-zinc-900 dark:text-zinc-100 flex flex-col transition-colors duration-250">
         <Navbar />
         <div className="flex-1 flex items-center justify-center">
-          <div className="flex flex-col items-center gap-3 text-xs text-slate-500 font-mono">
-            <Loader2 className="animate-spin w-8 h-8 text-cyan-500" />
+          <div className="flex flex-col items-center gap-3 text-xs text-zinc-500 font-mono">
+            <Loader2 className="animate-spin w-8 h-8 text-emerald-500" />
             <span>Decrypting on-chain manifest lot #{id}...</span>
           </div>
         </div>
@@ -133,19 +133,19 @@ export default function MaterialDetail({
 
   if (!material) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-[#030712] text-slate-900 dark:text-white flex flex-col transition-colors duration-300">
+      <div className="min-h-screen bg-zinc-50 dark:bg-[#09090B] text-zinc-900 dark:text-zinc-100 flex flex-col transition-colors duration-250">
         <Navbar />
         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
-          <Boxes className="w-12 h-12 text-slate-400 mb-4 opacity-50" />
-          <h2 className="font-display text-xl font-bold text-slate-800 dark:text-slate-200 mb-2">
+          <Boxes className="w-12 h-12 text-zinc-400 mb-4 opacity-50" />
+          <h2 className="font-display text-xl font-bold text-zinc-800 dark:text-zinc-200 mb-2">
             Material Specimen Not Found
           </h2>
-          <p className="text-slate-500 text-sm mb-6 max-w-sm">
+          <p className="text-zinc-500 text-sm mb-6 max-w-sm">
             Lot #{id} does not exist in the circular economy ledger or has been archived.
           </p>
           <Link
             href="/marketplace"
-            className="px-4 py-2 rounded-xl bg-slate-200 dark:bg-white/10 text-xs font-semibold hover:bg-slate-300 dark:hover:bg-white/20 transition-all"
+            className="px-4 py-2 rounded-xl bg-zinc-200 dark:bg-white/10 text-xs font-semibold hover:bg-zinc-300 dark:hover:bg-white/20 transition-all"
           >
             &larr; Return to Marketplace
           </Link>
@@ -157,14 +157,14 @@ export default function MaterialDetail({
   const isTransferred = material.status === "transferred" || success;
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#030712] text-slate-900 dark:text-white transition-colors duration-300 flex flex-col">
+    <div className="min-h-screen bg-zinc-50 dark:bg-[#09090B] text-zinc-900 dark:text-zinc-100 transition-colors duration-250 flex flex-col">
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-1">
         <div className="mb-6">
           <Link
             href="/marketplace"
-            className="inline-flex items-center gap-2 text-xs text-slate-500 hover:text-cyan-600 dark:hover:text-cyan-400 font-medium transition-colors"
+            className="inline-flex items-center gap-2 text-xs text-zinc-500 hover:text-emerald-500 dark:hover:text-emerald-400 font-medium transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Return to Industrial Marketplace</span>
@@ -174,8 +174,8 @@ export default function MaterialDetail({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Left Column: Image, Heatmap, Manifest (5 cols) */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="rounded-2xl glass-panel border border-slate-200/80 dark:border-white/10 overflow-hidden relative shadow-xl">
-              <div className="aspect-[4/3] bg-slate-950 relative overflow-hidden">
+            <div className="rounded-2xl glass-panel border border-zinc-200 dark:border-white/10 overflow-hidden relative shadow-xl">
+              <div className="aspect-[4/3] bg-[#121215] relative overflow-hidden">
                 {material.image_url ? (
                   <img
                     src={material.image_url}
@@ -183,7 +183,7 @@ export default function MaterialDetail({
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-slate-500">
+                  <div className="w-full h-full flex items-center justify-center text-zinc-500">
                     <Boxes className="w-12 h-12 opacity-40" />
                   </div>
                 )}
@@ -193,7 +193,7 @@ export default function MaterialDetail({
                 </div>
 
                 {isTransferred && (
-                  <div className="absolute inset-0 bg-slate-950/70 backdrop-blur-[2px] flex items-center justify-center p-4">
+                  <div className="absolute inset-0 bg-zinc-950/70 backdrop-blur-[2px] flex items-center justify-center p-4">
                     <VerificationStamp
                       txHash={txHash || "0x9a4f20bc"}
                       size="lg"
@@ -205,7 +205,7 @@ export default function MaterialDetail({
                 )}
               </div>
 
-              <div className="p-3 bg-slate-100 dark:bg-white/[0.03] border-t border-slate-200/60 dark:border-white/5 flex items-center justify-between font-mono text-[11px] text-slate-500 dark:text-slate-400">
+              <div className="p-3 bg-zinc-100 dark:bg-white/[0.03] border-t border-zinc-200 dark:border-white/[0.06] flex items-center justify-between font-mono text-[11px] text-zinc-500 dark:text-zinc-400">
                 <span>IPFS Pin: {material.ipfs_hash ? `${material.ipfs_hash.substring(0, 10)}...` : "Available"}</span>
                 <span className="text-emerald-600 dark:text-emerald-400 font-bold">SPECIMEN PINNED</span>
               </div>
@@ -221,32 +221,32 @@ export default function MaterialDetail({
             />
 
             {/* Manifest Specs Card */}
-            <div className="rounded-2xl glass-panel p-6 border border-slate-200/80 dark:border-white/10 shadow-xl space-y-4">
-              <div className="flex items-center justify-between border-b border-slate-200/60 dark:border-white/5 pb-2.5">
+            <div className="rounded-2xl glass-panel p-6 border border-zinc-200 dark:border-white/10 shadow-xl space-y-4">
+              <div className="flex items-center justify-between border-b border-zinc-200 dark:border-white/[0.06] pb-2.5">
                 <div className="flex items-center gap-2">
-                  <FileSpreadsheet className="w-4 h-4 text-cyan-500" />
-                  <h3 className="font-display text-xs uppercase tracking-wider text-slate-900 dark:text-white font-bold">
+                  <FileSpreadsheet className="w-4 h-4 text-emerald-500" />
+                  <h3 className="font-display text-xs uppercase tracking-wider text-zinc-900 dark:text-white font-bold">
                     On-Chain Lot Manifest
                   </h3>
                 </div>
-                <span className="font-mono text-[10px] text-cyan-600 dark:text-cyan-400 font-bold">
+                <span className="font-mono text-[10px] text-emerald-600 dark:text-emerald-400 font-bold">
                   POLYGON AMOY (80002)
                 </span>
               </div>
 
               <div className="space-y-3 text-xs">
                 <div className="flex justify-between items-center">
-                  <span className="text-slate-500 dark:text-slate-400">Lot Reference:</span>
-                  <span className="font-mono font-bold text-slate-900 dark:text-white">#{material.id}</span>
+                  <span className="text-zinc-500 dark:text-zinc-400">Lot Reference:</span>
+                  <span className="font-mono font-bold text-zinc-900 dark:text-white">#{material.id}</span>
                 </div>
 
                 <div className="flex justify-between items-center">
-                  <span className="text-slate-500 dark:text-slate-400">Origin Owner:</span>
+                  <span className="text-zinc-500 dark:text-zinc-400">Origin Owner:</span>
                   <div className="flex items-center gap-1.5">
                     <WalletBadge address={material.owner_wallet} reputationScore={3} />
                     <Link
                       href={`/org/${material.owner_wallet}`}
-                      className="text-cyan-600 dark:text-cyan-400 hover:underline text-[11px] font-medium"
+                      className="text-emerald-600 dark:text-emerald-400 hover:underline text-[11px] font-medium"
                     >
                       (View Org)
                     </Link>
@@ -254,18 +254,18 @@ export default function MaterialDetail({
                 </div>
 
                 <div className="flex justify-between items-center">
-                  <span className="text-slate-500 dark:text-slate-400">Logistics Hub:</span>
-                  <span className="text-slate-900 dark:text-white flex items-center gap-1">
-                    <MapPin className="w-3.5 h-3.5 text-cyan-500" />
+                  <span className="text-zinc-500 dark:text-zinc-400">Logistics Hub:</span>
+                  <span className="text-zinc-900 dark:text-white flex items-center gap-1">
+                    <MapPin className="w-3.5 h-3.5 text-emerald-500" />
                     {material.location || "Noida, UP"}
                   </span>
                 </div>
 
                 <div className="flex justify-between items-center">
-                  <span className="text-slate-500 dark:text-slate-400">Ledger Status:</span>
+                  <span className="text-zinc-500 dark:text-zinc-400">Ledger Status:</span>
                   <span
                     className={`font-semibold uppercase tracking-wider ${
-                      isTransferred ? "text-emerald-600 dark:text-emerald-400" : "text-amber-600 dark:text-amber-400"
+                      isTransferred ? "text-emerald-600 dark:text-emerald-400" : "text-amber-500"
                     }`}
                   >
                     {isTransferred ? "Settled On-Chain" : "Open For Offtake"}
@@ -273,8 +273,8 @@ export default function MaterialDetail({
                 </div>
 
                 <div className="flex justify-between items-center">
-                  <span className="text-slate-500 dark:text-slate-400">Smart Contract:</span>
-                  <span className="font-mono text-slate-600 dark:text-slate-400 text-[11px]">MaterialRegistry.sol</span>
+                  <span className="text-zinc-500 dark:text-zinc-400">Smart Contract:</span>
+                  <span className="font-mono text-zinc-600 dark:text-zinc-400 text-[11px]">MaterialRegistry.sol</span>
                 </div>
               </div>
             </div>
@@ -292,48 +292,48 @@ export default function MaterialDetail({
           {/* Right Column: Title, Metrics, Transfer Actions (7 cols) */}
           <div className="lg:col-span-7 flex flex-col justify-between space-y-6">
             <div>
-              <div className="border-b border-slate-200/80 dark:border-white/10 pb-5 mb-6">
+              <div className="border-b border-zinc-200 dark:border-white/10 pb-5 mb-6">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="font-mono text-xs text-emerald-600 dark:text-emerald-400 uppercase tracking-wider font-semibold">
                     Verified Secondary Feedstock
                   </span>
-                  <span className="text-slate-400">•</span>
-                  <span className="font-mono text-xs text-slate-500 dark:text-slate-400">
+                  <span className="text-zinc-400">•</span>
+                  <span className="font-mono text-xs text-zinc-500 dark:text-zinc-400">
                     Listed: {new Date(material.created_at || Date.now()).toLocaleDateString()}
                   </span>
                 </div>
-                <h1 className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-3">
+                <h1 className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white mb-3">
                   {material.title}
                 </h1>
-                <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                <p className="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed">
                   {material.description}
                 </p>
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-                <div className="p-4 rounded-xl glass-panel border border-slate-200/80 dark:border-white/10">
-                  <span className="font-mono text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 block mb-1">
+                <div className="p-4 rounded-xl glass-panel border border-zinc-200 dark:border-white/10">
+                  <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400 block mb-1">
                     Category
                   </span>
-                  <span className="font-mono text-sm font-bold text-slate-900 dark:text-white block truncate">
+                  <span className="font-mono text-sm font-bold text-zinc-900 dark:text-white block truncate">
                     {material.category}
                   </span>
                 </div>
 
-                <div className="p-4 rounded-xl glass-panel border border-slate-200/80 dark:border-white/10">
-                  <span className="font-mono text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 block mb-1">
+                <div className="p-4 rounded-xl glass-panel border border-zinc-200 dark:border-white/10">
+                  <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400 block mb-1">
                     Lot Mass
                   </span>
-                  <span className="font-mono text-sm font-bold text-slate-900 dark:text-white block">
+                  <span className="font-mono text-sm font-bold text-zinc-900 dark:text-white block">
                     {material.estimated_weight_kg} kg
                   </span>
                 </div>
 
-                <div className="p-4 rounded-xl glass-panel border border-slate-200/80 dark:border-white/10">
-                  <span className="font-mono text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 block mb-1">
+                <div className="p-4 rounded-xl glass-panel border border-zinc-200 dark:border-white/10">
+                  <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400 block mb-1">
                     Condition
                   </span>
-                  <span className="font-mono text-sm font-bold text-slate-900 dark:text-white block">
+                  <span className="font-mono text-sm font-bold text-zinc-900 dark:text-white block">
                     {material.condition}
                   </span>
                 </div>
@@ -357,10 +357,10 @@ export default function MaterialDetail({
                 />
               </div>
 
-              <div className="p-4 rounded-xl bg-slate-100 dark:bg-white/[0.02] border border-slate-200/60 dark:border-white/5 mb-6 flex items-start gap-3">
+              <div className="p-4 rounded-xl bg-zinc-100 dark:bg-white/[0.02] border border-zinc-200 dark:border-white/[0.06] mb-6 flex items-start gap-3">
                 <Leaf className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
-                <div className="text-xs text-slate-600 dark:text-slate-400 space-y-1">
-                  <p className="text-slate-900 dark:text-white font-semibold">
+                <div className="text-xs text-zinc-600 dark:text-zinc-400 space-y-1">
+                  <p className="text-zinc-900 dark:text-white font-semibold">
                     Deterministic EPA WARM Carbon Abatement
                   </p>
                   <p>
@@ -378,26 +378,26 @@ export default function MaterialDetail({
             )}
 
             {!isTransferred && (
-              <div className="rounded-2xl glass-panel border border-slate-200/80 dark:border-white/10 p-6 space-y-4 shadow-xl">
+              <div className="rounded-2xl glass-panel border border-zinc-200 dark:border-white/10 p-6 space-y-4 shadow-xl">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <ShieldCheck className="w-5 h-5 text-cyan-500" />
-                    <span className="font-display text-xs uppercase tracking-wider text-slate-900 dark:text-white font-bold">
+                    <ShieldCheck className="w-5 h-5 text-emerald-500" />
+                    <span className="font-display text-xs uppercase tracking-wider text-zinc-900 dark:text-white font-bold">
                       Ownership Transfer & ESG Inscription
                     </span>
                   </div>
-                  <span className="font-mono text-[10px] text-cyan-600 dark:text-cyan-400 font-bold">
+                  <span className="font-mono text-[10px] text-emerald-600 dark:text-emerald-400 font-bold">
                     AGENT 02 AUDITED
                   </span>
                 </div>
 
-                <p className="text-slate-600 dark:text-slate-400 text-xs leading-relaxed">
-                  Clicking request transfer will invoke AI Agent 2 to independently verify lot specifications before executing <code className="text-cyan-600 dark:text-cyan-400">verifyAndTransfer()</code> on the Polygon Amoy blockchain.
+                <p className="text-zinc-600 dark:text-zinc-400 text-xs leading-relaxed">
+                  Clicking request transfer will invoke AI Agent 2 to independently verify lot specifications before executing <code className="text-emerald-600 dark:text-emerald-400">verifyAndTransfer()</code> on the Polygon Amoy blockchain.
                 </p>
 
                 {verifying && (
-                  <div className="p-3.5 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-xs text-cyan-700 dark:text-cyan-300 font-medium flex items-center gap-3 animate-pulse">
-                    <Loader2 className="animate-spin w-4 h-4 text-cyan-500" />
+                  <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs text-emerald-700 dark:text-emerald-300 font-medium flex items-center gap-3 animate-pulse">
+                    <Loader2 className="animate-spin w-4 h-4 text-emerald-500" />
                     <span>{verificationStep}</span>
                   </div>
                 )}
@@ -405,7 +405,7 @@ export default function MaterialDetail({
                 <button
                   onClick={requestTransfer}
                   disabled={verifying}
-                  className="w-full flex items-center justify-center gap-2 font-display text-xs uppercase tracking-wider font-bold py-4 px-6 rounded-xl bg-gradient-to-r from-cyan-500 via-teal-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-slate-950 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-cyan-500/25 hover:scale-[1.02]"
+                  className="w-full flex items-center justify-center gap-2 font-display text-xs uppercase tracking-wider font-bold py-4 px-6 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md shadow-emerald-500/20 hover:scale-[1.02]"
                 >
                   {verifying ? (
                     <>
@@ -428,11 +428,11 @@ export default function MaterialDetail({
                   <VerificationStamp txHash={txHash} size="lg" rotation={12} />
                 </div>
 
-                <div className="flex items-center justify-between border-b border-slate-200/60 dark:border-white/10 pb-3">
+                <div className="flex items-center justify-between border-b border-zinc-200 dark:border-white/[0.06] pb-3">
                   <div className="flex items-center gap-2.5">
                     <FileCheck className="w-5 h-5 text-emerald-500" />
                     <div>
-                      <h3 className="font-display font-bold text-lg text-slate-900 dark:text-white">
+                      <h3 className="font-display font-bold text-lg text-zinc-900 dark:text-white">
                         Official Impact Certificate
                       </h3>
                       <span className="font-mono text-[10px] uppercase tracking-widest text-emerald-600 dark:text-emerald-400 font-bold">
@@ -445,20 +445,20 @@ export default function MaterialDetail({
                   </span>
                 </div>
 
-                <div className="p-4 rounded-xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200/60 dark:border-white/5 text-xs text-slate-700 dark:text-slate-300 leading-relaxed italic">
+                <div className="p-4 rounded-xl bg-zinc-100 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/[0.06] text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed italic">
                   "{certificate || `This official EPR Impact Certificate confirms the on-chain transfer and responsible recycling diversion of ${material.estimated_weight_kg} kg of ${material.category} material, achieving a deterministic carbon abatement of ${material.co2_saved_kg?.toFixed(1)} kg CO₂e pursuant to EPA WARM methodologies.`}"
                 </div>
 
                 <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
                   <div className="space-y-1 w-full sm:w-auto">
-                    <div className="text-slate-500 dark:text-slate-400 text-[11px] font-mono">
+                    <div className="text-zinc-500 dark:text-zinc-400 text-[11px] font-mono">
                       Ledger Tx Hash:
                     </div>
                     <a
                       href={`https://amoy.polygonscan.com/tx/${txHash || "0x..."}`}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-1.5 text-cyan-600 dark:text-cyan-400 hover:underline font-bold font-mono text-xs"
+                      className="inline-flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 hover:underline font-bold font-mono text-xs"
                     >
                       <span className="truncate max-w-[200px]">
                         {txHash || "0x9a4f20bc...onchain"}
@@ -468,14 +468,14 @@ export default function MaterialDetail({
                   </div>
 
                   {qrCodeDataUrl && (
-                    <div className="flex items-center gap-3 bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-slate-200 dark:border-white/10 shadow-sm">
+                    <div className="flex items-center gap-3 bg-white dark:bg-[#121215] p-2.5 rounded-xl border border-zinc-200 dark:border-white/10 shadow-sm">
                       <img
                         src={qrCodeDataUrl}
                         alt="On-Chain Verification QR"
                         className="w-16 h-16 rounded-lg"
                       />
-                      <div className="text-[10px] text-slate-500 dark:text-slate-400 font-mono leading-tight">
-                        <span className="text-slate-900 dark:text-white font-bold block mb-1">
+                      <div className="text-[10px] text-zinc-500 dark:text-zinc-400 font-mono leading-tight">
+                        <span className="text-zinc-900 dark:text-white font-bold block mb-1">
                           Scan to Audit
                         </span>
                         <span>Instant Polygonscan validation</span>
@@ -484,18 +484,18 @@ export default function MaterialDetail({
                   )}
                 </div>
 
-                <div className="pt-3 border-t border-slate-200/60 dark:border-white/10 flex items-center justify-between">
+                <div className="pt-3 border-t border-zinc-200 dark:border-white/[0.06] flex items-center justify-between">
                   <button
                     onClick={() => setIsReportOpen(true)}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/15 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xs font-semibold transition-all"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-zinc-100 dark:bg-white/10 hover:bg-zinc-200 dark:hover:bg-white/15 border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white text-xs font-semibold transition-all"
                   >
-                    <Printer className="w-3.5 h-3.5 text-cyan-500" />
+                    <Printer className="w-3.5 h-3.5 text-emerald-500" />
                     <span>Print EPR Audit PDF</span>
                   </button>
 
                   <Link
                     href={`/verify`}
-                    className="text-xs text-cyan-600 dark:text-cyan-400 hover:underline flex items-center gap-1 font-semibold"
+                    className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 font-semibold"
                   >
                     <span>Inspect On Verify Tool</span>
                     <ExternalLink className="w-3.5 h-3.5" />

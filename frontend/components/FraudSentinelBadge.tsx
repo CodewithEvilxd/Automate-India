@@ -27,15 +27,15 @@ export default function FraudSentinelBadge({
   const isModerate = audit.risk_level === "MODERATE";
 
   return (
-    <div className="rounded-2xl glass-panel p-5 border border-slate-200/80 dark:border-white/10 shadow-lg text-xs">
-      <div className="flex items-center justify-between border-b border-slate-200/60 dark:border-white/5 pb-2.5 mb-3">
+    <div className="rounded-2xl glass-panel p-5 border border-zinc-200 dark:border-white/10 shadow-lg text-xs">
+      <div className="flex items-center justify-between border-b border-zinc-200 dark:border-white/[0.06] pb-2.5 mb-3">
         <div className="flex items-center gap-2">
           {isClean ? (
             <ShieldCheck className="w-4 h-4 text-emerald-500" />
           ) : (
             <ShieldAlert className="w-4 h-4 text-rose-500" />
           )}
-          <span className="font-display text-xs uppercase tracking-wider text-slate-900 dark:text-white font-bold">
+          <span className="font-display text-xs uppercase tracking-wider text-zinc-900 dark:text-white font-bold">
             Agent 05 • Real-Time Fraud Sentinel
           </span>
         </div>
@@ -53,7 +53,7 @@ export default function FraudSentinelBadge({
         </span>
       </div>
 
-      <p className="text-slate-600 dark:text-slate-400 text-xs mb-2 leading-relaxed">
+      <p className="text-zinc-600 dark:text-zinc-400 text-xs mb-2 leading-relaxed">
         {audit.security_audit_summary}
       </p>
 
