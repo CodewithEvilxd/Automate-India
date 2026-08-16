@@ -3,7 +3,12 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { ethers } from "ethers";
 import multer from "multer";
-import { prisma } from "./services/prisma.js";
+import {
+  getAllMaterials,
+  getMaterialById,
+  saveMaterial,
+  updateMaterialStatus,
+} from "./services/storage.js";
 import {
   classifyMaterial,
   verifyTransaction,
@@ -15,130 +20,89 @@ import {
 } from "./services/ai-agents.js";
 import { calculateCO2Saved } from "./services/co2-calculator.js";
 import { CONTRACT_ADDRESS, CONTRACT_ABI } from "./services/contract.js";
-import { DEMO_MATERIALS, DEMO_ORGANIZATIONS, DEMO_TRANSACTIONS } from "./services/demo-data.js";
+import { DEMO_ORGANIZATIONS } from "./services/demo-data.js";
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Enable CORS for Web Frontend and Mobile Client
-app.use(cors({
-  origin: "*",
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-}));
+// Enable CORS for Web Frontend, Mobile Client & External integrations
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 15 * 1024 * 1024 } });
 
-// 1. Health Check
+// ==========================================
+// 1. HEALTH & PROTOCOL STATUS
+// ==========================================
 app.get("/api/health", (_req: Request, res: Response) => {
   res.json({
     status: "online",
-    service: "CircularChain Unified Backend API",
+    service: "CircularChain Unified Backend Core",
     network: "Polygon Amoy Testnet (Chain ID 80002)",
     smartContract: CONTRACT_ADDRESS,
     timestamp: new Date().toISOString(),
+    version: "2.4.0",
   });
 });
 
-// 2. Fetch All Materials
-app.get("/api/materials", async (_req: Request, res: Response) => {
-  try {
-    try {
-      const materials = await prisma.material.findMany({
-        orderBy: { created_at: "desc" },
-        include: { transactions: true },
-      });
-      if (materials && materials.length > 0) {
-        return res.json(materials);
-      }
-    } catch (dbErr) {
-      console.warn("Database lookup fallback in backend /api/materials:", dbErr);
-    }
-    return res.json(DEMO_MATERIALS);
-  } catch (error: any) {
-    return res.json(DEMO_MATERIALS);
-  }
+// ==========================================
+// 2. MATERIALS REPOSITORY (Unified Web & Mobile)
+// ==========================================
+app.get("/api/materials", (_req: Request, res: Response) => {
+  const materials = getAllMaterials();
+  return res.json(materials);
 });
 
-// 3. Fetch Single Material by ID
-app.get("/api/materials/:id", async (req: Request, res: Response) => {
-  try {
-    const id = String(req.params.id);
-    try {
-      const material = await prisma.material.findUnique({
-        where: { id },
-        include: { transactions: true },
-      });
-      if (material) return res.json(material);
-    } catch (dbErr) {
-      console.warn(`Database lookup fallback in backend /api/materials/${id}:`, dbErr);
-    }
-
-    const demoItem = DEMO_MATERIALS.find((m) => m.id === id);
-    if (demoItem) return res.json(demoItem);
-
-    return res.status(404).json({ error: "Material lot not found" });
-  } catch (error: any) {
-    return res.status(500).json({ error: error.message });
-  }
+app.get("/api/materials/:id", (req: Request, res: Response) => {
+  const id = String(req.params.id);
+  const material = getMaterialById(id);
+  if (material) return res.json(material);
+  return res.status(404).json({ error: "Material lot not found" });
 });
 
-// 4. Create Material Lot (Post-blockchain listing)
-app.post("/api/materials", async (req: Request, res: Response) => {
+app.post("/api/materials", (req: Request, res: Response) => {
   try {
     const body = req.body;
     const co2Saved = body.co2_saved_kg || calculateCO2Saved(body.category, Number(body.estimated_weight_kg));
 
-    try {
-      const material = await prisma.material.create({
-        data: {
-          id: body.id ? String(body.id) : undefined,
-          title: body.title,
-          description: body.description,
-          image_url: body.image_url,
-          ipfs_hash: body.ipfs_hash,
-          category: body.category,
-          estimated_weight_kg: Number(body.estimated_weight_kg),
-          co2_saved_kg: Number(co2Saved),
-          condition: body.condition,
-          location: body.location || "Noida, UP",
-          owner_wallet: body.owner_wallet,
-          status: "listed",
-        },
-      });
+    const newMaterial = {
+      id: body.id ? String(body.id) : "lot_" + Date.now().toString().slice(-6),
+      title: body.title,
+      description: body.description,
+      image_url: body.image_url,
+      ipfs_hash: body.ipfs_hash,
+      category: body.category,
+      estimated_weight_kg: Number(body.estimated_weight_kg),
+      co2_saved_kg: Number(co2Saved),
+      condition: body.condition || "Good",
+      location: body.location || "Noida, UP",
+      owner_wallet: body.owner_wallet || "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+      owner_name: body.owner_name || "Industrial Manufacturing Partner",
+      status: "listed" as const,
+      created_at: new Date(),
+      transactions: [],
+    };
 
-      // Ensure user profile exists
-      await prisma.user.upsert({
-        where: { wallet_address: body.owner_wallet },
-        update: {},
-        create: {
-          org_name: "Industrial Partner",
-          wallet_address: body.owner_wallet,
-        },
-      });
-
-      return res.json(material);
-    } catch (dbErr) {
-      console.warn("DB save fallback in backend /api/materials POST:", dbErr);
-      return res.json({
-        id: body.id ? String(body.id) : "lot_" + Date.now(),
-        ...body,
-        co2_saved_kg: co2Saved,
-        status: "listed",
-        created_at: new Date(),
-      });
-    }
+    const saved = saveMaterial(newMaterial as any);
+    return res.json(saved);
   } catch (error: any) {
     return res.status(500).json({ error: error.message });
   }
 });
 
-// 5. Agent 1 Vision AI Classification with Contamination Heatmap
+// ==========================================
+// 3. AI AGENT 1 - MULTI-MODAL COMPUTER VISION
+// ==========================================
 app.post("/api/analyze", async (req: Request, res: Response) => {
   try {
     const imageBase64 = req.body.imageBase64 || req.body.image;
@@ -158,7 +122,9 @@ app.post("/api/analyze", async (req: Request, res: Response) => {
   }
 });
 
-// 6. Pinata IPFS Decentralized File Upload
+// ==========================================
+// 4. IPFS DECENTRALIZED SPECIMEN PINNING
+// ==========================================
 app.post("/api/upload", upload.single("file"), async (req: Request, res: Response) => {
   try {
     const file = req.file;
@@ -196,7 +162,9 @@ app.post("/api/upload", upload.single("file"), async (req: Request, res: Respons
   }
 });
 
-// 7. Agent 2 Verifier + Amoy Smart Contract Signer + Agent 4 Certificate
+// ==========================================
+// 5. ON-CHAIN SETTLEMENT & AI AGENT 2 VERIFIER
+// ==========================================
 app.post("/api/verify-transfer", async (req: Request, res: Response) => {
   try {
     const { materialId, buyerWallet } = req.body;
@@ -204,22 +172,11 @@ app.post("/api/verify-transfer", async (req: Request, res: Response) => {
       return res.status(400).json({ error: "materialId and buyerWallet are required" });
     }
 
-    let material: any = null;
-    try {
-      material = await prisma.material.findUnique({ where: { id: materialId } });
-    } catch (e) {
-      console.warn("DB lookup warning in verify-transfer:", e);
-    }
-
-    if (!material) {
-      material = DEMO_MATERIALS.find((m) => m.id === materialId);
-    }
-
+    const material = getMaterialById(materialId);
     if (!material) {
       return res.status(404).json({ error: "Material lot not found" });
     }
 
-    // 1. AI Agent 2 Verifier
     const verification = await verifyTransaction(
       material.category,
       material.estimated_weight_kg || 0,
@@ -234,7 +191,6 @@ app.post("/api/verify-transfer", async (req: Request, res: Response) => {
       });
     }
 
-    // 2. On-Chain Fraud Sentinel Audit
     const fraudAudit = auditOnChainFraudRisk(
       material.owner_wallet,
       buyerWallet,
@@ -243,7 +199,6 @@ app.post("/api/verify-transfer", async (req: Request, res: Response) => {
       material.category
     );
 
-    // 3. Smart Contract Verification & Transfer on Polygon Amoy
     let txHash = "0x" + Math.random().toString(16).substring(2, 42).padEnd(64, "0");
     const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL;
     const privateKey = process.env.PRIVATE_KEY;
@@ -262,7 +217,6 @@ app.post("/api/verify-transfer", async (req: Request, res: Response) => {
       }
     }
 
-    // 4. Generate Certificate using AI Agent 4
     const certificate = await generateCertificate(
       material.category,
       material.estimated_weight_kg || 0,
@@ -271,27 +225,7 @@ app.post("/api/verify-transfer", async (req: Request, res: Response) => {
       new Date().toISOString()
     );
 
-    // 5. Update DB
-    try {
-      await prisma.transaction.create({
-        data: {
-          material_id: materialId,
-          from_wallet: material.owner_wallet,
-          to_wallet: buyerWallet,
-          tx_hash: txHash,
-        },
-      });
-
-      await prisma.material.update({
-        where: { id: materialId },
-        data: {
-          owner_wallet: buyerWallet,
-          status: "transferred",
-        },
-      });
-    } catch (dbErr) {
-      console.warn("DB update warning in verify-transfer:", dbErr);
-    }
+    const updated = updateMaterialStatus(materialId, buyerWallet, txHash);
 
     return res.json({
       success: true,
@@ -299,11 +233,7 @@ app.post("/api/verify-transfer", async (req: Request, res: Response) => {
       certificate,
       verification,
       fraudAudit,
-      material: {
-        ...material,
-        status: "transferred",
-        owner_wallet: buyerWallet,
-      },
+      material: updated || material,
     });
   } catch (error: any) {
     console.error("Verification Transfer Error:", error);
@@ -311,22 +241,156 @@ app.post("/api/verify-transfer", async (req: Request, res: Response) => {
   }
 });
 
-// 8. Agent 3 Matchmaking & Indian Commodity Scrap Price Oracle
+// ==========================================
+// 6. CPCB STATUTORY COMPLIANCE ENGINE (FY 2026-27)
+// ==========================================
+const CPCB_RULES: Record<string, any> = {
+  aluminum: {
+    targetRecyclingPct: 0.75,
+    mandatoryPCRContentPct: 0.25,
+    epaWARMFactor: 9.13,
+    cpcbPenaltyPerMT: 8500,
+    ruleAuthority: "National Secondary Metals Scrappage Policy & MoRTH ELV Norms",
+    schedule: "Schedule I - Automotive & Architectural Extrusions",
+  },
+  steel: {
+    targetRecyclingPct: 0.70,
+    mandatoryPCRContentPct: 0.20,
+    epaWARMFactor: 1.81,
+    cpcbPenaltyPerMT: 6000,
+    ruleAuthority: "Ministry of Steel Scrap Policy 2024/2026",
+    schedule: "Heavy Melting Scrap (HMS 1/2)",
+  },
+  plastic_pet: {
+    targetRecyclingPct: 0.80,
+    mandatoryPCRContentPct: 0.30,
+    epaWARMFactor: 1.50,
+    cpcbPenaltyPerMT: 5000,
+    ruleAuthority: "Plastic Waste Management Rules (PWM) Schedule II (MoEFCC)",
+    schedule: "Category I - Rigid Plastic Packaging",
+  },
+  plastic_hdpe: {
+    targetRecyclingPct: 0.70,
+    mandatoryPCRContentPct: 0.20,
+    epaWARMFactor: 1.35,
+    cpcbPenaltyPerMT: 5000,
+    ruleAuthority: "Plastic Waste Management Rules (PWM) Schedule II (MoEFCC)",
+    schedule: "Category II - Flexible Plastic Packaging",
+  },
+  plastic_mlp: {
+    targetRecyclingPct: 0.60,
+    mandatoryPCRContentPct: 0.10,
+    epaWARMFactor: 1.10,
+    cpcbPenaltyPerMT: 7000,
+    ruleAuthority: "PWM Rules Schedule II - Co-Processing & Waste-to-Energy",
+    schedule: "Category III - Multi-Layered Plastic (MLP)",
+  },
+  paper: {
+    targetRecyclingPct: 0.65,
+    mandatoryPCRContentPct: 0.35,
+    epaWARMFactor: 3.42,
+    cpcbPenaltyPerMT: 4000,
+    ruleAuthority: "CPCB Industrial Packaging Waste Directives",
+    schedule: "Corrugated Containers (OCC Grade 11)",
+  },
+  electronic: {
+    targetRecyclingPct: 0.85,
+    mandatoryPCRContentPct: 0.15,
+    epaWARMFactor: 5.50,
+    cpcbPenaltyPerMT: 12000,
+    ruleAuthority: "E-Waste (Management) Rules 2022/2026 (MoEFCC)",
+    schedule: "Schedule I - IT, Telecom & Industrial PCBs",
+  },
+  battery_lithium: {
+    targetRecyclingPct: 0.70,
+    mandatoryPCRContentPct: 0.20,
+    epaWARMFactor: 8.20,
+    cpcbPenaltyPerMT: 15000,
+    ruleAuthority: "Battery Waste Management Rules (BWMR) 2022/2026",
+    schedule: "Category I - EV & Energy Storage Lithium-Ion Cells",
+  },
+};
+
+app.post("/api/cpcb/calculate", (req: Request, res: Response) => {
+  try {
+    const {
+      companyName = "Enterprise Partner",
+      piboRegistrationNo = "CPCB/PIBO/2026/08941",
+      state = "Uttar Pradesh (UPPCB)",
+      industry = "automotive",
+      materialCategory = "aluminum",
+      annualConsumptionMT = 350,
+      fiscalYear = "FY 2026-27",
+    } = req.body;
+
+    const rule = CPCB_RULES[materialCategory] || CPCB_RULES.aluminum;
+
+    const mandatoryOffsetMT = Math.round(annualConsumptionMT * rule.targetRecyclingPct * 10) / 10;
+    const mandatoryOffsetKg = mandatoryOffsetMT * 1000;
+    const mandatoryPCRMassMT = Math.round(annualConsumptionMT * rule.mandatoryPCRContentPct * 10) / 10;
+    const carbonAbatementKg = Math.round(mandatoryOffsetKg * rule.epaWARMFactor);
+    const avoidedPenaltyINR = Math.round(mandatoryOffsetMT * rule.cpcbPenaltyPerMT);
+
+    res.json({
+      success: true,
+      data: {
+        assessment_id: `CPCB-EPR-ASSESS-${Date.now().toString().slice(-6)}`,
+        fiscal_year: fiscalYear,
+        jurisdiction: state,
+        pibo_registration_number: piboRegistrationNo,
+        corporate_entity: companyName,
+        target_industry: industry,
+        material_schedule: rule.schedule,
+        regulatory_authority: rule.ruleAuthority,
+        declared_consumption_mt: annualConsumptionMT,
+        mandated_recycling_target_percent: rule.targetRecyclingPct * 100,
+        mandated_offset_obligation_mt: mandatoryOffsetMT,
+        mandatory_pcr_recycled_content_percent: rule.mandatoryPCRContentPct * 100,
+        mandatory_pcr_mass_mt: mandatoryPCRMassMT,
+        verified_carbon_abatement_kg_co2e: carbonAbatementKg,
+        avoided_statutory_penalty_inr: avoidedPenaltyINR,
+        consensus_network: "Polygon Amoy Testnet (Chain ID 80002)",
+        timestamp_utc: new Date().toISOString(),
+        cpcb_portal_compliance_status: "100% AUDIT READY",
+      },
+    });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// ==========================================
+// 7. INDIAN COMMODITY ORACLE (MCX / IPEX / STEELMINT)
+// ==========================================
+app.get("/api/mcx-oracle", (_req: Request, res: Response) => {
+  res.json({
+    success: true,
+    commodities: [
+      { symbol: "ALUM-6063", name: "Aluminum Extrusions (6063 Scrap)", unitPriceINR: 215.0, unit: "kg", change: "+2.4%", trend: "up", exchange: "MCX Spot" },
+      { symbol: "CU-BERRY", name: "Copper Scrap (Heavy Berry No. 1)", unitPriceINR: 760.0, unit: "kg", change: "+1.8%", trend: "up", exchange: "MCX Continuous" },
+      { symbol: "PET-WASH", name: "PET Bottle Flakes (Hot Washed)", unitPriceINR: 48.0, unit: "kg", change: "+3.1%", trend: "up", exchange: "Indian Polymer Index" },
+      { symbol: "HDPE-BLU", name: "HDPE Regrind Granules (Blue Drums)", unitPriceINR: 58.0, unit: "kg", change: "-0.5%", trend: "down", exchange: "IPex Gujarat Hub" },
+      { symbol: "HMS-1-2", name: "Heavy Melting Steel Scrap (HMS 1/2)", unitPriceINR: 42.5, unit: "kg", change: "+0.9%", trend: "up", exchange: "SteelMint Index" },
+      { symbol: "OCC-11", name: "Corrugated Cardboard (OCC 11)", unitPriceINR: 14.5, unit: "kg", change: "+1.2%", trend: "up", exchange: "Paper Index India" },
+      { symbol: "PCB-IND", name: "Industrial Telecom Circuit Boards", unitPriceINR: 340.0, unit: "kg", change: "+4.5%", trend: "up", exchange: "E-Waste Metals Index" },
+      { symbol: "LI-NMC", name: "Lithium Black Mass (NMC/LFP Scrap)", unitPriceINR: 850.0, unit: "kg", change: "+5.2%", trend: "up", exchange: "Battery Waste Index" },
+    ],
+  });
+});
+
+// ==========================================
+// 8. MATCHMAKING, SENTINEL & VOICE PARSER
+// ==========================================
 app.post("/api/matchmaking", (req: Request, res: Response) => {
   try {
     const { category, weightKg, location } = req.body;
-    const match = calculatePriceAndMatch(
-      category || "aluminum",
-      Number(weightKg) || 100,
-      location || "Noida, UP"
-    );
+    const match = calculatePriceAndMatch(category || "aluminum", Number(weightKg) || 100, location || "Noida, UP");
     return res.json(match);
   } catch (error: any) {
     return res.status(500).json({ error: error.message });
   }
 });
 
-// 9. On-Chain Fraud Sentinel & Anomaly Detector
 app.post("/api/fraud-sentinel", (req: Request, res: Response) => {
   try {
     const { fromWallet, toWallet, weightKg, claimedCo2, category } = req.body;
@@ -343,12 +407,11 @@ app.post("/api/fraud-sentinel", (req: Request, res: Response) => {
   }
 });
 
-// 10. Multilingual Indic Voice & Chat Parser
 app.post("/api/indic-parse", async (req: Request, res: Response) => {
   try {
     const { transcript } = req.body;
     if (!transcript) {
-      return res.status(400).json({ error: "No voice transcript or text provided" });
+      return res.status(400).json({ error: "No voice transcript provided" });
     }
     const parsed = await parseIndicVoiceListing(transcript);
     return res.json(parsed);
@@ -357,22 +420,39 @@ app.post("/api/indic-parse", async (req: Request, res: Response) => {
   }
 });
 
-// 11. Organizations Directory & Leaderboard
+// ==========================================
+// 9. ORGANIZATIONS & RECYCLER DIRECTORY
+// ==========================================
 app.get("/api/organizations", (_req: Request, res: Response) => {
   res.json(DEMO_ORGANIZATIONS);
 });
 
-// 12. Commodity Prices Index
-app.get("/api/prices", (_req: Request, res: Response) => {
-  res.json(COMMODITY_PRICE_INDEX);
+app.get("/api/organizations/:wallet", (req: Request, res: Response) => {
+  const wallet = String(req.params.wallet).toLowerCase();
+  const org = DEMO_ORGANIZATIONS.find((o) => o.wallet_address.toLowerCase() === wallet);
+  if (org) return res.json(org);
+  return res.json({
+    wallet_address: wallet,
+    org_name: "Industrial Recycling Participant",
+    location: "Noida, UP",
+    reputation_score: 85,
+    total_co2_abated_kg: 4200.0,
+    total_mass_recycled_kg: 3100.0,
+    total_lots_listed: 5,
+    completed_transfers: 4,
+    is_trusted_partner: true,
+    member_since: "2025",
+    epr_registration_no: "EPR-IN-2025-08192",
+    verified_categories: ["aluminum", "plastic_pet"],
+  });
 });
 
-// 13. Aggregated Dashboard Stats
 app.get("/api/stats", (_req: Request, res: Response) => {
-  const totalCO2Saved = DEMO_MATERIALS.reduce((acc, curr) => acc + (curr.co2_saved_kg || 0), 0);
-  const totalWeightKg = DEMO_MATERIALS.reduce((acc, curr) => acc + (curr.estimated_weight_kg || 0), 0);
-  const totalListed = DEMO_MATERIALS.length;
-  const totalTransferred = DEMO_MATERIALS.filter((m) => m.status === "transferred").length;
+  const materials = getAllMaterials();
+  const totalCO2Saved = materials.reduce((acc, curr) => acc + (curr.co2_saved_kg || 0), 0);
+  const totalWeightKg = materials.reduce((acc, curr) => acc + (curr.estimated_weight_kg || 0), 0);
+  const totalListed = materials.length;
+  const totalTransferred = materials.filter((m) => m.status === "transferred").length;
 
   res.json({
     totalCO2Saved,
@@ -386,9 +466,9 @@ app.get("/api/stats", (_req: Request, res: Response) => {
 app.listen(PORT, () => {
   console.log(`\n======================================================`);
   console.log(` 🚀 CircularChain Unified Backend API is running!`);
-  console.log(` 📡 URL: http://localhost:${PORT}`);
+  console.log(` 📡 Web URL: http://localhost:${PORT}`);
+  console.log(` 📱 Mobile URL: http://10.0.2.2:${PORT}/api or http://localhost:${PORT}/api`);
   console.log(` 🔗 Polygon Amoy Contract: ${CONTRACT_ADDRESS}`);
-  console.log(` 📱 Mobile Endpoint: http://10.0.2.2:${PORT}/api or http://localhost:${PORT}/api`);
   console.log(`======================================================\n`);
 });
 
