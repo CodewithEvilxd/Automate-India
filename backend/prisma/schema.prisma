@@ -1,0 +1,51 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id              String   @id @default(cuid())
+  org_name        String
+  wallet_address  String   @unique
+  reputation_score Int     @default(0)
+  created_at      DateTime @default(now())
+}
+
+enum MaterialStatus {
+  listed
+  transferred
+}
+
+model Material {
+  id                  String         @id @default(cuid())
+  title               String
+  description         String
+  image_url           String
+  ipfs_hash           String?
+  category            String
+  estimated_weight_kg Float
+  co2_saved_kg        Float
+  condition           String
+  location            String?        @default("Noida, NCR")
+  owner_wallet        String
+  status              MaterialStatus @default(listed)
+  created_at          DateTime       @default(now())
+
+  // Relations
+  transactions        Transaction[]
+}
+
+model Transaction {
+  id          String   @id @default(cuid())
+  material_id String
+  from_wallet String
+  to_wallet   String
+  tx_hash     String
+  timestamp   DateTime @default(now())
+
+  material    Material @relation(fields: [material_id], references: [id])
+}
