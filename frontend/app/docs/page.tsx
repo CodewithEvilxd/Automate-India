@@ -17,7 +17,6 @@ import {
   DoodleChip,
   DoodleShield,
   DoodleScale,
-  DoodleArrow,
 } from "@/components/SketchElements";
 
 const CAROUSEL_CARDS = [
@@ -34,7 +33,6 @@ const CAROUSEL_CARDS = [
 ];
 
 import {
-  BookOpen,
   Cpu,
   Scale,
   Zap,
@@ -43,20 +41,14 @@ import {
   Building2,
   Lock,
   Code2,
-  ArrowRight,
   AlertTriangle,
   CheckCircle2,
   Rocket,
   ChevronRight,
   PenTool,
-  Calculator,
-  Terminal,
-  Activity,
-  Compass,
-  FileText,
   Boxes,
-  Database,
-  Fingerprint,
+  Compass,
+  FileCode,
 } from "lucide-react";
 
 export default function DocsOverviewPage() {
@@ -418,7 +410,7 @@ export default function DocsOverviewPage() {
               </div>
             </section>
 
-            {/* SECTION 4: Deterministic Mathematical Formulations & EPA WARM Engine */}
+            {/* SECTION 4: Deterministic Mathematical Formulations & EPA WARM Engine (Warm Paper Lined Aesthetic - No Harsh Black Box) */}
             <section className="relative p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#12131C] border-2 border-zinc-950 dark:border-white/20 shadow-[4px_4px_0px_#10B981] space-y-6">
               <WashiTapeCenter />
               
@@ -437,32 +429,36 @@ export default function DocsOverviewPage() {
                 CircularChain implements the United States Environmental Protection Agency’s <strong>Waste Reduction Model (EPA WARM v15)</strong> Life-Cycle Analysis (LCA) parameters combined with the <strong>Haversine Transport Carbon Penalty Model</strong>.
               </p>
 
-              {/* Mathematical Equation Block */}
-              <div className="p-6 rounded-2xl bg-zinc-900 text-zinc-100 font-mono text-xs sm:text-sm border-2 border-zinc-950 shadow-[3px_3px_0px_rgba(0,0,0,0.9)] space-y-4">
-                <div className="flex items-center justify-between text-zinc-400 border-b border-zinc-800 pb-2">
-                  <span>EQUATION 1.1: Net Life-Cycle Scope 3 Carbon Offset</span>
-                  <span className="text-emerald-400 font-bold">DETERMINISTIC LCA</span>
+              {/* Hand-Drawn Lined Paper Equation Card (Replaced harsh black box with warm ruled sketch card) */}
+              <div className="p-6 rounded-2xl bg-amber-50/80 dark:bg-zinc-900/90 border-2 border-zinc-950 dark:border-white/20 shadow-[3px_3px_0px_rgba(0,0,0,0.85)] dark:shadow-[3px_3px_0px_#10B981] space-y-4">
+                <div className="flex items-center justify-between text-zinc-600 dark:text-zinc-400 border-b-2 border-dashed border-zinc-300 dark:border-white/10 pb-2">
+                  <span className="font-sketch font-bold text-xs sm:text-sm text-zinc-900 dark:text-zinc-100">
+                    Equation 1.1: Net Life-Cycle Scope 3 Carbon Offset
+                  </span>
+                  <span className="font-sketch text-xs font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-500/20 px-2 py-0.5 rounded-full border border-emerald-300">
+                    Deterministic LCA
+                  </span>
                 </div>
 
-                <div className="py-2 text-emerald-400 text-base sm:text-lg font-bold tracking-wider overflow-x-auto">
+                <div className="py-2 text-emerald-800 dark:text-emerald-300 text-base sm:text-lg font-sketch font-bold tracking-wide overflow-x-auto">
                   CO2e_Net = (Mass_Lot × Purity_Grade × E_Avoided) - (Distance_KM × Fleet_Carbon_Intensity)
                 </div>
 
-                <div className="text-zinc-300 text-xs space-y-1.5 pt-2 border-t border-zinc-800">
-                  <p>Where:</p>
-                  <ul className="list-disc list-inside space-y-1 text-zinc-400">
-                    <li><strong className="text-white">Mass_Lot:</strong> Certified digital weighbridge mass in metric tons (MT).</li>
-                    <li><strong className="text-white">Purity_Grade:</strong> OpenCV segmented contamination mask factor ($\rho \in [0.0, 1.0]$).</li>
-                    <li><strong className="text-white">E_Avoided:</strong> Baseline Virgin Extraction Footprint minus Secondary Remelting Footprint.</li>
-                    <li><strong className="text-white">Fleet_Carbon_Intensity:</strong> 0.105 kg CO₂e / MT-km for BS-VI diesel freight corridors.</li>
+                <div className="text-zinc-800 dark:text-zinc-300 text-xs font-sketch space-y-1.5 pt-2 border-t-2 border-dashed border-zinc-300 dark:border-white/10">
+                  <p className="font-bold text-zinc-950 dark:text-white">Where:</p>
+                  <ul className="space-y-1 text-zinc-700 dark:text-zinc-300">
+                    <li>• <strong className="text-zinc-950 dark:text-white">Mass_Lot:</strong> Certified digital weighbridge mass in metric tons (MT).</li>
+                    <li>• <strong className="text-zinc-950 dark:text-white">Purity_Grade:</strong> OpenCV segmented contamination mask factor ($\rho \in [0.0, 1.0]$).</li>
+                    <li>• <strong className="text-zinc-950 dark:text-white">E_Avoided:</strong> Baseline Virgin Extraction Footprint minus Secondary Remelting Footprint.</li>
+                    <li>• <strong className="text-zinc-950 dark:text-white">Fleet_Carbon_Intensity:</strong> 0.105 kg CO₂e / MT-km for BS-VI diesel freight corridors.</li>
                   </ul>
                 </div>
               </div>
 
               {/* Baseline Material Constants Table */}
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs font-mono border-2 border-zinc-950 dark:border-white/20 rounded-2xl overflow-hidden">
-                  <thead className="bg-zinc-100 dark:bg-white/10 text-zinc-900 dark:text-white border-b-2 border-zinc-950 dark:border-white/20">
+                <table className="w-full text-left text-xs font-sketch border-2 border-zinc-950 dark:border-white/20 rounded-2xl overflow-hidden shadow-[3px_3px_0px_rgba(0,0,0,0.85)]">
+                  <thead className="bg-amber-100/90 dark:bg-white/10 text-zinc-900 dark:text-white border-b-2 border-zinc-950 dark:border-white/20">
                     <tr>
                       <th className="p-3">Material Stream</th>
                       <th className="p-3">Virgin Footprint (kg CO₂e/kg)</th>
@@ -473,46 +469,46 @@ export default function DocsOverviewPage() {
                   </thead>
                   <tbody className="divide-y divide-zinc-200 dark:divide-white/10 bg-white dark:bg-zinc-900/50">
                     <tr>
-                      <td className="p-3 font-bold text-emerald-600 dark:text-emerald-400">Aluminum 6063 Scrap</td>
-                      <td className="p-3">9.63</td>
-                      <td className="p-3">0.50</td>
-                      <td className="p-3 font-bold text-emerald-600 dark:text-emerald-400">9.13 kg CO₂e</td>
-                      <td className="p-3 text-emerald-600 font-bold">95.0% Less Energy</td>
+                      <td className="p-3 font-bold text-emerald-700 dark:text-emerald-400">Aluminum 6063 Scrap</td>
+                      <td className="p-3 font-mono">9.63</td>
+                      <td className="p-3 font-mono">0.50</td>
+                      <td className="p-3 font-bold font-mono text-emerald-700 dark:text-emerald-400">9.13 kg CO₂e</td>
+                      <td className="p-3 text-emerald-700 font-bold">95.0% Less Energy</td>
                     </tr>
                     <tr>
-                      <td className="p-3 font-bold text-amber-600 dark:text-amber-400">Berry Copper Wire</td>
-                      <td className="p-3">3.41</td>
-                      <td className="p-3">0.60</td>
-                      <td className="p-3 font-bold text-amber-600 dark:text-amber-400">2.81 kg CO₂e</td>
-                      <td className="p-3 text-emerald-600 font-bold">85.0% Less Energy</td>
+                      <td className="p-3 font-bold text-amber-700 dark:text-amber-400">Berry Copper Wire</td>
+                      <td className="p-3 font-mono">3.41</td>
+                      <td className="p-3 font-mono">0.60</td>
+                      <td className="p-3 font-bold font-mono text-amber-700 dark:text-amber-400">2.81 kg CO₂e</td>
+                      <td className="p-3 text-emerald-700 font-bold">85.0% Less Energy</td>
                     </tr>
                     <tr>
-                      <td className="p-3 font-bold text-sky-600 dark:text-sky-400">PET Bottle Flakes</td>
-                      <td className="p-3">2.15</td>
-                      <td className="p-3">0.67</td>
-                      <td className="p-3 font-bold text-sky-600 dark:text-sky-400">1.48 kg CO₂e</td>
-                      <td className="p-3 text-emerald-600 font-bold">70.0% Less Energy</td>
+                      <td className="p-3 font-bold text-sky-700 dark:text-sky-400">PET Bottle Flakes</td>
+                      <td className="p-3 font-mono">2.15</td>
+                      <td className="p-3 font-mono">0.67</td>
+                      <td className="p-3 font-bold font-mono text-sky-700 dark:text-sky-400">1.48 kg CO₂e</td>
+                      <td className="p-3 text-emerald-700 font-bold">70.0% Less Energy</td>
                     </tr>
                     <tr>
-                      <td className="p-3 font-bold text-indigo-600 dark:text-indigo-400">Rigid HDPE Granules</td>
-                      <td className="p-3">1.89</td>
-                      <td className="p-3">0.67</td>
-                      <td className="p-3 font-bold text-indigo-600 dark:text-indigo-400">1.22 kg CO₂e</td>
-                      <td className="p-3 text-emerald-600 font-bold">65.0% Less Energy</td>
+                      <td className="p-3 font-bold text-indigo-700 dark:text-indigo-400">Rigid HDPE Granules</td>
+                      <td className="p-3 font-mono">1.89</td>
+                      <td className="p-3 font-mono">0.67</td>
+                      <td className="p-3 font-bold font-mono text-indigo-700 dark:text-indigo-400">1.22 kg CO₂e</td>
+                      <td className="p-3 text-emerald-700 font-bold">65.0% Less Energy</td>
                     </tr>
                     <tr>
-                      <td className="p-3 font-bold text-zinc-600 dark:text-zinc-300">Heavy Melting Steel (HMS)</td>
-                      <td className="p-3">2.27</td>
-                      <td className="p-3">0.60</td>
-                      <td className="p-3 font-bold text-zinc-600 dark:text-zinc-300">1.67 kg CO₂e</td>
-                      <td className="p-3 text-emerald-600 font-bold">75.0% Less Energy</td>
+                      <td className="p-3 font-bold text-zinc-700 dark:text-zinc-300">Heavy Melting Steel (HMS)</td>
+                      <td className="p-3 font-mono">2.27</td>
+                      <td className="p-3 font-mono">0.60</td>
+                      <td className="p-3 font-bold font-mono text-zinc-700 dark:text-zinc-300">1.67 kg CO₂e</td>
+                      <td className="p-3 text-emerald-700 font-bold">75.0% Less Energy</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
             </section>
 
-            {/* SECTION 5: Interactive Live EPA & Penalty Simulator */}
+            {/* SECTION 5: Interactive Live EPA & Penalty Simulator (Warm Ruled Sketch Theme) */}
             <section className="relative p-6 sm:p-8 rounded-3xl bg-amber-50/90 dark:bg-[#12131C] border-2 border-zinc-950 dark:border-white/20 shadow-[4px_4px_0px_#F59E0B] space-y-6">
               <WashiTapeCorner />
               
@@ -578,37 +574,37 @@ export default function DocsOverviewPage() {
                   </div>
                 </div>
 
-                {/* Real-time Computed Results */}
-                <div className="p-5 rounded-2xl bg-zinc-950 text-white border-2 border-zinc-950 shadow-[3px_3px_0px_#10B981] flex flex-col justify-between space-y-4">
+                {/* Real-time Computed Results (Clean Ruled Paper Card - Zero Harsh Black Box) */}
+                <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border-2 border-zinc-950 dark:border-white/20 shadow-[3px_3px_0px_#10B981] flex flex-col justify-between space-y-4">
                   <div>
-                    <span className="font-mono text-[10px] text-zinc-400 uppercase tracking-wider block">
-                      TARGET STREAM: {selectedFactor.name}
+                    <span className="font-sketch text-xs text-zinc-600 dark:text-zinc-400 uppercase tracking-wider block font-bold">
+                      Target Stream: {selectedFactor.name}
                     </span>
                     <div className="grid grid-cols-2 gap-4 mt-3">
-                      <div className="p-3 rounded-xl bg-white/5 border border-white/10">
-                        <span className="font-mono text-[10px] text-emerald-400 block uppercase font-bold">Net Carbon Offset</span>
-                        <span className="font-mono text-xl font-extrabold text-white mt-1 block">
-                          {totalCarbonOffset} <span className="text-xs font-normal text-zinc-400">MT CO₂e</span>
+                      <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border-2 border-emerald-500/30">
+                        <span className="font-sketch text-xs text-emerald-800 dark:text-emerald-300 block uppercase font-bold">Net Carbon Offset</span>
+                        <span className="font-sketch text-xl font-extrabold text-emerald-900 dark:text-emerald-100 mt-1 block">
+                          {totalCarbonOffset} <span className="text-xs font-normal">MT CO₂e</span>
                         </span>
                       </div>
-                      <div className="p-3 rounded-xl bg-white/5 border border-white/10">
-                        <span className="font-mono text-[10px] text-amber-400 block uppercase font-bold">MCX Spot Valuation</span>
-                        <span className="font-mono text-xl font-extrabold text-white mt-1 block">
+                      <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border-2 border-amber-500/30">
+                        <span className="font-sketch text-xs text-amber-800 dark:text-amber-300 block uppercase font-bold">MCX Spot Valuation</span>
+                        <span className="font-sketch text-xl font-extrabold text-amber-900 dark:text-amber-100 mt-1 block">
                           ₹{totalMarketValue}
                         </span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="pt-3 border-t border-zinc-800 flex items-center justify-between">
+                  <div className="pt-3 border-t-2 border-dashed border-zinc-200 dark:border-white/10 flex items-center justify-between">
                     <div>
-                      <span className="font-mono text-[10px] text-rose-400 block uppercase font-bold">Avoided CPCB Statutory Penalty</span>
-                      <span className="font-mono text-base font-bold text-rose-300">
+                      <span className="font-sketch text-xs text-rose-600 dark:text-rose-400 block uppercase font-bold">Avoided CPCB Statutory Penalty</span>
+                      <span className="font-sketch text-base font-bold text-rose-700 dark:text-rose-300">
                         ₹{totalAvoidedPenalty} (Saved by OEM)
                       </span>
                     </div>
-                    <span className="font-mono text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2 py-1 rounded-md">
-                      CPCB Target: {selectedFactor.cpcbTarget}
+                    <span className="font-sketch text-xs bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 border border-emerald-300 px-2 py-1 rounded-md font-bold">
+                      Target: {selectedFactor.cpcbTarget}
                     </span>
                   </div>
                 </div>
@@ -641,23 +637,23 @@ export default function DocsOverviewPage() {
               <div className="space-y-4">
                 
                 {/* Agent 1 & 4 Input Layer */}
-                <div className="p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 border-2 border-zinc-950 dark:border-white/10 space-y-3">
-                  <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-2">
-                    <span className="font-sketch text-xs font-bold uppercase text-emerald-600 dark:text-emerald-400">
-                      LAYER 1: Multimodal Physical Ingestion (Field Edge)
+                <div className="p-5 rounded-2xl bg-amber-50/50 dark:bg-zinc-900/60 border-2 border-zinc-950 dark:border-white/10 space-y-3">
+                  <div className="flex items-center justify-between border-b-2 border-dashed border-zinc-200 dark:border-zinc-800 pb-2">
+                    <span className="font-sketch text-xs font-bold uppercase text-emerald-700 dark:text-emerald-400">
+                      Layer 1: Multimodal Physical Ingestion (Field Edge)
                     </span>
-                    <span className="font-mono text-[10px] text-zinc-500">P2P Mobile / Camera OCR</span>
+                    <span className="font-sketch text-xs text-zinc-500">P2P Mobile / Camera OCR</span>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-sans">
-                    <div className="p-3 bg-white dark:bg-zinc-800/80 rounded-xl border border-zinc-300 dark:border-white/10">
-                      <strong className="font-sketch text-sm block text-zinc-900 dark:text-white">Agent 01: Optical Quality Vision</strong>
-                      <p className="text-zinc-600 dark:text-zinc-300 text-xs mt-1">
+                    <div className="p-4 bg-white dark:bg-zinc-800/80 rounded-2xl border-2 border-zinc-950 dark:border-white/10 shadow-[2px_2px_0px_rgba(0,0,0,0.8)]">
+                      <strong className="font-sketch text-base block text-zinc-900 dark:text-white">Agent 01: Optical Quality Vision</strong>
+                      <p className="font-sketch text-xs text-zinc-700 dark:text-zinc-300 mt-1">
                         Runs real-time pixel contour segmentation and oxidation scoring. Generates ISO 9001 purity grades ($\rho \in [0, 1]$) from camera captures.
                       </p>
                     </div>
-                    <div className="p-3 bg-white dark:bg-zinc-800/80 rounded-xl border border-zinc-300 dark:border-white/10">
-                      <strong className="font-sketch text-sm block text-zinc-900 dark:text-white">Agent 04: Indic Voice NLP Bridge</strong>
-                      <p className="text-zinc-600 dark:text-zinc-300 text-xs mt-1">
+                    <div className="p-4 bg-white dark:bg-zinc-800/80 rounded-2xl border-2 border-zinc-950 dark:border-white/10 shadow-[2px_2px_0px_rgba(0,0,0,0.8)]">
+                      <strong className="font-sketch text-base block text-zinc-900 dark:text-white">Agent 04: Indic Voice NLP Bridge</strong>
+                      <p className="font-sketch text-xs text-zinc-700 dark:text-zinc-300 mt-1">
                         Transcribes colloquial Hindi, Tamil, and Bengali mandi voice notes into structured JSON scrap listings with zero typing required.
                       </p>
                     </div>
@@ -665,23 +661,23 @@ export default function DocsOverviewPage() {
                 </div>
 
                 {/* Agent 2 & 3 Valuation & LCA Layer */}
-                <div className="p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 border-2 border-zinc-950 dark:border-white/10 space-y-3">
-                  <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-2">
-                    <span className="font-sketch text-xs font-bold uppercase text-amber-600 dark:text-amber-400">
-                      LAYER 2: Valuation, Logistics & Life-Cycle Math
+                <div className="p-5 rounded-2xl bg-amber-50/50 dark:bg-zinc-900/60 border-2 border-zinc-950 dark:border-white/10 space-y-3">
+                  <div className="flex items-center justify-between border-b-2 border-dashed border-zinc-200 dark:border-zinc-800 pb-2">
+                    <span className="font-sketch text-xs font-bold uppercase text-amber-700 dark:text-amber-400">
+                      Layer 2: Valuation, Logistics & Life-Cycle Math
                     </span>
-                    <span className="font-mono text-[10px] text-zinc-500">Deterministic Arithmetic</span>
+                    <span className="font-sketch text-xs text-zinc-500">Deterministic Arithmetic</span>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-sans">
-                    <div className="p-3 bg-white dark:bg-zinc-800/80 rounded-xl border border-zinc-300 dark:border-white/10">
-                      <strong className="font-sketch text-sm block text-zinc-900 dark:text-white">Agent 02: EPA WARM Carbon Math</strong>
-                      <p className="text-zinc-600 dark:text-zinc-300 text-xs mt-1">
+                    <div className="p-4 bg-white dark:bg-zinc-800/80 rounded-2xl border-2 border-zinc-950 dark:border-white/10 shadow-[2px_2px_0px_rgba(0,0,0,0.8)]">
+                      <strong className="font-sketch text-base block text-zinc-900 dark:text-white">Agent 02: EPA WARM Carbon Math</strong>
+                      <p className="font-sketch text-xs text-zinc-700 dark:text-zinc-300 mt-1">
                         Applies EPA WARM v15 emission factors to calculate verified Scope 3 GHG avoidance and tree-equivalent preservation metrics.
                       </p>
                     </div>
-                    <div className="p-3 bg-white dark:bg-zinc-800/80 rounded-xl border border-zinc-300 dark:border-white/10">
-                      <strong className="font-sketch text-sm block text-zinc-900 dark:text-white">Agent 03: MCX & Logistics Oracle</strong>
-                      <p className="text-zinc-600 dark:text-zinc-300 text-xs mt-1">
+                    <div className="p-4 bg-white dark:bg-zinc-800/80 rounded-2xl border-2 border-zinc-950 dark:border-white/10 shadow-[2px_2px_0px_rgba(0,0,0,0.8)]">
+                      <strong className="font-sketch text-base block text-zinc-900 dark:text-white">Agent 03: MCX & Logistics Oracle</strong>
+                      <p className="font-sketch text-xs text-zinc-700 dark:text-zinc-300 mt-1">
                         Polls live MCX spot market pricing every 60s and calculates optimal haulage routes with Haversine transport carbon deductions.
                       </p>
                     </div>
@@ -689,23 +685,23 @@ export default function DocsOverviewPage() {
                 </div>
 
                 {/* Agent 5 & 6 Settlement & Compliance Layer */}
-                <div className="p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-900/60 border-2 border-zinc-950 dark:border-white/10 space-y-3">
-                  <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-2">
-                    <span className="font-sketch text-xs font-bold uppercase text-rose-600 dark:text-rose-400">
-                      LAYER 3: Fraud Sentinel & Statutory Compliance Shield
+                <div className="p-5 rounded-2xl bg-amber-50/50 dark:bg-zinc-900/60 border-2 border-zinc-950 dark:border-white/10 space-y-3">
+                  <div className="flex items-center justify-between border-b-2 border-dashed border-zinc-200 dark:border-zinc-800 pb-2">
+                    <span className="font-sketch text-xs font-bold uppercase text-rose-700 dark:text-rose-400">
+                      Layer 3: Fraud Sentinel & Statutory Compliance Shield
                     </span>
-                    <span className="font-mono text-[10px] text-zinc-500">Polygon Amoy & CPCB EPR</span>
+                    <span className="font-sketch text-xs text-zinc-500">Polygon Amoy & CPCB EPR</span>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-sans">
-                    <div className="p-3 bg-white dark:bg-zinc-800/80 rounded-xl border border-zinc-300 dark:border-white/10">
-                      <strong className="font-sketch text-sm block text-zinc-900 dark:text-white">Agent 05: Cryptographic Fraud Radar</strong>
-                      <p className="text-zinc-600 dark:text-zinc-300 text-xs mt-1">
+                    <div className="p-4 bg-white dark:bg-zinc-800/80 rounded-2xl border-2 border-zinc-950 dark:border-white/10 shadow-[2px_2px_0px_rgba(0,0,0,0.8)]">
+                      <strong className="font-sketch text-base block text-zinc-900 dark:text-white">Agent 05: Cryptographic Fraud Radar</strong>
+                      <p className="font-sketch text-xs text-zinc-700 dark:text-zinc-300 mt-1">
                         Scans visual hash collations and weighbridge timestamps to block double-claiming and circular wash-trading before smart contract execution.
                       </p>
                     </div>
-                    <div className="p-3 bg-white dark:bg-zinc-800/80 rounded-xl border border-zinc-300 dark:border-white/10">
-                      <strong className="font-sketch text-sm block text-zinc-900 dark:text-white">Agent 06: CPCB Statutory EPR Shield</strong>
-                      <p className="text-zinc-600 dark:text-zinc-300 text-xs mt-1">
+                    <div className="p-4 bg-white dark:bg-zinc-800/80 rounded-2xl border-2 border-zinc-950 dark:border-white/10 shadow-[2px_2px_0px_rgba(0,0,0,0.8)]">
+                      <strong className="font-sketch text-base block text-zinc-900 dark:text-white">Agent 06: CPCB Statutory EPR Shield</strong>
+                      <p className="font-sketch text-xs text-zinc-700 dark:text-zinc-300 mt-1">
                         Maps tonnage against MoEFCC Producer Responsibility Obligations (PRO) and generates cryptographically signed CPCB filing certificates.
                       </p>
                     </div>
@@ -714,29 +710,29 @@ export default function DocsOverviewPage() {
               </div>
             </section>
 
-            {/* SECTION 7: Smart Contract Architecture & Solidity Topology */}
-            <section className="relative p-6 sm:p-8 rounded-3xl bg-zinc-950 text-white border-2 border-zinc-950 shadow-[4px_4px_0px_#10B981] space-y-6">
+            {/* SECTION 7: Smart Contract Architecture & Solidity Topology (Ruled Index Card - Zero Harsh Black Box) */}
+            <section className="relative p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#12131C] border-2 border-zinc-950 dark:border-white/20 shadow-[4px_4px_0px_#10B981] space-y-6">
               <WashiTapeCorner />
               
               <div className="flex items-center justify-between">
-                <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-emerald-400 font-bold">
+                <div className="inline-flex items-center gap-2 font-sketch text-xs uppercase tracking-widest text-emerald-700 dark:text-emerald-400 font-bold">
                   <span>Section 05 // Polygon Amoy Solidity Topology</span>
                 </div>
-                <span className="font-mono text-xs text-zinc-400">Chain ID: 80002 • EVM Compatible</span>
+                <span className="font-sketch text-xs text-zinc-500 font-bold">Chain ID: 80002 • EVM Compatible</span>
               </div>
 
-              <h2 className="font-sketch text-2xl sm:text-4xl font-extrabold text-white">
+              <h2 className="font-sketch text-2xl sm:text-4xl font-extrabold text-zinc-900 dark:text-white">
                 On-Chain Provenance & IPFS Settlement
               </h2>
 
-              <p className="font-sans text-sm text-zinc-300 leading-relaxed">
+              <p className="font-sans text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
                 Ownership transfer, visual inspection hashes, and EPR credit issuance are executed atomically on the <strong>Polygon Amoy testnet</strong>. Every scrap lot is represented by an immutable on-chain record:
               </p>
 
-              {/* Solidity Code Snippet */}
-              <div className="p-5 rounded-2xl bg-zinc-900 border border-zinc-800 font-mono text-xs text-emerald-300 space-y-2 overflow-x-auto">
+              {/* Hand-Drawn Blueprint Code Index Card (Replaced harsh black box with warm ruled sketch card) */}
+              <div className="p-6 rounded-2xl bg-amber-50/80 dark:bg-zinc-900/90 border-2 border-zinc-950 dark:border-white/20 font-sketch text-sm text-zinc-900 dark:text-zinc-100 shadow-[3px_3px_0px_rgba(0,0,0,0.85)] space-y-2 overflow-x-auto">
                 <div className="text-zinc-500">// SPDX-License-Identifier: MIT</div>
-                <div><span className="text-purple-400">struct</span> <span className="text-yellow-300">MaterialLot</span> &#123;</div>
+                <div><span className="text-purple-600 dark:text-purple-400 font-bold">struct</span> <span className="text-amber-700 dark:text-amber-300 font-bold">MaterialLot</span> &#123;</div>
                 <div className="pl-4">uint256 lotId;</div>
                 <div className="pl-4">address seller; <span className="text-zinc-500">// Informal Collector / Aggregator</span></div>
                 <div className="pl-4">address buyer; <span className="text-zinc-500">// Certified Smelter / Brand Owner</span></div>
