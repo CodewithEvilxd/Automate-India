@@ -5,115 +5,102 @@ import Navbar from "@/components/Navbar";
 import DocsSidebar from "@/components/DocsSidebar";
 import Link from "next/link";
 import {
+  NotebookSpiralBinding,
+  PaperclipElement,
+  WashiTapeCenter,
+  WashiTapeCorner,
+  DoodleUnderline,
+  DoodleStar,
+  DoodleShield,
+  DoodleLock,
+  StampBadge,
+  DoodleCircle,
+} from "@/components/SketchElements";
+import {
   ShieldAlert,
-  ShieldCheck,
-  Lock,
-  AlertTriangle,
-  ArrowRight,
   ArrowLeft,
   ChevronRight,
-  Sparkles,
   Fingerprint,
+  FileWarning,
 } from "lucide-react";
 
 export default function Agent05DocsPage() {
-  const fraudTests = [
-    { name: "Circular Wash-Trading Test", rule: "Flags transactions if wallet A and wallet B execute rapid reciprocal transfers within 48 hours.", riskWeight: "+45 Risk Points" },
-    { name: "Duplicate IPFS Hash Match", rule: "Scans on-chain registry for identical visual evidence hashes (blocks re-inscription of same physical lot).", riskWeight: "+80 Risk Points (Immediate Block)" },
-    { name: "Anomalous Mass Claim", rule: "Audits mass against transport category (e.g. >5,000 kg listed on non-commercial small transport vehicle).", riskWeight: "+35 Risk Points" },
-    { name: "EPA Mathematical Inconsistency", rule: "Blocks lots where claimed carbon savings exceed deterministic EPA WARM equations by >0.1%.", riskWeight: "+90 Risk Points (Immediate Block)" },
-  ];
-
   return (
-    <div className="min-h-screen bg-[#FBFBFC] dark:bg-[#090A0F] text-zinc-900 dark:text-zinc-100 transition-colors duration-250 flex flex-col font-sans selection:bg-emerald-500/20 selection:text-zinc-950 dark:selection:bg-emerald-500/30 dark:selection:text-emerald-100">
+    <div className="min-h-screen notebook-ruled text-zinc-900 dark:text-zinc-100 transition-colors duration-250 flex flex-col font-sans selection:bg-amber-300 selection:text-zinc-950 dark:selection:bg-emerald-500/30 dark:selection:text-emerald-100">
       <Navbar />
 
       {/* Header Banner */}
-      <div className="border-b border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-[#0D0E15] py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-orange-500/10 dark:bg-orange-500/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="border-b-2 border-zinc-900 dark:border-white/10 bg-[#FAF8F5] dark:bg-[#0D0E15] py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden backdrop-blur-md">
+        <WashiTapeCenter color="mint" className="scale-125" />
 
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-2 text-xs font-mono text-zinc-500 mb-3">
-            <Link href="/docs" className="hover:text-emerald-500 transition-colors">
-              Docs
+        <div className="max-w-7xl mx-auto relative border-l-2 border-red-300/60 dark:border-red-500/30 pl-4 sm:pl-8 ml-1 sm:ml-4">
+          <div className="flex flex-wrap items-center gap-3 mb-4">
+            <Link
+              href="/docs"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-zinc-900 border-2 border-zinc-950 dark:border-white/20 text-xs font-sketch font-bold hover:bg-zinc-100 transition-all shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Back to Field Manual</span>
             </Link>
-            <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
-            <span className="text-zinc-500">6-Agent Core</span>
-            <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
-            <span className="text-orange-500 font-bold">Agent 05: Cryptographic Fraud Radar</span>
+            <StampBadge label="AGENT 05 SPECIFICATION" variant="emerald" />
+            <StampBadge label="HASH-BASED SENTINEL" variant="amber" />
           </div>
 
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-2xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-500">
-              <ShieldAlert className="w-5 h-5" />
-            </div>
-            <h1 className="font-display text-3xl sm:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
-              Agent 05: Cryptographic Fraud Sentinel
-            </h1>
-          </div>
-          <p className="text-zinc-600 dark:text-zinc-400 text-base sm:text-lg max-w-3xl leading-relaxed mt-2">
-            Pre-execution cryptographic auditing detecting wash trading, duplicate invoice minting, and anomalous ESG inflation before smart contract settlement.
+          <h1 className="font-sketch text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-zinc-900 dark:text-white mb-3">
+            Agent 05: <span className="highlight-emerald px-2">Cryptographic Fraud Radar</span>
+          </h1>
+          <p className="font-sketch text-lg sm:text-xl text-zinc-700 dark:text-zinc-300 max-w-3xl leading-relaxed">
+            Pre-Execution Anomaly Sentinel blocking double-claimed IPFS visual inspection hashes, circular wash-trading, and mass inflation before smart contract settlement.
           </p>
         </div>
       </div>
 
       {/* Main Content Layout */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-1">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-1 relative">
+        <NotebookSpiralBinding count={12} />
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pl-4 sm:pl-8">
           <aside className="lg:col-span-3">
             <DocsSidebar />
           </aside>
 
-          <main className="lg:col-span-9 space-y-12">
-            {/* Overview */}
-            <section className="space-y-4">
-              <div className="inline-flex items-center gap-2 text-xs font-mono font-bold text-orange-500 uppercase tracking-widest">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>INTEGRITY & COLLUSION DETECTION</span>
+          <main className="lg:col-span-9 space-y-12 border-l-2 border-red-300/50 dark:border-red-500/20 pl-4 sm:pl-6">
+            
+            {/* Overview Section */}
+            <section className="relative p-6 sm:p-8 rounded-3xl bg-[#FEFCE8] dark:bg-[#12131C] border-2 border-zinc-950 dark:border-white/20 shadow-[4px_5px_0px_#10B981] space-y-6">
+              <PaperclipElement />
+
+              <div className="flex items-center justify-between border-b-2 border-dashed border-amber-300 dark:border-white/10 pb-3">
+                <span className="font-sketch text-xs font-bold uppercase text-amber-800 dark:text-amber-300 tracking-wider">
+                  Fraud Detection Topology
+                </span>
+                <StampBadge label="PRE-SETTLEMENT AUDIT" variant="emerald" />
               </div>
-              <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">
-                How Agent 05 Stops Greenwashing at the Protocol Level
+
+              <h2 className="font-sketch text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">
+                Eliminating Greenwashing: <DoodleCircle className="text-emerald-500">Perceptual Hash Sentinel</DoodleCircle>
               </h2>
-              <p className="text-zinc-600 dark:text-zinc-300 text-sm leading-relaxed">
-                In unverified ESG registries, unscrupulous participants generate circular trades between shell companies to inflate their reported recycling volumes. <strong>Agent 05</strong> acts as an autonomous on-chain sentinel, analyzing wallet graphs, IPFS visual hashes, and weighbridge telemetry before transactions can be broadcast.
+
+              <p className="font-sans text-sm text-zinc-800 dark:text-zinc-200 leading-relaxed">
+                Agent 05 computes Hamming distances across perceptual image hashes (pHash) and weighbridge timestamp delta matrices to ensure no scrap lot is billed twice across multiple corporate entities.
               </p>
             </section>
 
-            {/* Audit Rules */}
-            <section className="space-y-4">
-              <h3 className="font-display text-xl font-bold text-zinc-900 dark:text-white border-b border-zinc-200 dark:border-white/10 pb-3">
-                4-Point Pre-Execution Audit Rules
-              </h3>
-
-              <div className="space-y-4 text-xs">
-                {fraudTests.map((test, idx) => (
-                  <div key={idx} className="p-5 rounded-3xl glass-panel border border-zinc-200 dark:border-white/10 space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="font-display font-bold text-sm text-zinc-900 dark:text-white">{test.name}</span>
-                      <span className="font-mono text-[10px] font-bold text-orange-500 uppercase">{test.riskWeight}</span>
-                    </div>
-                    <p className="text-zinc-600 dark:text-zinc-400 text-xs">{test.rule}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            {/* Navigation Footer */}
-            <div className="pt-8 border-t border-zinc-200 dark:border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+            {/* Navigation */}
+            <div className="pt-4 border-t-2 border-dashed border-zinc-300 dark:border-white/10 flex items-center justify-between">
               <Link
                 href="/docs/agents/agent-04"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-white/[0.05] dark:hover:bg-white/10 text-zinc-900 dark:text-white font-display text-xs font-bold transition-all"
+                className="font-sketch text-sm font-bold text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 flex items-center gap-1"
               >
                 <ArrowLeft className="w-4 h-4" />
-                <span>Agent 04 (Indic Voice)</span>
+                <span>Agent 04 Indic Voice Bridge</span>
               </Link>
-
               <Link
                 href="/docs/agents/agent-06"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-display text-xs font-bold shadow-md shadow-emerald-500/20 transition-all hover:scale-105"
+                className="font-sketch text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:underline flex items-center gap-1"
               >
-                <span>Next: Agent 06 (CPCB EPR Shield)</span>
-                <ArrowRight className="w-4 h-4" />
+                <span>Next: Agent 06 CPCB EPR Shield</span>
+                <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
           </main>
