@@ -18,8 +18,10 @@ import {
   Code2,
   Lock,
   Rocket,
-  PenTool,
+  Compass,
+  FileCode,
 } from "lucide-react";
+import { PaperclipElement, DoodleUnderline } from "@/components/SketchElements";
 
 export interface DocNavGroup {
   group: string;
@@ -72,18 +74,18 @@ export default function DocsSidebar() {
 
   return (
     <aside className="w-full">
-      <div className="sticky top-20 rounded-3xl bg-white/90 dark:bg-[#101118]/90 border-2 border-zinc-900 dark:border-white/20 shadow-[4px_4px_0px_#10B981] dark:shadow-[4px_4px_0px_rgba(16,185,129,0.3)] p-5 backdrop-blur-xl space-y-6">
+      <div className="sticky top-20 rounded-3xl bg-white/95 dark:bg-[#101118]/95 border-2 border-zinc-900 dark:border-white/20 shadow-[4px_4px_0px_#10B981] dark:shadow-[4px_4px_0px_rgba(16,185,129,0.3)] p-5 backdrop-blur-xl space-y-6">
         
         {/* Sketchpad Header */}
         <div className="flex items-center justify-between pb-3 border-b-2 border-dashed border-zinc-300 dark:border-white/10">
           <div className="flex items-center gap-2">
-            <span className="text-lg">📐</span>
+            <Compass className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
             <span className="font-sketch font-bold text-base text-zinc-900 dark:text-white">
               Field Notebook
             </span>
           </div>
-          <span className="font-handwriting text-xs text-zinc-500 font-bold bg-amber-100 dark:bg-amber-500/20 text-amber-900 dark:text-amber-300 px-2 py-0.5 rounded-full border border-amber-300 dark:border-amber-500/30">
-            v2.4 Draft
+          <span className="font-sketch text-xs text-zinc-500 font-bold bg-amber-100 dark:bg-amber-500/20 text-amber-900 dark:text-amber-300 px-2 py-0.5 rounded-full border border-amber-300 dark:border-amber-500/30">
+            SPEC v2.4
           </span>
         </div>
 
@@ -111,7 +113,7 @@ export default function DocsSidebar() {
             return (
               <div key={idx} className="space-y-1.5">
                 <span className="font-sketch text-xs text-emerald-600 dark:text-emerald-400 font-bold block px-2 tracking-wide">
-                  ✦ {grp.group}
+                  [ {grp.group} ]
                 </span>
                 {filteredItems.map((item) => {
                   const isActive = pathname === item.href;
@@ -149,13 +151,13 @@ export default function DocsSidebar() {
           })}
         </div>
 
-        {/* Quick APK CTA Styled Like a Notebook Sticker */}
+        {/* Quick APK CTA Styled Like a Notebook Stamp */}
         <div className="pt-4 border-t-2 border-dashed border-zinc-300 dark:border-white/10 space-y-2">
           <a
             href="/circularchain.apk"
             className="w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-2xl bg-amber-400 hover:bg-amber-300 text-zinc-950 font-sketch text-sm font-bold transition-all border-2 border-zinc-950 shadow-[3px_3px_0px_rgba(0,0,0,1)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none"
           >
-            <span>📱 Download Field APK (v2.4)</span>
+            <span>Field Collector APK (v2.4)</span>
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
         </div>

@@ -7,7 +7,6 @@ export function PaperclipElement({ className = "" }: { className?: string }) {
   return (
     <div className={`absolute -top-3 left-4 w-7 h-12 z-20 pointer-events-none drop-shadow-md ${className}`}>
       <svg viewBox="0 0 28 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-        {/* Paperclip drop shadow */}
         <path
           d="M8 8 C8 4, 18 4, 18 8 L18 36 C18 42, 6 42, 6 36 L6 14 C6 10, 14 10, 14 14 L14 32"
           stroke="rgba(0,0,0,0.15)"
@@ -15,7 +14,6 @@ export function PaperclipElement({ className = "" }: { className?: string }) {
           strokeLinecap="round"
           transform="translate(1, 2)"
         />
-        {/* Main metallic wire */}
         <path
           d="M8 8 C8 4, 18 4, 18 8 L18 36 C18 42, 6 42, 6 36 L6 14 C6 10, 14 10, 14 14 L14 32"
           stroke="#4B5563"
@@ -23,7 +21,6 @@ export function PaperclipElement({ className = "" }: { className?: string }) {
           strokeLinecap="round"
           className="dark:stroke-zinc-400"
         />
-        {/* Highlight inner wire */}
         <path
           d="M8 8 C8 4, 18 4, 18 8 L18 36 C18 42, 6 42, 6 36 L6 14 C6 10, 14 10, 14 14 L14 32"
           stroke="#9CA3AF"
@@ -39,11 +36,10 @@ export function PaperclipElement({ className = "" }: { className?: string }) {
 // Horizontal washi tape stuck at the top-center
 export function WashiTapeCenter({ className = "" }: { className?: string }) {
   return (
-    <div className={`absolute -top-3.5 left-1/2 -translate-x-1/2 w-24 h-6 z-20 pointer-events-none ${className}`}>
-      <div className="w-full h-full bg-amber-100/90 dark:bg-amber-400/20 border-t border-b border-dashed border-amber-400/50 shadow-sm transform -rotate-1 backdrop-blur-xs flex items-center justify-between px-1">
-        {/* Serrated left & right edges */}
-        <div className="w-1.5 h-full bg-repeating-linear-gradient opacity-40"></div>
-        <div className="w-1.5 h-full bg-repeating-linear-gradient opacity-40"></div>
+    <div className={`absolute -top-3.5 left-1/2 -translate-x-1/2 w-28 h-6 z-20 pointer-events-none ${className}`}>
+      <div className="w-full h-full bg-amber-100/90 dark:bg-amber-400/20 border-t border-b border-dashed border-amber-400/60 shadow-sm transform -rotate-1 backdrop-blur-xs flex items-center justify-between px-1">
+        <div className="w-1.5 h-full opacity-40"></div>
+        <div className="w-1.5 h-full opacity-40"></div>
       </div>
     </div>
   );
@@ -53,7 +49,7 @@ export function WashiTapeCenter({ className = "" }: { className?: string }) {
 export function WashiTapeCorner({ className = "" }: { className?: string }) {
   return (
     <div className={`absolute -top-3 -right-3 w-16 h-6 z-20 pointer-events-none ${className}`}>
-      <div className="w-full h-full bg-amber-100/90 dark:bg-amber-400/20 border-t border-b border-dashed border-amber-400/50 shadow-sm transform rotate-42 backdrop-blur-xs"></div>
+      <div className="w-full h-full bg-amber-100/90 dark:bg-amber-400/20 border-t border-b border-dashed border-amber-400/60 shadow-sm transform rotate-42 backdrop-blur-xs"></div>
     </div>
   );
 }
@@ -74,11 +70,11 @@ export function PushPinElement({ className = "" }: { className?: string }) {
 // Hand-drawn doodle underline
 export function DoodleUnderline({ className = "text-zinc-900 dark:text-white" }: { className?: string }) {
   return (
-    <svg className={`w-full h-2 mt-0.5 pointer-events-none ${className}`} viewBox="0 0 100 8" preserveAspectRatio="none">
+    <svg className={`w-full h-2.5 mt-1 pointer-events-none ${className}`} viewBox="0 0 100 8" preserveAspectRatio="none">
       <path
         d="M1,4 Q25,1 50,4 T99,4"
         stroke="currentColor"
-        strokeWidth="1.8"
+        strokeWidth="2"
         strokeLinecap="round"
         fill="none"
       />
@@ -122,6 +118,50 @@ export function DoodleLock({ className = "text-zinc-600 dark:text-zinc-400" }: {
       <rect x="5" y="11" width="14" height="10" rx="2" />
       <path d="M8 11V7a4 4 0 0 1 8 0v4" />
       <circle cx="12" cy="16" r="1.5" fill="currentColor" />
+    </svg>
+  );
+}
+
+// Hand-drawn microprocessor chip doodle
+export function DoodleChip({ className = "text-zinc-600 dark:text-zinc-400" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className={`w-6 h-6 ${className}`}>
+      <rect x="5" y="5" width="14" height="14" rx="2" />
+      <rect x="9" y="9" width="6" height="6" />
+      <path d="M9 1v4M15 1v4M9 19v4M15 19v4M1 9h4M1 15h4M19 9h4M19 15h4" />
+    </svg>
+  );
+}
+
+// Hand-drawn shield doodle
+export function DoodleShield({ className = "text-zinc-600 dark:text-zinc-400" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className={`w-6 h-6 ${className}`}>
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      <path d="m9 12 2 2 4-4" />
+    </svg>
+  );
+}
+
+// Hand-drawn scale balance doodle
+export function DoodleScale({ className = "text-zinc-600 dark:text-zinc-400" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className={`w-6 h-6 ${className}`}>
+      <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" />
+      <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" />
+      <path d="M7 21h10" />
+      <path d="M12 3v18" />
+      <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2" />
+    </svg>
+  );
+}
+
+// Hand-drawn curly arrow
+export function DoodleArrow({ className = "text-emerald-500" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 40 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className={`w-8 h-5 ${className}`}>
+      <path d="M2 18 C 12 2, 26 2, 36 12" />
+      <path d="M30 12 L 36 12 L 35 6" />
     </svg>
   );
 }
