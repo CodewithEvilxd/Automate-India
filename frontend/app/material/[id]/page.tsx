@@ -313,15 +313,6 @@ export default function MaterialDetail({
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
                 <div className="p-4 rounded-xl glass-panel border border-zinc-200 dark:border-white/10">
                   <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400 block mb-1">
-                    Category
-                  </span>
-                  <span className="font-mono text-sm font-bold text-zinc-900 dark:text-white block truncate">
-                    {material.category}
-                  </span>
-                </div>
-
-                <div className="p-4 rounded-xl glass-panel border border-zinc-200 dark:border-white/10">
-                  <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-500 dark:text-zinc-400 block mb-1">
                     Lot Mass
                   </span>
                   <span className="font-mono text-sm font-bold text-zinc-900 dark:text-white block">
@@ -338,8 +329,17 @@ export default function MaterialDetail({
                   </span>
                 </div>
 
+                <div className="p-4 rounded-xl glass-panel border border-orange-500/30 bg-orange-500/5">
+                  <span className="font-mono text-[10px] uppercase tracking-wider text-orange-600 dark:text-orange-400 block mb-1 font-bold">
+                    MCX Spot Value
+                  </span>
+                  <span className="font-mono text-sm font-bold text-orange-500 dark:text-orange-400 block">
+                    ₹{Math.round((material.estimated_weight_kg || 100) * (material.category?.toLowerCase().includes("copper") ? 760 : material.category?.toLowerCase().includes("aluminum") ? 215 : material.category?.toLowerCase().includes("electronic") ? 340 : material.category?.toLowerCase().includes("pet") ? 48 : 50)).toLocaleString("en-IN")}
+                  </span>
+                </div>
+
                 <div className="p-4 rounded-xl glass-panel border border-emerald-500/30 bg-emerald-500/5">
-                  <span className="font-mono text-[10px] uppercase tracking-wider text-emerald-600 dark:text-emerald-400 block mb-1">
+                  <span className="font-mono text-[10px] uppercase tracking-wider text-emerald-600 dark:text-emerald-400 block mb-1 font-bold">
                     CO₂ Abated
                   </span>
                   <span className="font-mono text-sm font-bold text-emerald-600 dark:text-emerald-400 block">

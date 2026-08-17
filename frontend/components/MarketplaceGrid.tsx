@@ -294,12 +294,13 @@ export default function MarketplaceGrid({
                 {/* Content */}
                 <div className="p-5 flex-1 flex flex-col justify-between">
                   <div>
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="font-mono text-xs font-bold text-amber-500">
-                        ₹{estimatedValue.toLocaleString("en-IN")}
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-orange-500/10 text-orange-500 dark:text-orange-400 border border-orange-500/25 shadow-sm">
+                        <TrendingUp className="w-3 h-3 text-orange-500" />
+                        <span>₹{estimatedValue.toLocaleString("en-IN")}</span>
                       </span>
                       <span className="font-mono text-[10px] text-zinc-500 dark:text-zinc-400">
-                        MCX Benchmark
+                        MCX Spot Eq.
                       </span>
                     </div>
 

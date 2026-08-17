@@ -98,9 +98,9 @@ export default function VerifyPage() {
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-1">
         {/* Header */}
         <div className="border-b border-zinc-200 dark:border-white/10 pb-6 mb-8 text-center sm:text-left">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-mono text-[11px] font-bold uppercase tracking-wider mb-3">
-            <ShieldCheck className="w-3.5 h-3.5" />
-            <span>Zero-Knowledge Proof Engine • Polygon Amoy (80002)</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gradient-to-r from-emerald-500/10 to-orange-500/10 border border-emerald-500/20 text-zinc-800 dark:text-zinc-200 font-mono text-[11px] font-bold uppercase tracking-wider mb-3">
+            <ShieldCheck className="w-3.5 h-3.5 text-amber-500" />
+            <span>Zero-Knowledge Proof Engine • <span className="text-orange-500 dark:text-amber-400 font-bold">Polygon Amoy (80002)</span></span>
           </div>
           <h1 className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
             Verify Ledger Integrity & Proof
