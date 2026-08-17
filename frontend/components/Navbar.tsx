@@ -17,6 +17,7 @@ import {
   Smartphone,
   ShieldCheck,
   Sparkles,
+  BookOpen,
 } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 import ApkDownloadModal from "./ApkDownloadModal";
@@ -80,6 +81,7 @@ export default function Navbar() {
     { href: "/epr-calculator", label: "EPR Simulator", icon: Calculator },
     { href: "/verify", label: "Verify Ledger", icon: SearchCheck },
     { href: "/leaderboard", label: "Rankings", icon: Trophy },
+    { href: "/docs", label: "Whitepaper & Docs", icon: BookOpen },
   ];
 
   return (
