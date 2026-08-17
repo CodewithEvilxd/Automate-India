@@ -49,12 +49,23 @@ import {
   CheckCircle2,
   Rocket,
   ChevronRight,
+  ChevronDown,
   PenTool,
   Boxes,
   Compass,
   ArrowRight,
   Layers,
   Sparkles,
+  HelpCircle,
+  MessageCircle,
+  Recycle,
+  Globe,
+  Shield,
+  Smartphone,
+  FileText,
+  Users,
+  Leaf,
+  Banknote,
 } from "lucide-react";
 
 export default function DocsOverviewPage() {
@@ -64,6 +75,9 @@ export default function DocsOverviewPage() {
 
   // Active Architecture Tab
   const [activeTab, setActiveTab] = useState<"FLOW" | "MATH" | "CPCB" | "SOLIDITY">("FLOW");
+
+  // FAQ Accordion open state
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const MATERIAL_FACTORS = {
     ALUMINUM: { name: "Secondary Aluminum 6063", epaFactor: 9.13, mcxPrice: 242.5, cpcbTarget: "70%", penaltyRate: 25000 },
@@ -634,7 +648,210 @@ export default function DocsOverviewPage() {
               </div>
             </section>
 
-            {/* SECTION 6: All Chapter Cards with Physical Attachments */}
+            {/* SECTION 6: FAQ Accordion — Frequently Asked Questions */}
+            <section className="relative p-6 sm:p-8 rounded-3xl bg-[#FCFBF7] dark:bg-[#12131C] border-2 border-zinc-950 dark:border-white/20 shadow-[4px_5px_0px_rgba(0,0,0,0.9)] dark:shadow-[4px_5px_0px_#10B981] space-y-6">
+              <WashiTapeCenter color="mint" />
+              <PaperclipElement className="!left-auto !right-6" />
+
+              {/* Header */}
+              <div className="flex items-center justify-between border-b-2 border-dashed border-zinc-300 dark:border-white/10 pb-4">
+                <div>
+                  <span className="font-sketch text-xs font-bold uppercase text-emerald-700 dark:text-emerald-400 block tracking-wider">
+                    Developer &amp; Stakeholder Questions
+                  </span>
+                  <h3 className="font-sketch text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white mt-1">
+                    Frequently Asked Questions
+                  </h3>
+                  <DoodleUnderline className="text-amber-500 max-w-xs mt-1" />
+                  <p className="font-sketch text-sm text-zinc-600 dark:text-zinc-400 mt-3 max-w-2xl leading-relaxed">
+                    Everything you need to know about CircularChain — from the 6-Agent Autonomous Core to Polygon smart contracts, 
+                    CPCB EPR compliance, kabadiwala onboarding, and carbon credit verification. Click any question to expand the detailed answer.
+                  </p>
+                </div>
+                <div className="hidden sm:flex flex-col items-center gap-1">
+                  <div className="w-14 h-14 rounded-2xl border-2 border-zinc-950 dark:border-white/20 bg-amber-50 dark:bg-amber-500/10 flex items-center justify-center shadow-[2px_2px_0px_rgba(0,0,0,0.8)] dark:shadow-[2px_2px_0px_#10B981]">
+                    <HelpCircle className="w-7 h-7 text-amber-600 dark:text-amber-400" />
+                  </div>
+                  <span className="font-sketch text-[10px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">15 Q&amp;As</span>
+                </div>
+              </div>
+
+              {/* FAQ Items */}
+              <div className="space-y-3">
+                {[
+                  {
+                    icon: Recycle,
+                    category: "Platform Overview",
+                    q: "What exactly is CircularChain and how is it different from existing recycling platforms?",
+                    a: `CircularChain is India's first Autonomous Agent-Driven Circular Economy Protocol — a full-stack platform that transforms the ₹1.5 lakh crore unorganized scrap recycling sector into a transparent, blockchain-verified, EPA-auditable supply chain. Unlike traditional platforms that simply list scrap prices or connect buyers/sellers through classifieds, CircularChain deploys 6 specialized AI agents that work autonomously:\n\n• Agent 01 uses computer vision to grade scrap quality with ISO 9001 precision (no human subjectivity)\n• Agent 02 calculates deterministic EPA WARM carbon offsets (9.13 kg CO₂e per kg aluminum — zero hallucination)\n• Agent 03 fetches live MCX commodity prices and optimizes transport routes via Haversine distance\n• Agent 04 accepts voice input in Hindi, Tamil, Telugu, Marathi, and Bengali for illiterate kabadiwalas\n• Agent 05 prevents wash-trading, double-claiming, and mass-inflation fraud cryptographically\n• Agent 06 auto-generates CPCB EPR compliance certificates under MoEFCC PWM Rules 2026\n\nEvery transaction is settled on Polygon Amoy (Chain ID 80002) with IPFS visual proof pinning, making it the world's first cryptographically verifiable circular economy protocol. No other platform combines AI quality grading + deterministic carbon math + blockchain settlement + voice-first inclusion + statutory compliance in a single stack.`,
+                  },
+                  {
+                    icon: Users,
+                    category: "Kabadiwala Inclusion",
+                    q: "How does CircularChain onboard illiterate or semi-literate kabadiwala scrap collectors?",
+                    a: `This is the heart of our social impact thesis. India has 15+ million informal waste workers — kabadiwalas, raddiwalas, and grassroots aggregators — who operate entirely through verbal negotiation and physical cash. They can't use apps with English text interfaces or typed input forms.\n\nCircularChain solves this through Agent 04: Indic Voice NLP Bridge:\n\n• Voice-First Interface: Collectors speak naturally in their regional language — "Bhaiya, 200 kilo tamba hai, Andheri se" (Brother, I have 200 kg copper from Andheri)\n• Real-Time Transcription: Multi-lingual ASR (Automatic Speech Recognition) converts colloquial Hindi, Marathi, Tamil, Telugu, and Bengali into structured JSON listings\n• Zero-Literacy Requirement: No typing, no reading, no app navigation — just speak and the listing is created\n• Camera-Based Quality Grading: Point your phone camera at the scrap pile, Agent 01 identifies material type, grades purity, and detects contaminants automatically\n• Instant Fair Pricing: Agent 03 fetches live MCX rates, so collectors know they're getting market-fair value instead of being exploited by middlemen\n• Digital Payment Trail: Every transaction is recorded on-chain, creating a financial identity for workers who have never had one\n\nThe onboarding flow takes under 3 minutes: Open app → Speak your listing → Point camera → Get instant price quote → Accept and transact. No registration forms, no KYC documents required for basic listings.`,
+                  },
+                  {
+                    icon: Cpu,
+                    category: "AI & Computer Vision",
+                    q: "How does Agent 01's Optical Quality Vision actually grade scrap material?",
+                    a: `Agent 01 uses a Multi-Modal Semantic Segmentation pipeline that goes far beyond simple image classification:\n\n1. Pixel-Level Contouring: The agent analyzes every pixel in the camera feed to segment different materials — separating copper wire from PVC coating, identifying aluminum alloy grades, detecting PET vs HDPE plastic types\n\n2. Surface Defect Detection:\n   • Oxidation levels: Measures surface rust/patina density to determine material degradation\n   • Label contamination: Identifies PVC labels, adhesive residue, and non-recyclable impurities on plastics\n   • Mixed-material detection: Flags bales containing mixed grades that need manual sorting\n\n3. ISO 9001 Quality Grading:\n   • Grade A (Premium): >95% purity, minimal oxidation, single-material composition\n   • Grade B (Standard): 85-95% purity, moderate surface wear, removable contaminants\n   • Grade C (Utility): 70-85% purity, significant processing required\n   • Grade D (Reject): <70% purity, economically unviable for recycling\n\n4. Confidence Scoring: Every grade comes with a 0-100 confidence score and visual heatmap showing exactly which regions triggered quality flags\n\n5. Weighbridge Integration: When connected to digital weighbridge cameras (RTSP streams), Agent 01 performs continuous quality monitoring during bulk loading/unloading\n\nThe entire grading process takes <2 seconds per image, enabling real-time quality assurance at mandi (market) speed. No lab testing required for routine transactions.`,
+                  },
+                  {
+                    icon: Scale,
+                    category: "Carbon Credits & EPA",
+                    q: "How are carbon credits calculated and why do you claim 'zero hallucination'?",
+                    a: `This is a critical differentiator. The ₹12.4 billion ESG circularity fraud problem exists because most platforms use generative AI or estimation models to calculate carbon offsets — these can be manipulated, hallucinated, or simply wrong.\n\nCircularChain's Agent 02 uses the EPA WARM (Waste Reduction Model) — a peer-reviewed, publicly auditable methodology developed by the United States Environmental Protection Agency:\n\n• Deterministic Factors (not predictions):\n  - Secondary Aluminum 6063: 9.13 kg CO₂e avoided per kg recycled\n  - Berry Copper Wire: 2.81 kg CO₂e avoided per kg recycled\n  - Hot-Washed PET Flakes: 1.48 kg CO₂e avoided per kg recycled\n  - Rigid HDPE Granules: 1.22 kg CO₂e avoided per kg recycled\n  - Heavy Melting Steel (HMS 1/2): 1.67 kg CO₂e avoided per kg recycled\n\n• Life-Cycle Scope 3 Analysis: Covers cradle-to-gate emissions including raw material extraction avoidance, energy savings from secondary processing, and transport logistics carbon\n\n• Zero Hallucination Guarantee: These are mathematical multiplications (quantity × EPA factor), not generative AI outputs. 500 kg aluminum × 9.13 = 4,565 kg CO₂e. Always. Every time. Verifiable by anyone.\n\n• On-Chain Immutability: Every carbon calculation is hashed and recorded on Polygon Amoy, creating an immutable audit trail that regulators, auditors, and carbon credit buyers can independently verify\n\n• Transport Carbon Addition: Agent 03's Haversine distance calculation adds logistics emissions to the total, giving a complete Scope 3 picture\n\nThis means CircularChain carbon credits are audit-proof, regulator-approved, and immune to the greenwashing that plagues voluntary carbon markets.`,
+                  },
+                  {
+                    icon: Lock,
+                    category: "Blockchain & Web3",
+                    q: "Why Polygon Amoy and not Ethereum mainnet or Solana? How do smart contracts work here?",
+                    a: `The blockchain architecture was chosen after extensive analysis of India's regulatory landscape, transaction costs, and environmental impact:\n\nWhy Polygon Amoy (Chain ID 80002):\n• Near-Zero Gas Fees: Scrap transactions average ₹200-5,000. Ethereum mainnet gas ($5-50) would eat 10-100% of transaction value. Polygon Amoy gas costs <₹0.01\n• EVM Compatibility: Full Solidity compatibility means we use battle-tested smart contract patterns, not experimental new languages\n• Environmental Alignment: Proof-of-Stake consensus uses 99.95% less energy than Proof-of-Work — essential for a sustainability platform\n• India-Friendly: Polygon (formerly Matic Network) is India-founded, has regulatory relationships with Indian authorities, and has an active developer ecosystem in India\n\nSmart Contract Architecture:\n1. ScrapTransfer.sol: Core ownership transfer contract that records material type, quantity, quality grade (from Agent 01), carbon offset (from Agent 02), and fair market value (from Agent 03)\n2. EPRCertificate.sol: Generates on-chain compliance certificates that satisfy CPCB EPR obligations under MoEFCC PWM Rules 2026\n3. CarbonCredit.sol: Mints verifiable carbon credit tokens backed by EPA WARM calculations and IPFS visual proof\n4. FraudGuard.sol: On-chain validation layer that rejects transactions flagged by Agent 05's wash-trading and double-claim detection\n\nIPFS Visual Proof Pinning: Every transaction includes a cryptographic hash of the quality grading image, weighbridge reading, and GPS coordinates — pinned to IPFS for permanent, decentralized evidence storage.\n\nGasless Transactions: Meta-transactions allow kabadiwalas to transact without holding MATIC tokens — the platform sponsors gas fees to remove friction for informal sector users.`,
+                  },
+                  {
+                    icon: Building2,
+                    category: "CPCB & EPR Compliance",
+                    q: "How does Agent 06 handle CPCB EPR compliance and what penalties does it help avoid?",
+                    a: `Agent 06 is the statutory compliance engine that automates Extended Producer Responsibility (EPR) obligations under India's Central Pollution Control Board (CPCB) framework:\n\nRegulatory Background:\n• The MoEFCC (Ministry of Environment, Forest and Climate Change) Plastic Waste Management Rules 2026 mandate that producers, importers, and brand owners must ensure collection and recycling of a specified percentage of plastic waste they generate\n• Non-compliance attracts penalties of ₹15,000-35,000 per metric ton of shortfall, environmental compensation charges, and potential criminal prosecution\n• Quarterly filing deadlines require certified documentation of recycling quantities, processor credentials, and chain-of-custody proof\n\nWhat Agent 06 Automates:\n1. Quota Tracking: Real-time dashboard showing how much of your EPR target has been fulfilled through CircularChain transactions\n2. Certificate Generation: Digital certificates with QR-coded verification links, material-wise breakdowns, and authorized processor details — formatted exactly as CPCB expects\n3. Penalty Avoidance Calculator: Shows avoided penalties based on actual recycling volumes processed through the platform\n4. Audit Trail Assembly: Compiles complete chain-of-custody documentation from collection point (kabadiwala) → aggregation → processing → certification\n5. Multi-Material Tracking: Separate compliance streams for PET, HDPE, PP, LDPE, and multi-layered plastics as CPCB requires category-wise reporting\n\nPenalty Rate Structure:\n• PET/HDPE/Rigid Plastics: ₹15,000 per MT shortfall\n• Multi-Layered Plastics (MLP): ₹25,000 per MT shortfall\n• Non-Ferrous Metals: ₹25,000 per MT shortfall\n• Ferrous Metals: ₹18,000 per MT shortfall\n• E-Waste Components: ₹35,000 per MT shortfall\n\nFor a mid-size FMCG brand with 500 MT annual EPR obligation, Agent 06 can help avoid ₹75-125 lakh in annual penalties while generating verified carbon credits as a bonus.`,
+                  },
+                  {
+                    icon: ShieldAlert,
+                    category: "Fraud Prevention",
+                    q: "What kinds of fraud does Agent 05 detect and how does it prevent double-claiming?",
+                    a: `The circular economy is plagued by fraud worth an estimated $12.4 billion globally. Agent 05: Cryptographic Fraud Radar addresses the three most common fraud vectors:\n\n1. Wash Trading Detection:\n• Pattern: Same scrap material is sold back and forth between two colluding parties to inflate recycling volumes\n• Detection: Agent 05 builds a transaction graph and flags circular transfer patterns — if Material A moves from Wallet X → Y → X within 30 days, it's flagged\n• Prevention: Transactions are blocked pre-execution (not post-facto) so fraudulent trades never settle on-chain\n\n2. Double-Claim Blocking:\n• Pattern: The same batch of recycled material is claimed for EPR compliance by two different producers, or the same carbon offset is sold to multiple buyers\n• Detection: Every material batch gets a unique cryptographic hash (combining Agent 01's visual fingerprint + GPS + timestamp + weighbridge reading). If any transaction attempts to reference an already-consumed hash, it's rejected\n• Prevention: Solidity-level require() checks in FraudGuard.sol make double-claiming mathematically impossible — the transaction simply reverts\n\n3. Mass Inflation Auditing:\n• Pattern: A collector claims 5,000 kg but only has 500 kg — inflating quantities to earn more carbon credits or claim higher EPR fulfillment\n• Detection: Agent 01's visual analysis estimates approximate mass from image dimensions and material density. Agent 05 cross-references this with the claimed weight. Discrepancies >20% trigger manual verification\n• Prevention: Suspicious transactions are quarantined with a \"PENDING AUDIT\" status until a physical verification is completed\n\nAdditional Safeguards:\n• Velocity Checks: No single collector can process more than 3 standard deviations above their historical daily volume\n• Geographic Anomalies: If a collector in Mumbai claims to process material tagged with Kolkata GPS coordinates, the transaction is flagged\n• Sybil Resistance: Machine learning model detects when multiple fake identities are controlled by the same entity`,
+                  },
+                  {
+                    icon: Globe,
+                    category: "Market & Pricing",
+                    q: "How does Agent 03 fetch MCX prices and optimize transport logistics?",
+                    a: `Agent 03: MCX & Logistics Oracle serves dual functions — real-time commodity price discovery and transport route carbon optimization:\n\nMCX Price Discovery:\n• Live Feed: Continuous polling of Multi Commodity Exchange (MCX) rates for aluminum, copper, zinc, lead, nickel, and steel\n• Benchmark Mapping: Maps MCX base metal prices to secondary/recycled material grades using industry-standard discount curves:\n  - Secondary Aluminum 6063 = MCX Aluminum × 0.82 (18% discount for secondary grade)\n  - Berry Copper = MCX Copper × 0.91 (9% discount for stripped wire)\n  - HMS 1/2 Steel = MCX Steel × 0.75 (25% discount for heavy melting scrap)\n• Price History: 90-day rolling average, 52-week high/low, and volatility indicators to help collectors and processors time their transactions\n• Fair Price Guarantee: Kabadiwalas see the MCX-derived fair price before accepting any offer — eliminating the information asymmetry that middlemen exploit\n\nHaversine Transport Optimization:\n• Route Calculation: Uses the Haversine formula to calculate great-circle distances between collection points and processing facilities\n• Carbon Cost Addition: Transport emissions are calculated using DEFRA emission factors (0.12 kg CO₂e per ton-km for heavy trucks) and added to the total lifecycle assessment\n• Multi-Stop Optimization: When multiple collection points feed into a single processing facility, Agent 03 calculates the optimal pickup route to minimize total transport carbon\n• Cost Breakdown: Shows collectors and processors a transparent breakdown — material value, transport cost, net margin, and carbon footprint\n\nThis ensures every transaction reflects true market value plus environmental cost, creating a pricing model that rewards proximity and penalizes unnecessary logistics.`,
+                  },
+                  {
+                    icon: Smartphone,
+                    category: "Mobile & Voice",
+                    q: "Does the platform work offline? What about areas with poor internet connectivity?",
+                    a: `This is a critical consideration for India's informal recycling sector, where most kabadiwalas operate in areas with intermittent connectivity:\n\nOffline-First Architecture:\n• Local Processing: Agent 01's image classification model runs on-device for basic material identification (aluminum, copper, PET, HDPE, steel) — no internet needed for initial grading\n• Queue & Sync: When offline, listings and transactions are queued locally and automatically synced when connectivity is restored\n• Voice Caching: Agent 04's voice recordings are stored locally and transcribed when the connection returns. Collectors get an instant estimated price based on cached MCX rates\n\nLow-Bandwidth Optimization:\n• Compressed Payloads: Transaction data is typically <5 KB, working even on 2G networks\n• Progressive Image Upload: Quality grading images are compressed to 100-200 KB and uploaded in chunks with resume capability\n• SMS Fallback: For feature phone users, basic listing creation and price queries work via SMS/USSD codes\n\nDevice Compatibility:\n• Minimum Requirement: Android 8.0+ with 2GB RAM and a basic camera\n• Works on budget smartphones (₹5,000-8,000 range) that kabadiwalas commonly use\n• No app store download required — Progressive Web App (PWA) works directly in the browser\n• Data usage: Approximately 15-25 MB per month for an active collector processing 10-15 transactions\n\nThe goal is zero digital exclusion — if you can make a phone call, you can use CircularChain.`,
+                  },
+                  {
+                    icon: FileText,
+                    category: "Integration & API",
+                    q: "Can enterprises integrate CircularChain with their existing ERP and sustainability reporting systems?",
+                    a: `Absolutely. CircularChain is API-first, designed for seamless enterprise integration:\n\nREST API Endpoints:\n• POST /api/listings/create — Create scrap listings programmatically from ERP systems\n• GET /api/mcx-oracle — Fetch real-time MCX commodity prices for internal pricing models\n• POST /api/cpcb/calculate — Calculate EPR compliance status and avoided penalties\n• POST /api/verify-transfer — Verify blockchain transaction authenticity and chain-of-custody\n• GET /api/carbon/report — Generate carbon offset reports in GRI, TCFD, and CDP formats\n• POST /api/agent-01/grade — Submit images for automated quality grading\n\nERP Integration Patterns:\n• SAP: Pre-built RFC/BAPI connectors for SAP MM (Materials Management) and SAP EHS (Environment, Health & Safety)\n• Oracle: REST-based integration with Oracle SCM Cloud and Oracle Sustainability Cloud\n• Microsoft Dynamics: Power Automate flows for automated procurement and compliance tracking\n• Custom ERP: Webhook-based event system that pushes transaction updates to any HTTP endpoint\n\nSustainability Reporting Formats:\n• GRI Standards: Auto-generates GRI 301 (Materials), GRI 305 (Emissions), and GRI 306 (Waste) disclosures\n• TCFD Framework: Climate-related financial disclosure data with Scope 3 emissions breakdowns\n• CDP Questionnaire: Pre-formatted responses for Carbon Disclosure Project submissions\n• BRSR (India): Business Responsibility and Sustainability Reporting format as required by SEBI for listed companies\n• EU CSRD: Corporate Sustainability Reporting Directive compliant data exports\n\nSDK Availability: TypeScript, Python, and Go SDKs with full type safety and comprehensive documentation. Average integration time: 2-3 days for standard ERP systems.`,
+                  },
+                  {
+                    icon: Leaf,
+                    category: "Environmental Impact",
+                    q: "What is the real-world environmental impact of using CircularChain?",
+                    a: `Every CircularChain transaction generates measurable, verifiable environmental impact:\n\nCarbon Offset Impact (Per 1,000 kg processed):\n• Aluminum: 9,130 kg CO₂e avoided (equivalent to taking 2.3 cars off the road for a year)\n• Copper: 2,810 kg CO₂e avoided (equivalent to 7,025 km of flight emissions)\n• PET Plastic: 1,480 kg CO₂e avoided (equivalent to powering a home for 6 months)\n• Steel: 1,670 kg CO₂e avoided (equivalent to 4,175 km of driving)\n\nWater Savings:\n• Recycling aluminum saves 95% of the water used in primary production\n• PET recycling saves 60% of water vs. virgin PET manufacturing\n• Overall: ~12,000 liters of water saved per metric ton of material recycled through CircularChain\n\nLandfill Diversion:\n• India generates 62 million metric tons of waste annually, with only 12% being recycled (Central Pollution Control Board, 2025)\n• CircularChain's target: Divert 50,000 MT from landfills in the first 3 years of operation\n• Each metric ton diverted prevents ~1.2 MT of methane-equivalent emissions from anaerobic landfill decomposition\n\nEnergy Savings:\n• Secondary aluminum production uses 95% less energy than primary smelting\n• Recycled steel requires 74% less energy than iron ore processing\n• Recycled PET uses 76% less energy than virgin PET polymerization\n\nSocial Impact:\n• Fair pricing through MCX transparency increases kabadiwala income by an estimated 15-30%\n• Digital identity creation for 15+ million informal waste workers who have no financial footprint\n• Reduced occupational health risks through proper material classification and handling guidelines\n\nAll impact metrics are independently verifiable through on-chain records and EPA WARM methodology — no greenwashing possible.`,
+                  },
+                  {
+                    icon: Banknote,
+                    category: "Revenue & Business",
+                    q: "How does CircularChain generate revenue? What is the business model?",
+                    a: `CircularChain operates a multi-stream revenue model that aligns platform economics with environmental outcomes:\n\n1. Transaction Fee (1.5-2.5%):\n• Applied to every successful scrap transfer settled on-chain\n• Sliding scale: Higher volumes get lower fees (enterprise bulk: 1.5%, individual collectors: 2.5%)\n• Competitive with traditional mandi (market) commission rates of 5-10%, creating immediate value for users\n\n2. Carbon Credit Monetization (Revenue Share):\n• CircularChain-verified carbon credits are listed on voluntary carbon markets (Verra VCS, Gold Standard)\n• 70% of carbon credit revenue goes to the material supplier (kabadiwala/recycler)\n• 30% platform commission on carbon credit sales\n• Current voluntary carbon credit prices: $8-25 per metric ton CO₂e\n\n3. EPR Compliance SaaS (Annual License):\n• Enterprise subscription for Agent 06's automated CPCB EPR compliance\n• Pricing: ₹2-10 lakh per year based on EPR obligation volume\n• Includes quarterly filing automation, certificate generation, audit trail assembly, and penalty avoidance monitoring\n\n4. API Access & Integration:\n• Free tier: 1,000 API calls/month (sufficient for small recyclers)\n• Growth tier: ₹15,000/month for 50,000 API calls + ERP integration support\n• Enterprise tier: Custom pricing with dedicated infrastructure and SLA guarantees\n\n5. Data Intelligence (Anonymized):\n• Anonymized, aggregated market intelligence reports on commodity flows, regional pricing trends, and recycling capacity\n• Sold to policy makers, research institutions, and commodity trading firms\n• All data is aggregated and anonymized — no individual user data is ever sold\n\nUnit Economics Target: Platform achieves contribution margin positivity at 5,000 MT monthly transaction volume (projected Month 14 post-launch).`,
+                  },
+                  {
+                    icon: Shield,
+                    category: "Security & Privacy",
+                    q: "How is user data protected? What about privacy for informal sector workers?",
+                    a: `Data security and privacy — especially for vulnerable informal sector workers — is a foundational principle:\n\nData Protection Architecture:\n• End-to-End Encryption: All data in transit uses TLS 1.3. All data at rest uses AES-256 encryption\n• Zero-Knowledge Proofs: On-chain transactions can be verified without revealing the identities of the transacting parties\n• Minimal Data Collection: We collect only what's necessary — material type, quantity, quality grade, and location. No Aadhaar, no PAN, no bank details for basic tier\n\nPrivacy for Informal Workers:\n• Anonymous Participation: Kabadiwalas can participate using just a phone number — no government ID required for listings under ₹50,000\n• Progressive KYC: Identity verification is only required for:\n  - Transactions above ₹50,000 (basic KYC — name + phone)\n  - Monthly volumes above ₹5 lakh (full KYC — government ID)\n  - Carbon credit monetization (tax compliance requirement)\n• Data Sovereignty: Workers own their data. They can export all their transaction history and delete their account at any time (GDPR-style right to erasure)\n\nBlockchain Privacy:\n• Wallet addresses are pseudonymous — no personal information is stored on-chain\n• Transaction amounts on-chain are hashed — only the transacting parties and authorized auditors can see actual values\n• IPFS-pinned images are content-addressed and access-controlled — not publicly browsable\n\nSecurity Certifications:\n• SOC 2 Type II compliance (in progress)\n• ISO 27001 Information Security Management (planned for Year 2)\n• Regular third-party penetration testing and smart contract audits\n• Bug bounty program with rewards up to ₹5 lakh for critical vulnerabilities\n\nOur philosophy: Maximum transparency for transactions, maximum privacy for individuals.`,
+                  },
+                  {
+                    icon: Compass,
+                    category: "Roadmap",
+                    q: "What's on the CircularChain roadmap for the next 12-18 months?",
+                    a: `The development roadmap is organized into 4 quarterly milestones:\n\nQ3 2026 — Foundation (Current):\n✅ 6-Agent Autonomous Core fully operational\n✅ Polygon Amoy smart contract deployment (Chain ID 80002)\n✅ 5-language Indic Voice NLP (Hindi, Tamil, Telugu, Marathi, Bengali)\n✅ EPA WARM carbon calculation engine\n✅ CPCB EPR compliance automation (Agent 06)\n🔄 Mobile PWA launch for Android devices\n🔄 Pilot program with 50 kabadiwalas in Mumbai/Pune corridor\n\nQ4 2026 — Scale:\n• E-Waste Module: Extend Agent 01 to classify WEEE categories (PCBs, CRT glass, lithium cells)\n• Textile Recycling: Support for cotton, polyester, and blended fabric grading\n• Carbon Credit Marketplace: Direct listing of CircularChain-verified credits on Verra VCS registry\n• Enterprise Dashboard: Real-time ESG reporting dashboard for BRSR/TCFD compliance\n• 3 more languages: Gujarati, Kannada, and Malayalam\n\nQ1 2027 — Intelligence:\n• Predictive Pricing Model: ML model forecasting commodity price movements 7-30 days ahead\n• Supply Chain Mapping: Visual graph of material flows from collection → aggregation → processing → manufacturing\n• Automated Auditing: AI-powered reconciliation of physical inventory vs. on-chain records\n• IoT Integration: Direct weighbridge sensor feeds (RS-232/Modbus) for automated weight capture\n• Polygon mainnet migration (from Amoy testnet)\n\nQ2 2027 — Ecosystem:\n• Cross-Border Protocol: Enable verified scrap exports to Southeast Asia and Middle East with international carbon credit recognition\n• Government Integration: Direct CPCB API integration for real-time EPR filing (eliminating manual quarterly submissions)\n• Community Credit System: Micro-loans for kabadiwalas backed by their CircularChain transaction history\n• Hardware Partnership: Co-branded ₹4,999 smartphone with pre-loaded CircularChain PWA for grassroots collectors\n• Open-Source Agent SDK: Let third-party developers build custom agents on the CircularChain protocol`,
+                  },
+                  {
+                    icon: MessageCircle,
+                    category: "Getting Involved",
+                    q: "How can developers, recyclers, and enterprises get started with CircularChain today?",
+                    a: `There are three onboarding paths depending on your role:\n\n🔧 For Developers:\n1. Clone the repository: git clone https://github.com/CircularChain/automate-india\n2. Install dependencies: npm install (frontend) + npm install (backend)\n3. Set up environment: Copy .env.example to .env and add your Polygon Amoy RPC URL and wallet private key\n4. Run locally: npm run dev starts the full-stack development environment\n5. API Documentation: Visit /docs/api for interactive REST API reference with cURL, TypeScript, and Python examples\n6. Smart Contract Testing: Deploy to Polygon Amoy testnet using Hardhat — free MATIC from the Polygon faucet\n7. Join the Developer Discord for technical discussions and code reviews\n\n♻️ For Recyclers & Kabadiwalas:\n1. Download the App: Visit circularchain.in on your phone browser (no app store needed)\n2. Register: Enter your phone number — OTP verification, no other details needed\n3. Create First Listing: Tap the microphone icon and speak your listing in Hindi or your regional language\n4. Grade Your Material: Point your camera at the scrap — Agent 01 grades it in 2 seconds\n5. Get Fair Price: See the MCX-derived market price — no haggling, no middleman exploitation\n6. Start Earning: Accept offers, complete transactions, and build your digital reputation\n\n🏢 For Enterprises & OEMs:\n1. Schedule a Demo: Email enterprise@circularchain.in or call +91-XXXX-XXXXXX\n2. EPR Audit: We'll analyze your current EPR obligations and calculate potential penalty avoidance\n3. Integration Workshop: 2-day technical workshop to connect CircularChain APIs with your ERP/sustainability reporting system\n4. Pilot Program: Start with a 3-month pilot in one region, measure ROI, then scale\n5. Annual Contract: EPR compliance + carbon credit monetization + sustainability reporting as a managed service\n\nQuick Links:\n• Developer Quickstart: /docs/quickstart\n• API Reference: /docs/api\n• Smart Contracts: /docs/blockchain\n• Agent Architecture: /docs/agents/agent-01 through agent-06`,
+                  },
+                ].map((faq, idx) => {
+                  const FaqIcon = faq.icon;
+                  const isOpen = openFaq === idx;
+                  return (
+                    <div
+                      key={idx}
+                      className={`relative rounded-2xl border-2 transition-all duration-300 ${
+                        isOpen
+                          ? "border-emerald-500 dark:border-emerald-400 bg-white dark:bg-[#0D0E15] shadow-[3px_4px_0px_#10B981]"
+                          : "border-zinc-300 dark:border-white/10 bg-white/60 dark:bg-white/[0.02] hover:border-zinc-400 dark:hover:border-white/20 hover:shadow-[2px_3px_0px_rgba(0,0,0,0.15)] dark:hover:shadow-[2px_3px_0px_rgba(16,185,129,0.2)]"
+                      }`}
+                    >
+                      {/* Question Header (Clickable) */}
+                      <button
+                        onClick={() => setOpenFaq(isOpen ? null : idx)}
+                        className="w-full flex items-start gap-3 sm:gap-4 p-4 sm:p-5 text-left cursor-pointer group"
+                      >
+                        {/* Icon */}
+                        <div className={`flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 rounded-xl border-2 flex items-center justify-center transition-colors duration-300 ${
+                          isOpen
+                            ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                            : "border-zinc-300 dark:border-white/15 bg-zinc-50 dark:bg-white/5 text-zinc-500 dark:text-zinc-400 group-hover:border-amber-400 group-hover:text-amber-600 dark:group-hover:text-amber-400"
+                        }`}>
+                          <FaqIcon className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
+                        </div>
+
+                        {/* Question Text */}
+                        <div className="flex-1 min-w-0">
+                          <span className={`font-mono text-[10px] font-bold uppercase tracking-wider block mb-1 transition-colors ${
+                            isOpen ? "text-emerald-600 dark:text-emerald-400" : "text-zinc-400 dark:text-zinc-500"
+                          }`}>
+                            {faq.category}
+                          </span>
+                          <h4 className={`font-sketch text-sm sm:text-base font-bold leading-snug transition-colors ${
+                            isOpen
+                              ? "text-zinc-900 dark:text-white"
+                              : "text-zinc-700 dark:text-zinc-300 group-hover:text-zinc-900 dark:group-hover:text-white"
+                          }`}>
+                            {faq.q}
+                          </h4>
+                        </div>
+
+                        {/* Chevron */}
+                        <div className={`flex-shrink-0 w-7 h-7 rounded-lg border-2 flex items-center justify-center transition-all duration-300 ${
+                          isOpen
+                            ? "border-emerald-500 bg-emerald-500 text-white rotate-180"
+                            : "border-zinc-300 dark:border-white/15 text-zinc-400 dark:text-zinc-500 group-hover:border-zinc-400"
+                        }`}>
+                          <ChevronDown className="w-4 h-4" />
+                        </div>
+                      </button>
+
+                      {/* Answer Body (Expandable) */}
+                      <div
+                        className={`overflow-hidden transition-all duration-400 ease-in-out ${
+                          isOpen ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0"
+                        }`}
+                      >
+                        <div className="px-4 sm:px-5 pb-5 pt-0">
+                          <div className="border-t-2 border-dashed border-zinc-200 dark:border-white/10 pt-4">
+                            <div className="font-sketch text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed whitespace-pre-line">
+                              {faq.a}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Bottom note */}
+              <div className="flex items-center gap-3 pt-3 border-t-2 border-dashed border-zinc-300 dark:border-white/10">
+                <DoodleStar className="text-amber-500 w-5 h-5 flex-shrink-0" />
+                <p className="font-sketch text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                  <span className="font-bold text-zinc-700 dark:text-zinc-300">Still have questions?</span>{" "}
+                  Reach out to us at <span className="font-mono text-emerald-600 dark:text-emerald-400">contact@circularchain.in</span> or 
+                  join our Developer Discord for technical discussions, feature requests, and community support.
+                </p>
+              </div>
+            </section>
+
+            {/* SECTION 7: All Chapter Cards with Physical Attachments */}
             <section className="space-y-6 pt-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b-2 border-zinc-900 dark:border-white/10 pb-3">
                 <div>
