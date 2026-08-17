@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import ApkDownloadModal from "@/components/ApkDownloadModal";
@@ -25,14 +25,39 @@ import {
 
 export default function Home() {
   const [isApkModalOpen, setIsApkModalOpen] = useState(false);
-  const commodities = [
+  const [commodities, setCommodities] = useState([
     { name: "Aluminum (6063 Scrap)", price: "₹215.00/kg", change: "+2.4%", trend: "up", type: "green" },
     { name: "Copper (Heavy Berry)", price: "₹760.00/kg", change: "+1.8%", trend: "up", type: "orange" },
     { name: "PET Flakes (Hot Washed)", price: "₹48.00/kg", change: "+3.1%", trend: "up", type: "green" },
     { name: "HDPE Granules (Blue)", price: "₹58.00/kg", change: "-0.5%", trend: "down", type: "green" },
     { name: "HMS 1/2 Steel Scrap", price: "₹42.50/kg", change: "+0.9%", trend: "up", type: "orange" },
     { name: "Lithium Black Mass", price: "₹850.00/kg", change: "+5.2%", trend: "up", type: "orange" },
-  ];
+  ]);
+
+  useEffect(() => {
+    const fetchOracle = async () => {
+      try {
+        const res = await fetch("/api/mcx-oracle");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.commodities && Array.isArray(data.commodities)) {
+            const mapped = data.commodities.slice(0, 6).map((c: any) => ({
+              name: c.name.includes("(") ? c.name : `${c.name}`,
+              price: `₹${Number(c.unitPriceINR).toFixed(2)}/${c.unit || "kg"}`,
+              change: c.change || "+0.0%",
+              trend: c.trend || "up",
+              type: c.symbol?.includes("CU") || c.symbol?.includes("HMS") || c.symbol?.includes("LI") ? "orange" : "green",
+            }));
+            setCommodities(mapped);
+          }
+        }
+      } catch (_) {}
+    };
+
+    fetchOracle();
+    const interval = setInterval(fetchOracle, 20000); // 20s auto-refresh
+    return () => clearInterval(interval);
+  }, []);
 
   const agentPillars = [
     {
