@@ -3,9 +3,10 @@ import 'package:http/http.dart' as http;
 import '../models/material_model.dart';
 
 class ApiService {
-  // Support both local Node server (port 5000) and Next.js server (port 3000)
-  static const String baseUrl = "http://10.0.2.2:5000/api";
-  static const String fallbackUrl = "http://localhost:5000/api";
+  // Live Cloud Production URL (Render) with local fallbacks for development & emulator
+  static const String baseUrl = "https://circularchain-backend.onrender.com/api";
+  static const String fallbackUrl = "http://10.0.2.2:5000/api";
+  static const String localUrl = "http://localhost:5000/api";
 
   // ---------------------------------------------------------------------------
   // 1. Fetch All Materials

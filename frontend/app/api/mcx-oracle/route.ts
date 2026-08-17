@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
   try {
-    const backendRes = await fetch("http://localhost:5000/api/mcx-oracle");
+    const backendUrl = process.env.BACKEND_URL || "https://circularchain-backend.onrender.com";
+    const backendRes = await fetch(`${backendUrl}/api/mcx-oracle`, { cache: "no-store" });
     if (backendRes.ok) {
       const data = await backendRes.json();
       return NextResponse.json(data);

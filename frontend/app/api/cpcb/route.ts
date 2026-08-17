@@ -3,9 +3,10 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+    const backendUrl = process.env.BACKEND_URL || "https://circularchain-backend.onrender.com";
     
-    // Call the unified backend API on port 5000
-    const backendRes = await fetch("http://localhost:5000/api/cpcb/calculate", {
+    // Call the live unified backend API on Render
+    const backendRes = await fetch(`${backendUrl}/api/cpcb/calculate`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
