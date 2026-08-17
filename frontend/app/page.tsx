@@ -2,6 +2,20 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { CylinderCarousel } from "@/components/ui/cylinder-carousel";
+
+const CAROUSEL_CARDS = [
+  { src: "/carousel/card-01.png", title: "Secondary Aluminum 6063 Ingot", category: "Non-Ferrous", alt: "Aluminum Scrap Ingot" },
+  { src: "/carousel/card-02.png", title: "Stripped Heavy Berry Copper", category: "High Purity", alt: "Copper Wire Bales" },
+  { src: "/carousel/card-03.png", title: "Hot-Washed PET Bottle Flakes", category: "Polymers", alt: "PET Flakes" },
+  { src: "/carousel/card-04.png", title: "Blue HDPE Reprocessed Granules", category: "Rigid Plastic", alt: "HDPE Granules" },
+  { src: "/carousel/card-05.png", title: "Lithium Battery Black Mass", category: "Critical Minerals", alt: "EV Battery Black Mass" },
+  { src: "/carousel/card-06.png", title: "Heavy Melting Steel (HMS 1/2)", category: "Ferrous Scrap", alt: "Heavy Steel Scrap" },
+  { src: "/carousel/card-07.png", title: "Agent 01 Optical Vision Scan", category: "AI Computer Vision", alt: "Optical Quality Scan" },
+  { src: "/carousel/card-08.png", title: "Grassroots Scrap Aggregation", category: "Social Inclusion", alt: "Kabadiwala Shop Depot" },
+  { src: "/carousel/card-09.png", title: "Digital Weighbridge Telemetry", category: "Audit Trail", alt: "Weighbridge Scale" },
+  { src: "/carousel/card-10.png", title: "Certified Secondary Smelting", category: "Zero-Landfill", alt: "Clean Smelting Plant" },
+];
 import Navbar from "@/components/Navbar";
 import ApkDownloadModal from "@/components/ApkDownloadModal";
 import {
@@ -323,6 +337,31 @@ export default function Home() {
                 </div>
               );
             })}
+          </div>
+        </div>
+
+        {/* 3D Interactive Scrap Streams Showcase (Vengeance UI Cylinder Carousel) */}
+        <div className="mt-28">
+          <div className="text-center max-w-2xl mx-auto mb-8">
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 font-mono text-xs font-bold uppercase tracking-wider mb-3">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>3D Interactive Material Streams</span>
+            </div>
+            <h2 className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
+              Secondary Raw Material Ingestion Streams
+            </h2>
+            <p className="mt-3 text-zinc-600 dark:text-zinc-400 text-sm">
+              Live photographic audit of non-ferrous metals, engineering polymers, EV battery black mass, and certified smelting hubs.
+            </p>
+          </div>
+
+          <div className="w-full relative py-4">
+            <CylinderCarousel
+              images={CAROUSEL_CARDS}
+              animationDuration={30}
+              cardWidth={240}
+              className="py-4"
+            />
           </div>
         </div>
 
