@@ -21,6 +21,7 @@ import {
   Sparkles,
   Play,
   Rocket,
+  FileCode2,
 } from "lucide-react";
 
 export interface DocNavGroup {
@@ -29,6 +30,7 @@ export interface DocNavGroup {
     href: string;
     label: string;
     badge?: string;
+    icon?: any;
   }[];
 }
 
@@ -36,35 +38,33 @@ export const DOC_NAVIGATION: DocNavGroup[] = [
   {
     group: "GETTING STARTED",
     items: [
-      { href: "/docs", label: "Executive Summary & Mission" },
-      { href: "/docs/problem-statement", label: "The Global & National Crisis", badge: "Critical" },
-      { href: "/docs/solution-comparison", label: "Linear vs CircularChain Protocol" },
-      { href: "/docs/quickstart", label: "Developer & Recycler Quickstart", badge: "New" },
+      { href: "/docs", label: "Executive Summary & Mission", icon: BookOpen },
+      { href: "/docs/problem-statement", label: "The Global & National Crisis", badge: "Critical", icon: AlertTriangle },
+      { href: "/docs/solution-comparison", label: "Linear vs CircularChain Protocol", icon: CheckCircle2 },
+      { href: "/docs/quickstart", label: "Developer & Recycler Quickstart", badge: "New", icon: Rocket },
     ],
   },
   {
     group: "6-AGENT AUTONOMOUS CORE",
     items: [
-      { href: "/docs#agent-01", label: "Agent 01: Optical Quality Vision" },
-      { href: "/docs#agent-02", label: "Agent 02: EPA WARM Carbon Math" },
-      { href: "/docs#agent-03", label: "Agent 03: MCX & Logistics Oracle" },
-      { href: "/docs#agent-04", label: "Agent 04: Indic Voice Bridge" },
-      { href: "/docs#agent-05", label: "Agent 05: Cryptographic Fraud Radar" },
-      { href: "/docs#agent-06", label: "Agent 06: CPCB Statutory EPR Shield" },
+      { href: "/docs/agents/agent-01", label: "Agent 01: Optical Quality Vision", icon: Cpu },
+      { href: "/docs/agents/agent-02", label: "Agent 02: EPA WARM Carbon Math", icon: Scale },
+      { href: "/docs/agents/agent-03", label: "Agent 03: MCX & Logistics Oracle", icon: Zap },
+      { href: "/docs/agents/agent-04", label: "Agent 04: Indic Voice Bridge", icon: Mic },
+      { href: "/docs/agents/agent-05", label: "Agent 05: Cryptographic Fraud Radar", icon: ShieldAlert },
+      { href: "/docs/agents/agent-06", label: "Agent 06: CPCB Statutory EPR Shield", icon: Building2 },
     ],
   },
   {
     group: "CRYPTOGRAPHIC PROTOCOL",
     items: [
-      { href: "/docs#carbon-calculator-sim", label: "Interactive EPA Math Explorer" },
-      { href: "/docs#web3-ledger", label: "Polygon Amoy Smart Contracts" },
+      { href: "/docs/blockchain", label: "Polygon Amoy Smart Contracts", icon: Lock },
     ],
   },
   {
     group: "DEVELOPER REFERENCE",
     items: [
-      { href: "/docs#api-playground", label: "Interactive API Playground" },
-      { href: "/docs#deployment", label: "Cloud & Edge Topology" },
+      { href: "/docs/api", label: "Interactive REST API Reference", icon: Code2 },
     ],
   },
 ];
@@ -81,7 +81,7 @@ export default function DocsSidebar() {
           <Search className="w-3.5 h-3.5 text-zinc-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Filter docs..."
+            placeholder="Search documentation..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full bg-zinc-100 dark:bg-white/[0.04] border border-zinc-200 dark:border-white/10 rounded-xl pl-9 pr-3 py-2 text-xs font-medium placeholder:text-zinc-400 outline-none focus:border-emerald-500 transition-all"
@@ -104,20 +104,24 @@ export default function DocsSidebar() {
                 </span>
                 {filteredItems.map((item) => {
                   const isActive = pathname === item.href;
+                  const Icon = item.icon || BookOpen;
                   return (
                     <Link
                       key={item.href}
                       href={item.href}
-                      className={`flex items-center justify-between py-1.5 px-3 rounded-xl transition-all text-xs font-medium ${
+                      className={`flex items-center justify-between py-2 px-3 rounded-xl transition-all text-xs font-medium ${
                         isActive
                           ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold border-l-2 border-emerald-500 shadow-sm"
                           : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-white/[0.04]"
                       }`}
                     >
-                      <span className="truncate">{item.label}</span>
+                      <div className="flex items-center gap-2 truncate">
+                        <Icon className={`w-3.5 h-3.5 shrink-0 ${isActive ? "text-emerald-500" : "text-zinc-400"}`} />
+                        <span className="truncate">{item.label}</span>
+                      </div>
                       {item.badge && (
                         <span
-                          className={`text-[9px] font-mono px-1.5 py-0.2 rounded font-bold uppercase ${
+                          className={`text-[9px] font-mono px-1.5 py-0.2 rounded font-bold uppercase shrink-0 ${
                             item.badge === "Critical"
                               ? "bg-rose-500/20 text-rose-500"
                               : "bg-orange-500/20 text-orange-500"
