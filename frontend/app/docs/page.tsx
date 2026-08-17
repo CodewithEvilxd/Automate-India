@@ -19,6 +19,7 @@ const CAROUSEL_CARDS = [
   { src: "/carousel/card-09.png", title: "Digital Weighbridge Telemetry", category: "Audit Trail", alt: "Weighbridge Scale" },
   { src: "/carousel/card-10.png", title: "Certified Secondary Smelting", category: "Zero-Landfill", alt: "Clean Smelting Plant" },
 ];
+
 import {
   BookOpen,
   Cpu,
@@ -41,6 +42,7 @@ import {
   Factory,
   Flame,
   FileSpreadsheet,
+  PenTool,
 } from "lucide-react";
 
 export default function DocsOverviewPage() {
@@ -52,6 +54,7 @@ export default function DocsOverviewPage() {
       icon: AlertTriangle,
       badge: "Critical",
       accent: "rose",
+      tilt: "rotate-1",
     },
     {
       title: "Linear vs CircularChain Protocol",
@@ -60,6 +63,7 @@ export default function DocsOverviewPage() {
       icon: CheckCircle2,
       badge: "Architecture",
       accent: "emerald",
+      tilt: "-rotate-1",
     },
     {
       title: "Developer & Recycler Quickstart",
@@ -68,6 +72,7 @@ export default function DocsOverviewPage() {
       icon: Rocket,
       badge: "Quickstart",
       accent: "emerald",
+      tilt: "rotate-0.5",
     },
     {
       title: "Agent 01: Optical Quality Vision",
@@ -76,6 +81,7 @@ export default function DocsOverviewPage() {
       icon: Cpu,
       badge: "Agent 01",
       accent: "emerald",
+      tilt: "-rotate-1",
     },
     {
       title: "Agent 02: EPA WARM Carbon Math",
@@ -84,6 +90,7 @@ export default function DocsOverviewPage() {
       icon: Scale,
       badge: "Agent 02",
       accent: "emerald",
+      tilt: "rotate-1",
     },
     {
       title: "Agent 03: MCX Oracle & Logistics",
@@ -92,6 +99,7 @@ export default function DocsOverviewPage() {
       icon: Zap,
       badge: "Agent 03",
       accent: "orange",
+      tilt: "-rotate-0.5",
     },
     {
       title: "Agent 04: Indic Voice NLP Bridge",
@@ -100,6 +108,7 @@ export default function DocsOverviewPage() {
       icon: Mic,
       badge: "Agent 04",
       accent: "emerald",
+      tilt: "rotate-1",
     },
     {
       title: "Agent 05: Cryptographic Fraud Radar",
@@ -108,6 +117,7 @@ export default function DocsOverviewPage() {
       icon: ShieldAlert,
       badge: "Agent 05",
       accent: "orange",
+      tilt: "-rotate-1",
     },
     {
       title: "Agent 06: CPCB Statutory EPR Shield",
@@ -116,6 +126,7 @@ export default function DocsOverviewPage() {
       icon: Building2,
       badge: "Agent 06",
       accent: "orange",
+      tilt: "rotate-0.5",
     },
     {
       title: "Polygon Amoy Smart Contracts",
@@ -124,6 +135,7 @@ export default function DocsOverviewPage() {
       icon: Lock,
       badge: "Web3",
       accent: "emerald",
+      tilt: "-rotate-1",
     },
     {
       title: "Interactive REST API Reference",
@@ -132,38 +144,37 @@ export default function DocsOverviewPage() {
       icon: Code2,
       badge: "Developer",
       accent: "orange",
+      tilt: "rotate-1",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-[#FBFBFC] dark:bg-[#090A0F] text-zinc-900 dark:text-zinc-100 transition-colors duration-250 flex flex-col font-sans selection:bg-emerald-500/20 selection:text-zinc-950 dark:selection:bg-emerald-500/30 dark:selection:text-emerald-100">
+    <div className="min-h-screen notebook-ruled text-zinc-900 dark:text-zinc-100 transition-colors duration-250 flex flex-col font-sans selection:bg-amber-300 selection:text-zinc-950 dark:selection:bg-emerald-500/30 dark:selection:text-emerald-100">
       <Navbar />
 
-      {/* Hero Header */}
-      <div className="border-b border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-[#0D0E15] py-14 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-emerald-500/10 dark:bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-orange-500/10 dark:bg-orange-500/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto">
+      {/* Scribely Sketchpad Header Banner */}
+      <div className="border-b-2 border-zinc-900 dark:border-white/10 bg-amber-50/60 dark:bg-[#0D0E15]/80 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden backdrop-blur-md">
+        
+        {/* Subtle sketch grid background & margin ruler */}
+        <div className="max-w-7xl mx-auto relative">
           <div className="flex flex-wrap items-center gap-2 mb-4">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-xs font-mono font-bold uppercase tracking-wider">
-              <BookOpen className="w-3.5 h-3.5" />
-              <span>Whitepaper & Technical Docs v2.4</span>
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white dark:bg-zinc-900 border-2 border-zinc-950 dark:border-white/20 text-xs font-sketch font-bold uppercase tracking-wider shadow-[2px_2px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_#10B981]">
+              <PenTool className="w-3.5 h-3.5 text-emerald-500" />
+              <span>Architectural Field Notes v2.4</span>
             </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-500/10 text-orange-500 dark:text-orange-400 border border-orange-500/20 text-xs font-mono font-bold uppercase tracking-wider">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Multi-Agent AI Architecture</span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-300 dark:bg-amber-500/20 text-zinc-950 dark:text-amber-300 border border-zinc-950 text-xs font-sketch font-bold">
+              <span>★ 6 Autonomous AI Agents</span>
             </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-100 dark:bg-white/[0.06] text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-white/10 text-xs font-mono">
-              CPCB FY 2026-27 Compliant
+            <span className="font-handwriting text-base text-zinc-600 dark:text-zinc-400">
+              Hand-crafted protocol manual ✍️
             </span>
           </div>
 
-          <h1 className="font-display text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-zinc-900 dark:text-white mb-4">
-            Executive Summary & Problem Statement
+          <h1 className="font-sketch text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-zinc-900 dark:text-white mb-3">
+            CircularChain <span className="highlight-yellow px-2">Blueprint & Field Guide</span>
           </h1>
-          <p className="text-zinc-600 dark:text-zinc-400 text-base sm:text-lg max-w-3xl leading-relaxed">
-            A comprehensive breakdown of the global linear waste crisis, informal supply chain exploitation, $12.4B greenwashing fraud, and how CircularChain orchestrates autonomous multi-agent intelligence on blockchain to formalize the circular economy.
+          <p className="font-handwriting text-xl sm:text-2xl text-zinc-700 dark:text-zinc-300 max-w-3xl leading-relaxed">
+            The definitive technical specification for formalizing India’s $40B+ secondary scrap economy using deterministic computer vision, EPA carbon math, and Polygon smart contracts.
           </p>
         </div>
       </div>
@@ -171,262 +182,178 @@ export default function DocsOverviewPage() {
       {/* Main Content Layout */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-1">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          
+          {/* Sidebar */}
           <aside className="lg:col-span-3">
             <DocsSidebar />
           </aside>
 
+          {/* Main Sketchpad Area */}
           <main className="lg:col-span-9 space-y-12">
-            {/* 3D Cylinder Carousel: Secondary Material Streams */}
-            <div className="rounded-3xl border border-zinc-200 dark:border-white/10 glass-panel shadow-2xl overflow-hidden p-6 sm:p-8 bg-white/60 dark:bg-black/40 backdrop-blur-xl relative">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-zinc-200 dark:border-white/10">
+            
+            {/* 3D Cylinder Specimen Carousel Styled as an Interactive Sketchpad Turntable */}
+            <div className="sketchy-card p-6 sm:p-8 bg-white/95 dark:bg-[#12131C]/95 relative overflow-hidden backdrop-blur-xl">
+              
+              {/* Tape sticker decoration */}
+              <div className="tape-top mb-2"></div>
+
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b-2 border-dashed border-zinc-200 dark:border-white/10">
                 <div>
-                  <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono text-[10px] font-bold uppercase tracking-wider mb-1">
-                    <Sparkles className="w-3 h-3" />
-                    <span>3D Material Stream Visualizer</span>
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 font-sketch text-xs font-bold uppercase mb-1 border border-emerald-300">
+                    <span>🔬 3D Specimen Turntable</span>
                   </div>
-                  <h3 className="font-display text-xl font-bold text-zinc-900 dark:text-white">
-                    Verified Secondary Commodity Streams
+                  <h3 className="font-sketch text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">
+                    10 Verified Secondary Material Streams
                   </h3>
                 </div>
-                <span className="font-mono text-xs text-zinc-500 dark:text-zinc-400">
-                  10 Audited Industrial Streams
+                <span className="font-handwriting text-lg text-emerald-700 dark:text-emerald-400 font-bold">
+                  (Drag or let rotate continuously in 3D ↺)
                 </span>
               </div>
 
+              {/* Cylinder Component */}
               <div className="w-full relative py-2">
                 <CylinderCarousel
                   images={CAROUSEL_CARDS}
                   animationDuration={28}
-                  cardWidth={240}
+                  cardWidth={230}
                   className="py-2"
                 />
               </div>
 
-              <div className="mt-4 pt-3 border-t border-zinc-200 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono text-zinc-500 dark:text-zinc-400">
-                <span>Hover card to inspect verified scrap stream batch</span>
-                <span className="text-emerald-500 font-bold">100% On-Chain Traceable</span>
-              </div>
-            </div>
-
-            {/* In-depth Problem Summary */}
-            <section className="space-y-6">
-              <div className="inline-flex items-center gap-2 text-xs font-mono font-bold text-rose-500 uppercase tracking-widest">
-                <AlertTriangle className="w-3.5 h-3.5" />
-                <span>THE GLOBAL CRISIS (WORLD PROBLEM ANALYSIS)</span>
-              </div>
-              <h2 className="font-display text-2xl sm:text-4xl font-extrabold text-zinc-900 dark:text-white">
-                What is the Real-World Crisis and Why Does It Exist?
-              </h2>
-
-              <div className="prose dark:prose-invert max-w-none text-sm text-zinc-600 dark:text-zinc-300 space-y-4 leading-relaxed font-sans">
-                <p>
-                  Every year, the planet generates over <strong>2.12 Billion metric tons of solid waste</strong>, with heavy industrial scrap (aluminum, copper, steel, battery lithium black mass, and engineering polymers) representing both the most energy-intensive manufacturing burden and the largest environmental hazard.
-                </p>
-                <p>
-                  Refining primary virgin metals from raw earth ore consumes monumental amounts of energy. For example, producing 1 ton of virgin aluminum from bauxite ore requires approximately <strong>14,000 to 17,000 kWh of electricity</strong> and releases over <strong>9,130 kg of CO₂ equivalent</strong> into the atmosphere. In contrast, recycling secondary scrap aluminum consumes <strong>95% less energy</strong>. Yet, worldwide, more than <strong>60% of recyclable metal and plastic scrap ends up in open landfills, illegal dump yards, or informal open-air burning pits</strong>.
-                </p>
-              </div>
-
-              {/* 4 Pillars of Failure */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                <div className="p-6 rounded-3xl glass-panel border border-zinc-200 dark:border-white/10 space-y-3">
-                  <div className="w-9 h-9 rounded-2xl bg-rose-500/10 text-rose-500 flex items-center justify-center font-bold">
-                    <Flame className="w-4 h-4" />
-                  </div>
-                  <h3 className="font-display font-bold text-base text-zinc-900 dark:text-white">
-                    1. Toxic Informal Smelting & Health Hazards
-                  </h3>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                    Without structured secondary supply chains, urban scrap in developing nations is processed in crude, unmonitored acid baths and backyard furnaces, releasing toxic dioxins, lead, and greenhouse gases directly into residential communities.
-                  </p>
-                </div>
-
-                <div className="p-6 rounded-3xl glass-panel border border-zinc-200 dark:border-white/10 space-y-3">
-                  <div className="w-9 h-9 rounded-2xl bg-orange-500/10 text-orange-500 flex items-center justify-center font-bold">
-                    <TrendingDown className="w-4 h-4" />
-                  </div>
-                  <h3 className="font-display font-bold text-base text-zinc-900 dark:text-white">
-                    2. 40% Middleman Margin Exploitation
-                  </h3>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                    Over 5 Million informal waste pickers and small scrap aggregators (kabadiwalas) operate without real-time price feeds. Intermediaries withhold MCX spot prices and deduct arbitrary 30-40% "impurity penalties" during manual weigh-ins.
-                  </p>
-                </div>
-
-                <div className="p-6 rounded-3xl glass-panel border border-zinc-200 dark:border-white/10 space-y-3">
-                  <div className="w-9 h-9 rounded-2xl bg-rose-500/10 text-rose-500 flex items-center justify-center font-bold">
-                    <FileSpreadsheet className="w-4 h-4" />
-                  </div>
-                  <h3 className="font-display font-bold text-base text-zinc-900 dark:text-white">
-                    3. $12.4B ESG Paper Greenwashing
-                  </h3>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                    Corporations purchase unverified, duplicate paper certificates to falsely claim zero-landfill compliance. In reality, the physical scrap never moved to certified recycling facilities, leading to regulatory crackdowns.
-                  </p>
-                </div>
-
-                <div className="p-6 rounded-3xl glass-panel border border-zinc-200 dark:border-white/10 space-y-3">
-                  <div className="w-9 h-9 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold">
-                    <Scale className="w-4 h-4" />
-                  </div>
-                  <h3 className="font-display font-bold text-base text-zinc-900 dark:text-white">
-                    4. Statutory CPCB Penalties for Non-Compliance
-                  </h3>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                    Under India’s PWM Rules 2026 and BWMR, producers and brand owners face non-negotiable statutory fines up to <strong>₹25,000 per MT</strong> for missing recycling quotas, threatening corporate balance sheets.
-                  </p>
-                </div>
-              </div>
-            </section>
-
-            {/* Infographic 2: AI Multi-Agent Solution Architecture */}
-            <div className="rounded-3xl overflow-hidden border border-zinc-200 dark:border-white/10 glass-panel shadow-2xl relative">
-              <div className="relative w-full aspect-video">
-                <Image
-                  src="/docs/circularchain_ai_network.jpg"
-                  alt="CircularChain AI Multi-Agent Network Architecture"
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </div>
-              <div className="p-4 bg-zinc-900/90 backdrop-blur-md border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono text-zinc-300">
-                <span className="flex items-center gap-2 text-emerald-400 font-bold">
-                  <Cpu className="w-4 h-4" />
-                  FIGURE 2.0: CircularChain 6-Agent Autonomous Orchestration & Polygon Settlement
+              <div className="mt-4 pt-3 border-t-2 border-dashed border-zinc-200 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2 font-handwriting text-base text-zinc-600 dark:text-zinc-400">
+                <span>📌 Each lot is verified by Agent 01 pixel contouring & ISO 9001 quality grade</span>
+                <span className="font-mono text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase">
+                  Polygon Amoy Testnet (80002)
                 </span>
-                <span className="text-orange-400 font-bold text-[11px]">Chain ID: 80002 (Polygon Amoy)</span>
               </div>
             </div>
 
-            {/* How CircularChain Solves It */}
-            <section className="space-y-6">
-              <div className="inline-flex items-center gap-2 text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>THE CIRCULARCHAIN PROTOCOL SOLUTION</span>
+            {/* Scribely Note Box: Why the World is Failing */}
+            <section className="sketchy-card p-6 sm:p-8 bg-amber-50/90 dark:bg-[#14151F] relative space-y-6">
+              <div className="flex items-center justify-between">
+                <div className="inline-flex items-center gap-2 font-sketch text-xs uppercase tracking-widest text-rose-600 dark:text-rose-400 font-bold">
+                  <span>🚨 Critical Problem Statement Analysis</span>
+                </div>
+                <span className="font-handwriting text-sm text-zinc-500">Case Study 2026-27</span>
               </div>
-              <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">
-                How Our Multi-Agent Network Re-Architects the Economy
+
+              <h2 className="font-sketch text-2xl sm:text-4xl font-extrabold text-zinc-900 dark:text-white leading-tight">
+                From Chaos to Clarity: <span className="highlight-yellow">Why Linear Recycling Fails</span>
+                <svg className="w-48 h-2 mt-1" viewBox="0 0 100 10" preserveAspectRatio="none">
+                  <path d="M0,5 Q25,0 50,5 T100,5" stroke="currentColor" strokeWidth="2" fill="none" className="text-rose-500"></path>
+                </svg>
               </h2>
 
-              <p className="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
-                CircularChain replaces manual, opaque, and corrupt intermediaries with six specialized, deterministic autonomous AI agents running continuously on cloud and mobile edge infrastructure:
-              </p>
+              <div className="space-y-4 font-sans text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
+                <p>
+                  Every year, over <strong>2.12 Billion metric tons of solid industrial waste</strong> are generated globally. While recycling secondary aluminum requires <strong>95% less energy</strong> than mining virgin bauxite ore, more than <strong>60% of recyclable metal and plastic scrap ends up in open landfills, toxic backyard burning pits, or fraudulent paper ledger schemes</strong>.
+                </p>
+              </div>
 
-              {/* Agents Summary Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-xs">
-                <div className="p-4 rounded-2xl glass-panel border border-zinc-200 dark:border-white/10 space-y-2">
-                  <div className="flex items-center gap-2 text-emerald-500 font-bold font-mono">
-                    <Cpu className="w-4 h-4" />
-                    <span>Agent 01: Vision</span>
+              {/* 4 Sketch Sticky Notes */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+                
+                {/* Sticky Note 1 */}
+                <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900/90 border-2 border-zinc-950 dark:border-white/10 shadow-[3px_3px_0px_rgba(244,63,94,0.3)] transform -rotate-1 hover:rotate-0 transition-transform duration-300 space-y-2">
+                  <div className="flex items-center gap-2 font-sketch text-base font-bold text-rose-600 dark:text-rose-400">
+                    <span>🔥 Toxic Smelting & Health Hazards</span>
                   </div>
-                  <p className="text-[11px] text-zinc-600 dark:text-zinc-400">
-                    Performs pixel-level contamination analysis and assigns ISO 9001 grades from camera images.
+                  <p className="font-handwriting text-lg text-zinc-800 dark:text-zinc-200 leading-snug">
+                    Unregulated scrap in developing nations is melted in crude backyard acid baths, releasing lethal dioxins and lead into groundwater and communities.
                   </p>
                 </div>
 
-                <div className="p-4 rounded-2xl glass-panel border border-zinc-200 dark:border-white/10 space-y-2">
-                  <div className="flex items-center gap-2 text-emerald-500 font-bold font-mono">
-                    <Scale className="w-4 h-4" />
-                    <span>Agent 02: Carbon Math</span>
+                {/* Sticky Note 2 */}
+                <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900/90 border-2 border-zinc-950 dark:border-white/10 shadow-[3px_3px_0px_rgba(245,158,11,0.3)] transform rotate-1 hover:rotate-0 transition-transform duration-300 space-y-2">
+                  <div className="flex items-center gap-2 font-sketch text-base font-bold text-amber-600 dark:text-amber-400">
+                    <span>📉 40% Middleman Margin Cuts</span>
                   </div>
-                  <p className="text-[11px] text-zinc-600 dark:text-zinc-400">
-                    Applies deterministic EPA WARM v15 equations with zero generative AI hallucinations.
+                  <p className="font-handwriting text-lg text-zinc-800 dark:text-zinc-200 leading-snug">
+                    5M+ informal kabadiwalas get arbitrary deductions on manual weigh scales with zero real-time MCX market transparency.
                   </p>
                 </div>
 
-                <div className="p-4 rounded-2xl glass-panel border border-zinc-200 dark:border-white/10 space-y-2">
-                  <div className="flex items-center gap-2 text-orange-500 font-bold font-mono">
-                    <Zap className="w-4 h-4" />
-                    <span>Agent 03: MCX Oracle</span>
+                {/* Sticky Note 3 */}
+                <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900/90 border-2 border-zinc-950 dark:border-white/10 shadow-[3px_3px_0px_rgba(244,63,94,0.3)] transform rotate-1 hover:rotate-0 transition-transform duration-300 space-y-2">
+                  <div className="flex items-center gap-2 font-sketch text-base font-bold text-rose-600 dark:text-rose-400">
+                    <span>📄 $12.4B ESG Paper Greenwashing</span>
                   </div>
-                  <p className="text-[11px] text-zinc-600 dark:text-zinc-400">
-                    Stream live commodity spot prices and matches nearest secondary smelting transit hubs.
+                  <p className="font-handwriting text-lg text-zinc-800 dark:text-zinc-200 leading-snug">
+                    Companies buy fake, duplicate PDF certificates while actual scrap rots in landfills without ever reaching a real smelter.
                   </p>
                 </div>
 
-                <div className="p-4 rounded-2xl glass-panel border border-zinc-200 dark:border-white/10 space-y-2">
-                  <div className="flex items-center gap-2 text-emerald-500 font-bold font-mono">
-                    <Mic className="w-4 h-4" />
-                    <span>Agent 04: Indic Voice</span>
+                {/* Sticky Note 4 */}
+                <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900/90 border-2 border-zinc-950 dark:border-white/10 shadow-[3px_3px_0px_rgba(16,185,129,0.3)] transform -rotate-1 hover:rotate-0 transition-transform duration-300 space-y-2">
+                  <div className="flex items-center gap-2 font-sketch text-base font-bold text-emerald-600 dark:text-emerald-400">
+                    <span>⚖️ Statutory CPCB Quota Penalties</span>
                   </div>
-                  <p className="text-[11px] text-zinc-600 dark:text-zinc-400">
-                    Empowers grassroots collectors to list scrap hands-free in Hindi, Tamil, Telugu, and Marathi.
-                  </p>
-                </div>
-
-                <div className="p-4 rounded-2xl glass-panel border border-zinc-200 dark:border-white/10 space-y-2">
-                  <div className="flex items-center gap-2 text-orange-500 font-bold font-mono">
-                    <ShieldAlert className="w-4 h-4" />
-                    <span>Agent 05: Fraud Radar</span>
-                  </div>
-                  <p className="text-[11px] text-zinc-600 dark:text-zinc-400">
-                    Blocks wash-trading, duplicate IPFS hashes, and anomalous mass inflation on-chain.
-                  </p>
-                </div>
-
-                <div className="p-4 rounded-2xl glass-panel border border-zinc-200 dark:border-white/10 space-y-2">
-                  <div className="flex items-center gap-2 text-orange-500 font-bold font-mono">
-                    <Building2 className="w-4 h-4" />
-                    <span>Agent 06: CPCB Shield</span>
-                  </div>
-                  <p className="text-[11px] text-zinc-600 dark:text-zinc-400">
-                    Automates MoEFCC EPR quota compliance and quantifies avoided balance sheet fines.
+                  <p className="font-handwriting text-lg text-zinc-800 dark:text-zinc-200 leading-snug">
+                    Failing FY 2026-27 recycling targets incurs non-negotiable fines up to ₹25,000/MT under Indian environmental law.
                   </p>
                 </div>
               </div>
             </section>
 
-            {/* Chapters Navigation Section */}
-            <section className="space-y-6 pt-4 border-t border-zinc-200 dark:border-white/10">
-              <h3 className="font-display text-xl font-bold text-zinc-900 dark:text-white pb-1">
-                Explore Dedicated Documentation Chapters
-              </h3>
+            {/* Scribely Sketch Cards Directory */}
+            <section className="space-y-6 pt-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b-2 border-zinc-900 dark:border-white/10 pb-3">
+                <h3 className="font-sketch text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">
+                  Field Manual Chapters & Agent Blueprints
+                  <svg className="w-56 h-2 mt-1" viewBox="0 0 100 10" preserveAspectRatio="none">
+                    <path d="M0,5 Q25,0 50,5 T100,5" stroke="currentColor" strokeWidth="2" fill="none" className="text-emerald-500"></path>
+                  </svg>
+                </h3>
+                <span className="font-handwriting text-base text-zinc-500 font-bold">
+                  Click any chapter card to open deep-dive
+                </span>
+              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 {chapters.map((chap, idx) => {
                   const Icon = chap.icon;
                   return (
                     <Link
                       key={idx}
                       href={chap.href}
-                      className="p-5 rounded-3xl glass-panel border border-zinc-200 dark:border-white/10 hover:border-emerald-500/40 dark:hover:border-emerald-500/40 hover:scale-[1.01] transition-all group flex flex-col justify-between space-y-3 shadow-sm"
+                      className={`p-6 rounded-3xl bg-white dark:bg-[#12131C] border-2 border-zinc-950 dark:border-white/15 shadow-[4px_4px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_#10B981] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all group flex flex-col justify-between space-y-4 transform ${chap.tilt}`}
                     >
-                      <div className="space-y-2">
+                      <div className="space-y-3">
                         <div className="flex items-center justify-between">
-                          <div className={`w-9 h-9 rounded-2xl flex items-center justify-center ${
+                          <div className={`w-10 h-10 rounded-2xl border-2 border-zinc-950 flex items-center justify-center ${
                             chap.accent === "rose"
-                              ? "bg-rose-500/10 text-rose-500 border border-rose-500/20"
+                              ? "bg-rose-100 text-rose-600"
                               : chap.accent === "orange"
-                              ? "bg-orange-500/10 text-orange-500 border border-orange-500/20"
-                              : "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20"
+                              ? "bg-amber-100 text-amber-700"
+                              : "bg-emerald-100 text-emerald-700"
                           }`}>
-                            <Icon className="w-4 h-4" />
+                            <Icon className="w-5 h-5" />
                           </div>
-                          <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full font-bold uppercase ${
+                          <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full font-bold uppercase border border-zinc-950 ${
                             chap.accent === "rose"
-                              ? "bg-rose-500/10 text-rose-500 border border-rose-500/20"
+                              ? "bg-rose-200 text-rose-900"
                               : chap.accent === "orange"
-                              ? "bg-orange-500/10 text-orange-500 border border-orange-500/20"
-                              : "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20"
+                              ? "bg-amber-200 text-amber-900"
+                              : "bg-emerald-200 text-emerald-900"
                           }`}>
                             {chap.badge}
                           </span>
                         </div>
 
                         <div>
-                          <h4 className="font-display font-bold text-sm text-zinc-900 dark:text-white group-hover:text-emerald-500 transition-colors">
+                          <h4 className="font-sketch font-bold text-lg text-zinc-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                             {chap.title}
                           </h4>
-                          <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed mt-1">
+                          <p className="font-handwriting text-base sm:text-lg text-zinc-700 dark:text-zinc-300 leading-snug mt-1">
                             {chap.desc}
                           </p>
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-1 text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 group-hover:translate-x-1 transition-transform pt-1">
-                        <span>Read Chapter</span>
-                        <ChevronRight className="w-3.5 h-3.5" />
+                      <div className="flex items-center gap-1.5 font-sketch text-xs font-bold text-emerald-600 dark:text-emerald-400 pt-1 border-t-2 border-dashed border-zinc-200 dark:border-white/10">
+                        <span>Read Blueprint Chapter</span>
+                        <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                       </div>
                     </Link>
                   );

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Caveat:wght@500;600;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Kalam:wght@400;700&family=Outfit:wght@500;600;700;800;900&family=Patrick+Hand&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@600;700;800&display=swap');
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -136,4 +136,105 @@ html, body {
   background-color: rgba(16, 185, 129, 0.35) !important;
   color: #FFFFFF !important;
 }
+
+/* =========================================================================
+   SCRIBELY / SKETCHPAD UI DESIGN SYSTEM (Paper, Handwriting & Sketch Styles)
+   ========================================================================= */
+
+.font-sketch {
+  font-family: 'Architects Daughter', 'Caveat', cursive, sans-serif;
+}
+
+.font-handwriting {
+  font-family: 'Caveat', 'Kalam', cursive, sans-serif;
+}
+
+.font-kalam {
+  font-family: 'Kalam', 'Caveat', cursive, sans-serif;
+}
+
+.font-patrick {
+  font-family: 'Patrick Hand', 'Caveat', cursive, sans-serif;
+}
+
+/* Organic hand-drawn sketchy border */
+.sketchy-border {
+  border: 2px solid currentColor;
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+}
+
+.sketchy-card {
+  border: 2px solid #18181B;
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.85);
+  border-radius: 24px;
+}
+
+.dark .sketchy-card {
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 4px 4px 0px rgba(16, 185, 129, 0.35);
+}
+
+.sketchy-card-orange {
+  border: 2px solid #18181B;
+  box-shadow: 4px 4px 0px #F59E0B;
+  border-radius: 24px;
+}
+
+.dark .sketchy-card-orange {
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 4px 4px 0px #F59E0B;
+}
+
+/* Ruled / Dotted Notebook Paper Background */
+.notebook-ruled {
+  background-color: #FDFCFA;
+  background-image: 
+    linear-gradient(rgba(16, 185, 129, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 185, 129, 0.08) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.dark .notebook-ruled {
+  background-color: #0A0B10;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Highlighter Brush Accents */
+.highlight-yellow {
+  background: linear-gradient(104deg, rgba(254, 240, 138, 0) 0.9%, rgba(254, 240, 138, 0.85) 2.4%, rgba(254, 240, 138, 0.6) 94.6%, rgba(254, 240, 138, 0) 99.2%);
+  border-radius: 4px;
+  padding: 0 4px;
+}
+
+.dark .highlight-yellow {
+  background: linear-gradient(104deg, rgba(245, 158, 11, 0) 0.9%, rgba(245, 158, 11, 0.35) 2.4%, rgba(245, 158, 11, 0.25) 94.6%, rgba(245, 158, 11, 0) 99.2%);
+}
+
+.highlight-emerald {
+  background: linear-gradient(104deg, rgba(16, 185, 129, 0) 0.9%, rgba(16, 185, 129, 0.3) 2.4%, rgba(16, 185, 129, 0.2) 94.6%, rgba(16, 185, 129, 0) 99.2%);
+  border-radius: 4px;
+  padding: 0 4px;
+}
+
+/* Washi Tape / Sticky Note Sticker */
+.tape-top {
+  position: relative;
+}
+.tape-top::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  width: 70px;
+  height: 20px;
+  background-color: rgba(254, 240, 138, 0.7);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  backdrop-filter: blur(2px);
+  z-index: 10;
+}
+
 
