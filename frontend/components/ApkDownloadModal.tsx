@@ -51,8 +51,8 @@ export default function ApkDownloadModal({ isOpen, onClose }: ApkDownloadModalPr
         {/* Header */}
         <div className="p-6 pb-4 flex items-start justify-between border-b border-white/[0.08]">
           <div className="flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-2xl bg-white/[0.05] border border-white/10 flex items-center justify-center text-emerald-400 shadow-inner">
-              <Smartphone className="w-5 h-5" />
+            <div className="w-11 h-11 rounded-2xl overflow-hidden border border-white/10 flex items-center justify-center shadow-inner bg-black shrink-0">
+              <img src="/logo-192.png" alt="CircularChain App Icon" className="w-full h-full object-cover" />
             </div>
             <div>
               <div className="flex items-center gap-2">

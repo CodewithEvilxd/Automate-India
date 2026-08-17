@@ -90,8 +90,8 @@ export default function Navbar() {
             {/* Logo & Brand */}
             <div className="flex items-center space-x-6">
               <Link href="/" className="flex items-center space-x-3 group">
-                <div className="w-9 h-9 rounded-xl bg-zinc-100 dark:bg-white/[0.06] border border-zinc-300 dark:border-white/10 flex items-center justify-center shadow-sm group-hover:border-emerald-500/50 transition-all">
-                  <Layers className="w-4.5 h-4.5 text-zinc-900 dark:text-white group-hover:rotate-12 transition-transform" />
+                <div className="w-9 h-9 rounded-xl overflow-hidden border border-zinc-300 dark:border-white/10 flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform bg-black">
+                  <img src="/logo-192.png" alt="CircularChain Logo" className="w-full h-full object-cover" />
                 </div>
                 <div>
                   <span className="font-display font-extrabold text-base text-zinc-900 dark:text-white tracking-tight block">
