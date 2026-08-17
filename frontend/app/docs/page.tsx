@@ -6,6 +6,16 @@ import DocsSidebar from "@/components/DocsSidebar";
 import Link from "next/link";
 import Image from "next/image";
 import { CylinderCarousel } from "@/components/ui/cylinder-carousel";
+import {
+  PaperclipElement,
+  WashiTapeCenter,
+  WashiTapeCorner,
+  DoodleUnderline,
+  DoodleStar,
+  DoodleDatabase,
+  DoodleCloud,
+  DoodleLock,
+} from "@/components/SketchElements";
 
 const CAROUSEL_CARDS = [
   { src: "/carousel/card-01.png", title: "Secondary Aluminum 6063 Ingot", category: "Non-Ferrous", alt: "Aluminum Scrap Ingot" },
@@ -31,18 +41,12 @@ import {
   Lock,
   Code2,
   ArrowRight,
-  Sparkles,
   AlertTriangle,
   CheckCircle2,
   Rocket,
-  ExternalLink,
   ChevronRight,
-  Globe2,
-  TrendingDown,
-  Factory,
-  Flame,
-  FileSpreadsheet,
   PenTool,
+  Layers,
 } from "lucide-react";
 
 export default function DocsOverviewPage() {
@@ -53,8 +57,8 @@ export default function DocsOverviewPage() {
       href: "/docs/problem-statement",
       icon: AlertTriangle,
       badge: "Critical",
-      accent: "rose",
-      tilt: "rotate-1",
+      attachType: "paperclip",
+      tilt: "rotate-0.5",
     },
     {
       title: "Linear vs CircularChain Protocol",
@@ -62,8 +66,8 @@ export default function DocsOverviewPage() {
       href: "/docs/solution-comparison",
       icon: CheckCircle2,
       badge: "Architecture",
-      accent: "emerald",
-      tilt: "-rotate-1",
+      attachType: "tape-center",
+      tilt: "-rotate-0.5",
     },
     {
       title: "Developer & Recycler Quickstart",
@@ -71,7 +75,7 @@ export default function DocsOverviewPage() {
       href: "/docs/quickstart",
       icon: Rocket,
       badge: "Quickstart",
-      accent: "emerald",
+      attachType: "tape-corner",
       tilt: "rotate-0.5",
     },
     {
@@ -80,8 +84,8 @@ export default function DocsOverviewPage() {
       href: "/docs/agents/agent-01",
       icon: Cpu,
       badge: "Agent 01",
-      accent: "emerald",
-      tilt: "-rotate-1",
+      attachType: "paperclip",
+      tilt: "-rotate-0.5",
     },
     {
       title: "Agent 02: EPA WARM Carbon Math",
@@ -89,8 +93,8 @@ export default function DocsOverviewPage() {
       href: "/docs/agents/agent-02",
       icon: Scale,
       badge: "Agent 02",
-      accent: "emerald",
-      tilt: "rotate-1",
+      attachType: "tape-center",
+      tilt: "rotate-0.5",
     },
     {
       title: "Agent 03: MCX Oracle & Logistics",
@@ -98,7 +102,7 @@ export default function DocsOverviewPage() {
       href: "/docs/agents/agent-03",
       icon: Zap,
       badge: "Agent 03",
-      accent: "orange",
+      attachType: "tape-corner",
       tilt: "-rotate-0.5",
     },
     {
@@ -107,8 +111,8 @@ export default function DocsOverviewPage() {
       href: "/docs/agents/agent-04",
       icon: Mic,
       badge: "Agent 04",
-      accent: "emerald",
-      tilt: "rotate-1",
+      attachType: "paperclip",
+      tilt: "rotate-0.5",
     },
     {
       title: "Agent 05: Cryptographic Fraud Radar",
@@ -116,8 +120,8 @@ export default function DocsOverviewPage() {
       href: "/docs/agents/agent-05",
       icon: ShieldAlert,
       badge: "Agent 05",
-      accent: "orange",
-      tilt: "-rotate-1",
+      attachType: "tape-center",
+      tilt: "-rotate-0.5",
     },
     {
       title: "Agent 06: CPCB Statutory EPR Shield",
@@ -125,7 +129,7 @@ export default function DocsOverviewPage() {
       href: "/docs/agents/agent-06",
       icon: Building2,
       badge: "Agent 06",
-      accent: "orange",
+      attachType: "tape-corner",
       tilt: "rotate-0.5",
     },
     {
@@ -134,8 +138,8 @@ export default function DocsOverviewPage() {
       href: "/docs/blockchain",
       icon: Lock,
       badge: "Web3",
-      accent: "emerald",
-      tilt: "-rotate-1",
+      attachType: "paperclip",
+      tilt: "-rotate-0.5",
     },
     {
       title: "Interactive REST API Reference",
@@ -143,8 +147,8 @@ export default function DocsOverviewPage() {
       href: "/docs/api",
       icon: Code2,
       badge: "Developer",
-      accent: "orange",
-      tilt: "rotate-1",
+      attachType: "tape-center",
+      tilt: "rotate-0.5",
     },
   ];
 
@@ -153,25 +157,24 @@ export default function DocsOverviewPage() {
       <Navbar />
 
       {/* Scribely Sketchpad Header Banner */}
-      <div className="border-b-2 border-zinc-900 dark:border-white/10 bg-amber-50/60 dark:bg-[#0D0E15]/80 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden backdrop-blur-md">
+      <div className="border-b-2 border-zinc-900 dark:border-white/10 bg-amber-50/70 dark:bg-[#0D0E15]/80 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden backdrop-blur-md">
         
-        {/* Subtle sketch grid background & margin ruler */}
         <div className="max-w-7xl mx-auto relative">
           <div className="flex flex-wrap items-center gap-2 mb-4">
             <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white dark:bg-zinc-900 border-2 border-zinc-950 dark:border-white/20 text-xs font-sketch font-bold uppercase tracking-wider shadow-[2px_2px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_#10B981]">
-              <PenTool className="w-3.5 h-3.5 text-emerald-500" />
+              <PenTool className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
               <span>Architectural Field Notes v2.4</span>
             </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-300 dark:bg-amber-500/20 text-zinc-950 dark:text-amber-300 border border-zinc-950 text-xs font-sketch font-bold">
-              <span>★ 6 Autonomous AI Agents</span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-300 dark:bg-amber-500/20 text-zinc-950 dark:text-amber-300 border-2 border-zinc-950 text-xs font-sketch font-bold">
+              <span>6 Autonomous AI Agents</span>
             </span>
             <span className="font-handwriting text-base text-zinc-600 dark:text-zinc-400">
-              Hand-crafted protocol manual ✍️
+              Handwritten System Architecture
             </span>
           </div>
 
           <h1 className="font-sketch text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-zinc-900 dark:text-white mb-3">
-            CircularChain <span className="highlight-yellow px-2">Blueprint & Field Guide</span>
+            CircularChain <span className="highlight-yellow px-2">Blueprint & Field Manual</span>
           </h1>
           <p className="font-handwriting text-xl sm:text-2xl text-zinc-700 dark:text-zinc-300 max-w-3xl leading-relaxed">
             The definitive technical specification for formalizing India’s $40B+ secondary scrap economy using deterministic computer vision, EPA carbon math, and Polygon smart contracts.
@@ -191,23 +194,98 @@ export default function DocsOverviewPage() {
           {/* Main Sketchpad Area */}
           <main className="lg:col-span-9 space-y-12">
             
-            {/* 3D Cylinder Specimen Carousel Styled as an Interactive Sketchpad Turntable */}
-            <div className="sketchy-card p-6 sm:p-8 bg-white/95 dark:bg-[#12131C]/95 relative overflow-hidden backdrop-blur-xl">
+            {/* EXACT MATCH: 3-Column Sticky Note Sketchpad from Reference Image */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               
-              {/* Tape sticker decoration */}
-              <div className="tape-top mb-2"></div>
+              {/* Note 1: ML Model (with Paperclip on top-left) */}
+              <div className="relative p-6 rounded-3xl bg-white dark:bg-[#12131C] border-2 border-zinc-950 dark:border-white/20 shadow-[4px_4px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_#10B981] transform -rotate-0.5 hover:rotate-0 transition-transform duration-300 flex flex-col justify-between min-h-[220px]">
+                <PaperclipElement />
+                <div className="space-y-3">
+                  <div className="w-fit">
+                    <h3 className="font-sketch text-xl font-bold text-zinc-900 dark:text-white">
+                      ML Models:
+                    </h3>
+                    <DoodleUnderline className="text-zinc-950 dark:text-white" />
+                  </div>
+
+                  <ul className="space-y-1.5 font-sketch text-sm text-zinc-700 dark:text-zinc-300 leading-snug">
+                    <li>• Tool-calling Multi-Agent LLM</li>
+                    <li>• Vision Contamination Masking</li>
+                    <li>• EPA WARM v15 Carbon Math</li>
+                    <li>• Fraud Risk Anomaly Radar</li>
+                  </ul>
+                </div>
+
+                <div className="flex justify-end pt-2">
+                  <DoodleStar className="text-amber-500" />
+                </div>
+              </div>
+
+              {/* Note 2: Database (with Washi Tape on top-center) */}
+              <div className="relative p-6 rounded-3xl bg-white dark:bg-[#12131C] border-2 border-zinc-950 dark:border-white/20 shadow-[4px_4px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_#F59E0B] transform rotate-0.5 hover:rotate-0 transition-transform duration-300 flex flex-col justify-between min-h-[220px]">
+                <WashiTapeCenter />
+                <div className="space-y-3">
+                  <div className="w-fit">
+                    <h3 className="font-sketch text-xl font-bold text-zinc-900 dark:text-white">
+                      Data & State:
+                    </h3>
+                    <DoodleUnderline className="text-zinc-950 dark:text-white" />
+                  </div>
+
+                  <ul className="space-y-1.5 font-sketch text-sm text-zinc-700 dark:text-zinc-300 leading-snug">
+                    <li>• PostgreSQL / Prisma ORM</li>
+                    <li>• Redis Event & MCX Oracle Bus</li>
+                    <li>• Local SQLite / Room Cache</li>
+                    <li>• Pinata IPFS Evidence Storage</li>
+                  </ul>
+                </div>
+
+                <div className="flex justify-end pt-2">
+                  <DoodleDatabase className="text-emerald-500" />
+                </div>
+              </div>
+
+              {/* Note 3: Cloud / Ledger (with Diagonal Washi Tape on top-right) */}
+              <div className="relative p-6 rounded-3xl bg-white dark:bg-[#12131C] border-2 border-zinc-950 dark:border-white/20 shadow-[4px_4px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_#10B981] transform -rotate-0.5 hover:rotate-0 transition-transform duration-300 flex flex-col justify-between min-h-[220px]">
+                <WashiTapeCorner />
+                <div className="space-y-3">
+                  <div className="w-fit">
+                    <h3 className="font-sketch text-xl font-bold text-zinc-900 dark:text-white">
+                      Cloud / Ledger:
+                    </h3>
+                    <DoodleUnderline className="text-zinc-950 dark:text-white" />
+                  </div>
+
+                  <ul className="space-y-1.5 font-sketch text-sm text-zinc-700 dark:text-zinc-300 leading-snug">
+                    <li>• Polygon Amoy (Chain ID: 80002)</li>
+                    <li>• Render Cloud Auto-Scaling</li>
+                    <li>• Flutter Android Mobile Layer</li>
+                    <li>• Phone-first Hindi Voice Input</li>
+                  </ul>
+                </div>
+
+                <div className="flex justify-end pt-2">
+                  <DoodleCloud className="text-sky-500" />
+                </div>
+              </div>
+            </div>
+
+            {/* 3D Cylinder Specimen Carousel Styled as an Interactive Specimen Turntable */}
+            <div className="relative p-6 sm:p-8 rounded-3xl bg-white/95 dark:bg-[#12131C]/95 border-2 border-zinc-950 dark:border-white/20 shadow-[4px_4px_0px_#10B981] overflow-hidden backdrop-blur-xl">
+              
+              <WashiTapeCenter />
 
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b-2 border-dashed border-zinc-200 dark:border-white/10">
                 <div>
                   <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 font-sketch text-xs font-bold uppercase mb-1 border border-emerald-300">
-                    <span>🔬 3D Specimen Turntable</span>
+                    <span>3D Specimen Turntable</span>
                   </div>
                   <h3 className="font-sketch text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">
                     10 Verified Secondary Material Streams
                   </h3>
                 </div>
                 <span className="font-handwriting text-lg text-emerald-700 dark:text-emerald-400 font-bold">
-                  (Drag or let rotate continuously in 3D ↺)
+                  (Drag or rotate in 3D ↺)
                 </span>
               </div>
 
@@ -222,7 +300,7 @@ export default function DocsOverviewPage() {
               </div>
 
               <div className="mt-4 pt-3 border-t-2 border-dashed border-zinc-200 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2 font-handwriting text-base text-zinc-600 dark:text-zinc-400">
-                <span>📌 Each lot is verified by Agent 01 pixel contouring & ISO 9001 quality grade</span>
+                <span>Verified by Agent 01 pixel contouring & ISO 9001 quality grade</span>
                 <span className="font-mono text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase">
                   Polygon Amoy Testnet (80002)
                 </span>
@@ -230,19 +308,18 @@ export default function DocsOverviewPage() {
             </div>
 
             {/* Scribely Note Box: Why the World is Failing */}
-            <section className="sketchy-card p-6 sm:p-8 bg-amber-50/90 dark:bg-[#14151F] relative space-y-6">
+            <section className="relative p-6 sm:p-8 rounded-3xl bg-amber-50/90 dark:bg-[#14151F] border-2 border-zinc-950 dark:border-white/20 shadow-[4px_4px_0px_rgba(0,0,0,1)] space-y-6">
+              <PaperclipElement />
               <div className="flex items-center justify-between">
                 <div className="inline-flex items-center gap-2 font-sketch text-xs uppercase tracking-widest text-rose-600 dark:text-rose-400 font-bold">
-                  <span>🚨 Critical Problem Statement Analysis</span>
+                  <span>Critical Problem Statement Analysis</span>
                 </div>
                 <span className="font-handwriting text-sm text-zinc-500">Case Study 2026-27</span>
               </div>
 
               <h2 className="font-sketch text-2xl sm:text-4xl font-extrabold text-zinc-900 dark:text-white leading-tight">
                 From Chaos to Clarity: <span className="highlight-yellow">Why Linear Recycling Fails</span>
-                <svg className="w-48 h-2 mt-1" viewBox="0 0 100 10" preserveAspectRatio="none">
-                  <path d="M0,5 Q25,0 50,5 T100,5" stroke="currentColor" strokeWidth="2" fill="none" className="text-rose-500"></path>
-                </svg>
+                <DoodleUnderline className="text-rose-500 max-w-sm" />
               </h2>
 
               <div className="space-y-4 font-sans text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
@@ -255,9 +332,9 @@ export default function DocsOverviewPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
                 
                 {/* Sticky Note 1 */}
-                <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900/90 border-2 border-zinc-950 dark:border-white/10 shadow-[3px_3px_0px_rgba(244,63,94,0.3)] transform -rotate-1 hover:rotate-0 transition-transform duration-300 space-y-2">
+                <div className="relative p-5 rounded-2xl bg-white dark:bg-zinc-900/90 border-2 border-zinc-950 dark:border-white/10 shadow-[3px_3px_0px_rgba(244,63,94,0.3)] transform -rotate-0.5 hover:rotate-0 transition-transform duration-300 space-y-2">
                   <div className="flex items-center gap-2 font-sketch text-base font-bold text-rose-600 dark:text-rose-400">
-                    <span>🔥 Toxic Smelting & Health Hazards</span>
+                    <span>1. Toxic Smelting & Health Hazards</span>
                   </div>
                   <p className="font-handwriting text-lg text-zinc-800 dark:text-zinc-200 leading-snug">
                     Unregulated scrap in developing nations is melted in crude backyard acid baths, releasing lethal dioxins and lead into groundwater and communities.
@@ -265,9 +342,9 @@ export default function DocsOverviewPage() {
                 </div>
 
                 {/* Sticky Note 2 */}
-                <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900/90 border-2 border-zinc-950 dark:border-white/10 shadow-[3px_3px_0px_rgba(245,158,11,0.3)] transform rotate-1 hover:rotate-0 transition-transform duration-300 space-y-2">
+                <div className="relative p-5 rounded-2xl bg-white dark:bg-zinc-900/90 border-2 border-zinc-950 dark:border-white/10 shadow-[3px_3px_0px_rgba(245,158,11,0.3)] transform rotate-0.5 hover:rotate-0 transition-transform duration-300 space-y-2">
                   <div className="flex items-center gap-2 font-sketch text-base font-bold text-amber-600 dark:text-amber-400">
-                    <span>📉 40% Middleman Margin Cuts</span>
+                    <span>2. 40% Middleman Margin Cuts</span>
                   </div>
                   <p className="font-handwriting text-lg text-zinc-800 dark:text-zinc-200 leading-snug">
                     5M+ informal kabadiwalas get arbitrary deductions on manual weigh scales with zero real-time MCX market transparency.
@@ -275,9 +352,9 @@ export default function DocsOverviewPage() {
                 </div>
 
                 {/* Sticky Note 3 */}
-                <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900/90 border-2 border-zinc-950 dark:border-white/10 shadow-[3px_3px_0px_rgba(244,63,94,0.3)] transform rotate-1 hover:rotate-0 transition-transform duration-300 space-y-2">
+                <div className="relative p-5 rounded-2xl bg-white dark:bg-zinc-900/90 border-2 border-zinc-950 dark:border-white/10 shadow-[3px_3px_0px_rgba(244,63,94,0.3)] transform rotate-0.5 hover:rotate-0 transition-transform duration-300 space-y-2">
                   <div className="flex items-center gap-2 font-sketch text-base font-bold text-rose-600 dark:text-rose-400">
-                    <span>📄 $12.4B ESG Paper Greenwashing</span>
+                    <span>3. $12.4B ESG Paper Greenwashing</span>
                   </div>
                   <p className="font-handwriting text-lg text-zinc-800 dark:text-zinc-200 leading-snug">
                     Companies buy fake, duplicate PDF certificates while actual scrap rots in landfills without ever reaching a real smelter.
@@ -285,9 +362,9 @@ export default function DocsOverviewPage() {
                 </div>
 
                 {/* Sticky Note 4 */}
-                <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900/90 border-2 border-zinc-950 dark:border-white/10 shadow-[3px_3px_0px_rgba(16,185,129,0.3)] transform -rotate-1 hover:rotate-0 transition-transform duration-300 space-y-2">
+                <div className="relative p-5 rounded-2xl bg-white dark:bg-zinc-900/90 border-2 border-zinc-950 dark:border-white/10 shadow-[3px_3px_0px_rgba(16,185,129,0.3)] transform -rotate-0.5 hover:rotate-0 transition-transform duration-300 space-y-2">
                   <div className="flex items-center gap-2 font-sketch text-base font-bold text-emerald-600 dark:text-emerald-400">
-                    <span>⚖️ Statutory CPCB Quota Penalties</span>
+                    <span>4. Statutory CPCB Quota Penalties</span>
                   </div>
                   <p className="font-handwriting text-lg text-zinc-800 dark:text-zinc-200 leading-snug">
                     Failing FY 2026-27 recycling targets incurs non-negotiable fines up to ₹25,000/MT under Indian environmental law.
@@ -296,47 +373,40 @@ export default function DocsOverviewPage() {
               </div>
             </section>
 
-            {/* Scribely Sketch Cards Directory */}
+            {/* Scribely Sketch Cards Directory with Paperclips & Washi Tape */}
             <section className="space-y-6 pt-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b-2 border-zinc-900 dark:border-white/10 pb-3">
-                <h3 className="font-sketch text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">
-                  Field Manual Chapters & Agent Blueprints
-                  <svg className="w-56 h-2 mt-1" viewBox="0 0 100 10" preserveAspectRatio="none">
-                    <path d="M0,5 Q25,0 50,5 T100,5" stroke="currentColor" strokeWidth="2" fill="none" className="text-emerald-500"></path>
-                  </svg>
-                </h3>
+                <div>
+                  <h3 className="font-sketch text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">
+                    Field Manual Chapters & Agent Blueprints
+                  </h3>
+                  <DoodleUnderline className="text-emerald-500 max-w-xs" />
+                </div>
                 <span className="font-handwriting text-base text-zinc-500 font-bold">
                   Click any chapter card to open deep-dive
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {chapters.map((chap, idx) => {
                   const Icon = chap.icon;
                   return (
                     <Link
                       key={idx}
                       href={chap.href}
-                      className={`p-6 rounded-3xl bg-white dark:bg-[#12131C] border-2 border-zinc-950 dark:border-white/15 shadow-[4px_4px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_#10B981] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all group flex flex-col justify-between space-y-4 transform ${chap.tilt}`}
+                      className={`relative p-6 rounded-3xl bg-white dark:bg-[#12131C] border-2 border-zinc-950 dark:border-white/20 shadow-[4px_4px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_#10B981] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all group flex flex-col justify-between space-y-4 transform ${chap.tilt}`}
                     >
-                      <div className="space-y-3">
+                      {/* Dynamic Attachment Element */}
+                      {chap.attachType === "paperclip" && <PaperclipElement />}
+                      {chap.attachType === "tape-center" && <WashiTapeCenter />}
+                      {chap.attachType === "tape-corner" && <WashiTapeCorner />}
+
+                      <div className="space-y-3 pt-2">
                         <div className="flex items-center justify-between">
-                          <div className={`w-10 h-10 rounded-2xl border-2 border-zinc-950 flex items-center justify-center ${
-                            chap.accent === "rose"
-                              ? "bg-rose-100 text-rose-600"
-                              : chap.accent === "orange"
-                              ? "bg-amber-100 text-amber-700"
-                              : "bg-emerald-100 text-emerald-700"
-                          }`}>
+                          <div className="w-10 h-10 rounded-2xl border-2 border-zinc-950 flex items-center justify-center bg-zinc-100 dark:bg-white/10 text-zinc-900 dark:text-white">
                             <Icon className="w-5 h-5" />
                           </div>
-                          <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full font-bold uppercase border border-zinc-950 ${
-                            chap.accent === "rose"
-                              ? "bg-rose-200 text-rose-900"
-                              : chap.accent === "orange"
-                              ? "bg-amber-200 text-amber-900"
-                              : "bg-emerald-200 text-emerald-900"
-                          }`}>
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full font-bold uppercase border border-zinc-950 bg-amber-100 dark:bg-amber-500/20 text-zinc-950 dark:text-amber-300">
                             {chap.badge}
                           </span>
                         </div>
@@ -351,7 +421,7 @@ export default function DocsOverviewPage() {
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-1.5 font-sketch text-xs font-bold text-emerald-600 dark:text-emerald-400 pt-1 border-t-2 border-dashed border-zinc-200 dark:border-white/10">
+                      <div className="flex items-center gap-1.5 font-sketch text-xs font-bold text-emerald-600 dark:text-emerald-400 pt-2 border-t-2 border-dashed border-zinc-200 dark:border-white/10">
                         <span>Read Blueprint Chapter</span>
                         <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                       </div>
