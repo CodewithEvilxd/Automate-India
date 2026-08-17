@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
+import DocsSidebar from "@/components/DocsSidebar";
 import {
   BookOpen,
   Cpu,
@@ -184,59 +185,7 @@ export default function DocsPage() {
           
           {/* LEFT SIDEBAR: Hierarchical Menu */}
           <aside className="lg:col-span-3">
-            <div className="sticky top-20 rounded-2xl glass-panel border border-zinc-200 dark:border-white/10 p-4 shadow-xl bg-white/80 dark:bg-[#0D0E15]/80 backdrop-blur-xl space-y-6">
-              
-              {/* Quick Filter */}
-              <div className="relative">
-                <Search className="w-3.5 h-3.5 text-zinc-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                <input
-                  type="text"
-                  placeholder="Filter sections..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-zinc-100 dark:bg-white/[0.04] border border-zinc-200 dark:border-white/10 rounded-xl pl-9 pr-3 py-2 text-xs font-medium placeholder:text-zinc-400 outline-none focus:border-emerald-500 transition-all"
-                />
-              </div>
-
-              {/* Navigation Groups */}
-              <div className="space-y-5">
-                {navigationGroups.map((grp, idx) => (
-                  <div key={idx} className="space-y-1">
-                    <span className="font-mono text-[10px] uppercase tracking-widest text-zinc-500 dark:text-zinc-400 font-bold block px-2 mb-1">
-                      {grp.group}
-                    </span>
-                    {grp.items
-                      .filter((item) =>
-                        searchQuery ? item.label.toLowerCase().includes(searchQuery.toLowerCase()) : true
-                      )
-                      .map((item) => (
-                        <a
-                          key={item.id}
-                          href={`#${item.id}`}
-                          className={`block py-1.5 px-3 rounded-xl transition-all text-xs font-medium truncate ${
-                            activeSection === item.id
-                              ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold border-l-2 border-emerald-500 shadow-sm"
-                              : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-white/[0.04]"
-                          }`}
-                        >
-                          {item.label}
-                        </a>
-                      ))}
-                  </div>
-                ))}
-              </div>
-
-              {/* Quick Download Action */}
-              <div className="pt-4 border-t border-zinc-200 dark:border-white/[0.08] space-y-2">
-                <a
-                  href="/circularchain.apk"
-                  className="w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-orange-500 hover:bg-orange-400 text-zinc-950 font-display text-xs font-bold transition-all shadow-md shadow-orange-500/20"
-                >
-                  <span>Download Release APK</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-              </div>
-            </div>
+            <DocsSidebar />
           </aside>
 
           {/* MAIN DOCUMENTATION CONTENT */}
