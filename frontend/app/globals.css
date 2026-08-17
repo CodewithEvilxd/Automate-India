@@ -125,3 +125,15 @@ html, body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted);
 }
+
+/* High-Contrast Text Selection for Light and Dark Themes */
+::selection {
+  background-color: rgba(16, 185, 129, 0.22) !important;
+  color: #09090B !important;
+}
+
+.dark ::selection {
+  background-color: rgba(16, 185, 129, 0.35) !important;
+  color: #FFFFFF !important;
+}
+

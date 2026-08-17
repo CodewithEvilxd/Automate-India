@@ -24,7 +24,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="h-full antialiased dark" suppressHydrationWarning>
-      <body className="min-h-full flex flex-col antialiased selection:bg-cyan-500/30 selection:text-cyan-200" suppressHydrationWarning>
+      <body className="min-h-full flex flex-col antialiased selection:bg-emerald-500/20 selection:text-zinc-950 dark:selection:bg-emerald-500/30 dark:selection:text-emerald-100" suppressHydrationWarning>
         <ThemeProvider>
           {children}
         </ThemeProvider>
