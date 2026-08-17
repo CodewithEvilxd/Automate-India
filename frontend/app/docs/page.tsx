@@ -5,6 +5,20 @@ import Navbar from "@/components/Navbar";
 import DocsSidebar from "@/components/DocsSidebar";
 import Link from "next/link";
 import Image from "next/image";
+import { CylinderCarousel } from "@/components/ui/cylinder-carousel";
+
+const CAROUSEL_CARDS = [
+  { src: "/carousel/card-01.png", title: "Secondary Aluminum 6063 Ingot", category: "Non-Ferrous", alt: "Aluminum Scrap Ingot" },
+  { src: "/carousel/card-02.png", title: "Stripped Heavy Berry Copper", category: "High Purity", alt: "Copper Wire Bales" },
+  { src: "/carousel/card-03.png", title: "Hot-Washed PET Bottle Flakes", category: "Polymers", alt: "PET Flakes" },
+  { src: "/carousel/card-04.png", title: "Blue HDPE Reprocessed Granules", category: "Rigid Plastic", alt: "HDPE Granules" },
+  { src: "/carousel/card-05.png", title: "Lithium Battery Black Mass", category: "Critical Minerals", alt: "EV Battery Black Mass" },
+  { src: "/carousel/card-06.png", title: "Heavy Melting Steel (HMS 1/2)", category: "Ferrous Scrap", alt: "Heavy Steel Scrap" },
+  { src: "/carousel/card-07.png", title: "Agent 01 Optical Vision Scan", category: "AI Computer Vision", alt: "Optical Quality Scan" },
+  { src: "/carousel/card-08.png", title: "Grassroots Scrap Aggregation", category: "Social Inclusion", alt: "Kabadiwala Shop Depot" },
+  { src: "/carousel/card-09.png", title: "Digital Weighbridge Telemetry", category: "Audit Trail", alt: "Weighbridge Scale" },
+  { src: "/carousel/card-10.png", title: "Certified Secondary Smelting", category: "Zero-Landfill", alt: "Clean Smelting Plant" },
+];
 import {
   BookOpen,
   Cpu,
@@ -162,23 +176,35 @@ export default function DocsOverviewPage() {
           </aside>
 
           <main className="lg:col-span-9 space-y-12">
-            {/* Infographic 1: Global Waste vs Circular Economy */}
-            <div className="rounded-3xl overflow-hidden border border-zinc-200 dark:border-white/10 glass-panel shadow-2xl relative">
-              <div className="relative w-full aspect-video">
-                <Image
-                  src="/docs/global_scrap_crisis.jpg"
-                  alt="Global Scrap Crisis Infographic"
-                  fill
-                  className="object-cover"
-                  priority
+            {/* 3D Cylinder Carousel: Secondary Material Streams */}
+            <div className="rounded-3xl border border-zinc-200 dark:border-white/10 glass-panel shadow-2xl overflow-hidden p-6 sm:p-8 bg-white/60 dark:bg-black/40 backdrop-blur-xl relative">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-zinc-200 dark:border-white/10">
+                <div>
+                  <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono text-[10px] font-bold uppercase tracking-wider mb-1">
+                    <Sparkles className="w-3 h-3" />
+                    <span>3D Material Stream Visualizer</span>
+                  </div>
+                  <h3 className="font-display text-xl font-bold text-zinc-900 dark:text-white">
+                    Verified Secondary Commodity Streams
+                  </h3>
+                </div>
+                <span className="font-mono text-xs text-zinc-500 dark:text-zinc-400">
+                  10 Audited Industrial Streams
+                </span>
+              </div>
+
+              <div className="w-full relative py-2">
+                <CylinderCarousel
+                  images={CAROUSEL_CARDS}
+                  animationDuration={28}
+                  cardWidth={240}
+                  className="py-2"
                 />
               </div>
-              <div className="p-4 bg-zinc-900/90 backdrop-blur-md border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono text-zinc-300">
-                <span className="flex items-center gap-2 text-emerald-400 font-bold">
-                  <Globe2 className="w-4 h-4" />
-                  FIGURE 1.0: Global Extraction & Landfill Overflow vs Autonomous Secondary Refining
-                </span>
-                <span className="text-zinc-400 text-[11px]">EPA WARM v15 + MCX Benchmark Topology</span>
+
+              <div className="mt-4 pt-3 border-t border-zinc-200 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono text-zinc-500 dark:text-zinc-400">
+                <span>Hover card to inspect verified scrap stream batch</span>
+                <span className="text-emerald-500 font-bold">100% On-Chain Traceable</span>
               </div>
             </div>
 
