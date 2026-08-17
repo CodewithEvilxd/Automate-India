@@ -5,6 +5,22 @@ import Navbar from "@/components/Navbar";
 import DocsSidebar from "@/components/DocsSidebar";
 import Link from "next/link";
 import {
+  NotebookSpiralBinding,
+  PaperclipElement,
+  WashiTapeCenter,
+  WashiTapeCorner,
+  DoodleUnderline,
+  DoodleStar,
+  DoodleDatabase,
+  DoodleCloud,
+  DoodleLock,
+  DoodleChip,
+  DoodleShield,
+  DoodleScale,
+  StampBadge,
+  DoodleCircle,
+} from "@/components/SketchElements";
+import {
   CheckCircle2,
   XCircle,
   Cpu,
@@ -27,171 +43,178 @@ export default function SolutionComparisonPage() {
   const comparisonItems = [
     {
       feature: "Material Quality Verification",
-      traditional: "Manual subjective eyeball inspection; frequent adulteration disputes and grade misrepresentation.",
-      circularchain: "Agent 01 Multi-Modal Semantic Segmentation; pixel-level contamination analysis with certified ISO 9001 Grade A+/A/B outputs.",
-      accent: "emerald",
+      traditional: "Manual eyeball inspection; subjective tare deductions (20-40%); arbitrary dispute settlement.",
+      circularchain: "Agent 01 Multi-Modal Semantic Segmentation; OpenCV contour masking with certified ISO 9001 Grade A+/A/B ratings.",
+      agent: "Agent 01",
+      tapeColor: "mint" as const,
     },
     {
-      feature: "Carbon Abatement Mathematics",
-      traditional: "Self-reported spreadsheet estimations or hallucinated LLM generative text.",
-      circularchain: "Agent 02 Deterministic US EPA WARM v15 Equations; immutable scientific life-cycle conversion factors.",
-      accent: "emerald",
+      feature: "Scope 3 Carbon Math",
+      traditional: "Self-reported arbitrary spreadsheets or stochastic GenAI hallucinations without boundary physics.",
+      circularchain: "Agent 02 Deterministic US EPA WARM v15 Equations; immutable life-cycle conversion coefficients (9.13 kg CO₂e for Alum).",
+      agent: "Agent 02",
+      tapeColor: "kraft" as const,
     },
     {
       feature: "Commodity Price Discovery",
-      traditional: "Opaque middleman quotes with 30-50% margins deducted from grassroots collectors.",
-      circularchain: "Agent 03 Real-Time MCX & Mandi Continuous Oracle with automated secondary market discount calculation.",
-      accent: "orange",
+      traditional: "Opaque predatory middleman quotes; informal collectors lose up to 45% of real market spot value.",
+      circularchain: "Agent 03 Real-Time MCX & Mandi Continuous Oracle polling spot indices every 60s with Haversine transport carbon deductions.",
+      agent: "Agent 03",
+      tapeColor: "yellow" as const,
     },
     {
-      feature: "Informal Sector Access",
-      traditional: "Complex English web portal forms requiring desktops, excluding unorganized workers.",
-      circularchain: "Agent 04 Multi-Lingual Speech Processing supporting vernacular Hindi, Tamil, Telugu, Marathi, and Bengali.",
-      accent: "emerald",
+      feature: "Informal Sector Accessibility",
+      traditional: "Desktop-only English web ERP portals (SAP/Oracle) requiring literacy and typing.",
+      circularchain: "Agent 04 Multi-Lingual Speech NLP supporting colloquial Hindi, Tamil, Telugu, Marathi, and Bengali voice notes.",
+      agent: "Agent 04",
+      tapeColor: "pink" as const,
     },
     {
       feature: "Fraud & Double-Count Prevention",
-      traditional: "Post-audit checks after funds are transferred; zero cryptographic protection against duplicate invoices.",
-      circularchain: "Agent 05 Pre-Execution Anomaly Radar blocking identical IPFS hashes and circular wash trading.",
-      accent: "orange",
+      traditional: "Post-facto paper audits after money is wired; zero cryptographic visual inspection proof.",
+      circularchain: "Agent 05 Pre-Execution Anomaly Radar blocking identical IPFS perceptual hashes and circular wash-trading.",
+      agent: "Agent 05",
+      tapeColor: "mint" as const,
     },
     {
-      feature: "Statutory EPR Certification",
-      traditional: "Manual liaison with regional pollution control boards taking 3-6 months.",
-      circularchain: "Agent 06 Automated CPCB Rule Schedule Mapping with instant auditable digital certificates.",
-      accent: "orange",
+      feature: "Statutory CPCB EPR Filing",
+      traditional: "Manual paperwork liaison taking 3-6 months with high risk of ₹25,000/MT non-compliance penalties.",
+      circularchain: "Agent 06 Automated CPCB Portal Integration with cryptographically signed certificates fulfilling PWM Rules 2026.",
+      agent: "Agent 06",
+      tapeColor: "yellow" as const,
     },
     {
-      feature: "Ownership Transfer Settlement",
-      traditional: "Paper bills of lading easily destroyed, lost, or forged.",
-      circularchain: "Polygon Amoy Smart Contract verifyAndTransfer() with IPFS pinned decentralized visual proof.",
-      accent: "emerald",
+      feature: "Settlement & Trust Architecture",
+      traditional: "Unrecorded cash payments, delayed 60-day credit terms, and opaque verbal receipts.",
+      circularchain: "Polygon Amoy Smart Contracts (Chain ID: 80002) with atomic state settlement and Pinata IPFS visual proof hashing.",
+      agent: "Web3",
+      tapeColor: "kraft" as const,
     },
   ];
 
   return (
-    <div className="min-h-screen bg-[#FBFBFC] dark:bg-[#090A0F] text-zinc-900 dark:text-zinc-100 transition-colors duration-250 flex flex-col font-sans selection:bg-emerald-500/20 selection:text-zinc-950 dark:selection:bg-emerald-500/30 dark:selection:text-emerald-100">
+    <div className="min-h-screen notebook-ruled text-zinc-900 dark:text-zinc-100 transition-colors duration-250 flex flex-col font-sans selection:bg-amber-300 selection:text-zinc-950 dark:selection:bg-emerald-500/30 dark:selection:text-emerald-100">
       <Navbar />
 
       {/* Header Banner */}
-      <div className="border-b border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-[#0D0E15] py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-emerald-500/10 dark:bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="border-b-2 border-zinc-900 dark:border-white/10 bg-[#FAF8F5] dark:bg-[#0D0E15] py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden backdrop-blur-md">
+        <WashiTapeCenter color="mint" className="scale-125" />
 
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-2 text-xs font-mono text-zinc-500 mb-3">
-            <Link href="/docs" className="hover:text-emerald-500 transition-colors">
-              Docs
+        <div className="max-w-7xl mx-auto relative border-l-2 border-red-300/60 dark:border-red-500/30 pl-4 sm:pl-8 ml-1 sm:ml-4">
+          <div className="flex flex-wrap items-center gap-3 mb-4">
+            <Link
+              href="/docs"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-zinc-900 border-2 border-zinc-950 dark:border-white/20 text-xs font-sketch font-bold hover:bg-zinc-100 transition-all shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Back to Field Manual</span>
             </Link>
-            <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
-            <span className="text-zinc-500">Getting Started</span>
-            <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
-            <span className="text-emerald-500 font-bold">Linear vs CircularChain</span>
+            <StampBadge label="ARCHITECTURAL MATRIX" variant="emerald" />
+            <StampBadge label="10X ADVANTAGE" variant="amber" />
           </div>
 
-          <h1 className="font-display text-3xl sm:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-white mb-4">
-            Linear Economy vs CircularChain Protocol
+          <h1 className="font-sketch text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-zinc-900 dark:text-white mb-3">
+            Linear vs <span className="highlight-emerald px-2">CircularChain Protocol</span>
           </h1>
-          <p className="text-zinc-600 dark:text-zinc-400 text-base sm:text-lg max-w-3xl leading-relaxed">
-            A granular comparison detailing why autonomous multi-agent AI coupled with cryptographic smart contracts outperforms traditional scrap recycling models.
+          <p className="font-sketch text-lg sm:text-xl text-zinc-700 dark:text-zinc-300 max-w-3xl leading-relaxed">
+            A point-by-point architectural and operational comparison contrasting traditional informal scrap recycling against CircularChain’s autonomous multi-agent cryptographic protocol.
           </p>
         </div>
       </div>
 
       {/* Main Content Layout */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-1">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-1 relative">
+        <NotebookSpiralBinding count={14} />
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pl-4 sm:pl-8">
           {/* Sidebar */}
           <aside className="lg:col-span-3">
             <DocsSidebar />
           </aside>
 
-          {/* Detailed Content */}
-          <main className="lg:col-span-9 space-y-12">
-            {/* Overview */}
-            <section className="space-y-4">
-              <div className="inline-flex items-center gap-2 text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>ARCHITECTURAL ADVANTAGES</span>
+          {/* Main Content Area */}
+          <main className="lg:col-span-9 space-y-12 border-l-2 border-red-300/50 dark:border-red-500/20 pl-4 sm:pl-6">
+            
+            {/* Architectural Overview Card */}
+            <section className="relative p-6 sm:p-8 rounded-3xl bg-[#FCFBF7] dark:bg-[#12131C] border-2 border-zinc-950 dark:border-white/20 shadow-[4px_5px_0px_#10B981] space-y-4">
+              <PaperclipElement />
+
+              <div className="flex items-center justify-between border-b-2 border-dashed border-zinc-300 dark:border-white/10 pb-3">
+                <span className="font-sketch text-xs font-bold uppercase text-emerald-700 dark:text-emerald-400 tracking-wider">
+                  Comparative Analysis Blueprint
+                </span>
+                <StampBadge label="PARADIGM SHIFT" variant="emerald" />
               </div>
-              <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">
-                How CircularChain Solves Every Vulnerability
+
+              <h2 className="font-sketch text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">
+                From Broken Paper Ledgers to <DoodleCircle className="text-emerald-500">Autonomous Settlement</DoodleCircle>
               </h2>
-              <p className="text-zinc-600 dark:text-zinc-300 text-sm leading-relaxed">
-                Traditional recycling workflows suffer from high human latency, unverified claims, and financial leakage. CircularChain substitutes subjective manual verification with autonomous mathematical validation across every touchpoint.
+
+              <p className="font-sans text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
+                Traditional circular supply chains rely on disconnected spreadsheets, cash handoffs, and verbal negotiations that invite corruption. CircularChain introduces a <strong>zero-trust, verifiable state machine</strong> where physical material mass is validated by computer vision, priced by commodity oracles, and settled on Polygon Amoy smart contracts.
               </p>
             </section>
 
-            {/* Comparison Cards */}
-            <section className="space-y-4">
-              <h3 className="font-display text-xl font-bold text-zinc-900 dark:text-white border-b border-zinc-200 dark:border-white/10 pb-3">
-                Feature-by-Feature Operational Breakdown
-              </h3>
+            {/* Granular Comparison Cards */}
+            <div className="space-y-6">
+              {comparisonItems.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="relative p-6 rounded-3xl bg-white dark:bg-zinc-900 border-2 border-zinc-950 dark:border-white/20 shadow-[4px_5px_0px_rgba(0,0,0,0.85)] dark:shadow-[4px_5px_0px_#10B981] space-y-4"
+                >
+                  <WashiTapeCenter color={item.tapeColor} />
 
-              <div className="space-y-4">
-                {comparisonItems.map((item, idx) => (
-                  <div
-                    key={idx}
-                    className="p-6 rounded-3xl glass-panel border border-zinc-200 dark:border-white/10 space-y-4"
-                  >
-                    <div className="flex items-center justify-between border-b border-zinc-200 dark:border-white/[0.06] pb-3">
-                      <span className="font-display font-bold text-sm text-zinc-900 dark:text-white">
-                        {item.feature}
-                      </span>
-                      <span
-                        className={`text-[10px] font-mono font-bold uppercase px-2.5 py-0.5 rounded-full ${
-                          item.accent === "emerald"
-                            ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
-                            : "bg-orange-500/10 text-orange-500"
-                        }`}
-                      >
-                        Step 0{idx + 1}
-                      </span>
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b-2 border-dashed border-zinc-200 dark:border-white/10 pb-3">
+                    <h3 className="font-sketch text-xl font-bold text-zinc-900 dark:text-white">
+                      {item.feature}
+                    </h3>
+                    <span className="font-mono text-xs px-2.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 border border-emerald-300 font-bold uppercase">
+                      {item.agent}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Traditional Failure */}
+                    <div className="p-4 rounded-2xl bg-[#FEE2E2]/60 dark:bg-rose-950/20 border-2 border-rose-400 dark:border-rose-500/30 space-y-1.5">
+                      <div className="flex items-center gap-1.5 text-rose-700 dark:text-rose-400 font-sketch text-xs font-bold uppercase">
+                        <XCircle className="w-4 h-4" />
+                        <span>Traditional Linear Method</span>
+                      </div>
+                      <p className="font-sans text-xs text-zinc-800 dark:text-zinc-200 leading-snug">
+                        {item.traditional}
+                      </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                      {/* Traditional */}
-                      <div className="p-4 rounded-2xl bg-rose-500/[0.04] border border-rose-500/20 space-y-1.5">
-                        <div className="flex items-center gap-1.5 text-rose-500 font-bold">
-                          <XCircle className="w-4 h-4 shrink-0" />
-                          <span>Traditional Model</span>
-                        </div>
-                        <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                          {item.traditional}
-                        </p>
+                    {/* CircularChain Advantage */}
+                    <div className="p-4 rounded-2xl bg-[#DCFCE7]/70 dark:bg-emerald-950/20 border-2 border-emerald-500 space-y-1.5 shadow-[2px_2px_0px_#10B981]">
+                      <div className="flex items-center gap-1.5 text-emerald-800 dark:text-emerald-300 font-sketch text-xs font-bold uppercase">
+                        <CheckCircle2 className="w-4 h-4" />
+                        <span>CircularChain Autonomous Protocol</span>
                       </div>
-
-                      {/* CircularChain */}
-                      <div className="p-4 rounded-2xl bg-emerald-500/[0.04] border border-emerald-500/20 space-y-1.5">
-                        <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-bold">
-                          <CheckCircle2 className="w-4 h-4 shrink-0" />
-                          <span>CircularChain Protocol</span>
-                        </div>
-                        <p className="text-zinc-700 dark:text-zinc-300 leading-relaxed font-medium">
-                          {item.circularchain}
-                        </p>
-                      </div>
+                      <p className="font-sans text-xs text-zinc-900 dark:text-zinc-100 leading-snug font-medium">
+                        {item.circularchain}
+                      </p>
                     </div>
                   </div>
-                ))}
-              </div>
-            </section>
+                </div>
+              ))}
+            </div>
 
-            {/* Navigation Footer */}
-            <div className="pt-8 border-t border-zinc-200 dark:border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+            {/* Navigation to Next Chapter */}
+            <div className="pt-4 border-t-2 border-dashed border-zinc-300 dark:border-white/10 flex items-center justify-between">
               <Link
                 href="/docs/problem-statement"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-white/[0.05] dark:hover:bg-white/10 text-zinc-900 dark:text-white font-display text-xs font-bold transition-all"
+                className="font-sketch text-sm font-bold text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 flex items-center gap-1"
               >
                 <ArrowLeft className="w-4 h-4" />
-                <span>The Global Crisis</span>
+                <span>Problem Statement</span>
               </Link>
-
               <Link
                 href="/docs/quickstart"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-display text-xs font-bold shadow-md shadow-emerald-500/20 transition-all hover:scale-105"
+                className="font-sketch text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:underline flex items-center gap-1"
               >
-                <span>Next: Quickstart Guide</span>
-                <ArrowRight className="w-4 h-4" />
+                <span>Next: Developer & Recycler Quickstart</span>
+                <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
           </main>

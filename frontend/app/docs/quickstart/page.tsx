@@ -5,6 +5,22 @@ import Navbar from "@/components/Navbar";
 import DocsSidebar from "@/components/DocsSidebar";
 import Link from "next/link";
 import {
+  NotebookSpiralBinding,
+  PaperclipElement,
+  WashiTapeCenter,
+  WashiTapeCorner,
+  DoodleUnderline,
+  DoodleStar,
+  DoodleDatabase,
+  DoodleCloud,
+  DoodleLock,
+  DoodleChip,
+  DoodleShield,
+  DoodleScale,
+  StampBadge,
+  DoodleCircle,
+} from "@/components/SketchElements";
+import {
   Rocket,
   Mic,
   Camera,
@@ -32,165 +48,208 @@ export default function QuickstartPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FBFBFC] dark:bg-[#090A0F] text-zinc-900 dark:text-zinc-100 transition-colors duration-250 flex flex-col font-sans selection:bg-emerald-500/20 selection:text-zinc-950 dark:selection:bg-emerald-500/30 dark:selection:text-emerald-100">
+    <div className="min-h-screen notebook-ruled text-zinc-900 dark:text-zinc-100 transition-colors duration-250 flex flex-col font-sans selection:bg-amber-300 selection:text-zinc-950 dark:selection:bg-emerald-500/30 dark:selection:text-emerald-100">
       <Navbar />
 
       {/* Header Banner */}
-      <div className="border-b border-zinc-200 dark:border-white/[0.08] bg-white dark:bg-[#0D0E15] py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-emerald-500/10 dark:bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="border-b-2 border-zinc-900 dark:border-white/10 bg-[#FAF8F5] dark:bg-[#0D0E15] py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden backdrop-blur-md">
+        <WashiTapeCenter color="yellow" className="scale-125" />
 
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-2 text-xs font-mono text-zinc-500 mb-3">
-            <Link href="/docs" className="hover:text-emerald-500 transition-colors">
-              Docs
+        <div className="max-w-7xl mx-auto relative border-l-2 border-red-300/60 dark:border-red-500/30 pl-4 sm:pl-8 ml-1 sm:ml-4">
+          <div className="flex flex-wrap items-center gap-3 mb-4">
+            <Link
+              href="/docs"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-zinc-900 border-2 border-zinc-950 dark:border-white/20 text-xs font-sketch font-bold hover:bg-zinc-100 transition-all shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Back to Field Manual</span>
             </Link>
-            <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
-            <span className="text-zinc-500">Getting Started</span>
-            <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
-            <span className="text-emerald-500 font-bold">Quickstart Guide</span>
+            <StampBadge label="3-MINUTE ONBOARDING" variant="emerald" />
+            <StampBadge label="3 PARTICIPANT ROLES" variant="amber" />
           </div>
 
-          <h1 className="font-display text-3xl sm:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-white mb-4">
-            Participant & Developer Quickstart
+          <h1 className="font-sketch text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-zinc-900 dark:text-white mb-3">
+            Participant & <span className="highlight-yellow px-2">Developer Quickstart</span>
           </h1>
-          <p className="text-zinc-600 dark:text-zinc-400 text-base sm:text-lg max-w-3xl leading-relaxed">
-            Get up and running with CircularChain in less than 3 minutes as a scrap aggregator, enterprise recycling buyer, or Web3 developer.
+          <p className="font-sketch text-lg sm:text-xl text-zinc-700 dark:text-zinc-300 max-w-3xl leading-relaxed">
+            Get up and running with CircularChain in less than 3 minutes as an informal scrap aggregator, an institutional enterprise buyer, or a Web3 dApp developer.
           </p>
         </div>
       </div>
 
       {/* Main Content Layout */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-1">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-1 relative">
+        <NotebookSpiralBinding count={14} />
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pl-4 sm:pl-8">
           {/* Sidebar */}
           <aside className="lg:col-span-3">
             <DocsSidebar />
           </aside>
 
-          {/* Detailed Content */}
-          <main className="lg:col-span-9 space-y-12">
-            {/* Persona 1: Scrap Aggregator */}
-            <section className="space-y-6">
-              <div className="inline-flex items-center gap-2 text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">
-                <Mic className="w-3.5 h-3.5" />
-                <span>TRACK 01: SCRAP COLLECTORS & AGGREGATORS</span>
+          {/* Main Content Area */}
+          <main className="lg:col-span-9 space-y-12 border-l-2 border-red-300/50 dark:border-red-500/20 pl-4 sm:pl-6">
+            
+            {/* ROLE 1: Informal Aggregator (Kabadiwala) */}
+            <section className="relative p-6 sm:p-8 rounded-3xl bg-[#FEFCE8] dark:bg-[#12131C] border-2 border-zinc-950 dark:border-white/20 shadow-[4px_5px_0px_#10B981] space-y-6">
+              <PaperclipElement />
+
+              <div className="flex items-center justify-between border-b-2 border-dashed border-amber-300 dark:border-white/10 pb-3">
+                <span className="font-sketch text-xs font-bold uppercase text-amber-800 dark:text-amber-300 tracking-wider">
+                  Path 01 // Grassroots Scrap Aggregator (Kabadiwala)
+                </span>
+                <StampBadge label="ZERO TYPING REQUIRED" variant="emerald" />
               </div>
-              <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">
-                How to List Scrap with AI Vision & Indic Voice
+
+              <h2 className="font-sketch text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">
+                How to List Scrap via Voice & Camera in 30 Seconds
               </h2>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="p-6 rounded-3xl glass-panel border border-zinc-200 dark:border-white/10 space-y-3">
-                  <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center font-mono font-bold text-xs">
-                    01
-                  </div>
-                  <h3 className="font-display font-bold text-sm text-zinc-900 dark:text-white">
-                    Speak or Type
-                  </h3>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                    Open <Link href="/list" className="text-emerald-500 font-semibold hover:underline">/list</Link> or the Android App. Tap the microphone and speak in Hindi or English (e.g. <em>"500 kg copper scrap Noida me"</em>).
+              <p className="font-sans text-sm text-zinc-800 dark:text-zinc-200 leading-relaxed">
+                You do not need to read English, know technical jargon, or fill out web forms. The CircularChain Mobile Collector APK works completely offline with regional Indic voice AI:
+              </p>
+
+              {/* 3 Steps Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 font-sketch">
+                <div className="p-4 rounded-2xl bg-white dark:bg-zinc-800 border-2 border-zinc-950 shadow-[2px_2px_0px_rgba(0,0,0,0.8)] space-y-1.5">
+                  <span className="text-xs font-bold text-emerald-600 block uppercase">Step 1</span>
+                  <h4 className="text-base font-bold text-zinc-900 dark:text-white">Snap 2-Sec Photo</h4>
+                  <p className="font-sans text-xs text-zinc-600 dark:text-zinc-300">
+                    Agent 01 scans surface texture, detects contamination, and assigns ISO 9001 purity grade.
                   </p>
                 </div>
 
-                <div className="p-6 rounded-3xl glass-panel border border-zinc-200 dark:border-white/10 space-y-3">
-                  <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center font-mono font-bold text-xs">
-                    02
-                  </div>
-                  <h3 className="font-display font-bold text-sm text-zinc-900 dark:text-white">
-                    Visual Purity Scan
-                  </h3>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                    Agent 01 scans your photo to detect surface oxidation, PVC label impurities, and moisture, automatically assigning Grade A+/A.
+                <div className="p-4 rounded-2xl bg-white dark:bg-zinc-800 border-2 border-zinc-950 shadow-[2px_2px_0px_rgba(0,0,0,0.8)] space-y-1.5">
+                  <span className="text-xs font-bold text-amber-600 block uppercase">Step 2</span>
+                  <h4 className="text-base font-bold text-zinc-900 dark:text-white">Speak in Hindi/Tamil</h4>
+                  <p className="font-sans text-xs text-zinc-600 dark:text-zinc-300">
+                    Press mic and say: <em>"Bhaiya 400 kilo aluminum scrap hai, Mayapuri depot me."</em>
                   </p>
                 </div>
 
-                <div className="p-6 rounded-3xl glass-panel border border-zinc-200 dark:border-white/10 space-y-3">
-                  <div className="w-8 h-8 rounded-xl bg-orange-500/10 text-orange-500 flex items-center justify-center font-mono font-bold text-xs">
-                    03
-                  </div>
-                  <h3 className="font-display font-bold text-sm text-zinc-900 dark:text-white">
-                    Instant Valuation & Match
-                  </h3>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                    Agent 03 computes live MCX spot value and matches your lot with the nearest verified smelting hub in your transit corridor.
+                <div className="p-4 rounded-2xl bg-white dark:bg-zinc-800 border-2 border-zinc-950 shadow-[2px_2px_0px_rgba(0,0,0,0.8)] space-y-1.5">
+                  <span className="text-xs font-bold text-sky-600 block uppercase">Step 3</span>
+                  <h4 className="text-base font-bold text-zinc-900 dark:text-white">Receive Instant UPI</h4>
+                  <p className="font-sans text-xs text-zinc-600 dark:text-zinc-300">
+                    Receive 100% fair MCX market value directly into your UPI or bank account on delivery.
                   </p>
+                </div>
+              </div>
+
+              {/* Download APK Box */}
+              <div className="p-4 rounded-2xl bg-amber-200/60 dark:bg-amber-500/10 border-2 border-amber-400 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <strong className="font-sketch text-base text-zinc-900 dark:text-white block">Download Android Field Collector APK (v2.4)</strong>
+                  <span className="font-sans text-xs text-zinc-700 dark:text-zinc-300">Lightweight 3.8 MB package with offline SQLite sync.</span>
+                </div>
+                <a
+                  href="/circularchain.apk"
+                  className="px-4 py-2 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-white font-sketch text-xs font-bold shadow-[2px_2px_0px_#10B981] flex items-center gap-1.5 shrink-0"
+                >
+                  <span>Download APK</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </section>
+
+            {/* ROLE 2: Enterprise OEM & Smelter */}
+            <section className="relative p-6 sm:p-8 rounded-3xl bg-[#F0FDF4] dark:bg-[#12131C] border-2 border-zinc-950 dark:border-white/20 shadow-[4px_5px_0px_#10B981] space-y-6">
+              <WashiTapeCenter color="mint" />
+
+              <div className="flex items-center justify-between border-b-2 border-dashed border-emerald-300 dark:border-white/10 pb-3">
+                <span className="font-sketch text-xs font-bold uppercase text-emerald-800 dark:text-emerald-300 tracking-wider">
+                  Path 02 // Enterprise OEM & Certified Smelter
+                </span>
+                <StampBadge label="CPCB EPR COMPLIANCE" variant="emerald" />
+              </div>
+
+              <h2 className="font-sketch text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">
+                Fulfilling Statutory Quotas & Claiming Avoided Carbon
+              </h2>
+
+              <p className="font-sans text-sm text-zinc-800 dark:text-zinc-200 leading-relaxed">
+                Brand owners and smelting enterprises browse verified scrap listings, place bids, and automatically receive audited CPCB statutory compliance certificates:
+              </p>
+
+              <div className="space-y-3 font-sketch text-sm">
+                <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border-2 border-zinc-950 flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 text-xs font-bold font-mono">1</div>
+                  <div>
+                    <strong className="block text-zinc-900 dark:text-white">Connect Enterprise ERP / Web Dashboard</strong>
+                    <span className="font-sans text-xs text-zinc-600 dark:text-zinc-300">Access the verified marketplace portal to view live MCX prices and digital weighbridge lots.</span>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border-2 border-zinc-950 flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 text-xs font-bold font-mono">2</div>
+                  <div>
+                    <strong className="block text-zinc-900 dark:text-white">Lock Escrow Purchase with Smart Contract</strong>
+                    <span className="font-sans text-xs text-zinc-600 dark:text-zinc-300">Funds are held in trustless escrow until digital weighbridge weight and camera contour match specifications.</span>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border-2 border-zinc-950 flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 text-xs font-bold font-mono">3</div>
+                  <div>
+                    <strong className="block text-zinc-900 dark:text-white">Download Automated CPCB Filing Package</strong>
+                    <span className="font-sans text-xs text-zinc-600 dark:text-zinc-300">One-click export of quarterly EPR returns with immutable Polygon Amoy transaction hashes.</span>
+                  </div>
                 </div>
               </div>
             </section>
 
-            {/* Persona 2: Enterprise OEM */}
-            <section className="space-y-6">
-              <div className="inline-flex items-center gap-2 text-xs font-mono font-bold text-orange-500 dark:text-orange-400 uppercase tracking-widest">
-                <Building2 className="w-3.5 h-3.5" />
-                <span>TRACK 02: ENTERPRISE RECYCLERS & BRAND OWNERS</span>
+            {/* ROLE 3: Web3 & Systems Developer */}
+            <section className="relative p-6 sm:p-8 rounded-3xl bg-[#EFF6FF] dark:bg-[#12131C] border-2 border-zinc-950 dark:border-white/20 shadow-[4px_5px_0px_#10B981] space-y-6">
+              <WashiTapeCorner color="yellow" />
+
+              <div className="flex items-center justify-between border-b-2 border-dashed border-sky-300 dark:border-white/10 pb-3">
+                <span className="font-sketch text-xs font-bold uppercase text-sky-800 dark:text-sky-300 tracking-wider">
+                  Path 03 // Web3 & Systems Developer API
+                </span>
+                <StampBadge label="POLYGON AMOY 80002" variant="sky" />
               </div>
-              <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">
-                How to Procure Verified Feedstock & Settle On-Chain
+
+              <h2 className="font-sketch text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">
+                Querying Live Commodity & Carbon Math APIs
               </h2>
 
-              <div className="p-6 rounded-3xl glass-panel border border-zinc-200 dark:border-white/10 space-y-4">
-                <div className="space-y-2">
-                  <span className="font-mono text-xs text-zinc-500 uppercase font-bold">Step-by-Step Workflow:</span>
-                  <ol className="list-decimal list-inside space-y-2 text-xs text-zinc-600 dark:text-zinc-300 leading-relaxed">
-                    <li>Connect your Web3 wallet (MetaMask or Coinbase) to the <strong>Polygon Amoy Testnet</strong>.</li>
-                    <li>Browse verified industrial lots on <Link href="/marketplace" className="text-orange-500 font-semibold hover:underline">/marketplace</Link>.</li>
-                    <li>Inspect the material's AI contamination heatmap, EPA WARM carbon certificate, and MCX price parity.</li>
-                    <li>Click <strong>Request Transfer</strong>. Agent 02 mathematically re-audits the lot, Agent 05 runs anomaly checks, and the transaction is immutably settled on-chain.</li>
-                  </ol>
-                </div>
-              </div>
-            </section>
+              <p className="font-sans text-sm text-zinc-800 dark:text-zinc-200 leading-relaxed">
+                Developers can integrate CircularChain’s deterministic carbon math and MCX price feeds directly into third-party dApps and ERPs:
+              </p>
 
-            {/* Persona 3: Developer API Quickstart */}
-            <section className="space-y-6">
-              <div className="inline-flex items-center gap-2 text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">
-                <Code2 className="w-3.5 h-3.5" />
-                <span>TRACK 03: DEVELOPER API INTEGRATION</span>
-              </div>
-              <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white">
-                Developer API Integration
-              </h2>
-
-              <div className="rounded-3xl glass-panel border border-zinc-200 dark:border-white/10 p-6 space-y-4 font-mono text-xs">
-                <div className="flex items-center justify-between">
-                  <span className="text-zinc-500 text-[10px] uppercase font-bold">Quick cURL Test:</span>
+              {/* cURL Code Snippet */}
+              <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border-2 border-zinc-950 dark:border-white/20 font-sketch text-sm space-y-2 shadow-[3px_3px_0px_rgba(0,0,0,0.85)]">
+                <div className="flex items-center justify-between border-b border-dashed border-zinc-300 pb-2">
+                  <span className="font-bold text-xs uppercase text-zinc-600 dark:text-zinc-400">cURL Request</span>
                   <button
-                    onClick={() =>
-                      copySnippet(
-                        "curl -X GET https://circularchain-backend.onrender.com/api/mcx-oracle",
-                        "quick-curl"
-                      )
-                    }
-                    className="p-1.5 rounded-lg bg-zinc-200 dark:bg-white/10 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-300 flex items-center gap-1 text-[10px]"
+                    onClick={() => copySnippet("curl -X GET https://circularchain-backend.onrender.com/api/mcx-oracle", "curl-1")}
+                    className="flex items-center gap-1 text-xs font-mono font-bold text-emerald-600 hover:text-emerald-700"
                   >
-                    {copiedText === "quick-curl" ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
-                    <span>{copiedText === "quick-curl" ? "Copied" : "Copy"}</span>
+                    {copiedText === "curl-1" ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                    <span>{copiedText === "curl-1" ? "Copied!" : "Copy"}</span>
                   </button>
                 </div>
-
-                <pre className="p-4 rounded-2xl bg-zinc-950 text-zinc-200 overflow-x-auto text-[11px]">
-                  curl -X GET "https://circularchain-backend.onrender.com/api/mcx-oracle" \
-  -H "Accept: application/json"
-                </pre>
+                <div className="text-emerald-700 dark:text-emerald-300 font-mono text-xs overflow-x-auto py-1">
+                  curl -X GET https://circularchain-backend.onrender.com/api/mcx-oracle
+                </div>
               </div>
             </section>
 
-            {/* Navigation Footer */}
-            <div className="pt-8 border-t border-zinc-200 dark:border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+            {/* Navigation to Next Chapter */}
+            <div className="pt-4 border-t-2 border-dashed border-zinc-300 dark:border-white/10 flex items-center justify-between">
               <Link
                 href="/docs/solution-comparison"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-white/[0.05] dark:hover:bg-white/10 text-zinc-900 dark:text-white font-display text-xs font-bold transition-all"
+                className="font-sketch text-sm font-bold text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 flex items-center gap-1"
               >
                 <ArrowLeft className="w-4 h-4" />
-                <span>Linear vs CircularChain</span>
+                <span>Solution Comparison</span>
               </Link>
-
               <Link
-                href="/docs"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-display text-xs font-bold shadow-md shadow-emerald-500/20 transition-all hover:scale-105"
+                href="/docs/agents/agent-01"
+                className="font-sketch text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:underline flex items-center gap-1"
               >
-                <span>Back to Whitepaper Overview</span>
-                <ArrowRight className="w-4 h-4" />
+                <span>Next: Agent 01 Optical Vision</span>
+                <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
           </main>
