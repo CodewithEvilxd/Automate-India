@@ -48,7 +48,7 @@ export default function QuickstartPage() {
   };
 
   return (
-    <div className="min-h-screen notebook-ruled text-zinc-900 dark:text-zinc-100 transition-colors duration-250 flex flex-col font-sans selection:bg-amber-300 selection:text-zinc-950 dark:selection:bg-emerald-500/30 dark:selection:text-emerald-100">
+    <div className="min-h-screen notebook-ruled notebook-doc-scope text-zinc-900 dark:text-zinc-100 transition-colors duration-250 flex flex-col font-sketch selection:bg-amber-300 selection:text-zinc-950 dark:selection:bg-emerald-500/30 dark:selection:text-emerald-100">
       <Navbar />
 
       {/* Header Banner */}

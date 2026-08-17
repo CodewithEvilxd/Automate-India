@@ -142,19 +142,50 @@ html, body {
    ========================================================================= */
 
 .font-sketch {
-  font-family: 'Architects Daughter', 'Caveat', cursive, sans-serif;
+  font-family: 'Architects Daughter', 'Caveat', cursive, sans-serif !important;
 }
 
 .font-handwriting {
-  font-family: 'Caveat', 'Kalam', cursive, sans-serif;
+  font-family: 'Caveat', 'Kalam', cursive, sans-serif !important;
 }
 
 .font-kalam {
-  font-family: 'Kalam', 'Caveat', cursive, sans-serif;
+  font-family: 'Kalam', 'Caveat', cursive, sans-serif !important;
 }
 
 .font-patrick {
-  font-family: 'Patrick Hand', 'Caveat', cursive, sans-serif;
+  font-family: 'Patrick Hand', 'Caveat', cursive, sans-serif !important;
+}
+
+/* Notebook Doc Master Scope: Enforces authentic hand-drawn typography throughout the entire docs page */
+.notebook-doc-scope {
+  font-family: 'Patrick Hand', 'Architects Daughter', 'Kalam', cursive, sans-serif;
+  letter-spacing: 0.01em;
+}
+
+.notebook-doc-scope p,
+.notebook-doc-scope li,
+.notebook-doc-scope span:not(.font-mono),
+.notebook-doc-scope td,
+.notebook-doc-scope th {
+  font-family: 'Patrick Hand', 'Architects Daughter', 'Kalam', cursive, sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.notebook-doc-scope h1,
+.notebook-doc-scope h2,
+.notebook-doc-scope h3,
+.notebook-doc-scope h4,
+.notebook-doc-scope strong {
+  font-family: 'Architects Daughter', 'Caveat', cursive, sans-serif;
+  letter-spacing: -0.01em;
+}
+
+.notebook-doc-scope code,
+.notebook-doc-scope pre,
+.notebook-doc-scope .font-mono {
+  font-family: 'JetBrains Mono', monospace !important;
 }
 
 /* Organic hand-drawn sketchy border */
@@ -219,6 +250,16 @@ html, body {
   padding: 0 4px;
 }
 
+.dark .highlight-emerald {
+  background: linear-gradient(104deg, rgba(16, 185, 129, 0) 0.9%, rgba(16, 185, 129, 0.35) 2.4%, rgba(16, 185, 129, 0.2) 94.6%, rgba(16, 185, 129, 0) 99.2%);
+}
+
+.highlight-pink {
+  background: linear-gradient(104deg, rgba(244, 114, 182, 0) 0.9%, rgba(244, 114, 182, 0.4) 2.4%, rgba(244, 114, 182, 0.25) 94.6%, rgba(244, 114, 182, 0) 99.2%);
+  border-radius: 4px;
+  padding: 0 4px;
+}
+
 /* Washi Tape / Sticky Note Sticker */
 .tape-top {
   position: relative;
@@ -236,5 +277,3 @@ html, body {
   backdrop-filter: blur(2px);
   z-index: 10;
 }
-
-
