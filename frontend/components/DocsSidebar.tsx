@@ -19,9 +19,9 @@ import {
   Lock,
   Rocket,
   Compass,
-  FileCode,
+  Heart,
+  Lightbulb,
 } from "lucide-react";
-import { PaperclipElement, DoodleUnderline } from "@/components/SketchElements";
 
 export interface DocNavGroup {
   group: string;
@@ -38,6 +38,7 @@ export const DOC_NAVIGATION: DocNavGroup[] = [
     group: "GETTING STARTED",
     items: [
       { href: "/docs", label: "Executive Summary & Mission", icon: BookOpen },
+      { href: "/docs/origin-story", label: "Origin Story & Empathy Map", badge: "Story", icon: Heart },
       { href: "/docs/problem-statement", label: "The Global & National Crisis", badge: "Critical", icon: AlertTriangle },
       { href: "/docs/solution-comparison", label: "Linear vs CircularChain Protocol", icon: CheckCircle2 },
       { href: "/docs/quickstart", label: "Developer & Recycler Quickstart", badge: "New", icon: Rocket },
@@ -137,6 +138,8 @@ export default function DocsSidebar() {
                           className={`text-[9px] font-mono px-1.5 py-0.2 rounded font-bold uppercase shrink-0 ${
                             item.badge === "Critical"
                               ? "bg-rose-100 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-300 dark:border-rose-500/30"
+                              : item.badge === "Story"
+                              ? "bg-rose-100 dark:bg-rose-500/20 text-rose-700 dark:text-rose-300 border border-rose-300 dark:border-rose-500/30"
                               : "bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400 border border-amber-300 dark:border-amber-500/30"
                           }`}
                         >
