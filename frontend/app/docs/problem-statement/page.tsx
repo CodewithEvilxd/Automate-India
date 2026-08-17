@@ -22,6 +22,8 @@ import {
   ChevronRight,
 } from "lucide-react";
 
+import Image from "next/image";
+
 export default function ProblemStatementPage() {
   return (
     <div className="min-h-screen bg-[#FBFBFC] dark:bg-[#090A0F] text-zinc-900 dark:text-zinc-100 transition-colors duration-250 flex flex-col font-sans selection:bg-emerald-500/20 selection:text-zinc-950 dark:selection:bg-emerald-500/30 dark:selection:text-emerald-100">
@@ -61,6 +63,25 @@ export default function ProblemStatementPage() {
 
           {/* Detailed Content */}
           <main className="lg:col-span-9 space-y-12">
+            {/* Infographic Banner */}
+            <div className="rounded-3xl overflow-hidden border border-zinc-200 dark:border-white/10 glass-panel shadow-2xl relative">
+              <div className="relative w-full aspect-video">
+                <Image
+                  src="/docs/global_scrap_crisis.jpg"
+                  alt="Global Scrap Crisis Infographic"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
+              <div className="p-3.5 bg-zinc-900/90 backdrop-blur-md border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono text-zinc-300">
+                <span className="text-emerald-400 font-bold">
+                  INFOGRAPHIC 1.0: Real-World Breakdown of Linear Landfill Crisis vs Secondary Circularity
+                </span>
+                <span className="text-zinc-400 text-[11px]">2.12B Tonnes Global Waste Baseline</span>
+              </div>
+            </div>
+
             {/* Section 1: Executive Overview */}
             <section className="space-y-4">
               <div className="inline-flex items-center gap-2 text-xs font-mono font-bold text-rose-500 uppercase tracking-widest">
