@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import ApkDownloadModal from "@/components/ApkDownloadModal";
+import { ResearchBentoGrid } from "@/components/ui/research-bento-grid";
 import {
   ArrowRight,
   ShieldCheck,
@@ -323,6 +324,33 @@ export default function Home() {
                 </div>
               );
             })}
+          </div>
+        </div>
+
+        {/* Developer & Enterprise Service Bento Grid (Vengeance UI) */}
+        <div className="mt-28">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/25 font-mono text-xs font-bold uppercase tracking-wider mb-3">
+              <Zap className="w-3.5 h-3.5 text-emerald-500" />
+              <span>Autonomous Enterprise Stack</span>
+            </div>
+            <h2 className="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
+              One Protocol. Zero Waste Friction.
+            </h2>
+            <p className="mt-3 text-zinc-600 dark:text-zinc-400 text-sm">
+              Interact with our live developer infrastructure: switch between Web3 & AI services, inspect real-time statutory EPR cost avoidance, and dynamically pause/resume escrow feeds.
+            </p>
+          </div>
+
+          <div className="rounded-3xl border border-zinc-200 dark:border-white/10 p-2 sm:p-4 bg-zinc-100/60 dark:bg-black/40 backdrop-blur-xl shadow-2xl overflow-hidden">
+            <ResearchBentoGrid
+              monthlyPrice={49999}
+              previousPrice={350000}
+              currency="INR"
+              locale="en-IN"
+              userLabel="Smelter Node"
+              collaboratorLabel="CPCB Auditor"
+            />
           </div>
         </div>
 
