@@ -113,26 +113,29 @@ class _EPRCalculatorScreenState extends State<EPRCalculatorScreen> {
     final double totalMatchingMass = matchingLots.fold(0.0, (sum, m) => sum + m.estimatedWeightKg);
 
     return Scaffold(
+      backgroundColor: AppTheme.background,
       appBar: AppBar(
+        backgroundColor: AppTheme.background,
+        elevation: 0,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             Text(
               "EPR STATUTORY SIMULATOR",
-              style: TextStyle(
-                fontFamily: 'monospace',
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.0,
-                color: AppTheme.bone,
+              style: AppTheme.fontSans(
+                fontSize: 14.5,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 0.6,
+                color: AppTheme.textMain,
               ),
             ),
             Text(
               "MOEFCC & CPCB FY 2026-27 ENGINE",
-              style: TextStyle(
-                fontFamily: 'monospace',
-                fontSize: 9,
-                color: AppTheme.moss,
+              style: AppTheme.fontMono(
+                fontSize: 8.5,
+                color: AppTheme.emerald,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 0.5,
               ),
             ),
           ],
@@ -143,20 +146,25 @@ class _EPRCalculatorScreenState extends State<EPRCalculatorScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Quick Demo Presets for Presentation
+            // Quick Demo Presets
             Container(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: AppTheme.surface,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(14),
                 border: Border.all(color: AppTheme.border),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "PRESENTATION DEMO PRESETS (1-CLICK)",
-                    style: TextStyle(fontFamily: 'monospace', fontSize: 9, fontWeight: FontWeight.bold, color: AppTheme.ochre),
+                  Text(
+                    "QUICK COMPLIANCE PRESETS",
+                    style: AppTheme.fontMono(
+                      fontSize: 8.5,
+                      fontWeight: FontWeight.w700,
+                      color: AppTheme.amber,
+                      letterSpacing: 0.5,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   SingleChildScrollView(
@@ -165,22 +173,25 @@ class _EPRCalculatorScreenState extends State<EPRCalculatorScreen> {
                       children: _demoPresets.map((preset) {
                         final isSelected = _companyName == preset['name'];
                         return Padding(
-                          padding: const EdgeInsets.only(right: 6),
+                          padding: const EdgeInsets.only(right: 8),
                           child: InkWell(
+                            borderRadius: BorderRadius.circular(8),
                             onTap: () => _applyPreset(preset),
                             child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 7),
                               decoration: BoxDecoration(
-                                color: isSelected ? AppTheme.moss : AppTheme.ink,
-                                borderRadius: BorderRadius.circular(4),
-                                border: Border.all(color: isSelected ? AppTheme.moss : AppTheme.border),
+                                color: isSelected ? AppTheme.emerald : AppTheme.surfaceRaised,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                  color: isSelected ? AppTheme.emerald : AppTheme.border,
+                                ),
                               ),
                               child: Text(
                                 preset['label'],
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                  color: isSelected ? AppTheme.ink : AppTheme.bone,
+                                style: AppTheme.fontSans(
+                                  fontSize: 10.5,
+                                  fontWeight: isSelected ? FontWeight.w800 : FontWeight.w500,
+                                  color: isSelected ? AppTheme.background : AppTheme.textMain,
                                 ),
                               ),
                             ),
@@ -198,22 +209,21 @@ class _EPRCalculatorScreenState extends State<EPRCalculatorScreen> {
             Row(
               children: [
                 Container(
-                  width: 8,
-                  height: 8,
+                  width: 6,
+                  height: 6,
                   decoration: const BoxDecoration(
-                    color: AppTheme.moss,
+                    color: AppTheme.emerald,
                     shape: BoxShape.circle,
                   ),
                 ),
                 const SizedBox(width: 6),
-                const Text(
+                Text(
                   "LIVE CPCB BACKEND API SYNC ACTIVE",
-                  style: TextStyle(
-                    fontFamily: 'monospace',
-                    fontSize: 9,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 0.8,
-                    color: AppTheme.moss,
+                  style: AppTheme.fontMono(
+                    fontSize: 8.5,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.6,
+                    color: AppTheme.emerald,
                   ),
                 ),
               ],
@@ -228,16 +238,16 @@ class _EPRCalculatorScreenState extends State<EPRCalculatorScreen> {
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: AppTheme.surface,
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(14),
                       border: Border.all(color: AppTheme.border),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text("MANDATORY EPR OFFSET", style: TextStyle(fontFamily: 'monospace', fontSize: 8, color: AppTheme.muted)),
+                        Text("MANDATORY EPR OFFSET", style: AppTheme.fontMono(fontSize: 8, fontWeight: FontWeight.w700, color: AppTheme.textMuted)),
                         const SizedBox(height: 4),
-                        Text("${mandatoryMT.toStringAsFixed(1)} MT", style: const TextStyle(fontFamily: 'monospace', fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.bone)),
-                        Text("${(targetPct * 100).toInt()}% statutory quota", style: const TextStyle(fontFamily: 'monospace', fontSize: 9, color: AppTheme.moss)),
+                        Text("${mandatoryMT.toStringAsFixed(1)} MT", style: AppTheme.fontMono(fontSize: 16, fontWeight: FontWeight.w800, color: AppTheme.textMain)),
+                        Text("${(targetPct * 100).toInt()}% statutory quota", style: AppTheme.fontSans(fontSize: 9.5, fontWeight: FontWeight.w600, color: AppTheme.emerald)),
                       ],
                     ),
                   ),
@@ -248,16 +258,16 @@ class _EPRCalculatorScreenState extends State<EPRCalculatorScreen> {
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: AppTheme.surface,
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(14),
                       border: Border.all(color: AppTheme.border),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text("CARBON ABATEMENT", style: TextStyle(fontFamily: 'monospace', fontSize: 8, color: AppTheme.muted)),
+                        Text("CARBON ABATEMENT", style: AppTheme.fontMono(fontSize: 8, fontWeight: FontWeight.w700, color: AppTheme.textMuted)),
                         const SizedBox(height: 4),
-                        Text("${(carbonKg / 1000).toStringAsFixed(1)} MT", style: const TextStyle(fontFamily: 'monospace', fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.moss)),
-                        const Text("EPA WARM Standard", style: TextStyle(fontFamily: 'monospace', fontSize: 9, color: AppTheme.muted)),
+                        Text("${(carbonKg / 1000).toStringAsFixed(1)} MT", style: AppTheme.fontMono(fontSize: 16, fontWeight: FontWeight.w800, color: AppTheme.emerald)),
+                        Text("EPA WARM Standard", style: AppTheme.fontSans(fontSize: 9.5, fontWeight: FontWeight.w500, color: AppTheme.textLight)),
                       ],
                     ),
                   ),
@@ -272,16 +282,16 @@ class _EPRCalculatorScreenState extends State<EPRCalculatorScreen> {
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: AppTheme.surface,
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(14),
                       border: Border.all(color: AppTheme.border),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text("MANDATORY PCR BLEND", style: TextStyle(fontFamily: 'monospace', fontSize: 8, color: AppTheme.muted)),
+                        Text("MANDATORY PCR BLEND", style: AppTheme.fontMono(fontSize: 8, fontWeight: FontWeight.w700, color: AppTheme.textMuted)),
                         const SizedBox(height: 4),
-                        Text("${mandatoryPCRMT.toStringAsFixed(1)} MT", style: const TextStyle(fontFamily: 'monospace', fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.ochre)),
-                        const Text("Post-Consumer Resin", style: TextStyle(fontFamily: 'monospace', fontSize: 9, color: AppTheme.muted)),
+                        Text("${mandatoryPCRMT.toStringAsFixed(1)} MT", style: AppTheme.fontMono(fontSize: 16, fontWeight: FontWeight.w800, color: AppTheme.amber)),
+                        Text("Post-Consumer Resin", style: AppTheme.fontSans(fontSize: 9.5, fontWeight: FontWeight.w500, color: AppTheme.textLight)),
                       ],
                     ),
                   ),
@@ -292,16 +302,16 @@ class _EPRCalculatorScreenState extends State<EPRCalculatorScreen> {
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: AppTheme.surface,
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(14),
                       border: Border.all(color: AppTheme.border),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text("AVOIDED CPCB PENALTY", style: TextStyle(fontFamily: 'monospace', fontSize: 8, color: AppTheme.muted)),
+                        Text("AVOIDED CPCB PENALTY", style: AppTheme.fontMono(fontSize: 8, fontWeight: FontWeight.w700, color: AppTheme.textMuted)),
                         const SizedBox(height: 4),
-                        Text("₹${(avoidedPenaltyINR / 100000).toStringAsFixed(2)} L", style: const TextStyle(fontFamily: 'monospace', fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.moss)),
-                        const Text("EPA Sec 15 Saved", style: TextStyle(fontFamily: 'monospace', fontSize: 9, color: AppTheme.muted)),
+                        Text("₹${(avoidedPenaltyINR / 100000).toStringAsFixed(2)} L", style: AppTheme.fontMono(fontSize: 16, fontWeight: FontWeight.w800, color: AppTheme.emerald)),
+                        Text("EPA Sec 15 Saved", style: AppTheme.fontSans(fontSize: 9.5, fontWeight: FontWeight.w500, color: AppTheme.textLight)),
                       ],
                     ),
                   ),
@@ -315,24 +325,23 @@ class _EPRCalculatorScreenState extends State<EPRCalculatorScreen> {
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
                 color: AppTheme.surface,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(14),
                 border: Border.all(color: AppTheme.border),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    children: const [
-                      Icon(Icons.tune, size: 16, color: AppTheme.moss),
-                      SizedBox(width: 6),
+                    children: [
+                      const Icon(Icons.tune_rounded, size: 16, color: AppTheme.emerald),
+                      const SizedBox(width: 6),
                       Text(
                         "ENTERPRISE PARAMETERS",
-                        style: TextStyle(
-                          fontFamily: 'monospace',
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 0.8,
-                          color: AppTheme.bone,
+                        style: AppTheme.fontMono(
+                          fontSize: 9.5,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 0.6,
+                          color: AppTheme.textMain,
                         ),
                       ),
                     ],
@@ -340,7 +349,7 @@ class _EPRCalculatorScreenState extends State<EPRCalculatorScreen> {
                   const SizedBox(height: 12),
 
                   // Company Name
-                  const Text("Corporate Entity Name", style: TextStyle(fontFamily: 'monospace', fontSize: 9, color: AppTheme.muted)),
+                  Text("Corporate Entity Name", style: AppTheme.fontMono(fontSize: 8.5, color: AppTheme.textMuted)),
                   const SizedBox(height: 4),
                   TextField(
                     onChanged: (val) {
@@ -348,44 +357,46 @@ class _EPRCalculatorScreenState extends State<EPRCalculatorScreen> {
                       _recalculate();
                     },
                     controller: TextEditingController(text: _companyName),
-                    style: const TextStyle(fontSize: 12, color: AppTheme.bone),
+                    style: AppTheme.fontSans(fontSize: 12, color: AppTheme.textMain, fontWeight: FontWeight.w600),
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: AppTheme.ink,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: const BorderSide(color: AppTheme.border)),
-                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: const BorderSide(color: AppTheme.border)),
+                      fillColor: AppTheme.surfaceRaised,
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AppTheme.border)),
+                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AppTheme.border)),
                     ),
                   ),
                   const SizedBox(height: 10),
 
                   // SPCB State
-                  const Text("State Pollution Control Board (SPCB)", style: TextStyle(fontFamily: 'monospace', fontSize: 9, color: AppTheme.muted)),
+                  Text("State Pollution Control Board (SPCB)", style: AppTheme.fontMono(fontSize: 8.5, color: AppTheme.textMuted)),
                   const SizedBox(height: 4),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
                     decoration: BoxDecoration(
-                      color: AppTheme.ink,
-                      borderRadius: BorderRadius.circular(4),
+                      color: AppTheme.surfaceRaised,
+                      borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: AppTheme.border),
                     ),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton<String>(
                         value: _stateJurisdiction,
                         isExpanded: true,
-                        dropdownColor: AppTheme.surface,
-                        items: const [
-                          DropdownMenuItem(value: "Maharashtra (MPCB - Pune/Chakan)", child: Text("Maharashtra (MPCB - Pune/Chakan)", style: TextStyle(fontSize: 11, color: AppTheme.bone))),
-                          DropdownMenuItem(value: "Uttar Pradesh (UPPCB - Noida)", child: Text("Uttar Pradesh (UPPCB - Noida)", style: TextStyle(fontSize: 11, color: AppTheme.bone))),
-                          DropdownMenuItem(value: "Gujarat (GPCB - Sanand Industrial Hub)", child: Text("Gujarat (GPCB - Ahmedabad/Sanand)", style: TextStyle(fontSize: 11, color: AppTheme.bone))),
-                          DropdownMenuItem(value: "Karnataka (KSPCB - Bengaluru/Peenya)", child: Text("Karnataka (KSPCB - Bengaluru/Peenya)", style: TextStyle(fontSize: 11, color: AppTheme.bone))),
-                          DropdownMenuItem(value: "Tamil Nadu (TNPCB - Sriperumbudur)", child: Text("Tamil Nadu (TNPCB - Chennai/Sriperumbudur)", style: TextStyle(fontSize: 11, color: AppTheme.bone))),
-                          DropdownMenuItem(value: "Haryana (HSPCB - Gurugram/Manesar)", child: Text("Haryana (HSPCB - Gurugram/Manesar)", style: TextStyle(fontSize: 11, color: AppTheme.bone))),
-                          DropdownMenuItem(value: "Delhi (DPCC - Okhla Industrial Area)", child: Text("Delhi (DPCC - Okhla Industrial)", style: TextStyle(fontSize: 11, color: AppTheme.bone))),
+                        dropdownColor: AppTheme.surfaceRaised,
+                        items: [
+                          DropdownMenuItem(value: "Maharashtra (MPCB - Pune/Chakan)", child: Text("Maharashtra (MPCB - Pune/Chakan)", style: AppTheme.fontSans(fontSize: 11.5, color: AppTheme.textMain))),
+                          DropdownMenuItem(value: "Uttar Pradesh (UPPCB - Noida)", child: Text("Uttar Pradesh (UPPCB - Noida)", style: AppTheme.fontSans(fontSize: 11.5, color: AppTheme.textMain))),
+                          DropdownMenuItem(value: "Gujarat (GPCB - Sanand Industrial Hub)", child: Text("Gujarat (GPCB - Ahmedabad/Sanand)", style: AppTheme.fontSans(fontSize: 11.5, color: AppTheme.textMain))),
+                          DropdownMenuItem(value: "Karnataka (KSPCB - Bengaluru/Peenya)", child: Text("Karnataka (KSPCB - Bengaluru/Peenya)", style: AppTheme.fontSans(fontSize: 11.5, color: AppTheme.textMain))),
+                          DropdownMenuItem(value: "Tamil Nadu (TNPCB - Sriperumbudur)", child: Text("Tamil Nadu (TNPCB - Chennai/Sriperumbudur)", style: AppTheme.fontSans(fontSize: 11.5, color: AppTheme.textMain))),
+                          DropdownMenuItem(value: "Haryana (HSPCB - Gurugram/Manesar)", child: Text("Haryana (HSPCB - Gurugram/Manesar)", style: AppTheme.fontSans(fontSize: 11.5, color: AppTheme.textMain))),
+                          DropdownMenuItem(value: "Delhi (DPCC - Okhla Industrial Area)", child: Text("Delhi (DPCC - Okhla Industrial)", style: AppTheme.fontSans(fontSize: 11.5, color: AppTheme.textMain))),
                         ],
                         onChanged: (val) {
-                          setState(() => _stateJurisdiction = val!);
-                          _recalculate();
+                          if (val != null) {
+                            setState(() => _stateJurisdiction = val);
+                            _recalculate();
+                          }
                         },
                       ),
                     ),
@@ -393,33 +404,35 @@ class _EPRCalculatorScreenState extends State<EPRCalculatorScreen> {
                   const SizedBox(height: 10),
 
                   // Material Category
-                  const Text("Statutory Material Schedule (CPCB)", style: TextStyle(fontFamily: 'monospace', fontSize: 9, color: AppTheme.muted)),
+                  Text("Statutory Material Schedule (CPCB)", style: AppTheme.fontMono(fontSize: 8.5, color: AppTheme.textMuted)),
                   const SizedBox(height: 4),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
                     decoration: BoxDecoration(
-                      color: AppTheme.ink,
-                      borderRadius: BorderRadius.circular(4),
+                      color: AppTheme.surfaceRaised,
+                      borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: AppTheme.border),
                     ),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton<String>(
                         value: _materialCategory,
                         isExpanded: true,
-                        dropdownColor: AppTheme.surface,
-                        items: const [
-                          DropdownMenuItem(value: 'aluminum', child: Text("Aluminum (ELV Scrappage - 75% Target)", style: TextStyle(fontSize: 11, color: AppTheme.bone))),
-                          DropdownMenuItem(value: 'steel', child: Text("Steel Scrap (HMS 1/2 - 70% Target)", style: TextStyle(fontSize: 11, color: AppTheme.bone))),
-                          DropdownMenuItem(value: 'plastic_pet', child: Text("PET Plastic (Cat I Rigid - 80% Target)", style: TextStyle(fontSize: 11, color: AppTheme.bone))),
-                          DropdownMenuItem(value: 'plastic_hdpe', child: Text("HDPE Plastic (Cat II Flexible - 70%)", style: TextStyle(fontSize: 11, color: AppTheme.bone))),
-                          DropdownMenuItem(value: 'plastic_mlp', child: Text("Multi-Layered Plastic (Cat III MLP - 60%)", style: TextStyle(fontSize: 11, color: AppTheme.bone))),
-                          DropdownMenuItem(value: 'paper', child: Text("Corrugated OCC Paper (65% Target)", style: TextStyle(fontSize: 11, color: AppTheme.bone))),
-                          DropdownMenuItem(value: 'electronic', child: Text("E-Waste (Schedule I PCBs - 85% Target)", style: TextStyle(fontSize: 11, color: AppTheme.bone))),
-                          DropdownMenuItem(value: 'battery_lithium', child: Text("Lithium Battery Scrap (BWMR - 70%)", style: TextStyle(fontSize: 11, color: AppTheme.bone))),
+                        dropdownColor: AppTheme.surfaceRaised,
+                        items: [
+                          DropdownMenuItem(value: 'aluminum', child: Text("Aluminum (ELV Scrappage - 75% Target)", style: AppTheme.fontSans(fontSize: 11.5, color: AppTheme.textMain))),
+                          DropdownMenuItem(value: 'steel', child: Text("Steel Scrap (HMS 1/2 - 70% Target)", style: AppTheme.fontSans(fontSize: 11.5, color: AppTheme.textMain))),
+                          DropdownMenuItem(value: 'plastic_pet', child: Text("PET Plastic (Cat I Rigid - 80% Target)", style: AppTheme.fontSans(fontSize: 11.5, color: AppTheme.textMain))),
+                          DropdownMenuItem(value: 'plastic_hdpe', child: Text("HDPE Plastic (Cat II Flexible - 70%)", style: AppTheme.fontSans(fontSize: 11.5, color: AppTheme.textMain))),
+                          DropdownMenuItem(value: 'plastic_mlp', child: Text("Multi-Layered Plastic (Cat III MLP - 60%)", style: AppTheme.fontSans(fontSize: 11.5, color: AppTheme.textMain))),
+                          DropdownMenuItem(value: 'paper', child: Text("Corrugated OCC Paper (65% Target)", style: AppTheme.fontSans(fontSize: 11.5, color: AppTheme.textMain))),
+                          DropdownMenuItem(value: 'electronic', child: Text("E-Waste (Schedule I PCBs - 85% Target)", style: AppTheme.fontSans(fontSize: 11.5, color: AppTheme.textMain))),
+                          DropdownMenuItem(value: 'battery_lithium', child: Text("Lithium Battery Scrap (BWMR - 70%)", style: AppTheme.fontSans(fontSize: 11.5, color: AppTheme.textMain))),
                         ],
                         onChanged: (val) {
-                          setState(() => _materialCategory = val!);
-                          _recalculate();
+                          if (val != null) {
+                            setState(() => _materialCategory = val);
+                            _recalculate();
+                          }
                         },
                       ),
                     ),
@@ -430,10 +443,10 @@ class _EPRCalculatorScreenState extends State<EPRCalculatorScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text("Annual Ingested Volume", style: TextStyle(fontFamily: 'monospace', fontSize: 9, color: AppTheme.muted)),
+                      Text("Annual Ingested Volume", style: AppTheme.fontMono(fontSize: 9, color: AppTheme.textMuted)),
                       Text(
                         "${_productionMT.toInt()} Metric Tonnes",
-                        style: const TextStyle(fontFamily: 'monospace', fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.moss),
+                        style: AppTheme.fontMono(fontSize: 12.5, fontWeight: FontWeight.w800, color: AppTheme.emerald),
                       ),
                     ],
                   ),
@@ -442,7 +455,7 @@ class _EPRCalculatorScreenState extends State<EPRCalculatorScreen> {
                     min: 20,
                     max: 2500,
                     divisions: 248,
-                    activeColor: AppTheme.moss,
+                    activeColor: AppTheme.emerald,
                     inactiveColor: AppTheme.border,
                     onChanged: (val) {
                       setState(() => _productionMT = val);
@@ -459,8 +472,8 @@ class _EPRCalculatorScreenState extends State<EPRCalculatorScreen> {
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
                 color: AppTheme.surface,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: AppTheme.moss.withOpacity(0.5)),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: AppTheme.emerald.withOpacity(0.4)),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -469,30 +482,29 @@ class _EPRCalculatorScreenState extends State<EPRCalculatorScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
-                        children: const [
-                          Icon(Icons.verified_outlined, size: 16, color: AppTheme.moss),
-                          SizedBox(width: 6),
+                        children: [
+                          const Icon(Icons.verified_outlined, size: 16, color: AppTheme.emerald),
+                          const SizedBox(width: 6),
                           Text(
                             "FORM 1 • CPCB STATUTORY AUDIT",
-                            style: TextStyle(
-                              fontFamily: 'monospace',
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 0.8,
-                              color: AppTheme.bone,
+                            style: AppTheme.fontMono(
+                              fontSize: 9.5,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: 0.6,
+                              color: AppTheme.textMain,
                             ),
                           ),
                         ],
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
                         decoration: BoxDecoration(
-                          color: AppTheme.moss,
-                          borderRadius: BorderRadius.circular(3),
+                          color: AppTheme.emerald,
+                          borderRadius: BorderRadius.circular(6),
                         ),
-                        child: const Text(
+                        child: Text(
                           "100% COMPLIANT",
-                          style: TextStyle(fontFamily: 'monospace', fontSize: 8, fontWeight: FontWeight.bold, color: AppTheme.ink),
+                          style: AppTheme.fontMono(fontSize: 8, fontWeight: FontWeight.w800, color: AppTheme.background),
                         ),
                       ),
                     ],
@@ -500,15 +512,15 @@ class _EPRCalculatorScreenState extends State<EPRCalculatorScreen> {
                   const SizedBox(height: 10),
 
                   Container(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: AppTheme.ink,
-                      borderRadius: BorderRadius.circular(4),
+                      color: AppTheme.surfaceRaised,
+                      borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: AppTheme.border),
                     ),
                     child: Text(
                       "\"This statutory assessment certifies that $_companyName (PIBO: $_piboNo) in $_stateJurisdiction is obligated under CPCB 2026 guidelines to divert at least ${mandatoryMT.toStringAsFixed(1)} MT of $_materialCategory into authorized secondary recycling facilities to fulfill compliance and abate ${(carbonKg / 1000).toStringAsFixed(1)} MT CO₂e.\"",
-                      style: const TextStyle(fontSize: 11, color: AppTheme.bone, height: 1.4, fontStyle: FontStyle.italic),
+                      style: AppTheme.fontSans(fontSize: 11, color: AppTheme.textMain, height: 1.4, fontStyle: FontStyle.italic),
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -516,13 +528,16 @@ class _EPRCalculatorScreenState extends State<EPRCalculatorScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "${matchingLots.length} Matching Lots Available (${(totalMatchingMass / 1000).toStringAsFixed(1)} MT)",
-                        style: const TextStyle(fontFamily: 'monospace', fontSize: 10, color: AppTheme.muted),
+                      Expanded(
+                        child: Text(
+                          "${matchingLots.length} Matching Lots (${(totalMatchingMass / 1000).toStringAsFixed(1)} MT)",
+                          style: AppTheme.fontMono(fontSize: 9.5, color: AppTheme.textMuted),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                      const Text(
+                      Text(
                         "Polygon Amoy Verified",
-                        style: TextStyle(fontFamily: 'monospace', fontSize: 9, color: AppTheme.moss, fontWeight: FontWeight.bold),
+                        style: AppTheme.fontMono(fontSize: 9, color: AppTheme.emerald, fontWeight: FontWeight.w800),
                       ),
                     ],
                   ),

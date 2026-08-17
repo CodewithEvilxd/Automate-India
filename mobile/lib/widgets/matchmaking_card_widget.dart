@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
 import '../services/api_service.dart';
 
@@ -55,14 +56,14 @@ class _MatchmakingCardWidgetState extends State<MatchmakingCardWidget> {
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
           color: AppTheme.surface,
-          borderRadius: BorderRadius.circular(6),
+          borderRadius: BorderRadius.circular(14),
           border: Border.all(color: AppTheme.border),
         ),
         child: const Center(
           child: SizedBox(
             height: 20,
             width: 20,
-            child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.moss),
+            child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.emerald),
           ),
         ),
       );
@@ -79,7 +80,7 @@ class _MatchmakingCardWidgetState extends State<MatchmakingCardWidget> {
     return Container(
       decoration: BoxDecoration(
         color: AppTheme.surface,
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(14),
         border: Border.all(color: AppTheme.border),
       ),
       child: Column(
@@ -87,12 +88,12 @@ class _MatchmakingCardWidgetState extends State<MatchmakingCardWidget> {
         children: [
           // Header Bar
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
             decoration: const BoxDecoration(
               color: AppTheme.surfaceRaised,
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(6),
-                topRight: Radius.circular(6),
+                topLeft: Radius.circular(14),
+                topRight: Radius.circular(14),
               ),
               border: Border(bottom: BorderSide(color: AppTheme.border)),
             ),
@@ -100,34 +101,32 @@ class _MatchmakingCardWidgetState extends State<MatchmakingCardWidget> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
-                  children: const [
-                    Icon(Icons.bolt, size: 14, color: AppTheme.amber),
-                    SizedBox(width: 4),
+                  children: [
+                    const Icon(Icons.bolt, size: 14, color: AppTheme.amber),
+                    const SizedBox(width: 4),
                     Text(
-                      "AGENT 3 • AI PRICE ORACLE & LOGISTICS",
-                      style: TextStyle(
-                        fontFamily: 'monospace',
-                        fontSize: 9,
-                        fontWeight: FontWeight.bold,
+                      "AI PRICE ORACLE & LOGISTICS",
+                      style: GoogleFonts.jetBrainsMono(
+                        fontSize: 9.5,
+                        fontWeight: FontWeight.w800,
                         letterSpacing: 0.6,
-                        color: AppTheme.bone,
+                        color: AppTheme.textMain,
                       ),
                     ),
                   ],
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(
-                    color: AppTheme.moss.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(3),
+                    color: AppTheme.emerald.withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(4),
                   ),
-                  child: const Text(
+                  child: Text(
                     "MCX BENCHMARK",
-                    style: TextStyle(
-                      fontFamily: 'monospace',
-                      fontSize: 8,
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.moss,
+                    style: GoogleFonts.jetBrainsMono(
+                      fontSize: 8.5,
+                      fontWeight: FontWeight.w800,
+                      color: AppTheme.emerald,
                     ),
                   ),
                 ),
@@ -144,8 +143,8 @@ class _MatchmakingCardWidgetState extends State<MatchmakingCardWidget> {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: AppTheme.ink,
-                    borderRadius: BorderRadius.circular(4),
+                    color: AppTheme.surfaceRaised,
+                    borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: AppTheme.border),
                   ),
                   child: Row(
@@ -154,22 +153,21 @@ class _MatchmakingCardWidgetState extends State<MatchmakingCardWidget> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          Text(
                             "ESTIMATED COMMODITY VALUE",
-                            style: TextStyle(
-                              fontFamily: 'monospace',
+                            style: GoogleFonts.jetBrainsMono(
                               fontSize: 8,
-                              color: AppTheme.muted,
+                              fontWeight: FontWeight.w700,
+                              color: AppTheme.textMuted,
                             ),
                           ),
                           const SizedBox(height: 2),
                           Text(
                             "₹${estimatedVal.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
-                            style: const TextStyle(
-                              fontFamily: 'monospace',
+                            style: GoogleFonts.jetBrainsMono(
                               fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: AppTheme.bone,
+                              fontWeight: FontWeight.w800,
+                              color: AppTheme.textMain,
                             ),
                           ),
                         ],
@@ -179,24 +177,22 @@ class _MatchmakingCardWidgetState extends State<MatchmakingCardWidget> {
                         children: [
                           Text(
                             "(₹${unitPrice.toStringAsFixed(1)}/kg)",
-                            style: const TextStyle(
-                              fontFamily: 'monospace',
-                              fontSize: 11,
-                              color: AppTheme.muted,
+                            style: GoogleFonts.jetBrainsMono(
+                              fontSize: 10.5,
+                              color: AppTheme.textMuted,
                             ),
                           ),
                           const SizedBox(height: 2),
                           Row(
-                            children: const [
-                              Icon(Icons.trending_up, size: 12, color: AppTheme.moss),
-                              SizedBox(width: 2),
+                            children: [
+                              const Icon(Icons.trending_up, size: 12, color: AppTheme.emerald),
+                              const SizedBox(width: 2),
                               Text(
                                 "TREND: UP",
-                                style: TextStyle(
-                                  fontFamily: 'monospace',
+                                style: GoogleFonts.jetBrainsMono(
                                   fontSize: 9,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppTheme.moss,
+                                  fontWeight: FontWeight.w800,
+                                  color: AppTheme.emerald,
                                 ),
                               ),
                             ],
@@ -215,27 +211,27 @@ class _MatchmakingCardWidgetState extends State<MatchmakingCardWidget> {
                       child: Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: AppTheme.ink,
-                          borderRadius: BorderRadius.circular(4),
+                          color: AppTheme.surfaceRaised,
+                          borderRadius: BorderRadius.circular(10),
                           border: Border.all(color: AppTheme.border),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
+                            Text(
                               "ROUTING HUB",
-                              style: TextStyle(fontFamily: 'monospace', fontSize: 8, color: AppTheme.muted),
+                              style: GoogleFonts.jetBrainsMono(fontSize: 8, fontWeight: FontWeight.w700, color: AppTheme.textMuted),
                             ),
                             const SizedBox(height: 2),
                             Text(
                               hub,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppTheme.bone),
+                              style: GoogleFonts.plusJakartaSans(fontSize: 11, fontWeight: FontWeight.w700, color: AppTheme.textMain),
                             ),
                             Text(
-                              "$distanceKm km haul",
-                              style: const TextStyle(fontFamily: 'monospace', fontSize: 9, color: AppTheme.muted),
+                              "$distanceKm km transit",
+                              style: GoogleFonts.jetBrainsMono(fontSize: 9, color: AppTheme.textMuted),
                             ),
                           ],
                         ),
@@ -246,25 +242,25 @@ class _MatchmakingCardWidgetState extends State<MatchmakingCardWidget> {
                       child: Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: AppTheme.ink,
-                          borderRadius: BorderRadius.circular(4),
+                          color: AppTheme.surfaceRaised,
+                          borderRadius: BorderRadius.circular(10),
                           border: Border.all(color: AppTheme.border),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
+                            Text(
                               "NET CARBON ROI",
-                              style: TextStyle(fontFamily: 'monospace', fontSize: 8, color: AppTheme.muted),
+                              style: GoogleFonts.jetBrainsMono(fontSize: 8, fontWeight: FontWeight.w700, color: AppTheme.textMuted),
                             ),
                             const SizedBox(height: 2),
                             Text(
                               "+${netCo2.toStringAsFixed(1)} kg",
-                              style: const TextStyle(fontFamily: 'monospace', fontSize: 11, fontWeight: FontWeight.bold, color: AppTheme.moss),
+                              style: GoogleFonts.jetBrainsMono(fontSize: 11, fontWeight: FontWeight.w800, color: AppTheme.emerald),
                             ),
                             Text(
                               "-$penalty kg transit",
-                              style: const TextStyle(fontFamily: 'monospace', fontSize: 9, color: AppTheme.muted),
+                              style: GoogleFonts.jetBrainsMono(fontSize: 9, color: AppTheme.textMuted),
                             ),
                           ],
                         ),
@@ -274,32 +270,37 @@ class _MatchmakingCardWidgetState extends State<MatchmakingCardWidget> {
                 ),
                 const SizedBox(height: 10),
 
-                // Suggested Buyer
+                // Suggested Buyer Match
                 Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: AppTheme.ink,
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border.all(color: AppTheme.moss.withOpacity(0.3)),
+                    color: AppTheme.surfaceRaised,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: AppTheme.emerald.withOpacity(0.3)),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "CERTIFIED BUYER MATCH",
-                            style: TextStyle(fontFamily: 'monospace', fontSize: 8, color: AppTheme.muted),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            buyer,
-                            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: AppTheme.bone),
-                          ),
-                        ],
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "CERTIFIED BUYER MATCH",
+                              style: GoogleFonts.jetBrainsMono(fontSize: 8, fontWeight: FontWeight.w700, color: AppTheme.textMuted),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              buyer,
+                              style: GoogleFonts.plusJakartaSans(fontSize: 11, fontWeight: FontWeight.w700, color: AppTheme.textMain),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
                       ),
-                      const Icon(Icons.verified, size: 16, color: AppTheme.moss),
+                      const SizedBox(width: 6),
+                      const Icon(Icons.verified, size: 16, color: AppTheme.emerald),
                     ],
                   ),
                 ),

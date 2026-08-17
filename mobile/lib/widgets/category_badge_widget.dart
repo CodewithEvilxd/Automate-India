@@ -11,38 +11,55 @@ class CategoryBadgeWidget extends StatelessWidget {
       case 'aluminum':
         return 'Aluminum';
       case 'steel':
-        return 'Steel';
+        return 'Steel HMS';
       case 'plastic_pet':
-        return 'PET Plastic';
+        return 'PET Cat I';
       case 'plastic_hdpe':
-        return 'HDPE Plastic';
+        return 'HDPE Cat II';
+      case 'plastic_mlp':
+        return 'MLP Cat III';
       case 'paper':
-        return 'Paper / OCC';
+        return 'OCC Paper';
       case 'glass':
         return 'Cullet Glass';
       case 'electronic':
-        return 'E-Waste';
+        return 'E-Waste PCB';
       default:
         return category.toUpperCase();
+    }
+  }
+
+  Color get badgeColor {
+    switch (category.toLowerCase()) {
+      case 'aluminum':
+      case 'steel':
+        return AppTheme.teal;
+      case 'plastic_pet':
+      case 'plastic_hdpe':
+        return AppTheme.emerald;
+      case 'electronic':
+        return AppTheme.purple;
+      default:
+        return AppTheme.amber;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
       decoration: BoxDecoration(
-        color: AppTheme.surfaceRaised,
-        borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: AppTheme.border),
+        color: badgeColor.withOpacity(0.12),
+        borderRadius: BorderRadius.circular(6),
+        border: Border.all(color: badgeColor.withOpacity(0.35)),
       ),
       child: Text(
         formattedName,
-        style: const TextStyle(
-          color: AppTheme.bone,
-          fontSize: 10,
-          fontWeight: FontWeight.bold,
-          fontFamily: 'monospace',
+        style: AppTheme.fontMono(
+          color: badgeColor,
+          fontSize: 9.5,
+          fontWeight: FontWeight.w700,
+          letterSpacing: 0.2,
         ),
       ),
     );

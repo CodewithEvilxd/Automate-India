@@ -87,9 +87,14 @@ class ApiService {
       {"symbol": "PET-WASH", "name": "PET Bottle Flakes (Hot Washed)", "unitPriceINR": 48.0, "unit": "kg", "change": "+3.1%", "trend": "up", "exchange": "IPex Polymer Index"},
       {"symbol": "HDPE-BLU", "name": "HDPE Regrind Granules", "unitPriceINR": 58.0, "unit": "kg", "change": "-0.5%", "trend": "down", "exchange": "IPex Gujarat"},
       {"symbol": "HMS-1-2", "name": "Heavy Melting Steel (HMS 1/2)", "unitPriceINR": 42.5, "unit": "kg", "change": "+0.9%", "trend": "up", "exchange": "SteelMint Index"},
-      {"symbol": "OCC-11", "name": "Corrugated OCC Cardboard", "unitPriceINR": 14.5, "unit": "kg", "change": "+1.2%", "trend": "up", "exchange": "Paper Index India"},
     ];
   }
+
+  Future<List<Map<String, dynamic>>> getMcxOracle() async {
+    return getMCXCommodities();
+  }
+
+
 
   // ---------------------------------------------------------------------------
   // 5. CPCB Statutory Compliance Calculator (FY 2026-27)
@@ -382,8 +387,8 @@ class ApiService {
     return [
       MaterialItem(
         id: "lot_al_01",
-        title: "Clean Aluminum Extrusion Offcuts (Series 6063)",
-        description: "Post-industrial secondary aluminum profiles, clean sorted, zero heavy paint, dry indoor storage.",
+        title: "[DUMMY] Structural 6061-T6 Aluminum Extrusion Offcuts",
+        description: "[DUMMY DATA FOR DEMO] Post-industrial secondary aluminum profiles, clean sorted, zero heavy paint, dry indoor storage.",
         imageUrl: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
         ipfsHash: "bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi",
         category: "aluminum",
@@ -392,7 +397,7 @@ class ApiService {
         condition: "Good",
         location: "Pune, MH",
         ownerWallet: "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
-        ownerName: "Apex Metal Recyclers Pvt Ltd",
+        ownerName: "Apex Metal Recyclers Pvt Ltd (Demo)",
         status: "transferred",
         createdAt: DateTime.now().subtract(const Duration(days: 4)),
         purityPercentage: 97.4,
@@ -405,8 +410,8 @@ class ApiService {
       ),
       MaterialItem(
         id: "lot_pet_02",
-        title: "Post-Consumer Clean Washed PET Bottle Flakes",
-        description: "Hot washed clear PET flakes, flakes size 10-12mm, PVC contamination <50ppm, moisture <1%.",
+        title: "[DUMMY] Post-Consumer Clean Washed PET Bottle Flakes",
+        description: "[DUMMY DATA FOR DEMO] Hot washed clear PET flakes, flakes size 10-12mm, PVC contamination <50ppm, moisture <1%.",
         imageUrl: "https://images.unsplash.com/photo-1530587191325-3db32d826c18?w=800&auto=format&fit=crop&q=80",
         ipfsHash: "bafybeicg5q6z7t7i4s6vovj2x5u3s4q7r6t8w9x0y1z2a3b4c5d6e7f8g9",
         category: "plastic_pet",
@@ -415,7 +420,7 @@ class ApiService {
         condition: "New",
         location: "Noida, UP",
         ownerWallet: "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
-        ownerName: "EcoPlast Polymer Solutions",
+        ownerName: "EcoPlast Polymer Solutions (Demo)",
         status: "listed",
         createdAt: DateTime.now().subtract(const Duration(days: 2)),
         purityPercentage: 98.8,
@@ -428,8 +433,8 @@ class ApiService {
       ),
       MaterialItem(
         id: "lot_hdpe_03",
-        title: "Crushed Industrial HDPE Chemical Drums & Carboys",
-        description: "Triple rinsed and granulated HDPE drums, natural and blue mix, melt flow index 0.05-0.12.",
+        title: "[DUMMY] Crushed Industrial HDPE Chemical Drums & Carboys",
+        description: "[DUMMY DATA FOR DEMO] Triple rinsed and granulated HDPE drums, natural and blue mix, melt flow index 0.05-0.12.",
         imageUrl: "https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?w=800&auto=format&fit=crop&q=80",
         ipfsHash: "bafybeihdpe7z8t9i0s1v2w3x4y5z6a7b8c9d0e1f2g3h4i5j6k7l8m9n0",
         category: "plastic_hdpe",
@@ -438,7 +443,7 @@ class ApiService {
         condition: "Fair",
         location: "Ahmedabad, GJ",
         ownerWallet: "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65",
-        ownerName: "Gujarat Industrial Waste Aggregators",
+        ownerName: "Gujarat Industrial Waste Aggregators (Demo)",
         status: "listed",
         createdAt: DateTime.now().subtract(const Duration(days: 1)),
         purityPercentage: 94.5,
@@ -451,8 +456,8 @@ class ApiService {
       ),
       MaterialItem(
         id: "lot_steel_04",
-        title: "Shredded Heavy Melting Steel Scrap (HMS 1/2)",
-        description: "Density min 0.8 MT/m3, free of excessive rust and non-metallic inclusions, ideal for induction furnace.",
+        title: "[DUMMY] Shredded Heavy Melting Steel Scrap (HMS 1/2)",
+        description: "[DUMMY DATA FOR DEMO] Density min 0.8 MT/m3, free of excessive rust and non-metallic inclusions, ideal for induction furnace.",
         imageUrl: "https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?w=800&auto=format&fit=crop&q=80",
         ipfsHash: "bafybeisteel1234567890abcdefghijklmnopqrstuvwxyz",
         category: "steel",
@@ -461,7 +466,7 @@ class ApiService {
         condition: "Good",
         location: "Gurugram, HR",
         ownerWallet: "0x9965507D1a55bcC2695C58ba16FB37d819B0A4dc",
-        ownerName: "Bharat Ferrous Alloys & Metals",
+        ownerName: "Bharat Ferrous Alloys & Metals (Demo)",
         status: "listed",
         createdAt: DateTime.now().subtract(const Duration(hours: 18)),
         purityPercentage: 96.0,
@@ -474,8 +479,8 @@ class ApiService {
       ),
       MaterialItem(
         id: "lot_paper_05",
-        title: "Baled Old Corrugated Containers (OCC 11 Grade)",
-        description: "Mill size high-density bales of 100% corrugated packaging, moisture <12%, outthrows <1%.",
+        title: "[DUMMY] Baled Old Corrugated Containers (OCC 11 Grade)",
+        description: "[DUMMY DATA FOR DEMO] Mill size high-density bales of 100% corrugated packaging, moisture <12%, outthrows <1%.",
         imageUrl: "https://images.unsplash.com/photo-1607344645866-009c320c5ab8?w=800&auto=format&fit=crop&q=80",
         ipfsHash: "bafybeipaper9876543210zyxwvutsrqponmlkjihgfedcba",
         category: "paper",
@@ -484,7 +489,7 @@ class ApiService {
         condition: "Good",
         location: "Bengaluru, KA",
         ownerWallet: "0x976EA74026E726554dB657fA54763abd0C3a0aa9",
-        ownerName: "GreenFiber Corrugated & Paper Mills",
+        ownerName: "GreenFiber Corrugated & Paper Mills (Demo)",
         status: "listed",
         createdAt: DateTime.now().subtract(const Duration(hours: 12)),
         purityPercentage: 95.0,
@@ -497,8 +502,8 @@ class ApiService {
       ),
       MaterialItem(
         id: "lot_ewaste_06",
-        title: "Depopulated Telecom & Server PCB Circuit Boards",
-        description: "Grade B multi-layer telecom motherboard scrap, capacitors stripped, precious metal content verified.",
+        title: "[DUMMY] Depopulated Telecom & Server PCB Circuit Boards",
+        description: "[DUMMY DATA FOR DEMO] Grade B multi-layer telecom motherboard scrap, capacitors stripped, precious metal content verified.",
         imageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80",
         ipfsHash: "bafybeiewaste11223344556677889900aabbccddeeffgghh",
         category: "electronic",
@@ -507,7 +512,7 @@ class ApiService {
         condition: "Fair",
         location: "Chennai, TN",
         ownerWallet: "0x3d0bc12948a7192837bc910283748293bc910293",
-        ownerName: "Coromandel E-Waste Precious Recovery",
+        ownerName: "Coromandel E-Waste Precious Recovery (Demo)",
         status: "listed",
         createdAt: DateTime.now().subtract(const Duration(hours: 6)),
         purityPercentage: 92.0,

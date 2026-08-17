@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
 import '../services/api_service.dart';
 
@@ -42,7 +43,7 @@ class _IndicVoiceWidgetState extends State<IndicVoiceWidget> {
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: AppTheme.surface,
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(14),
         border: Border.all(color: AppTheme.border),
       ),
       child: Column(
@@ -53,33 +54,31 @@ class _IndicVoiceWidgetState extends State<IndicVoiceWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
-                children: const [
-                  Icon(Icons.mic, size: 16, color: AppTheme.amber),
-                  SizedBox(width: 6),
+                children: [
+                  const Icon(Icons.mic, size: 16, color: AppTheme.amber),
+                  const SizedBox(width: 6),
                   Text(
                     "INDIC VOICE & TEXT INGESTION",
-                    style: TextStyle(
-                      fontFamily: 'monospace',
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 0.8,
-                      color: AppTheme.bone,
+                    style: GoogleFonts.jetBrainsMono(
+                      fontSize: 9.5,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 0.6,
+                      color: AppTheme.textMain,
                     ),
                   ),
                 ],
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
                   color: AppTheme.amber.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(3),
+                  borderRadius: BorderRadius.circular(4),
                 ),
-                child: const Text(
+                child: Text(
                   "HINDI / HINGLISH",
-                  style: TextStyle(
-                    fontFamily: 'monospace',
+                  style: GoogleFonts.jetBrainsMono(
                     fontSize: 8,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w800,
                     color: AppTheme.amber,
                   ),
                 ),
@@ -87,9 +86,9 @@ class _IndicVoiceWidgetState extends State<IndicVoiceWidget> {
             ],
           ),
           const SizedBox(height: 6),
-          const Text(
+          Text(
             "Weighbridge operators can speak or type in Hindi/English to auto-populate scrap lot details.",
-            style: TextStyle(fontSize: 10, color: AppTheme.muted, height: 1.3),
+            style: GoogleFonts.plusJakartaSans(fontSize: 10.5, color: AppTheme.textMuted, height: 1.3),
           ),
           const SizedBox(height: 10),
 
@@ -99,77 +98,81 @@ class _IndicVoiceWidgetState extends State<IndicVoiceWidget> {
               Expanded(
                 child: TextField(
                   controller: _controller,
-                  style: const TextStyle(fontSize: 12, color: AppTheme.bone),
+                  style: GoogleFonts.plusJakartaSans(fontSize: 11.5, color: AppTheme.textMain),
                   decoration: InputDecoration(
                     hintText: "e.g. Noida me 450 kilo aluminum...",
-                    hintStyle: TextStyle(fontSize: 11, color: AppTheme.muted.withOpacity(0.6)),
+                    hintStyle: GoogleFonts.plusJakartaSans(fontSize: 11, color: AppTheme.textMuted.withOpacity(0.6)),
                     filled: true,
-                    fillColor: AppTheme.ink,
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                    fillColor: AppTheme.surfaceRaised,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: BorderRadius.circular(8),
                       borderSide: const BorderSide(color: AppTheme.border),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: BorderRadius.circular(8),
                       borderSide: const BorderSide(color: AppTheme.border),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4),
-                      borderSide: const BorderSide(color: AppTheme.moss),
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: const BorderSide(color: AppTheme.emerald),
                     ),
                   ),
+                  onSubmitted: _handleParse,
                 ),
               ),
               const SizedBox(width: 8),
               ElevatedButton(
                 onPressed: _loading ? null : () => _handleParse(_controller.text),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.moss,
-                  foregroundColor: AppTheme.ink,
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                  backgroundColor: AppTheme.emerald,
+                  foregroundColor: AppTheme.background,
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
                 child: _loading
                     ? const SizedBox(
-                        width: 14,
                         height: 14,
-                        child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.ink),
+                        width: 14,
+                        child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.background),
                       )
-                    : const Text(
+                    : Text(
                         "Auto-Fill",
-                        style: TextStyle(
-                          fontFamily: 'monospace',
+                        style: GoogleFonts.jetBrainsMono(
                           fontSize: 10,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w800,
                         ),
                       ),
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 10),
 
-          // Quick Prompt Chips
+          // Suggested Prompts
           Wrap(
             spacing: 6,
-            runSpacing: 4,
+            runSpacing: 6,
             children: samplePrompts.map((prompt) {
               return InkWell(
+                borderRadius: BorderRadius.circular(6),
                 onTap: () {
                   _controller.text = prompt;
                   _handleParse(prompt);
                 },
-                borderRadius: BorderRadius.circular(3),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: AppTheme.ink,
-                    borderRadius: BorderRadius.circular(3),
+                    color: AppTheme.surfaceRaised,
+                    borderRadius: BorderRadius.circular(6),
                     border: Border.all(color: AppTheme.border),
                   ),
                   child: Text(
                     "\"$prompt\"",
-                    style: const TextStyle(fontSize: 9, color: AppTheme.muted),
+                    style: GoogleFonts.plusJakartaSans(
+                      fontSize: 9.5,
+                      color: AppTheme.textMuted,
+                      fontStyle: FontStyle.italic,
+                    ),
                   ),
                 ),
               );
@@ -177,25 +180,27 @@ class _IndicVoiceWidgetState extends State<IndicVoiceWidget> {
           ),
 
           if (_recentSuccess != null) ...[
-            const SizedBox(height: 8),
+            const SizedBox(height: 10),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               decoration: BoxDecoration(
-                color: AppTheme.moss.withOpacity(0.15),
-                borderRadius: BorderRadius.circular(3),
-                border: Border.all(color: AppTheme.moss.withOpacity(0.4)),
+                color: AppTheme.emerald.withOpacity(0.12),
+                borderRadius: BorderRadius.circular(6),
+                border: Border.all(color: AppTheme.emerald.withOpacity(0.3)),
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.check_circle_outline, size: 12, color: AppTheme.moss),
-                  const SizedBox(width: 4),
-                  Text(
-                    _recentSuccess!,
-                    style: const TextStyle(
-                      fontFamily: 'monospace',
-                      fontSize: 9,
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.moss,
+                  const Icon(Icons.check_circle_outline, size: 14, color: AppTheme.emerald),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      _recentSuccess!,
+                      style: GoogleFonts.jetBrainsMono(
+                        fontSize: 9.5,
+                        fontWeight: FontWeight.w800,
+                        color: AppTheme.emerald,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],

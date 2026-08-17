@@ -19,56 +19,69 @@ class VerificationStampWidget extends StatelessWidget {
         ? '${txHash!.substring(0, 6)}...${txHash!.substring(txHash!.length - 4)}'
         : '0x8F2E...C91A';
 
-    return Transform.rotate(
-      angle: rotation,
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(color: AppTheme.moss, width: 2),
-        ),
-        padding: const EdgeInsets.all(4),
-        child: Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: AppTheme.moss.withOpacity(0.6),
-              width: 1,
+    return SizedBox(
+      width: size,
+      height: size,
+      child: FittedBox(
+        fit: BoxFit.contain,
+        child: Transform.rotate(
+          angle: rotation,
+          child: Container(
+            width: 100,
+            height: 100,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: AppTheme.emerald, width: 2.5),
             ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'CIRCULAR',
-                style: TextStyle(
-                  color: AppTheme.moss,
-                  fontSize: 8,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
+            padding: const EdgeInsets.all(3),
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: AppTheme.emerald.withOpacity(0.6),
+                  width: 1.2,
                 ),
               ),
-              const SizedBox(height: 2),
-              const Text(
-                'VERIFIED',
-                style: TextStyle(
-                  color: AppTheme.moss,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 1.2,
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'CIRCULAR',
+                        style: AppTheme.fontMono(
+                          color: AppTheme.emerald,
+                          fontSize: 8,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 1.5,
+                        ),
+                      ),
+                      const SizedBox(height: 1),
+                      Text(
+                        'VERIFIED',
+                        style: AppTheme.fontSans(
+                          color: AppTheme.emerald,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 1.2,
+                        ),
+                      ),
+                      const SizedBox(height: 1),
+                      Text(
+                        displayHash.toUpperCase(),
+                        style: AppTheme.fontMono(
+                          color: AppTheme.emerald.withOpacity(0.85),
+                          fontSize: 6.5,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              const SizedBox(height: 2),
-              Text(
-                displayHash.toUpperCase(),
-                style: TextStyle(
-                  color: AppTheme.moss.withOpacity(0.8),
-                  fontSize: 6.5,
-                  fontFamily: 'monospace',
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),

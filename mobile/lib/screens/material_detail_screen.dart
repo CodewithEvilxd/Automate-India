@@ -50,11 +50,11 @@ class _MaterialDetailScreenState extends State<MaterialDetailScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            backgroundColor: AppTheme.moss,
+          SnackBar(
+            backgroundColor: AppTheme.emerald,
             content: Text(
               '✅ AI Agent 2 Verified & Transferred on Polygon Amoy!',
-              style: TextStyle(fontFamily: 'monospace', color: AppTheme.ink, fontWeight: FontWeight.bold),
+              style: AppTheme.fontMono(color: AppTheme.background, fontWeight: FontWeight.w800),
             ),
           ),
         );
@@ -69,15 +69,17 @@ class _MaterialDetailScreenState extends State<MaterialDetailScreen> {
     final m = widget.material;
 
     return Scaffold(
+      backgroundColor: AppTheme.background,
       appBar: AppBar(
+        backgroundColor: AppTheme.background,
+        elevation: 0,
         title: Text(
           'LOT #${m.id.toUpperCase()}',
-          style: const TextStyle(
-            fontFamily: 'monospace',
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 1.0,
-            color: AppTheme.bone,
+          style: AppTheme.fontMono(
+            fontSize: 13,
+            fontWeight: FontWeight.w800,
+            letterSpacing: 0.8,
+            color: AppTheme.textMain,
           ),
         ),
       ),
@@ -90,7 +92,7 @@ class _MaterialDetailScreenState extends State<MaterialDetailScreen> {
             Stack(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(6),
+                  borderRadius: BorderRadius.circular(14),
                   child: Image.network(
                     m.imageUrl,
                     height: 210,
@@ -100,7 +102,7 @@ class _MaterialDetailScreenState extends State<MaterialDetailScreen> {
                       height: 210,
                       color: AppTheme.surfaceRaised,
                       child: const Center(
-                        child: Icon(Icons.inventory_2_outlined, size: 50, color: AppTheme.muted),
+                        child: Icon(Icons.inventory_2_outlined, size: 50, color: AppTheme.textMuted),
                       ),
                     ),
                   ),
@@ -113,7 +115,10 @@ class _MaterialDetailScreenState extends State<MaterialDetailScreen> {
                 if (_transferred)
                   Positioned.fill(
                     child: Container(
-                      color: Colors.black.withOpacity(0.55),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.55),
+                        borderRadius: BorderRadius.circular(14),
+                      ),
                       child: Center(
                         child: VerificationStampWidget(txHash: _txHash, size: 100),
                       ),
@@ -129,50 +134,52 @@ class _MaterialDetailScreenState extends State<MaterialDetailScreen> {
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.location_on_outlined, size: 13, color: AppTheme.moss),
+                    const Icon(Icons.location_on_outlined, size: 13, color: AppTheme.emerald),
                     const SizedBox(width: 3),
                     Text(
                       m.location,
-                      style: const TextStyle(fontSize: 11, color: AppTheme.muted, fontFamily: 'monospace'),
+                      style: AppTheme.fontMono(fontSize: 11, color: AppTheme.textMuted),
                     ),
                   ],
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
                   decoration: BoxDecoration(
-                    color: _transferred ? AppTheme.moss.withOpacity(0.15) : AppTheme.amber.withOpacity(0.15),
-                    borderRadius: BorderRadius.circular(3),
+                    color: _transferred ? AppTheme.emerald.withOpacity(0.15) : AppTheme.amber.withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(
+                      color: _transferred ? AppTheme.emerald.withOpacity(0.4) : AppTheme.amber.withOpacity(0.4),
+                    ),
                   ),
                   child: Text(
                     _transferred ? "SETTLED ON LEDGER" : "OPEN FOR RECYCLING",
-                    style: TextStyle(
-                      fontFamily: 'monospace',
-                      fontSize: 9,
-                      fontWeight: FontWeight.bold,
-                      color: _transferred ? AppTheme.moss : AppTheme.amber,
+                    style: AppTheme.fontMono(
+                      fontSize: 8.5,
+                      fontWeight: FontWeight.w800,
+                      color: _transferred ? AppTheme.emerald : AppTheme.amber,
                     ),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 6),
+            const SizedBox(height: 8),
             Text(
               m.title,
-              style: const TextStyle(
-                color: AppTheme.bone,
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
+              style: AppTheme.fontSans(
+                color: AppTheme.textMain,
+                fontSize: 16,
+                fontWeight: FontWeight.w800,
                 height: 1.25,
               ),
             ),
             const SizedBox(height: 6),
             Text(
               m.description,
-              style: const TextStyle(color: AppTheme.muted, fontSize: 12, height: 1.4),
+              style: AppTheme.fontSans(color: AppTheme.textMuted, fontSize: 12, height: 1.4),
             ),
             const SizedBox(height: 14),
 
-            // Feature 2: Visual Contamination & Quality Heatmap
+            // Visual Contamination & Quality Heatmap
             ContaminationHeatmapWidget(
               purityPercentage: m.purityPercentage,
               contaminationType: m.contaminationType,
@@ -182,7 +189,7 @@ class _MaterialDetailScreenState extends State<MaterialDetailScreen> {
             ),
             const SizedBox(height: 14),
 
-            // Feature 1: MCX Scrap Price Oracle & Matchmaker Card
+            // MCX Scrap Price Oracle & Matchmaker Card
             MatchmakingCardWidget(
               category: m.category,
               weightKg: m.estimatedWeightKg,
@@ -195,24 +202,23 @@ class _MaterialDetailScreenState extends State<MaterialDetailScreen> {
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
                 color: AppTheme.surface,
-                borderRadius: BorderRadius.circular(6),
+                borderRadius: BorderRadius.circular(14),
                 border: Border.all(color: AppTheme.border),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    children: const [
-                      Icon(Icons.inventory_2_outlined, size: 14, color: AppTheme.moss),
-                      SizedBox(width: 6),
+                    children: [
+                      const Icon(Icons.inventory_2_outlined, size: 14, color: AppTheme.emerald),
+                      const SizedBox(width: 6),
                       Text(
                         "ON-CHAIN PHYSICAL MANIFEST",
-                        style: TextStyle(
-                          fontFamily: 'monospace',
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 0.8,
-                          color: AppTheme.bone,
+                        style: AppTheme.fontMono(
+                          fontSize: 9.5,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 0.6,
+                          color: AppTheme.textMain,
                         ),
                       ),
                     ],
@@ -232,7 +238,7 @@ class _MaterialDetailScreenState extends State<MaterialDetailScreen> {
             ),
             const SizedBox(height: 14),
 
-            // Feature 4: On-Chain Fraud Sentinel
+            // On-Chain Fraud Sentinel
             FraudSentinelWidget(
               fromWallet: m.ownerWallet,
               toWallet: "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
@@ -242,97 +248,59 @@ class _MaterialDetailScreenState extends State<MaterialDetailScreen> {
             ),
             const SizedBox(height: 16),
 
-            // Post-Transfer Certificate & QR Code
-            if (_transferred) ...[
-              Container(
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: AppTheme.surface,
-                  borderRadius: BorderRadius.circular(6),
-                  border: Border.all(color: AppTheme.moss),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text(
-                          "OFFICIAL EPR IMPACT CERTIFICATE",
-                          style: TextStyle(
-                            fontFamily: 'monospace',
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            color: AppTheme.moss,
-                          ),
-                        ),
-                        Icon(Icons.verified, size: 16, color: AppTheme.moss),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      _certificate ??
-                          "This official EPR Impact Certificate confirms the on-chain transfer and certified diversion of ${m.estimatedWeightKg} kg of ${m.category} scrap.",
-                      style: const TextStyle(fontSize: 11, color: AppTheme.bone, fontStyle: FontStyle.italic, height: 1.4),
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        QrImageView(
-                          data: "https://amoy.polygonscan.com/tx/$_txHash",
-                          version: QrVersions.auto,
-                          size: 70.0,
-                          backgroundColor: Colors.white,
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text("LEDGER TRANSACTION HASH", style: TextStyle(fontFamily: 'monospace', fontSize: 8, color: AppTheme.muted)),
-                              const SizedBox(height: 2),
-                              Text(
-                                _txHash ?? "0x8f2e9a4f...",
-                                style: const TextStyle(fontFamily: 'monospace', fontSize: 9, color: AppTheme.moss),
-                              ),
-                              const SizedBox(height: 4),
-                              const Text("Scan QR code for instant Polygonscan validation.", style: TextStyle(fontSize: 10, color: AppTheme.muted)),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
-            ],
-
-            // Action Button
+            // Action: AI Escrow Transfer & SPCB Certificate
             if (!_transferred)
-              ElevatedButton.icon(
+              ElevatedButton(
                 onPressed: _verifying ? null : _handleTransfer,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.moss,
-                  foregroundColor: AppTheme.ink,
+                  backgroundColor: AppTheme.emerald,
+                  foregroundColor: AppTheme.background,
                   padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
-                icon: _verifying
-                    ? const SizedBox(
-                        width: 16,
-                        height: 16,
-                        child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.ink),
+                child: _verifying
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(
+                            height: 14,
+                            width: 14,
+                            child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.background),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            "AI AGENT EXECUTING ESCROW...",
+                            style: AppTheme.fontMono(fontSize: 11, fontWeight: FontWeight.w800),
+                          ),
+                        ],
                       )
-                    : const Icon(Icons.verified_user),
+                    : Text(
+                        "DISPATCH & VERIFY ON BLOCKCHAIN",
+                        style: AppTheme.fontMono(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 0.8,
+                        ),
+                      ),
+              )
+            else
+              OutlinedButton.icon(
+                onPressed: () => _showAuditCertificateModal(context),
+                icon: const Icon(Icons.qr_code_2, size: 18, color: AppTheme.emerald),
                 label: Text(
-                  _verifying ? 'AUDITING WITH AI AGENT 2...' : 'REQUEST VERIFIED TRANSFER',
-                  style: const TextStyle(
-                    fontFamily: 'monospace',
-                    fontSize: 11,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 0.8,
+                  "VIEW IMMUTABLE EPR CERTIFICATE",
+                  style: AppTheme.fontMono(
+                    fontSize: 10.5,
+                    fontWeight: FontWeight.w800,
+                    color: AppTheme.emerald,
+                    letterSpacing: 0.5,
                   ),
+                ),
+                style: OutlinedButton.styleFrom(
+                  side: const BorderSide(color: AppTheme.emerald),
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  backgroundColor: AppTheme.emerald.withOpacity(0.08),
                 ),
               ),
           ],
@@ -342,20 +310,102 @@ class _MaterialDetailScreenState extends State<MaterialDetailScreen> {
   }
 
   Widget _specRow(String label, String value, {bool isHighlight = false}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(label, style: const TextStyle(color: AppTheme.muted, fontSize: 11)),
-        Text(
-          value,
-          style: TextStyle(
-            color: isHighlight ? AppTheme.moss : AppTheme.bone,
-            fontSize: 11,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'monospace',
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label, style: AppTheme.fontSans(color: AppTheme.textMuted, fontSize: 11.5)),
+          Text(
+            value,
+            style: AppTheme.fontMono(
+              color: isHighlight ? AppTheme.emerald : AppTheme.textMain,
+              fontWeight: FontWeight.w800,
+              fontSize: 11.5,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
+    );
+  }
+
+  void _showAuditCertificateModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: AppTheme.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        side: BorderSide(color: AppTheme.border),
+      ),
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 36,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: AppTheme.border,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                "CPCB IMMUTABLE RECYCLING CERTIFICATE",
+                style: AppTheme.fontMono(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w800,
+                  color: AppTheme.emerald,
+                  letterSpacing: 0.8,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                "Verified by AI Agent Sentinel #2 · Polygon Amoy",
+                style: AppTheme.fontSans(fontSize: 11, color: AppTheme.textMuted),
+              ),
+              const SizedBox(height: 16),
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: QrImageView(
+                  data: "https://amoy.polygonscan.com/tx/$_txHash",
+                  version: QrVersions.auto,
+                  size: 140,
+                ),
+              ),
+              const SizedBox(height: 14),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: AppTheme.surfaceRaised,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: AppTheme.border),
+                ),
+                child: Text(
+                  _txHash ?? '0x8f2e9a4f20bc871239ab1e6d45901234c91a78de90bc1234567890abcdef1234',
+                  style: AppTheme.fontMono(fontSize: 9, color: AppTheme.emerald),
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                _certificate ??
+                    'Confirms valid on-chain recycling diversion under statutory CPCB FY26-27 EPR guidelines.',
+                style: AppTheme.fontSans(fontSize: 10.5, color: AppTheme.textMuted, height: 1.3),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

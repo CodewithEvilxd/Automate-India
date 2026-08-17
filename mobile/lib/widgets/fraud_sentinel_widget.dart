@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
 import '../services/api_service.dart';
 
@@ -57,14 +58,14 @@ class _FraudSentinelWidgetState extends State<FraudSentinelWidget> {
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: AppTheme.surface,
-          borderRadius: BorderRadius.circular(6),
+          borderRadius: BorderRadius.circular(14),
           border: Border.all(color: AppTheme.border),
         ),
         child: const Center(
           child: SizedBox(
             height: 16,
             width: 16,
-            child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.moss),
+            child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.emerald),
           ),
         ),
       );
@@ -76,13 +77,13 @@ class _FraudSentinelWidgetState extends State<FraudSentinelWidget> {
     final List<dynamic> flags = _auditData!['anomaly_flags'] ?? [];
 
     final bool isLow = riskLevel == 'LOW';
-    final Color badgeColor = isLow ? AppTheme.moss : const Color(0xFFE57373);
+    final Color badgeColor = isLow ? AppTheme.emerald : AppTheme.red;
 
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: AppTheme.surface,
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(14),
         border: Border.all(color: AppTheme.border),
       ),
       child: Column(
@@ -100,31 +101,29 @@ class _FraudSentinelWidgetState extends State<FraudSentinelWidget> {
                     color: badgeColor,
                   ),
                   const SizedBox(width: 6),
-                  const Text(
-                    "ON-CHAIN FRAUD SENTINEL",
-                    style: TextStyle(
-                      fontFamily: 'monospace',
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 0.8,
-                      color: AppTheme.bone,
+                  Text(
+                    "AI FRAUD SENTINEL AUDIT",
+                    style: GoogleFonts.jetBrainsMono(
+                      fontSize: 9.5,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 0.6,
+                      color: AppTheme.textMain,
                     ),
                   ),
                 ],
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
                 decoration: BoxDecoration(
                   color: badgeColor.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(4),
                   border: Border.all(color: badgeColor.withOpacity(0.4)),
                 ),
                 child: Text(
-                  "RISK: $riskLevel ($riskScore%)",
-                  style: TextStyle(
-                    fontFamily: 'monospace',
-                    fontSize: 9,
-                    fontWeight: FontWeight.bold,
+                  "RISK: $riskLevel ($riskScore/100)",
+                  style: GoogleFonts.jetBrainsMono(
+                    fontSize: 8.5,
+                    fontWeight: FontWeight.w800,
                     color: badgeColor,
                   ),
                 ),
@@ -135,30 +134,30 @@ class _FraudSentinelWidgetState extends State<FraudSentinelWidget> {
 
           Text(
             summary,
-            style: const TextStyle(fontSize: 11, color: AppTheme.muted, height: 1.3),
+            style: GoogleFonts.plusJakartaSans(
+              fontSize: 11,
+              color: AppTheme.textMuted,
+              height: 1.3,
+            ),
           ),
 
           if (flags.isNotEmpty) ...[
             const SizedBox(height: 8),
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: AppTheme.ink,
-                borderRadius: BorderRadius.circular(4),
-                border: Border.all(color: const Color(0xFFE57373).withOpacity(0.4)),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: flags.map((f) => Text(
-                  "• $f",
-                  style: const TextStyle(
-                    fontFamily: 'monospace',
-                    fontSize: 9,
-                    color: Color(0xFFE57373),
+            ...flags.map((f) => Padding(
+                  padding: const EdgeInsets.only(bottom: 2),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.info_outline, size: 12, color: AppTheme.amber),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          f.toString(),
+                          style: GoogleFonts.jetBrainsMono(fontSize: 9, color: AppTheme.amber),
+                        ),
+                      ),
+                    ],
                   ),
-                )).toList(),
-              ),
-            ),
+                )),
           ],
         ],
       ),

@@ -14,6 +14,7 @@ export interface MaterialItem {
   status: "listed" | "transferred";
   created_at: Date;
   transactions?: any[];
+  is_dummy?: boolean;
 }
 
 export interface OrgProfile {
@@ -29,13 +30,14 @@ export interface OrgProfile {
   member_since: string;
   epr_registration_no: string;
   verified_categories: string[];
+  is_dummy?: boolean;
 }
 
 export const DEMO_MATERIALS: MaterialItem[] = [
   {
     id: "lot_al_01",
-    title: "Structural 6061-T6 Aluminum Extrusion Offcuts",
-    description: "Clean mill-finish aluminum fabrication scrap, sorted and bundled for secondary remelting. Zero contamination, ready for direct furnace charge.",
+    title: "[DUMMY] Structural 6061-T6 Aluminum Extrusion Offcuts",
+    description: "[DUMMY DATA FOR DEMO] Clean mill-finish aluminum fabrication scrap, sorted and bundled for secondary remelting. Zero contamination, ready for direct furnace charge.",
     image_url: "https://images.unsplash.com/photo-1535813547-99c456a41d4a?auto=format&fit=crop&w=800&q=80",
     ipfs_hash: "QmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6uco",
     category: "aluminum",
@@ -44,9 +46,10 @@ export const DEMO_MATERIALS: MaterialItem[] = [
     condition: "Good (Uncontaminated)",
     location: "Pune, MH",
     owner_wallet: "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
-    owner_name: "Apex Auto Castings Ltd",
+    owner_name: "Apex Auto Castings Ltd (Demo)",
     status: "transferred",
     created_at: new Date(Date.now() - 86400000 * 2),
+    is_dummy: true,
     transactions: [
       {
         id: "tx_01",
@@ -58,8 +61,8 @@ export const DEMO_MATERIALS: MaterialItem[] = [
   },
   {
     id: "lot_pet_02",
-    title: "Post-Consumer Clear PET Flakes & Granulate",
-    description: "Hot-washed and optically sorted transparent PET bottle flake, IV > 0.72. Meets food-grade rPET fiber and preform extrusion standards.",
+    title: "[DUMMY] Post-Consumer Clear PET Flakes & Granulate",
+    description: "[DUMMY DATA FOR DEMO] Hot-washed and optically sorted transparent PET bottle flake, IV > 0.72. Meets food-grade rPET fiber and preform extrusion standards.",
     image_url: "https://images.unsplash.com/photo-1605600659908-0ef719419d41?auto=format&fit=crop&w=800&q=80",
     ipfs_hash: "QmZtmD2qt8fJpq3CLDH8TGjNj8ybsnodL6YfP3w5nF2y",
     category: "plastic_pet",
@@ -68,15 +71,16 @@ export const DEMO_MATERIALS: MaterialItem[] = [
     condition: "Good",
     location: "Noida, UP",
     owner_wallet: "0x53d284357ec70cE289De0F60957835613a81e472",
-    owner_name: "GreenPolymer Tech India",
+    owner_name: "GreenPolymer Tech India (Demo)",
     status: "listed",
     created_at: new Date(Date.now() - 86400000 * 1),
+    is_dummy: true,
     transactions: [],
   },
   {
     id: "lot_hdpe_03",
-    title: "Industrial Grade Crushed HDPE Drum Regrind",
-    description: "Blue and white high-density polyethylene regrind from clean chemical drums, triple rinsed and shredded to 10mm mesh.",
+    title: "[DUMMY] Industrial Grade Crushed HDPE Drum Regrind",
+    description: "[DUMMY DATA FOR DEMO] Blue and white high-density polyethylene regrind from clean chemical drums, triple rinsed and shredded to 10mm mesh.",
     image_url: "https://images.unsplash.com/photo-1595278069441-2cf29f8005a4?auto=format&fit=crop&w=800&q=80",
     ipfs_hash: "QmU7i8JkH9tqL3pM8xV4k7yR2bN1w9eF5d6c8a3s2z",
     category: "plastic_hdpe",
@@ -85,15 +89,16 @@ export const DEMO_MATERIALS: MaterialItem[] = [
     condition: "Fair",
     location: "Ahmedabad, GJ",
     owner_wallet: "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
-    owner_name: "Gujarat Polymer Recyclers",
+    owner_name: "Gujarat Polymer Recyclers (Demo)",
     status: "listed",
     created_at: new Date(Date.now() - 86400000 * 3),
+    is_dummy: true,
     transactions: [],
   },
   {
     id: "lot_paper_04",
-    title: "Baled OCC Corrugated Cardboard Packaging Waste",
-    description: "High-density export-grade Old Corrugated Containers (OCC 11), moisture < 12%, minimal outthrows, wire tied for bulk repulping.",
+    title: "[DUMMY] Baled OCC Corrugated Cardboard Packaging Waste",
+    description: "[DUMMY DATA FOR DEMO] High-density export-grade Old Corrugated Containers (OCC 11), moisture < 12%, minimal outthrows, wire tied for bulk repulping.",
     image_url: "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=800&q=80",
     ipfs_hash: "QmP6f7G8h9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z",
     category: "paper",
@@ -102,9 +107,10 @@ export const DEMO_MATERIALS: MaterialItem[] = [
     condition: "Good",
     location: "Gurugram, HR",
     owner_wallet: "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
-    owner_name: "Ecofab Packaging Solutions",
+    owner_name: "Ecofab Packaging Solutions (Demo)",
     status: "transferred",
     created_at: new Date(Date.now() - 86400000 * 4),
+    is_dummy: true,
     transactions: [
       {
         id: "tx_04",
@@ -116,8 +122,8 @@ export const DEMO_MATERIALS: MaterialItem[] = [
   },
   {
     id: "lot_glass_05",
-    title: "Crushed Container Cullet Glass (Mixed Color)",
-    description: "Pre-crushed soda-lime furnace cullet, sorted by size (15-25mm), ceramic/stone contamination < 25ppm for container bottle batching.",
+    title: "[DUMMY] Crushed Container Cullet Glass (Mixed Color)",
+    description: "[DUMMY DATA FOR DEMO] Pre-crushed soda-lime furnace cullet, sorted by size (15-25mm), ceramic/stone contamination < 25ppm for container bottle batching.",
     image_url: "https://images.unsplash.com/photo-1516962215378-7fa2e137ae93?auto=format&fit=crop&w=800&q=80",
     ipfs_hash: "QmW1e2r3t4y5u6i7o8p9a0s1d2f3g4h5j6k7l8z9x0c",
     category: "glass",
@@ -126,15 +132,16 @@ export const DEMO_MATERIALS: MaterialItem[] = [
     condition: "Fair",
     location: "Chennai, TN",
     owner_wallet: "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65",
-    owner_name: "Coromandel Silica & Glass Corp",
+    owner_name: "Coromandel Silica & Glass Corp (Demo)",
     status: "listed",
     created_at: new Date(Date.now() - 86400000 * 5),
+    is_dummy: true,
     transactions: [],
   },
   {
     id: "lot_ewaste_06",
-    title: "Decommissioned Telecom PCB Circuit Boards",
-    description: "High-grade gold-plated telecommunication base station motherboards and backplanes, de-potted for certified hydrometallurgical recovery.",
+    title: "[DUMMY] Decommissioned Telecom PCB Circuit Boards",
+    description: "[DUMMY DATA FOR DEMO] High-grade gold-plated telecommunication base station motherboards and backplanes, de-potted for certified hydrometallurgical recovery.",
     image_url: "https://images.unsplash.com/photo-1597733336794-12d05021d510?auto=format&fit=crop&w=800&q=80",
     ipfs_hash: "QmA1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u",
     category: "electronic",
@@ -143,9 +150,10 @@ export const DEMO_MATERIALS: MaterialItem[] = [
     condition: "Recyclable",
     location: "Bengaluru, KA",
     owner_wallet: "0x9965507D1a55bcC2695C58ba16FB37d819B0A4df",
-    owner_name: "Circtronics E-Waste Refiners",
+    owner_name: "Circtronics E-Waste Refiners (Demo)",
     status: "listed",
     created_at: new Date(Date.now() - 86400000 * 6),
+    is_dummy: true,
     transactions: [],
   },
 ];
@@ -174,7 +182,7 @@ export const DEMO_TRANSACTIONS = [
 export const DEMO_ORGANIZATIONS: OrgProfile[] = [
   {
     wallet_address: "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
-    org_name: "Apex Auto Castings Ltd",
+    org_name: "Apex Auto Castings Ltd [DEMO]",
     location: "Pune, Maharashtra",
     reputation_score: 94,
     total_co2_abated_kg: 8420.5,
@@ -185,10 +193,11 @@ export const DEMO_ORGANIZATIONS: OrgProfile[] = [
     member_since: "March 2025",
     epr_registration_no: "EPR-MH-2025-08491",
     verified_categories: ["aluminum", "steel"],
+    is_dummy: true,
   },
   {
     wallet_address: "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
-    org_name: "Ecofab Packaging Solutions",
+    org_name: "Ecofab Packaging Solutions [DEMO]",
     location: "Gurugram, Haryana",
     reputation_score: 88,
     total_co2_abated_kg: 5640.0,
@@ -199,10 +208,11 @@ export const DEMO_ORGANIZATIONS: OrgProfile[] = [
     member_since: "April 2025",
     epr_registration_no: "EPR-HR-2025-01923",
     verified_categories: ["paper", "cardboard"],
+    is_dummy: true,
   },
   {
     wallet_address: "0x53d284357ec70cE289De0F60957835613a81e472",
-    org_name: "GreenPolymer Tech India",
+    org_name: "GreenPolymer Tech India [DEMO]",
     location: "Noida, Uttar Pradesh",
     reputation_score: 79,
     total_co2_abated_kg: 4890.0,
@@ -213,10 +223,11 @@ export const DEMO_ORGANIZATIONS: OrgProfile[] = [
     member_since: "May 2025",
     epr_registration_no: "EPR-UP-2025-04512",
     verified_categories: ["plastic_pet", "plastic_hdpe"],
+    is_dummy: true,
   },
   {
     wallet_address: "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
-    org_name: "Gujarat Polymer Recyclers",
+    org_name: "Gujarat Polymer Recyclers [DEMO]",
     location: "Ahmedabad, Gujarat",
     reputation_score: 65,
     total_co2_abated_kg: 3120.0,
@@ -227,10 +238,11 @@ export const DEMO_ORGANIZATIONS: OrgProfile[] = [
     member_since: "June 2025",
     epr_registration_no: "EPR-GJ-2025-07821",
     verified_categories: ["plastic_hdpe"],
+    is_dummy: true,
   },
   {
     wallet_address: "0x9965507D1a55bcC2695C58ba16FB37d819B0A4df",
-    org_name: "Circtronics E-Waste Refiners",
+    org_name: "Circtronics E-Waste Refiners [DEMO]",
     location: "Bengaluru, Karnataka",
     reputation_score: 72,
     total_co2_abated_kg: 2840.0,
@@ -241,10 +253,11 @@ export const DEMO_ORGANIZATIONS: OrgProfile[] = [
     member_since: "August 2025",
     epr_registration_no: "EPR-KA-2025-03290",
     verified_categories: ["electronic"],
+    is_dummy: true,
   },
   {
     wallet_address: "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65",
-    org_name: "Coromandel Silica & Glass Corp",
+    org_name: "Coromandel Silica & Glass Corp [DEMO]",
     location: "Chennai, Tamil Nadu",
     reputation_score: 58,
     total_co2_abated_kg: 1420.0,
@@ -255,5 +268,6 @@ export const DEMO_ORGANIZATIONS: OrgProfile[] = [
     member_since: "September 2025",
     epr_registration_no: "EPR-TN-2025-09142",
     verified_categories: ["glass"],
+    is_dummy: true,
   },
 ];

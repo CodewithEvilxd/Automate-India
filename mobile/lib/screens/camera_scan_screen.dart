@@ -61,26 +61,29 @@ class _CameraScanScreenState extends State<CameraScanScreen> {
     final double calculatedCo2 = _apiService.calculateCO2Saved(catVal, weightVal);
 
     return Scaffold(
+      backgroundColor: AppTheme.background,
       appBar: AppBar(
+        backgroundColor: AppTheme.background,
+        elevation: 0,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             Text(
               'LIST INDUSTRIAL MATERIAL',
-              style: TextStyle(
-                fontFamily: 'monospace',
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.0,
-                color: AppTheme.bone,
+              style: AppTheme.fontSans(
+                fontSize: 14.5,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 0.6,
+                color: AppTheme.textMain,
               ),
             ),
             Text(
               'AI VISION & INDIC VOICE INGESTION',
-              style: TextStyle(
-                fontSize: 9,
-                color: AppTheme.moss,
-                fontFamily: 'monospace',
+              style: AppTheme.fontMono(
+                fontSize: 8.5,
+                color: AppTheme.emerald,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 0.5,
               ),
             ),
           ],
@@ -91,79 +94,86 @@ class _CameraScanScreenState extends State<CameraScanScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Feature 5: Multilingual Indic Voice & Chat Ingestion
+            // Multilingual Indic Voice & Chat Ingestion
             IndicVoiceWidget(onParsed: _handleIndicParsed),
-            const SizedBox(height: 16),
+            const SizedBox(height: 14),
 
             // Camera Upload Zone
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
                 color: AppTheme.surface,
-                borderRadius: BorderRadius.circular(6),
+                borderRadius: BorderRadius.circular(14),
                 border: Border.all(color: AppTheme.border),
               ),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children: [
                       Text(
                         "1. SPECIMEN PHOTOGRAPHY",
-                        style: TextStyle(
-                          fontFamily: 'monospace',
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                          color: AppTheme.bone,
+                        style: AppTheme.fontMono(
+                          fontSize: 9.5,
+                          fontWeight: FontWeight.w800,
+                          color: AppTheme.textMain,
+                          letterSpacing: 0.5,
                         ),
                       ),
-                      Text(
-                        "IPFS PINNED",
-                        style: TextStyle(
-                          fontFamily: 'monospace',
-                          fontSize: 9,
-                          color: AppTheme.moss,
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: AppTheme.emerald.withOpacity(0.15),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(
+                          "IPFS PINNED",
+                          style: AppTheme.fontMono(
+                            fontSize: 8.5,
+                            fontWeight: FontWeight.w800,
+                            color: AppTheme.emerald,
+                          ),
                         ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 12),
                   Container(
-                    height: 120,
+                    height: 130,
                     decoration: BoxDecoration(
-                      color: AppTheme.ink,
-                      borderRadius: BorderRadius.circular(4),
+                      color: AppTheme.surfaceRaised,
+                      borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: AppTheme.border),
                     ),
                     child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.camera_alt_outlined, size: 32, color: AppTheme.moss),
+                          const Icon(Icons.camera_alt_outlined, size: 28, color: AppTheme.emerald),
                           const SizedBox(height: 6),
-                          const Text(
+                          Text(
                             "Tap to Capture or Upload Specimen Photo",
-                            style: TextStyle(fontSize: 11, color: AppTheme.muted),
+                            style: AppTheme.fontSans(fontSize: 11, color: AppTheme.textMuted),
                           ),
                           const SizedBox(height: 8),
                           ElevatedButton.icon(
                             onPressed: _analyzing ? null : _runAiVisionScan,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: AppTheme.moss,
-                              foregroundColor: AppTheme.ink,
+                              backgroundColor: AppTheme.emerald,
+                              foregroundColor: AppTheme.background,
                               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                             ),
                             icon: _analyzing
                                 ? const SizedBox(
                                     width: 12,
                                     height: 12,
-                                    child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.ink),
+                                    child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.background),
                                   )
                                 : const Icon(Icons.auto_awesome, size: 14),
                             label: Text(
                               _analyzing ? "AI Classifying..." : "Auto-Fill with AI Vision",
-                              style: const TextStyle(fontFamily: 'monospace', fontSize: 10, fontWeight: FontWeight.bold),
+                              style: AppTheme.fontMono(fontSize: 10, fontWeight: FontWeight.w800),
                             ),
                           ),
                         ],
@@ -175,7 +185,7 @@ class _CameraScanScreenState extends State<CameraScanScreen> {
             ),
             const SizedBox(height: 14),
 
-            // Feature 2: Visual Contamination Heatmap Preview
+            // Visual Contamination Heatmap Preview
             ContaminationHeatmapWidget(
               purityPercentage: (_aiResult?['purity_percentage'] as num?)?.toDouble() ?? 97.4,
               contaminationType: _aiResult?['contamination_type'] ?? "Minor surface dust and oxidation",
@@ -190,35 +200,35 @@ class _CameraScanScreenState extends State<CameraScanScreen> {
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
                 color: AppTheme.surface,
-                borderRadius: BorderRadius.circular(6),
+                borderRadius: BorderRadius.circular(14),
                 border: Border.all(color: AppTheme.border),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     "2. MANIFEST SPECIFICATIONS",
-                    style: TextStyle(
-                      fontFamily: 'monospace',
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.bone,
+                    style: AppTheme.fontMono(
+                      fontSize: 9.5,
+                      fontWeight: FontWeight.w800,
+                      color: AppTheme.textMain,
+                      letterSpacing: 0.5,
                     ),
                   ),
                   const SizedBox(height: 10),
 
                   // Title
-                  const Text("Material Lot Title", style: TextStyle(fontFamily: 'monospace', fontSize: 9, color: AppTheme.muted)),
+                  Text("Material Lot Title", style: AppTheme.fontMono(fontSize: 8.5, color: AppTheme.textMuted)),
                   const SizedBox(height: 4),
                   TextField(
                     controller: _titleController,
-                    style: const TextStyle(fontSize: 12, color: AppTheme.bone),
+                    style: AppTheme.fontSans(fontSize: 12, color: AppTheme.textMain, fontWeight: FontWeight.w600),
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: AppTheme.ink,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: const BorderSide(color: AppTheme.border)),
-                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: const BorderSide(color: AppTheme.border)),
+                      fillColor: AppTheme.surfaceRaised,
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: AppTheme.border)),
+                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: AppTheme.border)),
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -230,18 +240,18 @@ class _CameraScanScreenState extends State<CameraScanScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text("Category", style: TextStyle(fontFamily: 'monospace', fontSize: 9, color: AppTheme.muted)),
+                            Text("Category", style: AppTheme.fontMono(fontSize: 8.5, color: AppTheme.textMuted)),
                             const SizedBox(height: 4),
                             TextField(
                               controller: _categoryController,
                               onChanged: (_) => setState(() {}),
-                              style: const TextStyle(fontSize: 12, color: AppTheme.bone, fontFamily: 'monospace'),
+                              style: AppTheme.fontMono(fontSize: 12, color: AppTheme.textMain, fontWeight: FontWeight.w600),
                               decoration: InputDecoration(
                                 filled: true,
-                                fillColor: AppTheme.ink,
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: const BorderSide(color: AppTheme.border)),
-                                enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: const BorderSide(color: AppTheme.border)),
+                                fillColor: AppTheme.surfaceRaised,
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: AppTheme.border)),
+                                enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: AppTheme.border)),
                               ),
                             ),
                           ],
@@ -252,19 +262,19 @@ class _CameraScanScreenState extends State<CameraScanScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text("Mass (kg)", style: TextStyle(fontFamily: 'monospace', fontSize: 9, color: AppTheme.muted)),
+                            Text("Mass (kg)", style: AppTheme.fontMono(fontSize: 8.5, color: AppTheme.textMuted)),
                             const SizedBox(height: 4),
                             TextField(
                               controller: _weightController,
                               keyboardType: TextInputType.number,
                               onChanged: (_) => setState(() {}),
-                              style: const TextStyle(fontSize: 12, color: AppTheme.bone, fontFamily: 'monospace'),
+                              style: AppTheme.fontMono(fontSize: 12, color: AppTheme.textMain, fontWeight: FontWeight.w600),
                               decoration: InputDecoration(
                                 filled: true,
-                                fillColor: AppTheme.ink,
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: const BorderSide(color: AppTheme.border)),
-                                enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: const BorderSide(color: AppTheme.border)),
+                                fillColor: AppTheme.surfaceRaised,
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: AppTheme.border)),
+                                enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: AppTheme.border)),
                               ),
                             ),
                           ],
@@ -276,26 +286,25 @@ class _CameraScanScreenState extends State<CameraScanScreen> {
 
                   // Carbon Math Banner
                   Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: AppTheme.ink,
-                      borderRadius: BorderRadius.circular(4),
-                      border: Border.all(color: AppTheme.moss.withOpacity(0.3)),
+                      color: AppTheme.surfaceRaised,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: AppTheme.emerald.withOpacity(0.3)),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          "EPA WARM Carbon Abatement:",
-                          style: TextStyle(fontFamily: 'monospace', fontSize: 9, color: AppTheme.muted),
+                        Text(
+                          "EPA WARM Carbon Offset:",
+                          style: AppTheme.fontMono(fontSize: 9, color: AppTheme.textMuted),
                         ),
                         Text(
                           "+${calculatedCo2.toStringAsFixed(1)} kg CO₂e",
-                          style: const TextStyle(
-                            fontFamily: 'monospace',
+                          style: AppTheme.fontMono(
                             fontSize: 11,
-                            fontWeight: FontWeight.bold,
-                            color: AppTheme.moss,
+                            fontWeight: FontWeight.w800,
+                            color: AppTheme.emerald,
                           ),
                         ),
                       ],
@@ -306,7 +315,7 @@ class _CameraScanScreenState extends State<CameraScanScreen> {
             ),
             const SizedBox(height: 14),
 
-            // Feature 1: MCX Price Oracle Preview
+            // MCX Price Oracle Preview
             MatchmakingCardWidget(
               category: catVal,
               weightKg: weightVal,
@@ -318,27 +327,26 @@ class _CameraScanScreenState extends State<CameraScanScreen> {
             ElevatedButton(
               onPressed: () {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    backgroundColor: AppTheme.moss,
+                  SnackBar(
+                    backgroundColor: AppTheme.emerald,
                     content: Text(
                       '✅ Material Lot Immutably Registered on Polygon Amoy!',
-                      style: TextStyle(fontFamily: 'monospace', color: AppTheme.ink, fontWeight: FontWeight.bold),
+                      style: AppTheme.fontMono(color: AppTheme.background, fontWeight: FontWeight.w800),
                     ),
                   ),
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppTheme.moss,
-                foregroundColor: AppTheme.ink,
+                backgroundColor: AppTheme.emerald,
+                foregroundColor: AppTheme.background,
                 padding: const EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
-              child: const Text(
+              child: Text(
                 'MINT & LIST LOT ON BLOCKCHAIN',
-                style: TextStyle(
-                  fontFamily: 'monospace',
+                style: AppTheme.fontMono(
                   fontSize: 11,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w800,
                   letterSpacing: 0.8,
                 ),
               ),

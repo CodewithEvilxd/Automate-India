@@ -21,13 +21,13 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
   String _selectedCategory = 'all';
 
   final List<Map<String, String>> _categories = [
-    {'id': 'all', 'label': 'All Lots'},
-    {'id': 'aluminum', 'label': 'Aluminum'},
-    {'id': 'steel', 'label': 'Steel'},
-    {'id': 'plastic_pet', 'label': 'PET Plastic'},
-    {'id': 'plastic_hdpe', 'label': 'HDPE Plastic'},
-    {'id': 'paper', 'label': 'Paper / OCC'},
-    {'id': 'electronic', 'label': 'E-Waste'},
+    {'id': 'all', 'label': 'All Batches'},
+    {'id': 'aluminum', 'label': 'Aluminum 6063'},
+    {'id': 'steel', 'label': 'HMS Steel'},
+    {'id': 'plastic_pet', 'label': 'PET Plastic (Cat I)'},
+    {'id': 'plastic_hdpe', 'label': 'HDPE Drums (Cat II)'},
+    {'id': 'paper', 'label': 'OCC Paper'},
+    {'id': 'electronic', 'label': 'E-Waste PCB'},
   ];
 
   @override
@@ -61,26 +61,29 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppTheme.background,
       appBar: AppBar(
+        backgroundColor: AppTheme.background,
+        elevation: 0,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             Text(
-              'CIRCULARCHAIN',
-              style: TextStyle(
-                fontFamily: 'monospace',
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.2,
-                color: AppTheme.bone,
+              'CIRCULAR MARKETPLACE',
+              style: AppTheme.fontSans(
+                fontSize: 14.5,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 0.6,
+                color: AppTheme.textMain,
               ),
             ),
             Text(
-              'VERIFIABLE INDUSTRIAL LEDGER',
-              style: TextStyle(
-                fontSize: 9,
-                color: AppTheme.moss,
-                fontFamily: 'monospace',
+              'VERIFIED SECONDARY SCRAP LOTS',
+              style: AppTheme.fontMono(
+                fontSize: 8.5,
+                color: AppTheme.emerald,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 0.5,
               ),
             ),
           ],
@@ -88,36 +91,36 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
       ),
       body: Column(
         children: [
-          // Search Bar
+          // Search Field
           Padding(
-            padding: const EdgeInsets.fromLTRB(14, 8, 14, 6),
+            padding: const EdgeInsets.fromLTRB(14, 4, 14, 8),
             child: TextField(
               onChanged: (val) => setState(() => _searchQuery = val),
-              style: const TextStyle(color: AppTheme.bone, fontSize: 12),
+              style: AppTheme.fontSans(color: AppTheme.textMain, fontSize: 12),
               decoration: InputDecoration(
-                hintText: 'Search lots, hubs (Noida, Pune, Bengaluru)...',
-                hintStyle: TextStyle(color: AppTheme.muted.withOpacity(0.6), fontSize: 11),
-                prefixIcon: const Icon(Icons.search, color: AppTheme.muted, size: 16),
+                hintText: 'Search lots, hubs (Noida, Pune, Sanand)...',
+                hintStyle: AppTheme.fontSans(color: AppTheme.textMuted.withOpacity(0.7), fontSize: 11),
+                prefixIcon: const Icon(Icons.search_rounded, color: AppTheme.textMuted, size: 18),
                 filled: true,
                 fillColor: AppTheme.surface,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: BorderRadius.circular(12),
                   borderSide: const BorderSide(color: AppTheme.border),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: BorderRadius.circular(12),
                   borderSide: const BorderSide(color: AppTheme.border),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(4),
-                  borderSide: const BorderSide(color: AppTheme.moss),
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: AppTheme.emerald),
                 ),
               ),
             ),
           ),
 
-          // Category Chips Horizontal Scroll
+          // Horizontal Category Filter Chips
           SizedBox(
             height: 36,
             child: ListView.builder(
@@ -130,176 +133,193 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
 
                 return Padding(
                   padding: const EdgeInsets.only(right: 6),
-                  child: ChoiceChip(
-                    label: Text(
-                      cat['label']!,
-                      style: TextStyle(
-                        fontFamily: 'monospace',
-                        fontSize: 10,
-                        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                        color: isSelected ? AppTheme.ink : AppTheme.bone,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(8),
+                    onTap: () => setState(() => _selectedCategory = cat['id']!),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 7),
+                      decoration: BoxDecoration(
+                        color: isSelected ? AppTheme.emerald : AppTheme.surface,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: isSelected ? AppTheme.emerald : AppTheme.border,
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          cat['label']!,
+                          style: AppTheme.fontMono(
+                            fontSize: 10,
+                            fontWeight: isSelected ? FontWeight.w800 : FontWeight.w500,
+                            color: isSelected ? AppTheme.background : AppTheme.textMain,
+                          ),
+                        ),
                       ),
                     ),
-                    selected: isSelected,
-                    selectedColor: AppTheme.moss,
-                    backgroundColor: AppTheme.surface,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                      side: BorderSide(
-                        color: isSelected ? AppTheme.moss : AppTheme.border,
-                      ),
-                    ),
-                    onSelected: (_) => setState(() => _selectedCategory = cat['id']!),
                   ),
                 );
               },
             ),
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 8),
 
           // Materials List
           Expanded(
             child: _loading
-                ? const Center(child: CircularProgressIndicator(color: AppTheme.moss, strokeWidth: 2))
+                ? const Center(child: CircularProgressIndicator(color: AppTheme.emerald, strokeWidth: 2))
                 : RefreshIndicator(
                     onRefresh: _loadMaterials,
-                    color: AppTheme.moss,
+                    color: AppTheme.emerald,
                     backgroundColor: AppTheme.surface,
                     child: ListView.builder(
                       itemCount: filteredMaterials.length,
-                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
                       itemBuilder: (context, index) {
                         final item = filteredMaterials[index];
                         final isTransferred = item.status == 'transferred';
 
-                        return Card(
-                          margin: const EdgeInsets.only(bottom: 12),
-                          color: AppTheme.surface,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            side: const BorderSide(color: AppTheme.border),
+                        return Container(
+                          margin: const EdgeInsets.only(bottom: 10),
+                          decoration: BoxDecoration(
+                            color: AppTheme.surface,
+                            borderRadius: BorderRadius.circular(14),
+                            border: Border.all(color: AppTheme.border),
                           ),
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => MaterialDetailScreen(material: item),
-                                ),
-                              );
-                            },
-                            borderRadius: BorderRadius.circular(6),
-                            child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  // Image with Status Stamp
-                                  Stack(
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(4),
-                                        child: Image.network(
-                                          item.imageUrl,
-                                          width: 95,
-                                          height: 95,
-                                          fit: BoxFit.cover,
-                                          errorBuilder: (_, __, ___) => Container(
-                                            width: 95,
-                                            height: 95,
-                                            color: AppTheme.surfaceRaised,
-                                            child: const Icon(Icons.inventory_2_outlined, color: AppTheme.muted),
-                                          ),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => MaterialDetailScreen(material: item),
+                                  ),
+                                );
+                              },
+                              borderRadius: BorderRadius.circular(14),
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    // Image with Status Stamp
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: SizedBox(
+                                        width: 85,
+                                        height: 85,
+                                        child: Stack(
+                                          fit: StackFit.expand,
+                                          children: [
+                                            Image.network(
+                                              item.imageUrl,
+                                              width: 85,
+                                              height: 85,
+                                              fit: BoxFit.cover,
+                                              errorBuilder: (_, __, ___) => Container(
+                                                width: 85,
+                                                height: 85,
+                                                color: AppTheme.surfaceRaised,
+                                                child: const Icon(Icons.inventory_2_outlined, color: AppTheme.textMuted),
+                                              ),
+                                            ),
+                                            if (isTransferred)
+                                              const Center(
+                                                child: VerificationStampWidget(size: 60),
+                                              ),
+                                          ],
                                         ),
                                       ),
-                                      if (isTransferred)
-                                        const Positioned.fill(
-                                          child: Center(
-                                            child: VerificationStampWidget(size: 70),
-                                          ),
-                                        ),
-                                    ],
-                                  ),
-                                  const SizedBox(width: 12),
+                                    ),
+                                    const SizedBox(width: 12),
 
-                                  // Details Column
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            CategoryBadgeWidget(category: item.category),
-                                            Text(
-                                              "₹${(item.estimatedLotValueInr ?? 0).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
-                                              style: const TextStyle(
-                                                fontFamily: 'monospace',
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.bold,
-                                                color: AppTheme.bone,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Text(
-                                          item.title,
-                                          style: const TextStyle(
-                                            color: AppTheme.bone,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 12,
-                                            height: 1.2,
-                                          ),
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Row(
-                                          children: [
-                                            const Icon(Icons.location_on_outlined, size: 11, color: AppTheme.muted),
-                                            const SizedBox(width: 2),
-                                            Text(
-                                              "${item.location} • ${item.estimatedWeightKg.toInt()} kg",
-                                              style: const TextStyle(color: AppTheme.muted, fontSize: 10),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "+${item.co2SavedKg.toStringAsFixed(1)} kg CO₂e",
-                                              style: const TextStyle(
-                                                color: AppTheme.moss,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 11,
-                                                fontFamily: 'monospace',
-                                              ),
-                                            ),
-                                            Container(
-                                              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-                                              decoration: BoxDecoration(
-                                                color: AppTheme.ink,
-                                                borderRadius: BorderRadius.circular(2),
-                                                border: Border.all(color: AppTheme.border),
-                                              ),
-                                              child: Text(
-                                                "${item.purityPercentage.toStringAsFixed(1)}% Pure",
-                                                style: const TextStyle(
-                                                  fontFamily: 'monospace',
-                                                  fontSize: 8,
-                                                  color: AppTheme.bone,
+                                    // Details Column
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              CategoryBadgeWidget(category: item.category),
+                                              Flexible(
+                                                child: Text(
+                                                  "₹${(item.estimatedLotValueInr ?? 0).toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
+                                                  style: AppTheme.fontMono(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w800,
+                                                    color: AppTheme.textMain,
+                                                  ),
+                                                  overflow: TextOverflow.ellipsis,
                                                 ),
                                               ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 5),
+                                          Text(
+                                            item.title,
+                                            style: AppTheme.fontSans(
+                                              color: AppTheme.textMain,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 12.5,
+                                              height: 1.2,
                                             ),
-                                          ],
-                                        ),
-                                      ],
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          const SizedBox(height: 4),
+                                          Row(
+                                            children: [
+                                              const Icon(Icons.location_on_outlined, size: 11, color: AppTheme.textMuted),
+                                              const SizedBox(width: 2),
+                                              Expanded(
+                                                child: Text(
+                                                  "${item.location} • ${item.estimatedWeightKg.toInt()} kg",
+                                                  style: AppTheme.fontSans(
+                                                    color: AppTheme.textMuted,
+                                                    fontSize: 10.5,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 6),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "+${item.co2SavedKg.toStringAsFixed(1)} kg CO₂e",
+                                                style: AppTheme.fontMono(
+                                                  color: AppTheme.emerald,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 10.5,
+                                                ),
+                                              ),
+                                              Container(
+                                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                                decoration: BoxDecoration(
+                                                  color: AppTheme.surfaceRaised,
+                                                  borderRadius: BorderRadius.circular(6),
+                                                  border: Border.all(color: AppTheme.border),
+                                                ),
+                                                child: Text(
+                                                  "${item.purityPercentage.toStringAsFixed(1)}% Purity",
+                                                  style: AppTheme.fontMono(
+                                                    fontSize: 8.5,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: AppTheme.textMain,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),

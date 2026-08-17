@@ -25,7 +25,7 @@ class ContaminationHeatmapWidget extends StatelessWidget {
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: AppTheme.surface,
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(14),
         border: Border.all(color: AppTheme.border),
       ),
       child: Column(
@@ -35,42 +35,47 @@ class ContaminationHeatmapWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: const [
-                  Icon(Icons.layers_outlined, size: 16, color: AppTheme.moss),
-                  SizedBox(width: 6),
-                  Text(
-                    "OPTICAL QUALITY & CONTAMINATION",
-                    style: TextStyle(
-                      fontFamily: 'monospace',
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 0.8,
-                      color: AppTheme.bone,
+              Expanded(
+                child: Row(
+                  children: [
+                    const Icon(Icons.layers_outlined, size: 16, color: AppTheme.emerald),
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: Text(
+                        "OPTICAL CONTAMINATION",
+                        style: AppTheme.fontMono(
+                          fontSize: 9.5,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 0.6,
+                          color: AppTheme.textMain,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
+              const SizedBox(width: 8),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
                   color: isHighGrade
-                      ? AppTheme.moss.withOpacity(0.15)
+                      ? AppTheme.emerald.withOpacity(0.15)
                       : AppTheme.amber.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: BorderRadius.circular(6),
                   border: Border.all(
                     color: isHighGrade
-                        ? AppTheme.moss.withOpacity(0.4)
+                        ? AppTheme.emerald.withOpacity(0.4)
                         : AppTheme.amber.withOpacity(0.4),
                   ),
                 ),
                 child: Text(
                   recyclabilityGrade,
-                  style: TextStyle(
-                    fontFamily: 'monospace',
-                    fontSize: 9,
-                    fontWeight: FontWeight.bold,
-                    color: isHighGrade ? AppTheme.moss : AppTheme.amber,
+                  style: AppTheme.fontMono(
+                    fontSize: 8.5,
+                    fontWeight: FontWeight.w800,
+                    color: isHighGrade ? AppTheme.emerald : AppTheme.amber,
                   ),
                 ),
               ),
@@ -82,35 +87,33 @@ class ContaminationHeatmapWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+              Text(
                 "Clean Material Fraction",
-                style: TextStyle(
-                  fontFamily: 'monospace',
-                  fontSize: 11,
-                  color: AppTheme.muted,
+                style: AppTheme.fontMono(
+                  fontSize: 10.5,
+                  color: AppTheme.textMuted,
                 ),
               ),
               Text(
                 "${purityPercentage.toStringAsFixed(1)}%",
-                style: const TextStyle(
-                  fontFamily: 'monospace',
+                style: AppTheme.fontMono(
                   fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  color: AppTheme.moss,
+                  fontWeight: FontWeight.w800,
+                  color: AppTheme.emerald,
                 ),
               ),
             ],
           ),
           const SizedBox(height: 6),
           ClipRRect(
-            borderRadius: BorderRadius.circular(3),
+            borderRadius: BorderRadius.circular(4),
             child: SizedBox(
               height: 8,
               child: Row(
                 children: [
                   Expanded(
                     flex: purityPercentage.round(),
-                    child: Container(color: AppTheme.moss),
+                    child: Container(color: AppTheme.emerald),
                   ),
                   Expanded(
                     flex: contaminationPercentage.round().clamp(1, 100),
@@ -126,11 +129,11 @@ class ContaminationHeatmapWidget extends StatelessWidget {
             children: [
               Text(
                 "Purity: ${purityPercentage.toStringAsFixed(1)}%",
-                style: const TextStyle(fontFamily: 'monospace', fontSize: 9, color: AppTheme.muted),
+                style: AppTheme.fontMono(fontSize: 8.5, color: AppTheme.textMuted),
               ),
               Text(
                 "Contaminant: ${contaminationPercentage.toStringAsFixed(1)}%",
-                style: const TextStyle(fontFamily: 'monospace', fontSize: 9, color: AppTheme.amber),
+                style: AppTheme.fontMono(fontSize: 8.5, color: AppTheme.amber),
               ),
             ],
           ),
@@ -138,10 +141,10 @@ class ContaminationHeatmapWidget extends StatelessWidget {
 
           // Impurity & Moisture Info Row
           Container(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: AppTheme.ink,
-              borderRadius: BorderRadius.circular(4),
+              color: AppTheme.surfaceRaised,
+              borderRadius: BorderRadius.circular(10),
               border: Border.all(color: AppTheme.border),
             ),
             child: Row(
@@ -150,16 +153,16 @@ class ContaminationHeatmapWidget extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         "IDENTIFIED IMPURITIES",
-                        style: TextStyle(fontFamily: 'monospace', fontSize: 8, color: AppTheme.muted),
+                        style: AppTheme.fontMono(fontSize: 8, color: AppTheme.textMuted),
                       ),
                       const SizedBox(height: 2),
                       Text(
                         contaminationType,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 10, color: AppTheme.bone),
+                        style: AppTheme.fontSans(fontSize: 10.5, color: AppTheme.textMain),
                       ),
                     ],
                   ),
@@ -168,18 +171,17 @@ class ContaminationHeatmapWidget extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    const Text(
+                    Text(
                       "MOISTURE",
-                      style: TextStyle(fontFamily: 'monospace', fontSize: 8, color: AppTheme.muted),
+                      style: AppTheme.fontMono(fontSize: 8, color: AppTheme.textMuted),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       moistureLevel,
-                      style: const TextStyle(
-                        fontFamily: 'monospace',
+                      style: AppTheme.fontMono(
                         fontSize: 11,
-                        fontWeight: FontWeight.bold,
-                        color: AppTheme.bone,
+                        fontWeight: FontWeight.w800,
+                        color: AppTheme.textMain,
                       ),
                     ),
                   ],
