@@ -128,8 +128,8 @@ export default function ApkDownloadModal({ isOpen, onClose }: ApkDownloadModalPr
               {/* QR Image Box */}
               <div className="w-28 h-28 p-2 bg-white rounded-xl shadow-md flex items-center justify-center mb-2">
                 <img
-                  src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://circularchain.in/circularchain.apk"
-                  alt="Download APK QR Code"
+                  src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://circularchain-web.vercel.app/circularchain.apk"
+                  alt="Download CircularChain APK QR Code"
                   className="w-full h-full object-contain"
                 />
               </div>
