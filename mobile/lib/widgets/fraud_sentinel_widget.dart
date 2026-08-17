@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
 import '../services/api_service.dart';
+import '../services/user_state_service.dart';
 
 class FraudSentinelWidget extends StatefulWidget {
   final String fromWallet;
@@ -25,6 +25,7 @@ class FraudSentinelWidget extends StatefulWidget {
 
 class _FraudSentinelWidgetState extends State<FraudSentinelWidget> {
   final ApiService _apiService = ApiService();
+  final UserStateService _userState = UserStateService();
   Map<String, dynamic>? _auditData;
   bool _loading = true;
 
@@ -53,114 +54,132 @@ class _FraudSentinelWidgetState extends State<FraudSentinelWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (_loading || _auditData == null) {
-      return Container(
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: AppTheme.surface,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppTheme.border),
-        ),
-        child: const Center(
-          child: SizedBox(
-            height: 16,
-            width: 16,
-            child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.emerald),
-          ),
-        ),
-      );
-    }
+    return AnimatedBuilder(
+      animation: _userState,
+      builder: (context, _) {
+        final isDark = _userState.isDarkMode;
+        final surface = AppTheme.getSurface(isDark);
+        final cardBg = AppTheme.getSurfaceRaised(isDark);
+        final textMain = AppTheme.getTextMain(isDark);
+        final textMuted = AppTheme.getTextMuted(isDark);
+        final border = AppTheme.getBorder(isDark);
 
-    final String riskLevel = _auditData!['risk_level'] ?? 'LOW';
-    final int riskScore = _auditData!['risk_score'] ?? 4;
-    final String summary = _auditData!['security_audit_summary'] ?? 'Cryptographic audit passed.';
-    final List<dynamic> flags = _auditData!['anomaly_flags'] ?? [];
-
-    final bool isLow = riskLevel == 'LOW';
-    final Color badgeColor = isLow ? AppTheme.emerald : AppTheme.red;
-
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: AppTheme.surface,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppTheme.border),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Top Row
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Icon(
-                    isLow ? Icons.shield_outlined : Icons.warning_amber_rounded,
-                    size: 16,
-                    color: badgeColor,
-                  ),
-                  const SizedBox(width: 6),
-                  Text(
-                    "AI FRAUD SENTINEL AUDIT",
-                    style: GoogleFonts.jetBrainsMono(
-                      fontSize: 9.5,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 0.6,
-                      color: AppTheme.textMain,
-                    ),
-                  ),
-                ],
+        if (_loading || _auditData == null) {
+          return Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: surface,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: border),
+            ),
+            child: const Center(
+              child: SizedBox(
+                height: 18,
+                width: 18,
+                child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.emerald),
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
-                decoration: BoxDecoration(
-                  color: badgeColor.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(4),
-                  border: Border.all(color: badgeColor.withOpacity(0.4)),
-                ),
-                child: Text(
-                  "RISK: $riskLevel ($riskScore/100)",
-                  style: GoogleFonts.jetBrainsMono(
-                    fontSize: 8.5,
-                    fontWeight: FontWeight.w800,
-                    color: badgeColor,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
+            ),
+          );
+        }
 
-          Text(
-            summary,
-            style: GoogleFonts.plusJakartaSans(
-              fontSize: 11,
-              color: AppTheme.textMuted,
-              height: 1.3,
+        final int fraudScore = _auditData!['fraud_risk_score'] ?? 4;
+        final bool isClean = fraudScore < 15;
+        final String washTradingStatus = _auditData!['wash_trading_status'] ?? 'CLEAR - Zero Circular Flow';
+        final String doubleClaimCheck = _auditData!['double_claiming_check'] ?? 'PASSED - Single Unique Visual Hash';
+        final String massConfidence = _auditData!['mass_confidence_status'] ?? 'VALIDATED (100% within tolerance)';
+
+        return Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: surface,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: isClean ? AppTheme.emerald.withOpacity(0.35) : AppTheme.red.withOpacity(0.4),
+              width: 1.2,
             ),
           ),
-
-          if (flags.isNotEmpty) ...[
-            const SizedBox(height: 8),
-            ...flags.map((f) => Padding(
-                  padding: const EdgeInsets.only(bottom: 2),
-                  child: Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
                     children: [
-                      const Icon(Icons.info_outline, size: 12, color: AppTheme.amber),
-                      const SizedBox(width: 4),
-                      Expanded(
-                        child: Text(
-                          f.toString(),
-                          style: GoogleFonts.jetBrainsMono(fontSize: 9, color: AppTheme.amber),
+                      Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: (isClean ? AppTheme.emerald : AppTheme.red).withOpacity(0.18),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(
+                          Icons.security,
+                          size: 16,
+                          color: isClean ? AppTheme.emerald : AppTheme.red,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        "AGENT 05: CRYPTOGRAPHIC FRAUD RADAR",
+                        style: AppTheme.fontMono(
+                          fontSize: 9.5,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 0.6,
+                          color: textMain,
                         ),
                       ),
                     ],
                   ),
-                )),
-          ],
-        ],
-      ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    decoration: BoxDecoration(
+                      color: (isClean ? AppTheme.emerald : AppTheme.red).withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Text(
+                      isClean ? "RISK: $fraudScore% (CLEAN)" : "FLAGGED: $fraudScore%",
+                      style: AppTheme.fontMono(
+                        fontSize: 8.5,
+                        fontWeight: FontWeight.w800,
+                        color: isClean ? AppTheme.emerald : AppTheme.red,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+
+              // Checklist rows
+              _buildAuditRow(Icons.check_circle_outline, "Anti-Wash Trading:", washTradingStatus, isDark, textMain),
+              const SizedBox(height: 6),
+              _buildAuditRow(Icons.fingerprint, "Double-Claim Radar:", doubleClaimCheck, isDark, textMain),
+              const SizedBox(height: 6),
+              _buildAuditRow(Icons.scale_outlined, "Mass Inflation Audit:", massConfidence, isDark, textMain),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildAuditRow(IconData icon, String label, String value, bool isDark, Color textMain) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, size: 14, color: AppTheme.emerald),
+        const SizedBox(width: 6),
+        Text(
+          "$label ",
+          style: AppTheme.fontMono(fontSize: 9.5, fontWeight: FontWeight.w700, color: AppTheme.getTextMuted(isDark)),
+        ),
+        Expanded(
+          child: Text(
+            value,
+            style: AppTheme.fontSans(fontSize: 10, fontWeight: FontWeight.w600, color: textMain),
+          ),
+        ),
+      ],
     );
   }
 }

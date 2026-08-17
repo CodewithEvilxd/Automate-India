@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../models/material_model.dart';
 import '../services/api_service.dart';
+import '../services/user_state_service.dart';
+import '../services/wallet_service.dart';
 import '../theme/app_theme.dart';
 import '../widgets/category_badge_widget.dart';
 import '../widgets/verification_stamp_widget.dart';
 import '../widgets/contamination_heatmap_widget.dart';
 import '../widgets/matchmaking_card_widget.dart';
 import '../widgets/fraud_sentinel_widget.dart';
+import '../widgets/wallet_connect_modal.dart';
 
 class MaterialDetailScreen extends StatefulWidget {
   final MaterialItem material;
@@ -20,6 +24,9 @@ class MaterialDetailScreen extends StatefulWidget {
 
 class _MaterialDetailScreenState extends State<MaterialDetailScreen> {
   final ApiService _apiService = ApiService();
+  final UserStateService _userState = UserStateService();
+  final WalletService _walletService = WalletService();
+
   bool _verifying = false;
   bool _transferred = false;
   String? _txHash;
@@ -40,9 +47,20 @@ class _MaterialDetailScreenState extends State<MaterialDetailScreen> {
       const mockBuyerWallet = "0x90F79bf6EB2c4f870365E785982E1f101E93b906";
       final res = await _apiService.verifyAndTransfer(widget.material.id, mockBuyerWallet);
 
+      final hash = res['txHash'] ?? '0x8f2e9a4f20bc871239ab1e6d45901234c91a78de90bc1234567890abcdef1234';
+
+      await _walletService.recordTransaction(
+        title: 'Settled ${widget.material.title}',
+        type: 'TRADE',
+        amount: widget.material.estimatedWeightKg,
+        token: 'CIRC',
+        carbonCreditsToAdd: widget.material.co2SavedKg / 1000,
+        penaltySavedToAdd: (widget.material.estimatedWeightKg / 1000) * 25000,
+      );
+
       setState(() {
         _transferred = true;
-        _txHash = res['txHash'] ?? '0x8f2e9a4f20bc871239ab1e6d45901234c91a78de90bc1234567890abcdef1234';
+        _txHash = hash;
         _certificate = res['certificate'] ??
             'Official EPR Impact Certificate: Confirms on-chain transfer and responsible recycling diversion of ${widget.material.estimatedWeightKg} kg of ${widget.material.category} scrap.';
         _verifying = false;
@@ -51,10 +69,18 @@ class _MaterialDetailScreenState extends State<MaterialDetailScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            backgroundColor: AppTheme.emerald,
-            content: Text(
-              '✅ AI Agent 2 Verified & Transferred on Polygon Amoy!',
-              style: AppTheme.fontMono(color: AppTheme.background, fontWeight: FontWeight.w800),
+            backgroundColor: AppTheme.emeraldDark,
+            content: Row(
+              children: [
+                const Icon(Icons.check_circle, color: Colors.white, size: 18),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    '✅ Verified & Settled on Polygon Amoy Ledger!',
+                    style: AppTheme.fontSans(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
+                  ),
+                ),
+              ],
             ),
           ),
         );
@@ -64,348 +90,276 @@ class _MaterialDetailScreenState extends State<MaterialDetailScreen> {
     }
   }
 
+  Future<void> _openExplorer() async {
+    if (_txHash == null) return;
+    final url = 'https://amoy.polygonscan.com/tx/$_txHash';
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final m = widget.material;
 
-    return Scaffold(
-      backgroundColor: AppTheme.background,
-      appBar: AppBar(
-        backgroundColor: AppTheme.background,
-        elevation: 0,
-        title: Text(
-          'LOT #${m.id.toUpperCase()}',
-          style: AppTheme.fontMono(
-            fontSize: 13,
-            fontWeight: FontWeight.w800,
-            letterSpacing: 0.8,
-            color: AppTheme.textMain,
-          ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Image with Verification Stamp Overlay
-            Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(14),
-                  child: Image.network(
-                    m.imageUrl,
-                    height: 210,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Container(
-                      height: 210,
-                      color: AppTheme.surfaceRaised,
-                      child: const Center(
-                        child: Icon(Icons.inventory_2_outlined, size: 50, color: AppTheme.textMuted),
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: 10,
-                  left: 10,
-                  child: CategoryBadgeWidget(category: m.category),
-                ),
-                if (_transferred)
-                  Positioned.fill(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.55),
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: Center(
-                        child: VerificationStampWidget(txHash: _txHash, size: 100),
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-            const SizedBox(height: 14),
+    return AnimatedBuilder(
+      animation: Listenable.merge([_userState, _walletService]),
+      builder: (context, _) {
+        final isDark = _userState.isDarkMode;
+        final bg = AppTheme.getBackground(isDark);
+        final surface = AppTheme.getSurface(isDark);
+        final textMain = AppTheme.getTextMain(isDark);
+        final textMuted = AppTheme.getTextMuted(isDark);
+        final border = AppTheme.getBorder(isDark);
+        final cardBg = AppTheme.getSurfaceRaised(isDark);
 
-            // Title & Location
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    const Icon(Icons.location_on_outlined, size: 13, color: AppTheme.emerald),
-                    const SizedBox(width: 3),
-                    Text(
-                      m.location,
-                      style: AppTheme.fontMono(fontSize: 11, color: AppTheme.textMuted),
-                    ),
-                  ],
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
-                  decoration: BoxDecoration(
-                    color: _transferred ? AppTheme.emerald.withOpacity(0.15) : AppTheme.amber.withOpacity(0.15),
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(
-                      color: _transferred ? AppTheme.emerald.withOpacity(0.4) : AppTheme.amber.withOpacity(0.4),
-                    ),
-                  ),
-                  child: Text(
-                    _transferred ? "SETTLED ON LEDGER" : "OPEN FOR RECYCLING",
-                    style: AppTheme.fontMono(
-                      fontSize: 8.5,
-                      fontWeight: FontWeight.w800,
-                      color: _transferred ? AppTheme.emerald : AppTheme.amber,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Text(
-              m.title,
-              style: AppTheme.fontSans(
-                color: AppTheme.textMain,
-                fontSize: 16,
+        return Scaffold(
+          backgroundColor: bg,
+          appBar: AppBar(
+            backgroundColor: bg,
+            elevation: 0,
+            title: Text(
+              'LOT #${m.id.toUpperCase()}',
+              style: AppTheme.fontMono(
+                fontSize: 13,
                 fontWeight: FontWeight.w800,
-                height: 1.25,
+                letterSpacing: 0.8,
+                color: textMain,
               ),
             ),
-            const SizedBox(height: 6),
-            Text(
-              m.description,
-              style: AppTheme.fontSans(color: AppTheme.textMuted, fontSize: 12, height: 1.4),
-            ),
-            const SizedBox(height: 14),
-
-            // Visual Contamination & Quality Heatmap
-            ContaminationHeatmapWidget(
-              purityPercentage: m.purityPercentage,
-              contaminationType: m.contaminationType,
-              contaminationPercentage: m.contaminationPercentage,
-              recyclabilityGrade: m.recyclabilityGrade,
-              moistureLevel: m.moistureLevel,
-            ),
-            const SizedBox(height: 14),
-
-            // MCX Scrap Price Oracle & Matchmaker Card
-            MatchmakingCardWidget(
-              category: m.category,
-              weightKg: m.estimatedWeightKg,
-              location: m.location,
-            ),
-            const SizedBox(height: 14),
-
-            // Physical Lot Specs
-            Container(
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: AppTheme.surface,
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: AppTheme.border),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const Icon(Icons.inventory_2_outlined, size: 14, color: AppTheme.emerald),
-                      const SizedBox(width: 6),
-                      Text(
-                        "ON-CHAIN PHYSICAL MANIFEST",
-                        style: AppTheme.fontMono(
-                          fontSize: 9.5,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: 0.6,
-                          color: AppTheme.textMain,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  _specRow('Physical Lot Mass', '${m.estimatedWeightKg.toInt()} kg'),
-                  const Divider(color: AppTheme.border),
-                  _specRow('Calculated CO₂ Abated', '+${m.co2SavedKg.toStringAsFixed(1)} kg CO₂e', isHighlight: true),
-                  const Divider(color: AppTheme.border),
-                  _specRow('Condition Grade', m.condition),
-                  const Divider(color: AppTheme.border),
-                  _specRow('Origin Wallet', '${m.ownerWallet.substring(0, 8)}...'),
-                  const Divider(color: AppTheme.border),
-                  _specRow('Consensus Network', 'Polygon Amoy (80002)'),
-                ],
-              ),
-            ),
-            const SizedBox(height: 14),
-
-            // On-Chain Fraud Sentinel
-            FraudSentinelWidget(
-              fromWallet: m.ownerWallet,
-              toWallet: "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
-              weightKg: m.estimatedWeightKg,
-              claimedCo2: m.co2SavedKg,
-              category: m.category,
-            ),
-            const SizedBox(height: 16),
-
-            // Action: AI Escrow Transfer & SPCB Certificate
-            if (!_transferred)
-              ElevatedButton(
-                onPressed: _verifying ? null : _handleTransfer,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.emerald,
-                  foregroundColor: AppTheme.background,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                ),
-                child: _verifying
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const SizedBox(
-                            height: 14,
-                            width: 14,
-                            child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.background),
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            "AI AGENT EXECUTING ESCROW...",
-                            style: AppTheme.fontMono(fontSize: 11, fontWeight: FontWeight.w800),
-                          ),
-                        ],
-                      )
-                    : Text(
-                        "DISPATCH & VERIFY ON BLOCKCHAIN",
-                        style: AppTheme.fontMono(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: 0.8,
-                        ),
-                      ),
-              )
-            else
-              OutlinedButton.icon(
-                onPressed: () => _showAuditCertificateModal(context),
-                icon: const Icon(Icons.qr_code_2, size: 18, color: AppTheme.emerald),
-                label: Text(
-                  "VIEW IMMUTABLE EPR CERTIFICATE",
-                  style: AppTheme.fontMono(
-                    fontSize: 10.5,
-                    fontWeight: FontWeight.w800,
-                    color: AppTheme.emerald,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: AppTheme.emerald),
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  backgroundColor: AppTheme.emerald.withOpacity(0.08),
-                ),
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _specRow(String label, String value, {bool isHighlight = false}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(label, style: AppTheme.fontSans(color: AppTheme.textMuted, fontSize: 11.5)),
-          Text(
-            value,
-            style: AppTheme.fontMono(
-              color: isHighlight ? AppTheme.emerald : AppTheme.textMain,
-              fontWeight: FontWeight.w800,
-              fontSize: 11.5,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showAuditCertificateModal(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: AppTheme.surface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        side: BorderSide(color: AppTheme.border),
-      ),
-      builder: (context) {
-        return Container(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 36,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: AppTheme.border,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                "CPCB IMMUTABLE RECYCLING CERTIFICATE",
-                style: AppTheme.fontMono(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w800,
-                  color: AppTheme.emerald,
-                  letterSpacing: 0.8,
-                ),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                "Verified by AI Agent Sentinel #2 · Polygon Amoy",
-                style: AppTheme.fontSans(fontSize: 11, color: AppTheme.textMuted),
-              ),
-              const SizedBox(height: 16),
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: QrImageView(
-                  data: "https://amoy.polygonscan.com/tx/$_txHash",
-                  version: QrVersions.auto,
-                  size: 140,
-                ),
-              ),
-              const SizedBox(height: 14),
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: AppTheme.surfaceRaised,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: AppTheme.border),
-                ),
-                child: Text(
-                  _txHash ?? '0x8f2e9a4f20bc871239ab1e6d45901234c91a78de90bc1234567890abcdef1234',
-                  style: AppTheme.fontMono(fontSize: 9, color: AppTheme.emerald),
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                _certificate ??
-                    'Confirms valid on-chain recycling diversion under statutory CPCB FY26-27 EPR guidelines.',
-                style: AppTheme.fontSans(fontSize: 10.5, color: AppTheme.textMuted, height: 1.3),
-                textAlign: TextAlign.center,
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.account_balance_wallet, color: AppTheme.emerald, size: 20),
+                onPressed: () => WalletConnectModal.show(context),
               ),
             ],
           ),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Image with Stamp Overlay
+                Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: Image.network(
+                        m.imageUrl,
+                        height: 210,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => Container(
+                          height: 180,
+                          decoration: BoxDecoration(
+                            color: cardBg,
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(color: border),
+                          ),
+                          child: Center(
+                            child: Icon(Icons.inventory_2_outlined, size: 48, color: textMuted),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 12,
+                      right: 12,
+                      child: VerificationStampWidget(status: _transferred ? 'verified' : m.verificationStatus),
+                    ),
+                    Positioned(
+                      bottom: 12,
+                      left: 12,
+                      child: CategoryBadgeWidget(category: m.category),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+
+                // Title & Description
+                Text(
+                  m.title,
+                  style: AppTheme.fontSans(fontSize: 17, fontWeight: FontWeight.w900, color: textMain),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  m.description,
+                  style: AppTheme.fontSans(fontSize: 12, color: textMuted, height: 1.4),
+                ),
+                const SizedBox(height: 16),
+
+                // Key Metrics Grid
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildInfoCard('BATCH MASS', '${m.weightKg.toStringAsFixed(0)} kg', AppTheme.orange, isDark, cardBg, border),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: _buildInfoCard('SCOPE 3 OFFSET', '+${m.co2SavedKg.toStringAsFixed(1)} kg', AppTheme.emerald, isDark, cardBg, border),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: _buildInfoCard('LOCATION', m.location, textMain, isDark, cardBg, border),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+
+                // Contamination Heatmap
+                if (m.aiAnalysis != null) ...[
+                  ContaminationHeatmapWidget(aiResult: m.aiAnalysis!),
+                  const SizedBox(height: 16),
+                ],
+
+                // MCX Oracle Matchmaking
+                MatchmakingCardWidget(
+                  category: m.category,
+                  weightKg: m.weightKg,
+                  location: m.location,
+                ),
+                const SizedBox(height: 16),
+
+                // Transfer / Escrow Settlement Button
+                if (!_transferred) ...[
+                  ElevatedButton(
+                    onPressed: _verifying ? null : _handleTransfer,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppTheme.emerald,
+                      foregroundColor: Colors.black,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                      elevation: 0,
+                    ),
+                    child: _verifying
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SizedBox(
+                                width: 18,
+                                height: 18,
+                                child: CircularProgressIndicator(strokeWidth: 2.5, color: Colors.black),
+                              ),
+                              const SizedBox(width: 10),
+                              Text('Settling on Polygon Ledger...', style: AppTheme.fontSans(fontWeight: FontWeight.bold)),
+                            ],
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(Icons.lock, size: 18),
+                              const SizedBox(width: 8),
+                              Text(
+                                'SETTLE ON-CHAIN ESCROW (SMART CONTRACT)',
+                                style: AppTheme.fontSans(fontSize: 12, fontWeight: FontWeight.w900, letterSpacing: 0.6),
+                              ),
+                            ],
+                          ),
+                  ),
+                ] else ...[
+                  // Already Settled Card
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: surface,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: AppTheme.emerald.withOpacity(0.5), width: 1.5),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                const Icon(Icons.verified, color: AppTheme.emerald, size: 20),
+                                const SizedBox(width: 8),
+                                Text(
+                                  'BATCH SETTLED ON-CHAIN',
+                                  style: AppTheme.fontMono(fontSize: 11, fontWeight: FontWeight.bold, color: AppTheme.emerald),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                              decoration: BoxDecoration(
+                                color: AppTheme.emerald.withOpacity(0.15),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Text('POLYGON AMOY', style: AppTheme.fontMono(fontSize: 8.5, fontWeight: FontWeight.bold, color: AppTheme.emerald)),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          _certificate ?? 'Official EPR Impact Certificate generated and anchored on Polygon Amoy.',
+                          style: AppTheme.fontSans(fontSize: 11.5, color: textMuted, height: 1.4),
+                        ),
+                        const SizedBox(height: 12),
+                        ElevatedButton(
+                          onPressed: _openExplorer,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppTheme.orange,
+                            foregroundColor: Colors.white,
+                            minimumSize: const Size.fromHeight(40),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                            elevation: 0,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(Icons.open_in_new, size: 14),
+                              const SizedBox(width: 6),
+                              Text('View on Polygonscan Amoy', style: AppTheme.fontSans(fontWeight: FontWeight.bold, fontSize: 11.5)),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+                const SizedBox(height: 16),
+
+                // Fraud Sentinel Check
+                FraudSentinelWidget(
+                  fromWallet: m.ownerWallet ?? "0x71C49B283A412695d130aA849c2598374e9F0082",
+                  toWallet: "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+                  weightKg: m.weightKg,
+                  claimedCo2: m.co2SavedKg,
+                  category: m.category,
+                ),
+                const SizedBox(height: 24),
+              ],
+            ),
+          ),
         );
       },
+    );
+  }
+
+  Widget _buildInfoCard(String label, String val, Color color, bool isDark, Color cardBg, Color border) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: cardBg,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(label, style: AppTheme.fontMono(fontSize: 8, color: AppTheme.getTextMuted(isDark), fontWeight: FontWeight.bold)),
+          const SizedBox(height: 4),
+          Text(
+            val,
+            style: AppTheme.fontSans(fontSize: 12, fontWeight: FontWeight.w900, color: color),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
     );
   }
 }

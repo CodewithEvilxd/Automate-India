@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
 import '../services/api_service.dart';
+import '../services/user_state_service.dart';
 
 class MatchmakingCardWidget extends StatefulWidget {
   final String category;
@@ -21,6 +21,7 @@ class MatchmakingCardWidget extends StatefulWidget {
 
 class _MatchmakingCardWidgetState extends State<MatchmakingCardWidget> {
   final ApiService _apiService = ApiService();
+  final UserStateService _userState = UserStateService();
   Map<String, dynamic>? _matchData;
   bool _loading = true;
 
@@ -51,264 +52,204 @@ class _MatchmakingCardWidgetState extends State<MatchmakingCardWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (_loading || _matchData == null) {
-      return Container(
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: AppTheme.surface,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppTheme.border),
-        ),
-        child: const Center(
-          child: SizedBox(
-            height: 20,
-            width: 20,
-            child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.emerald),
-          ),
-        ),
-      );
-    }
+    return AnimatedBuilder(
+      animation: _userState,
+      builder: (context, _) {
+        final isDark = _userState.isDarkMode;
+        final surface = AppTheme.getSurface(isDark);
+        final cardBg = AppTheme.getSurfaceRaised(isDark);
+        final textMain = AppTheme.getTextMain(isDark);
+        final textMuted = AppTheme.getTextMuted(isDark);
+        final border = AppTheme.getBorder(isDark);
 
-    final int estimatedVal = _matchData!['estimated_lot_value_inr'] ?? 0;
-    final double unitPrice = (_matchData!['unit_price_inr_per_kg'] as num?)?.toDouble() ?? 0.0;
-    final String hub = _matchData!['nearest_processing_hub'] ?? 'Noida / NCR Cluster';
-    final double netCo2 = (_matchData!['net_carbon_abated_kg'] as num?)?.toDouble() ?? 0.0;
-    final double penalty = (_matchData!['transport_carbon_penalty_kg'] as num?)?.toDouble() ?? 0.0;
-    final int distanceKm = (_matchData!['estimated_transport_km'] as num?)?.toInt() ?? 18;
-    final String buyer = _matchData!['suggested_buyer_name'] ?? 'EcoPlast Polymer Solutions';
-
-    return Container(
-      decoration: BoxDecoration(
-        color: AppTheme.surface,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppTheme.border),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header Bar
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-            decoration: const BoxDecoration(
-              color: AppTheme.surfaceRaised,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(14),
-                topRight: Radius.circular(14),
-              ),
-              border: Border(bottom: BorderSide(color: AppTheme.border)),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    const Icon(Icons.bolt, size: 14, color: AppTheme.amber),
-                    const SizedBox(width: 4),
-                    Text(
-                      "AI PRICE ORACLE & LOGISTICS",
-                      style: GoogleFonts.jetBrainsMono(
-                        fontSize: 9.5,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 0.6,
-                        color: AppTheme.textMain,
-                      ),
-                    ),
-                  ],
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: AppTheme.emerald.withOpacity(0.15),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Text(
-                    "MCX BENCHMARK",
-                    style: GoogleFonts.jetBrainsMono(
-                      fontSize: 8.5,
-                      fontWeight: FontWeight.w800,
-                      color: AppTheme.emerald,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          Padding(
+        if (_loading || _matchData == null) {
+          return Container(
             padding: const EdgeInsets.all(14),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Estimated Lot Value
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: AppTheme.surfaceRaised,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: AppTheme.border),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "ESTIMATED COMMODITY VALUE",
-                            style: GoogleFonts.jetBrainsMono(
-                              fontSize: 8,
-                              fontWeight: FontWeight.w700,
-                              color: AppTheme.textMuted,
-                            ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            "₹${estimatedVal.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
-                            style: GoogleFonts.jetBrainsMono(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w800,
-                              color: AppTheme.textMain,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            "(₹${unitPrice.toStringAsFixed(1)}/kg)",
-                            style: GoogleFonts.jetBrainsMono(
-                              fontSize: 10.5,
-                              color: AppTheme.textMuted,
-                            ),
-                          ),
-                          const SizedBox(height: 2),
-                          Row(
-                            children: [
-                              const Icon(Icons.trending_up, size: 12, color: AppTheme.emerald),
-                              const SizedBox(width: 2),
-                              Text(
-                                "TREND: UP",
-                                style: GoogleFonts.jetBrainsMono(
-                                  fontSize: 9,
-                                  fontWeight: FontWeight.w800,
-                                  color: AppTheme.emerald,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10),
+            decoration: BoxDecoration(
+              color: surface,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: border),
+            ),
+            child: const Center(
+              child: SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.emerald),
+              ),
+            ),
+          );
+        }
 
-                // Logistics & Net Carbon Row
-                Row(
+        final int estimatedVal = _matchData!['estimated_lot_value_inr'] ?? 0;
+        final double unitPrice = (_matchData!['unit_price_inr_per_kg'] as num?)?.toDouble() ?? 0.0;
+        final String hub = _matchData!['nearest_processing_hub'] ?? 'Noida / NCR Cluster';
+        final double netCo2 = (_matchData!['net_carbon_abated_kg'] as num?)?.toDouble() ?? 0.0;
+        final double penalty = (_matchData!['transport_carbon_penalty_kg'] as num?)?.toDouble() ?? 0.0;
+        final int distanceKm = (_matchData!['estimated_transport_km'] as num?)?.toInt() ?? 18;
+        final String buyer = _matchData!['suggested_buyer_name'] ?? 'EcoPlast Polymer Solutions';
+
+        return Container(
+          decoration: BoxDecoration(
+            color: surface,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: border),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header Bar
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                decoration: BoxDecoration(
+                  color: cardBg,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
+                  ),
+                  border: Border(bottom: BorderSide(color: border)),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: AppTheme.surfaceRaised,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: AppTheme.border),
+                    Row(
+                      children: [
+                        const Icon(Icons.hub_outlined, size: 16, color: AppTheme.orange),
+                        const SizedBox(width: 6),
+                        Text(
+                          "AGENT 03: MCX & LOGISTICS ORACLE",
+                          style: AppTheme.fontMono(
+                            fontSize: 9.5,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 0.6,
+                            color: textMain,
+                          ),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "ROUTING HUB",
-                              style: GoogleFonts.jetBrainsMono(fontSize: 8, fontWeight: FontWeight.w700, color: AppTheme.textMuted),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              hub,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.plusJakartaSans(fontSize: 11, fontWeight: FontWeight.w700, color: AppTheme.textMain),
-                            ),
-                            Text(
-                              "$distanceKm km transit",
-                              style: GoogleFonts.jetBrainsMono(fontSize: 9, color: AppTheme.textMuted),
-                            ),
-                          ],
-                        ),
-                      ),
+                      ],
                     ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: AppTheme.surfaceRaised,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: AppTheme.border),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "NET CARBON ROI",
-                              style: GoogleFonts.jetBrainsMono(fontSize: 8, fontWeight: FontWeight.w700, color: AppTheme.textMuted),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              "+${netCo2.toStringAsFixed(1)} kg",
-                              style: GoogleFonts.jetBrainsMono(fontSize: 11, fontWeight: FontWeight.w800, color: AppTheme.emerald),
-                            ),
-                            Text(
-                              "-$penalty kg transit",
-                              style: GoogleFonts.jetBrainsMono(fontSize: 9, color: AppTheme.textMuted),
-                            ),
-                          ],
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: AppTheme.emerald.withOpacity(0.15),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(
+                        "96% MATCH",
+                        style: AppTheme.fontMono(
+                          fontSize: 8,
+                          fontWeight: FontWeight.w800,
+                          color: AppTheme.emerald,
                         ),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
+              ),
 
-                // Suggested Buyer Match
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: AppTheme.surfaceRaised,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: AppTheme.emerald.withOpacity(0.3)),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Column(
+              Padding(
+                padding: const EdgeInsets.all(14),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Price & Value Row
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "CERTIFIED BUYER MATCH",
-                              style: GoogleFonts.jetBrainsMono(fontSize: 8, fontWeight: FontWeight.w700, color: AppTheme.textMuted),
-                            ),
+                            Text("ESTIMATED LOT VALUE", style: AppTheme.fontMono(fontSize: 8.5, color: textMuted)),
                             const SizedBox(height: 2),
                             Text(
-                              buyer,
-                              style: GoogleFonts.plusJakartaSans(fontSize: 11, fontWeight: FontWeight.w700, color: AppTheme.textMain),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                              "₹${estimatedVal.toLocaleString()}",
+                              style: AppTheme.fontSans(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w900,
+                                color: AppTheme.orange,
+                              ),
                             ),
                           ],
                         ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text("MCX SPOT PRICE", style: AppTheme.fontMono(fontSize: 8.5, color: textMuted)),
+                            const SizedBox(height: 2),
+                            Text(
+                              "₹$unitPrice/kg",
+                              style: AppTheme.fontSans(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w800,
+                                color: AppTheme.emerald,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    const Divider(height: 1),
+                    const SizedBox(height: 10),
+
+                    // Suggested Buyer & Hub
+                    Row(
+                      children: [
+                        const Icon(Icons.factory_outlined, size: 14, color: AppTheme.teal),
+                        const SizedBox(width: 6),
+                        Expanded(
+                          child: Text(
+                            "Verified Buyer: $buyer",
+                            style: AppTheme.fontSans(fontSize: 11, fontWeight: FontWeight.bold, color: textMain),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        const Icon(Icons.route, size: 14, color: AppTheme.orange),
+                        const SizedBox(width: 6),
+                        Expanded(
+                          child: Text(
+                            "Route: $hub ($distanceKm km transit)",
+                            style: AppTheme.fontSans(fontSize: 10.5, color: textMuted),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+
+                    // Net Carbon Abatement
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: cardBg,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: border),
                       ),
-                      const SizedBox(width: 6),
-                      const Icon(Icons.verified, size: 16, color: AppTheme.emerald),
-                    ],
-                  ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Net Lifecycle Carbon:", style: AppTheme.fontMono(fontSize: 9, color: textMuted)),
+                          Text(
+                            "+${netCo2.toStringAsFixed(1)} kg CO₂e (after ${penalty.toStringAsFixed(1)}kg haul penalty)",
+                            style: AppTheme.fontMono(fontSize: 9, fontWeight: FontWeight.bold, color: AppTheme.emerald),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
+  }
+}
+
+extension IntFormatting on int {
+  String toLocaleString() {
+    return toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},');
   }
 }

@@ -143,24 +143,32 @@ export default function ApkDownloadModal({ isOpen, onClose }: ApkDownloadModalPr
           {/* Native Mobile Capabilities */}
           <div className="p-3.5 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
             <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-500 mb-2.5 flex items-center gap-1.5">
-              <Zap className="w-3 h-3 text-amber-400" /> Core Capabilities
+              <Zap className="w-3 h-3 text-amber-400" /> v2.5 Enterprise Features
             </div>
             <div className="grid grid-cols-2 gap-2 text-xs text-zinc-300">
               <div className="flex items-center gap-2">
                 <Cpu className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                <span className="truncate">AI Vision Scanner</span>
+                <span className="truncate">AI Optical Vision (ISO 9001)</span>
               </div>
               <div className="flex items-center gap-2">
-                <Mic className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                <span className="truncate">Indic Voice NLP</span>
+                <Mic className="w-3.5 h-3.5 text-orange-400 shrink-0" />
+                <span className="truncate">5-Lang Indic Voice ASR</span>
               </div>
               <div className="flex items-center gap-2">
                 <Layers className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                <span className="truncate">MCX Scrap Oracle</span>
+                <span className="truncate">Polygon Amoy Wallet &amp; Faucet</span>
               </div>
               <div className="flex items-center gap-2">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                <span className="truncate">CPCB Form 1 Ledger</span>
+                <ShieldCheck className="w-3.5 h-3.5 text-orange-400 shrink-0" />
+                <span className="truncate">CPCB Form 1 EPR Quotas</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-3.5 h-3.5 text-teal-400 shrink-0" />
+                <span className="truncate">In-App Field Docs &amp; FAQs</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Zap className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                <span className="truncate">Dark/Light Mode + Roles</span>
               </div>
             </div>
           </div>
