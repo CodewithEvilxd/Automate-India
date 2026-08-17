@@ -28,8 +28,10 @@ import {
 
 export default function Agent05DocsPage() {
   return (
-    <div className="min-h-screen notebook-ruled notebook-doc-scope text-zinc-900 dark:text-zinc-100 transition-colors duration-250 flex flex-col font-sketch selection:bg-amber-300 selection:text-zinc-950 dark:selection:bg-emerald-500/30 dark:selection:text-emerald-100">
+    <div className="min-h-screen notebook-ruled text-zinc-900 dark:text-zinc-100 transition-colors duration-250 flex flex-col selection:bg-amber-300 selection:text-zinc-950 dark:selection:bg-emerald-500/30 dark:selection:text-emerald-100">
       <Navbar />
+
+      <div className="notebook-doc-scope flex-1 flex flex-col">
 
       {/* Header Banner */}
       <div className="border-b-2 border-zinc-900 dark:border-white/10 bg-[#FAF8F5] dark:bg-[#0D0E15] py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden backdrop-blur-md">
@@ -187,5 +189,6 @@ export default function Agent05DocsPage() {
         </div>
       </div>
     </div>
+  </div>
   );
 }
