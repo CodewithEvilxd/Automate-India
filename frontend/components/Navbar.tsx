@@ -127,15 +127,18 @@ export default function Navbar() {
             </div>
 
             {/* Right Action Bar */}
-            <div className="flex items-center space-x-2.5">
+            <div className="flex items-center space-x-2 sm:space-x-2.5">
               {/* Mobile App Download Button */}
               <button
                 onClick={() => setIsApkModalOpen(true)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 font-mono text-xs font-bold transition-all shadow-sm group hover:scale-105"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-zinc-100 dark:bg-white/[0.06] hover:bg-zinc-200 dark:hover:bg-white/10 border border-zinc-200 dark:border-white/10 text-zinc-800 dark:text-zinc-200 font-sans text-xs font-semibold whitespace-nowrap transition-all shadow-sm group hover:scale-105"
+                title="Download Android APK"
               >
-                <Smartphone className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
-                <span className="hidden sm:inline">Get App</span>
-                <span className="px-1.5 py-0.2 text-[9px] bg-emerald-500 text-black rounded font-extrabold">APK</span>
+                <Smartphone className="w-3.5 h-3.5 text-emerald-500 shrink-0 group-hover:scale-110 transition-transform" />
+                <span className="hidden sm:inline">App</span>
+                <span className="px-1.5 py-0.5 text-[9px] font-mono font-bold uppercase rounded bg-zinc-200 dark:bg-white/10 text-zinc-600 dark:text-zinc-300">
+                  APK
+                </span>
               </button>
 
               {/* Theme Toggle Button */}

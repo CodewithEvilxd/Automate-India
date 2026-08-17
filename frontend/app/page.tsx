@@ -119,10 +119,10 @@ export default function Home() {
           </p>
 
           {/* CTA Buttons */}
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-3.5">
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/marketplace"
-              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-display font-bold text-sm tracking-wide shadow-lg shadow-emerald-500/20 hover:scale-105 transition-all"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-display font-bold text-sm tracking-wide shadow-lg shadow-emerald-500/20 hover:scale-105 transition-all"
             >
               <span>Explore Marketplace</span>
               <ArrowRight className="w-4 h-4" />
@@ -130,16 +130,18 @@ export default function Home() {
 
             <button
               onClick={() => setIsApkModalOpen(true)}
-              className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/40 text-emerald-600 dark:text-emerald-400 font-display font-bold text-sm transition-all shadow-sm hover:scale-105 group"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-white/[0.08] dark:text-white dark:hover:bg-white/[0.14] border border-zinc-700 dark:border-white/10 font-display font-semibold text-sm transition-all shadow-sm hover:scale-105 group"
             >
-              <Smartphone className="w-4 h-4 group-hover:scale-110 transition-transform" />
-              <span>Download Android App</span>
-              <span className="px-1.5 py-0.5 text-[10px] font-mono bg-emerald-500 text-black rounded font-extrabold">.APK</span>
+              <Smartphone className="w-4 h-4 text-emerald-400 shrink-0 group-hover:scale-110 transition-transform" />
+              <span>Get Android App</span>
+              <span className="px-1.5 py-0.5 text-[10px] font-mono font-bold rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                APK
+              </span>
             </button>
 
             <Link
               href="/epr-calculator"
-              className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-white dark:bg-[#121215] hover:bg-zinc-100 dark:hover:bg-[#18181B] border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white font-display font-semibold text-sm transition-all shadow-sm hover:scale-105"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white dark:bg-[#121215] hover:bg-zinc-100 dark:hover:bg-[#18181B] border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white font-display font-semibold text-sm transition-all shadow-sm hover:scale-105"
             >
               <Scale className="w-4 h-4 text-emerald-500" />
               <span>Simulate EPR</span>
@@ -147,7 +149,7 @@ export default function Home() {
 
             <Link
               href="/verify"
-              className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-transparent hover:bg-zinc-100 dark:hover:bg-white/[0.04] border border-zinc-300 dark:border-white/10 text-zinc-700 dark:text-zinc-300 font-display font-medium text-sm transition-all"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-transparent hover:bg-zinc-100 dark:hover:bg-white/[0.04] border border-zinc-300 dark:border-white/10 text-zinc-700 dark:text-zinc-300 font-display font-medium text-sm transition-all"
             >
               <ShieldCheck className="w-4 h-4 text-emerald-500" />
               <span>Verify On-Chain</span>
