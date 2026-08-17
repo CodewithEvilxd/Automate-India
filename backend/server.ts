@@ -54,6 +54,27 @@ const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 15 
 // ==========================================
 // 1. HEALTH & PROTOCOL STATUS
 // ==========================================
+app.get("/", (_req: Request, res: Response) => {
+  res.json({
+    service: "CircularChain Unified Backend Protocol API",
+    status: "online",
+    network: "Polygon Amoy Testnet (Chain ID 80002)",
+    smartContract: CONTRACT_ADDRESS,
+    health: "/api/health",
+    endpoints: {
+      materials: "/api/materials",
+      organizations: "/api/organizations",
+      mcxOracle: "/api/mcx-oracle",
+      cpcbCompliance: "/api/cpcb-calc",
+      aiVisionScan: "/api/analyze",
+      verifyTransfer: "/api/verify-transfer",
+      indicVoiceParse: "/api/indic-parse",
+      fraudSentinel: "/api/fraud-sentinel",
+    },
+    version: "2.4.0",
+  });
+});
+
 app.get("/api/health", (_req: Request, res: Response) => {
   res.json({
     status: "online",
