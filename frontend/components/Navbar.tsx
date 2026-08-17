@@ -96,6 +96,7 @@ export default function Navbar() {
                 <div>
                   <span className="font-display font-extrabold text-base text-zinc-900 dark:text-white tracking-tight block">
                     Circular<span className="text-emerald-500">Chain</span>
+                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-orange-400 ml-0.5 mb-0.5 shadow-sm shadow-orange-500/50" />
                   </span>
                   <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-500 dark:text-zinc-400 block -mt-1 font-semibold">
                     Verifiable Industrial Ledger
@@ -134,9 +135,9 @@ export default function Navbar() {
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-zinc-100 dark:bg-white/[0.06] hover:bg-zinc-200 dark:hover:bg-white/10 border border-zinc-200 dark:border-white/10 text-zinc-800 dark:text-zinc-200 font-sans text-xs font-semibold whitespace-nowrap transition-all shadow-sm group hover:scale-105"
                 title="Download Android APK"
               >
-                <Smartphone className="w-3.5 h-3.5 text-emerald-500 shrink-0 group-hover:scale-110 transition-transform" />
+                <Smartphone className="w-3.5 h-3.5 text-orange-400 shrink-0 group-hover:scale-110 transition-transform" />
                 <span className="hidden sm:inline">App</span>
-                <span className="px-1.5 py-0.5 text-[9px] font-mono font-bold uppercase rounded bg-zinc-200 dark:bg-white/10 text-zinc-600 dark:text-zinc-300">
+                <span className="px-1.5 py-0.5 text-[9px] font-mono font-bold uppercase rounded bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20">
                   APK
                 </span>
               </button>

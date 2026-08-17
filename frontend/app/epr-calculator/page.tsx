@@ -244,12 +244,12 @@ export default function EPRCalculatorPage() {
             </span>
           </div>
 
-          <div className="p-5 rounded-2xl glass-panel border border-zinc-200 dark:border-white/10 shadow-lg">
+          <div className="p-5 rounded-2xl glass-panel border border-orange-500/25 hover:border-orange-500/40 shadow-lg relative overflow-hidden">
             <div className="flex items-center justify-between text-zinc-500 dark:text-zinc-400 text-[10px] uppercase font-mono tracking-wider mb-1">
               <span>Avoided CPCB Penalty</span>
-              <ShieldCheck className="w-4 h-4 text-emerald-500" />
+              <ShieldCheck className="w-4 h-4 text-orange-500" />
             </div>
-            <div className="font-display text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400">
+            <div className="font-display text-2xl sm:text-3xl font-extrabold text-orange-500 dark:text-orange-400">
               ₹{(avoidedPenaltyINR / 100000).toFixed(2)} Lakh
             </div>
             <span className="text-[11px] text-zinc-500 dark:text-zinc-400 font-mono mt-1 block">
