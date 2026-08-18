@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 
 class VerificationStampWidget extends StatelessWidget {
+  final String? status;
   final String? txHash;
   final double size;
   final double rotation;
 
   const VerificationStampWidget({
-    super.key,
+    Key? key,
+    this.status,
     this.txHash,
     this.size = 110,
     this.rotation = -0.05, // ~-3 degrees
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -58,23 +60,42 @@ class VerificationStampWidget extends StatelessWidget {
                           letterSpacing: 1.5,
                         ),
                       ),
-                      const SizedBox(height: 1),
+                      const SizedBox(height: 2),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(Icons.star, size: 7, color: AppTheme.emerald),
+                          SizedBox(width: 2),
+                          Icon(Icons.verified, size: 10, color: AppTheme.emerald),
+                          SizedBox(width: 2),
+                          Icon(Icons.star, size: 7, color: AppTheme.emerald),
+                        ],
+                      ),
+                      const SizedBox(height: 2),
                       Text(
-                        'VERIFIED',
-                        style: AppTheme.fontSans(
+                        status?.toUpperCase() ?? 'VERIFIED',
+                        style: AppTheme.fontMono(
                           color: AppTheme.emerald,
-                          fontSize: 11,
+                          fontSize: 8.5,
                           fontWeight: FontWeight.w900,
                           letterSpacing: 1.2,
                         ),
                       ),
                       const SizedBox(height: 1),
                       Text(
-                        displayHash.toUpperCase(),
+                        'AGENT 2 / EPA',
                         style: AppTheme.fontMono(
-                          color: AppTheme.emerald.withOpacity(0.85),
+                          color: AppTheme.emerald.withOpacity(0.8),
                           fontSize: 6.5,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        displayHash,
+                        style: AppTheme.fontMono(
+                          color: AppTheme.emerald.withOpacity(0.6),
+                          fontSize: 5.5,
                         ),
                       ),
                     ],

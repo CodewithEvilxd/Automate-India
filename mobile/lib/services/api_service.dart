@@ -31,7 +31,7 @@ class ApiService {
         }
       } catch (_) {}
     }
-    return _getFallbackMaterials();
+    return getFallbackMaterials();
   }
 
   // ---------------------------------------------------------------------------
@@ -46,7 +46,7 @@ class ApiService {
         return MaterialItem.fromJson(json.decode(response.body));
       }
     } catch (_) {}
-    final items = _getFallbackMaterials();
+    final items = getFallbackMaterials();
     return items.firstWhere((m) => m.id == id, orElse: () => items.first);
   }
 
@@ -66,6 +66,15 @@ class ApiService {
     return _getFallbackOrganizations();
   }
 
+  // Static Fallback Commodities
+  static const List<Map<String, dynamic>> fallbackMcx = [
+    {"symbol": "ALUM-6063", "name": "Aluminum Extrusions (6063)", "unitPriceINR": 215.0, "unit": "kg", "change": "+2.4%", "trend": "up", "exchange": "MCX Spot"},
+    {"symbol": "CU-BERRY", "name": "Copper Scrap (Heavy Berry No. 1)", "unitPriceINR": 760.0, "unit": "kg", "change": "+1.8%", "trend": "up", "exchange": "MCX Continuous"},
+    {"symbol": "PET-WASH", "name": "PET Bottle Flakes (Hot Washed)", "unitPriceINR": 48.0, "unit": "kg", "change": "+3.1%", "trend": "up", "exchange": "IPex Polymer Index"},
+    {"symbol": "HDPE-BLU", "name": "HDPE Regrind Granules", "unitPriceINR": 58.0, "unit": "kg", "change": "-0.5%", "trend": "down", "exchange": "IPex Gujarat"},
+    {"symbol": "HMS-1-2", "name": "Heavy Melting Steel (HMS 1/2)", "unitPriceINR": 42.5, "unit": "kg", "change": "+0.9%", "trend": "up", "exchange": "SteelMint Index"},
+  ];
+
   // ---------------------------------------------------------------------------
   // 4. Live MCX Indian Commodity Oracle Feed
   // ---------------------------------------------------------------------------
@@ -82,13 +91,7 @@ class ApiService {
       }
     } catch (_) {}
 
-    return const [
-      {"symbol": "ALUM-6063", "name": "Aluminum Extrusions (6063)", "unitPriceINR": 215.0, "unit": "kg", "change": "+2.4%", "trend": "up", "exchange": "MCX Spot"},
-      {"symbol": "CU-BERRY", "name": "Copper Scrap (Heavy Berry No. 1)", "unitPriceINR": 760.0, "unit": "kg", "change": "+1.8%", "trend": "up", "exchange": "MCX Continuous"},
-      {"symbol": "PET-WASH", "name": "PET Bottle Flakes (Hot Washed)", "unitPriceINR": 48.0, "unit": "kg", "change": "+3.1%", "trend": "up", "exchange": "IPex Polymer Index"},
-      {"symbol": "HDPE-BLU", "name": "HDPE Regrind Granules", "unitPriceINR": 58.0, "unit": "kg", "change": "-0.5%", "trend": "down", "exchange": "IPex Gujarat"},
-      {"symbol": "HMS-1-2", "name": "Heavy Melting Steel (HMS 1/2)", "unitPriceINR": 42.5, "unit": "kg", "change": "+0.9%", "trend": "up", "exchange": "SteelMint Index"},
-    ];
+    return fallbackMcx;
   }
 
   Future<List<Map<String, dynamic>>> getMcxOracle() async {
@@ -384,7 +387,7 @@ class ApiService {
   // ---------------------------------------------------------------------------
   // Seeded Fallback Manifest Registry
   // ---------------------------------------------------------------------------
-  List<MaterialItem> _getFallbackMaterials() {
+  List<MaterialItem> getFallbackMaterials() {
     return [
       MaterialItem(
         id: "lot_al_01",

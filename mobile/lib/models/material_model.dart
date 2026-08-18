@@ -22,6 +22,17 @@ class MaterialItem {
   final double? unitPriceInrPerKg;
   final List<dynamic>? transactions;
 
+  // Convenience Getters
+  double get weightKg => estimatedWeightKg;
+  String get verificationStatus => status;
+  Map<String, dynamic> get aiAnalysis => {
+    'purity_percentage': purityPercentage,
+    'contamination_percentage': contaminationPercentage,
+    'contamination_type': contaminationType,
+    'recyclability_grade': recyclabilityGrade,
+    'moisture_level': moistureLevel,
+  };
+
   MaterialItem({
     required this.id,
     required this.title,
@@ -109,12 +120,17 @@ class MaterialItem {
       'condition': condition,
       'location': location,
       'owner_wallet': ownerWallet,
+      'owner_name': ownerName,
       'status': status,
+      'created_at': createdAt.toIso8601String(),
       'purity_percentage': purityPercentage,
       'contamination_type': contaminationType,
       'contamination_percentage': contaminationPercentage,
       'recyclability_grade': recyclabilityGrade,
       'moisture_level': moistureLevel,
+      'estimated_lot_value_inr': estimatedLotValueInr,
+      'unit_price_inr_per_kg': unitPriceInrPerKg,
+      'transactions': transactions,
     };
   }
 }
@@ -131,6 +147,14 @@ class OrganizationItem {
   final bool isTrustedPartner;
   final String eprRegistrationNo;
   final List<String> verifiedCategories;
+
+  // Convenience Getters
+  String get name => orgName;
+  String get type => isTrustedPartner ? 'Certified Recycler' : 'Registered Aggregator';
+  double get complianceScore => reputationScore.toDouble();
+  double get totalRecycledKg => totalMassRecycledKg;
+  double get totalCO2SavedKg => totalCo2AbatedKg;
+  String get state => location;
 
   OrganizationItem({
     required this.walletAddress,

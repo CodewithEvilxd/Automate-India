@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<MaterialItem> _featuredMaterials = [];
   List<Map<String, dynamic>> _mcxList = [];
-  bool _loading = true;
+  bool _loading = false;
   String _activeHub = 'UPPCB (Noida Hub)';
 
   final List<String> _hubs = [
@@ -40,24 +40,27 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    // Instant rich initial state
+    _featuredMaterials = _apiService.getFallbackMaterials().take(4).toList();
+    _mcxList = ApiService.fallbackMcx;
     _loadDashboardData();
   }
 
   Future<void> _loadDashboardData() async {
-    setState(() => _loading = true);
     try {
       final materials = await _apiService.getMaterials();
       final mcx = await _apiService.getMcxOracle();
       if (mounted) {
         setState(() {
-          _featuredMaterials = materials.take(4).toList();
-          _mcxList = mcx;
-          _loading = false;
+          if (materials.isNotEmpty) {
+            _featuredMaterials = materials.take(4).toList();
+          }
+          if (mcx.isNotEmpty) {
+            _mcxList = mcx;
+          }
         });
       }
-    } catch (_) {
-      if (mounted) setState(() => _loading = false);
-    }
+    } catch (_) {}
   }
 
   @override
@@ -78,10 +81,13 @@ class _HomeScreenState extends State<HomeScreen> {
           appBar: AppBar(
             backgroundColor: bg,
             elevation: 0,
-            title: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(7),
+            titleSpacing: 8,
+            leadingWidth: 48,
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 12),
+              child: Center(
+                child: Container(
+                  padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
@@ -89,45 +95,48 @@ class _HomeScreenState extends State<HomeScreen> {
                         AppTheme.emerald.withOpacity(0.25),
                       ],
                     ),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(8),
                     border: Border.all(color: AppTheme.emerald.withOpacity(0.4)),
                   ),
-                  child: const Icon(Icons.all_inclusive, color: AppTheme.emerald, size: 20),
+                  child: const Icon(Icons.all_inclusive, color: AppTheme.emerald, size: 18),
                 ),
-                const SizedBox(width: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+            ),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'CIRCULARCHAIN',
+                  style: AppTheme.fontSans(
+                    fontSize: 13.5,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 0.5,
+                    color: textMain,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      'CIRCULARCHAIN',
-                      style: AppTheme.fontSans(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 0.6,
-                        color: textMain,
+                    Container(
+                      width: 5,
+                      height: 5,
+                      decoration: const BoxDecoration(
+                        color: AppTheme.emerald,
+                        shape: BoxShape.circle,
                       ),
                     ),
-                    Row(
-                      children: [
-                        Container(
-                          width: 6,
-                          height: 6,
-                          decoration: const BoxDecoration(
-                            color: AppTheme.emerald,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          'POLYGON AMOY #80002 · LIVE',
-                          style: AppTheme.fontMono(
-                            fontSize: 8,
-                            fontWeight: FontWeight.w700,
-                            color: AppTheme.emerald,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-                      ],
+                    const SizedBox(width: 4),
+                    Text(
+                      'AMOY #80002 · LIVE',
+                      style: AppTheme.fontMono(
+                        fontSize: 7.5,
+                        fontWeight: FontWeight.w700,
+                        color: AppTheme.emerald,
+                        letterSpacing: 0.4,
+                      ),
                     ),
                   ],
                 ),
@@ -136,10 +145,12 @@ class _HomeScreenState extends State<HomeScreen> {
             actions: [
               // Theme Toggler
               IconButton(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
                 icon: Icon(
                   isDark ? Icons.light_mode_outlined : Icons.dark_mode_outlined,
                   color: textMuted,
-                  size: 20,
+                  size: 18,
                 ),
                 tooltip: 'Toggle Theme',
                 onPressed: () => _userState.toggleTheme(),
@@ -149,21 +160,22 @@ class _HomeScreenState extends State<HomeScreen> {
               GestureDetector(
                 onTap: () => WalletConnectModal.show(context),
                 child: Container(
-                  margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  margin: const EdgeInsets.symmetric(vertical: 11, horizontal: 3),
+                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
                   decoration: BoxDecoration(
                     color: AppTheme.emerald.withOpacity(0.15),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: AppTheme.emerald.withOpacity(0.4)),
                   ),
                   child: Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.account_balance_wallet, size: 14, color: AppTheme.emerald),
-                      const SizedBox(width: 5),
+                      const Icon(Icons.account_balance_wallet, size: 12, color: AppTheme.emerald),
+                      const SizedBox(width: 4),
                       Text(
-                        _walletService.isConnected ? _walletService.shortAddress : 'CONNECT',
+                        _walletService.isConnected ? _walletService.shortAddress : 'WALLET',
                         style: AppTheme.fontMono(
-                          fontSize: 10,
+                          fontSize: 9.5,
                           fontWeight: FontWeight.bold,
                           color: AppTheme.emerald,
                         ),
@@ -175,7 +187,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
               // Verify QR Scanner
               IconButton(
-                icon: const Icon(Icons.qr_code_scanner_rounded, color: AppTheme.orange),
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                icon: const Icon(Icons.qr_code_scanner_rounded, color: AppTheme.orange, size: 18),
                 tooltip: 'Verify On-Chain Hash',
                 onPressed: () {
                   Navigator.push(
@@ -310,7 +324,7 @@ class _HomeScreenState extends State<HomeScreen> {
         border: Border.all(color: border),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.between,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [

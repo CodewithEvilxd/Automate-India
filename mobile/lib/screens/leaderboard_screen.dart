@@ -126,62 +126,71 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                      width: 26,
-                                      height: 26,
-                                      decoration: BoxDecoration(
-                                        color: rankColor.withOpacity(0.18),
-                                        shape: BoxShape.circle,
-                                        border: Border.all(color: rankColor, width: 1.5),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          '#${index + 1}',
-                                          style: AppTheme.fontMono(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.bold,
-                                            color: rankColor,
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        width: 28,
+                                        height: 28,
+                                        decoration: BoxDecoration(
+                                          color: rankColor.withOpacity(0.15),
+                                          shape: BoxShape.circle,
+                                          border: Border.all(color: rankColor.withOpacity(0.4)),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            '#${index + 1}',
+                                            style: AppTheme.fontMono(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w900,
+                                              color: rankColor,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          org.name,
-                                          style: AppTheme.fontSans(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w800,
-                                            color: textMain,
-                                          ),
+                                      const SizedBox(width: 10),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              org.name,
+                                              style: AppTheme.fontSans(
+                                                fontSize: 12.5,
+                                                fontWeight: FontWeight.w800,
+                                                color: textMain,
+                                              ),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            Text(
+                                              org.type.toUpperCase(),
+                                              style: AppTheme.fontMono(
+                                                fontSize: 8.5,
+                                                fontWeight: FontWeight.bold,
+                                                color: AppTheme.orange,
+                                              ),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ],
                                         ),
-                                        Text(
-                                          org.type.toUpperCase(),
-                                          style: AppTheme.fontMono(
-                                            fontSize: 8.5,
-                                            fontWeight: FontWeight.bold,
-                                            color: AppTheme.orange,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
+                                const SizedBox(width: 6),
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
                                   decoration: BoxDecoration(
                                     color: AppTheme.emerald.withOpacity(0.15),
                                     borderRadius: BorderRadius.circular(6),
                                     border: Border.all(color: AppTheme.emerald.withOpacity(0.3)),
                                   ),
                                   child: Text(
-                                    '${org.complianceScore.toStringAsFixed(1)}% ESG',
+                                    '${org.complianceScore.toStringAsFixed(0)}% ESG',
                                     style: AppTheme.fontMono(
-                                      fontSize: 10,
+                                      fontSize: 9.5,
                                       fontWeight: FontWeight.bold,
                                       color: AppTheme.emerald,
                                     ),
