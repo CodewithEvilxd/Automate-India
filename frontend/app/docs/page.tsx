@@ -237,12 +237,12 @@ export default function DocsOverviewPage() {
       </div>
 
       {/* Main Content Layout with Punched Spiral Rings & Red Margin Line */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-1 relative">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-8 sm:py-10 w-full flex-1 relative overflow-x-clip">
         
         {/* Left Spiral Rings Effect */}
         <NotebookSpiralBinding count={10} />
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pl-4 sm:pl-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 pl-0 md:pl-8">
           
           {/* Sidebar */}
           <aside className="lg:col-span-3">
@@ -250,7 +250,7 @@ export default function DocsOverviewPage() {
           </aside>
 
           {/* Main Technical Content Canvas */}
-          <main className="lg:col-span-9 space-y-12 border-l-2 border-red-300/50 dark:border-red-500/20 pl-4 sm:pl-6">
+          <main className="lg:col-span-9 space-y-12 border-l-0 md:border-l-2 border-red-300/50 dark:border-red-500/20 pl-0 md:pl-6">
             
             {/* SECTION 1: 3-Column Sticky Architecture Notes (User's Exact Blueprint Pattern) */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

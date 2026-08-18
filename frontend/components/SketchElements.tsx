@@ -5,7 +5,7 @@ import React, { useState } from "react";
 // Notebook Spiral Binding / Punched Binder Holes along the left margin
 export function NotebookSpiralBinding({ count = 8 }: { count?: number }) {
   return (
-    <div className="absolute left-1 sm:left-2 top-8 bottom-8 flex flex-col justify-between pointer-events-none z-20">
+    <div className="hidden md:flex absolute left-1 sm:left-2 top-8 bottom-8 flex-col justify-between pointer-events-none z-20 overflow-hidden">
       {Array.from({ length: count }).map((_, idx) => (
         <div key={idx} className="relative w-4 h-4 rounded-full bg-zinc-200 dark:bg-zinc-800 border-2 border-zinc-400 dark:border-zinc-600 shadow-inner flex items-center justify-center">
           {/* Wire ring clip */}

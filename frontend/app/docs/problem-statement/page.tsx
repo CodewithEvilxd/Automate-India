@@ -51,7 +51,7 @@ export default function ProblemStatementPage() {
       <div className="border-b-2 border-zinc-900 dark:border-white/10 bg-[#FAF8F5] dark:bg-[#0D0E15] py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden backdrop-blur-md">
         <WashiTapeCenter color="pink" className="scale-125" />
 
-        <div className="max-w-7xl mx-auto relative border-l-2 border-red-300/60 dark:border-red-500/30 pl-4 sm:pl-8 ml-1 sm:ml-4">
+        <div className="max-w-7xl mx-auto relative border-l-0 md:border-l-2 border-red-300/60 dark:border-red-500/30 pl-0 md:pl-8 ml-0 md:ml-4">
           <div className="flex flex-wrap items-center gap-3 mb-4">
             <Link
               href="/docs"
@@ -74,17 +74,17 @@ export default function ProblemStatementPage() {
       </div>
 
       {/* Main Content Layout */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-1 relative">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-8 sm:py-10 w-full flex-1 relative overflow-x-clip">
         <NotebookSpiralBinding count={14} />
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pl-4 sm:pl-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 pl-0 md:pl-8">
           {/* Sidebar */}
           <aside className="lg:col-span-3">
             <DocsSidebar />
           </aside>
 
           {/* Main Content Area */}
-          <main className="lg:col-span-9 space-y-12 border-l-2 border-red-300/50 dark:border-red-500/20 pl-4 sm:pl-6">
+          <main className="lg:col-span-9 space-y-12 border-l-0 md:border-l-2 border-red-300/50 dark:border-red-500/20 pl-0 md:pl-6">
             
             {/* Infographic Banner (Real Generated Infographic) */}
             <div className="relative p-4 rounded-3xl bg-[#FCFBF7] dark:bg-[#12131C] border-2 border-zinc-950 dark:border-white/20 shadow-[4px_5px_0px_#10B981] overflow-hidden">

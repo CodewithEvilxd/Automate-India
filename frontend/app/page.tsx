@@ -118,11 +118,11 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-[#09090B] text-zinc-900 dark:text-zinc-100 transition-colors duration-250 relative overflow-hidden">
+    <div className="min-h-screen bg-zinc-50 dark:bg-[#09090B] text-zinc-900 dark:text-zinc-100 transition-colors duration-250 relative overflow-x-clip w-full max-w-full">
       <Navbar />
 
       {/* Subtle Studio Spotlight (Neutral, Emerald & Sunset Amber) */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[850px] h-[360px] bg-gradient-to-b from-white/[0.04] via-emerald-500/[0.02] to-amber-500/[0.02] blur-3xl -z-10 pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[850px] h-[360px] bg-gradient-to-b from-white/[0.04] via-emerald-500/[0.02] to-amber-500/[0.02] blur-3xl -z-10 pointer-events-none overflow-hidden" />
 
       {/* Hero Section */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-24">

@@ -34,8 +34,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="h-full antialiased dark overflow-x-hidden" suppressHydrationWarning>
-      <body className="min-h-full flex flex-col antialiased selection:bg-emerald-500/20 selection:text-zinc-950 dark:selection:bg-emerald-500/30 dark:selection:text-emerald-100 overflow-x-hidden pb-16 lg:pb-0" suppressHydrationWarning>
+    <html lang="en" className="h-full antialiased dark overflow-x-clip w-full max-w-full" suppressHydrationWarning>
+      <body className="min-h-full flex flex-col antialiased selection:bg-emerald-500/20 selection:text-zinc-950 dark:selection:bg-emerald-500/30 dark:selection:text-emerald-100 overflow-x-clip w-full max-w-full relative pb-16 lg:pb-0" suppressHydrationWarning>
         <ThemeProvider>
           {children}
           <MobileBottomNav />

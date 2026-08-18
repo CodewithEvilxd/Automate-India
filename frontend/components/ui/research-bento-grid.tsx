@@ -649,7 +649,7 @@ function PausePanel({
           transition={spring}
           animate={{ scale: arrowLit ? 1.015 : 1 }}
           className={cn(
-            "relative z-10 flex h-[74px] min-w-[190px] items-center justify-center overflow-hidden rounded-[22px] border px-6 text-[22px] font-extrabold tracking-tight transition-all duration-300 font-sans cursor-pointer",
+            "relative z-10 flex h-[74px] w-full max-w-[220px] items-center justify-center overflow-hidden rounded-[22px] border px-6 text-[20px] sm:text-[22px] font-extrabold tracking-tight transition-all duration-300 font-sans cursor-pointer",
             "bg-gradient-to-br from-white to-zinc-200 dark:from-[#1c1d24] dark:to-[#0f1014]",
             arrowLit
               ? "border-emerald-500 text-zinc-950 dark:text-white shadow-[0_0_30px_rgba(16,185,129,0.35)]"

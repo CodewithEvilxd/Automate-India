@@ -184,10 +184,10 @@ export default function Navbar() {
             {/* Right: Actions (Field APK, List Scrap, Theme, Wallet) */}
             <div className="flex items-center space-x-1.5 sm:space-x-2.5">
               
-              {/* Field APK CTA (Hidden on tiny screens, icon on mobile) */}
+              {/* Field APK CTA (Hidden on small mobile screens, available in Hamburger Drawer) */}
               <button
                 onClick={() => setIsApkModalOpen(true)}
-                className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-semibold font-sans rounded-full bg-emerald-500/10 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/25 hover:bg-emerald-500/20 transition-all cursor-pointer"
+                className="hidden sm:inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-semibold font-sans rounded-full bg-emerald-500/10 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/25 hover:bg-emerald-500/20 transition-all cursor-pointer"
                 title="Download Android APK"
               >
                 <Smartphone className="w-3.5 h-3.5 text-emerald-500" />
