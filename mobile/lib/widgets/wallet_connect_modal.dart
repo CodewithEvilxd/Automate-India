@@ -31,6 +31,7 @@ class _WalletConnectModalState extends State<WalletConnectModal> {
   bool _isClaimingFaucet = false;
   bool _isConnecting = false;
   bool _showCustomInput = false;
+  String? _activeProviderInput;
 
   @override
   void dispose() {
@@ -319,7 +320,7 @@ class _WalletConnectModalState extends State<WalletConnectModal> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    'Connect your real Polygon address or launch MetaMask / Trust Wallet to sync live on-chain POL balances, mint scrap lots, and sign CPCB audits.',
+                    'Connect your real Polygon address or launch MetaMask / Trust Wallet to sync live on-chain POL balances and sign CPCB ESG audits.',
                     style: AppTheme.fontSans(fontSize: 11.5, color: textMain, height: 1.3),
                   ),
                 ),
@@ -334,122 +335,195 @@ class _WalletConnectModalState extends State<WalletConnectModal> {
           ),
           const SizedBox(height: 10),
 
-          // Option 1: Real MetaMask Connection
-          _buildWalletConnectCard(
+          // Option 1: MetaMask Connection Card
+          _buildProviderCard(
+            providerKey: 'MetaMask',
             title: 'MetaMask Mobile App',
-            subtitle: 'Open MetaMask app or sync your personal Polygon account',
+            subtitle: 'Connect via MetaMask app or paste your MetaMask address',
             icon: Icons.shield_rounded,
             color: AppTheme.orange,
             isDark: isDark,
             surface: surface,
+            cardBg: cardBg,
+            textMain: textMain,
+            textMuted: textMuted,
             border: border,
-            onTap: () {
-              _openExternalWalletApp('https://metamask.app.link/dapp/circularchain.vercel.app');
-              _handleConnectWallet('MetaMask Mobile');
-            },
+            deepLinkUrl: 'https://metamask.app.link/dapp/circularchain.vercel.app',
           ),
           const SizedBox(height: 10),
 
-          // Option 2: Trust Wallet / Coinbase
-          _buildWalletConnectCard(
+          // Option 2: Trust Wallet / Coinbase Card
+          _buildProviderCard(
+            providerKey: 'Trust Wallet',
             title: 'Trust Wallet / Coinbase',
-            subtitle: 'Deep-link to Trust Wallet EVM session on Polygon',
+            subtitle: 'Connect via Trust Wallet or paste your EVM address',
             icon: Icons.account_balance_wallet_outlined,
             color: AppTheme.teal,
             isDark: isDark,
             surface: surface,
+            cardBg: cardBg,
+            textMain: textMain,
+            textMuted: textMuted,
             border: border,
-            onTap: () {
-              _openExternalWalletApp('https://link.trustwallet.com/open_url?coin_id=60&url=https://circularchain.vercel.app');
-              _handleConnectWallet('Trust Wallet');
-            },
+            deepLinkUrl: 'https://link.trustwallet.com/open_url?coin_id=60&url=https://circularchain.vercel.app',
           ),
           const SizedBox(height: 10),
 
-          // Option 3: Instant Non-Custodial Keypair
-          _buildWalletConnectCard(
-            title: 'Instant Non-Custodial Keypair',
-            subtitle: 'Recommended for Field Operators & Kabadiwalas (Zero Gas)',
-            icon: Icons.bolt_rounded,
+          // Option 3: Direct EVM Address Input
+          _buildProviderCard(
+            providerKey: 'Custom',
+            title: 'Paste Any Polygon / EVM Address',
+            subtitle: 'Enter your 0x... public key to sync live on-chain balance',
+            icon: Icons.edit_note_rounded,
             color: AppTheme.emerald,
             isDark: isDark,
             surface: surface,
+            cardBg: cardBg,
+            textMain: textMain,
+            textMuted: textMuted,
             border: border,
-            onTap: () => _handleConnectWallet('Instant Polygon Keypair'),
           ),
           const SizedBox(height: 10),
 
-          // Option 4: Custom Address Input
-          if (!_showCustomInput)
-            GestureDetector(
-              onTap: () => setState(() => _showCustomInput = true),
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 14),
-                decoration: BoxDecoration(
-                  color: cardBg,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: border),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
+          // Option 4: Instant Temporary Burner Keypair (For zero-config field demo)
+          _buildWalletConnectCard(
+            title: 'Generate Temporary Demo Keypair',
+            subtitle: 'Quick test mode for field workers without wallet app',
+            icon: Icons.bolt_rounded,
+            color: const Color(0xFF64748B),
+            isDark: isDark,
+            surface: surface,
+            border: border,
+            onTap: () => _handleConnectWallet('Demo Keypair'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProviderCard({
+    required String providerKey,
+    required String title,
+    required String subtitle,
+    required IconData icon,
+    required Color color,
+    required bool isDark,
+    required Color surface,
+    required Color cardBg,
+    required Color textMain,
+    required Color textMuted,
+    required Color border,
+    String? deepLinkUrl,
+  }) {
+    final isExpanded = _activeProviderInput == providerKey;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: isExpanded ? surface : cardBg,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(
+          color: isExpanded ? color : border,
+          width: isExpanded ? 1.5 : 1,
+        ),
+      ),
+      child: Column(
+        children: [
+          InkWell(
+            onTap: () {
+              setState(() {
+                if (_activeProviderInput == providerKey) {
+                  _activeProviderInput = null;
+                } else {
+                  _activeProviderInput = providerKey;
+                }
+              });
+            },
+            borderRadius: BorderRadius.circular(14),
+            child: Padding(
+              padding: const EdgeInsets.all(14),
+              child: Row(
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: color.withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: color.withOpacity(0.4)),
+                    ),
+                    child: Icon(icon, color: color, size: 20),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(Icons.edit_note, size: 18, color: AppTheme.emerald),
-                        const SizedBox(width: 10),
                         Text(
-                          'Paste My Real Polygon / EVM Address (0x...)',
-                          style: AppTheme.fontSans(fontSize: 11.5, fontWeight: FontWeight.w700, color: textMain),
+                          title,
+                          style: AppTheme.fontSans(fontSize: 13, fontWeight: FontWeight.w700, color: textMain),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          subtitle,
+                          style: AppTheme.fontSans(fontSize: 10.5, color: textMuted),
                         ),
                       ],
                     ),
-                    Icon(Icons.chevron_right, size: 16, color: textMuted),
-                  ],
-                ),
+                  ),
+                  Icon(
+                    isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                    color: textMuted,
+                    size: 20,
+                  ),
+                ],
               ),
-            )
-          else
-            Container(
+            ),
+          ),
+          if (isExpanded) ...[
+            Divider(height: 1, color: border),
+            Padding(
               padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: surface,
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: AppTheme.emerald.withOpacity(0.5), width: 1.3),
-              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'PASTE REAL POLYGON / ETHEREUM ADDRESS',
-                        style: AppTheme.fontMono(fontSize: 9.5, fontWeight: FontWeight.bold, color: AppTheme.emerald),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                        decoration: BoxDecoration(
-                          color: AppTheme.emerald.withOpacity(0.15),
-                          borderRadius: BorderRadius.circular(4),
+                  if (deepLinkUrl != null) ...[
+                    Row(
+                      children: [
+                        Expanded(
+                          child: OutlinedButton.icon(
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: color,
+                              side: BorderSide(color: color.withOpacity(0.5)),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                            ),
+                            icon: const Icon(Icons.open_in_new_rounded, size: 15),
+                            label: Text('Open $providerKey App', style: AppTheme.fontSans(fontWeight: FontWeight.bold, fontSize: 11)),
+                            onPressed: () => _openExternalWalletApp(deepLinkUrl),
+                          ),
                         ),
-                        child: Text('LIVE RPC SYNC', style: AppTheme.fontMono(fontSize: 8, fontWeight: FontWeight.w800, color: AppTheme.emerald)),
-                      ),
-                    ],
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                  ],
+                  Text(
+                    'ENTER OR PASTE YOUR $providerKey ADDRESS (0x...)',
+                    style: AppTheme.fontMono(fontSize: 9, fontWeight: FontWeight.bold, color: color),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 6),
                   TextField(
                     controller: _customAddressController,
-                    style: AppTheme.fontMono(fontSize: 12, color: textMain),
+                    style: AppTheme.fontMono(fontSize: 11.5, color: textMain),
                     decoration: InputDecoration(
                       hintText: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e',
-                      hintStyle: AppTheme.fontMono(fontSize: 11, color: textMuted.withOpacity(0.5)),
+                      hintStyle: AppTheme.fontMono(fontSize: 10.5, color: textMuted.withOpacity(0.4)),
                       filled: true,
                       fillColor: cardBg,
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: border)),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                       suffixIcon: IconButton(
-                        icon: const Icon(Icons.paste_rounded, size: 18, color: AppTheme.emerald),
-                        tooltip: 'Paste Clipboard',
+                        icon: Icon(Icons.paste_rounded, size: 18, color: color),
+                        tooltip: 'Paste from Clipboard',
                         onPressed: () async {
                           final clip = await Clipboard.getData(Clipboard.kTextPlain);
                           if (clip?.text != null) {
@@ -460,39 +534,42 @@ class _WalletConnectModalState extends State<WalletConnectModal> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton.icon(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppTheme.emerald,
-                            foregroundColor: Colors.black,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                            padding: const EdgeInsets.symmetric(vertical: 11),
-                          ),
-                          icon: _isConnecting
-                              ? const SizedBox(width: 14, height: 14, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.black))
-                              : const Icon(Icons.link, size: 16),
-                          label: Text(_isConnecting ? 'FETCHING RPC...' : 'SYNC REAL ADDRESS', style: AppTheme.fontSans(fontWeight: FontWeight.bold, fontSize: 11.5)),
-                          onPressed: _isConnecting
-                              ? null
-                              : () {
-                                  if (_customAddressController.text.trim().isNotEmpty) {
-                                    _handleConnectWallet('Real EVM Wallet', customAddress: _customAddressController.text.trim());
-                                  }
-                                },
-                        ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: color,
+                        foregroundColor: Colors.black,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        padding: const EdgeInsets.symmetric(vertical: 11),
                       ),
-                      const SizedBox(width: 8),
-                      TextButton(
-                        onPressed: () => setState(() => _showCustomInput = false),
-                        child: Text('CANCEL', style: AppTheme.fontSans(fontSize: 11, color: textMuted)),
+                      icon: _isConnecting
+                          ? const SizedBox(width: 14, height: 14, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.black))
+                          : const Icon(Icons.link, size: 16),
+                      label: Text(
+                        _isConnecting ? 'CONNECTING & SYNCING RPC...' : 'CONNECT $providerKey & FETCH BALANCE',
+                        style: AppTheme.fontSans(fontWeight: FontWeight.bold, fontSize: 11.5),
                       ),
-                    ],
+                      onPressed: _isConnecting
+                          ? null
+                          : () {
+                              if (_customAddressController.text.trim().isNotEmpty) {
+                                _handleConnectWallet(providerKey, customAddress: _customAddressController.text.trim());
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    backgroundColor: Colors.redAccent,
+                                    content: Text('Please paste or enter your 0x... wallet address first!'),
+                                  ),
+                                );
+                              }
+                            },
+                    ),
                   ),
                 ],
               ),
             ),
+          ],
         ],
       ),
     );

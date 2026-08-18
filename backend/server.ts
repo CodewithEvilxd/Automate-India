@@ -111,8 +111,8 @@ app.get("/api/app-version", (_req: Request, res: Response) => {
     min_supported_version: "2.0.0",
     is_critical: false,
     release_date: "2026-08-18",
-    apk_download_url: "https://circularchain.app/circularchain.apk",
-    apk_size_mb: "48.2 MB",
+    apk_download_url: "https://circularchain.vercel.app/circularchain.apk",
+    apk_size_mb: "50.8 MB",
     title: "CircularChain v2.6.0 Upgrade Available",
     release_notes: [
       "⚡ Full Web3 Wallet connect/disconnect & custom address pasting",

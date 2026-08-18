@@ -726,39 +726,61 @@ class _DocsScreenState extends State<DocsScreen> with SingleTickerProviderStateM
                       ),
                     ],
                   ),
-                  ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppTheme.emerald,
-                      foregroundColor: Colors.black,
-                      elevation: 0,
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                    ),
-                    icon: const Icon(Icons.refresh, size: 14),
-                    label: Text('CHECK OTA', style: AppTheme.fontSans(fontSize: 10.5, fontWeight: FontWeight.bold)),
-                    onPressed: () async {
-                      final updateService = UpdateService();
-                      final info = await updateService.checkForUpdates(isManualCheck: true);
-                      if (info != null && context.mounted) {
-                        InAppUpdateModal.show(context, info);
-                      } else if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            backgroundColor: AppTheme.emerald,
-                            content: Row(
-                              children: [
-                                const Icon(Icons.check_circle_rounded, color: Colors.black, size: 18),
-                                const SizedBox(width: 8),
-                                Text(
-                                  'CircularChain is up to date (v${UpdateService.currentVersion})',
-                                  style: AppTheme.fontSans(color: Colors.black, fontWeight: FontWeight.bold),
+                  Row(
+                    children: [
+                      OutlinedButton.icon(
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: AppTheme.orange,
+                          side: BorderSide(color: AppTheme.orange.withOpacity(0.6)),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                        ),
+                        icon: const Icon(Icons.bolt, size: 13),
+                        label: Text('TEST OTA', style: AppTheme.fontSans(fontSize: 9.5, fontWeight: FontWeight.bold)),
+                        onPressed: () {
+                          final updateService = UpdateService();
+                          updateService.simulateOtaUpdate();
+                          if (updateService.latestInfo != null && context.mounted) {
+                            InAppUpdateModal.show(context, updateService.latestInfo!);
+                          }
+                        },
+                      ),
+                      const SizedBox(width: 6),
+                      ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppTheme.emerald,
+                          foregroundColor: Colors.black,
+                          elevation: 0,
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                        ),
+                        icon: const Icon(Icons.refresh, size: 14),
+                        label: Text('CHECK OTA', style: AppTheme.fontSans(fontSize: 10.5, fontWeight: FontWeight.bold)),
+                        onPressed: () async {
+                          final updateService = UpdateService();
+                          final info = await updateService.checkForUpdates(isManualCheck: true);
+                          if (info != null && context.mounted) {
+                            InAppUpdateModal.show(context, info);
+                          } else if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: AppTheme.emerald,
+                                content: Row(
+                                  children: [
+                                    const Icon(Icons.check_circle_rounded, color: Colors.black, size: 18),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      'CircularChain is up to date (v${UpdateService.currentVersion})',
+                                      style: AppTheme.fontSans(color: Colors.black, fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
-                        );
-                      }
-                    },
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                    ],
                   ),
                 ],
               ),

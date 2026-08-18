@@ -87,6 +87,7 @@ class UpdateService extends ChangeNotifier {
     notifyListeners();
 
     final endpoints = [
+      'https://circularchain.vercel.app/api/app-version',
       '${ApiService.baseUrl}/app-version',
       'http://10.0.2.2:3000/api/app-version',
       'http://10.0.2.2:5000/api/app-version',
@@ -97,7 +98,7 @@ class UpdateService extends ChangeNotifier {
     for (final url in endpoints) {
       try {
         final uri = Uri.parse(url);
-        final response = await http.get(uri).timeout(const Duration(milliseconds: 1500));
+        final response = await http.get(uri).timeout(const Duration(seconds: 3));
 
         if (response.statusCode == 200) {
           final data = json.decode(response.body);
@@ -131,14 +132,40 @@ class UpdateService extends ChangeNotifier {
     return _latestInfo;
   }
 
+  // Simulate an OTA update for testing/demonstration purposes
+  void simulateOtaUpdate() {
+    _hasUpdate = true;
+    _latestInfo = UpdateInfo(
+      latestVersion: '2.7.0',
+      versionCode: 27,
+      minSupportedVersion: '2.0.0',
+      isCritical: false,
+      releaseDate: '2026-08-18',
+      apkDownloadUrl: 'https://circularchain.vercel.app/circularchain.apk',
+      apkSizeMb: '50.8 MB',
+      title: 'CircularChain v2.7.0 Feature Upgrade',
+      releaseNotes: [
+        '⚡ Real Web3 Polygon Amoy RPC live sync & MetaMask deep linking',
+        '📸 High-Definition scrap lot photography headers & verification stamps',
+        '👤 Multi-user profile management with custom name & language selector',
+        '📍 All-India SPCB hub jurisdictions (DPCC, UPPCB, MPCB, GPCB, etc.)',
+        '🔄 Real-time OTA In-App Auto Updater with 1-tap download & install',
+        '🤖 6-Agent Autonomous Radar & MCX Spot Oracle integration',
+      ],
+    );
+    notifyListeners();
+  }
+
   Future<void> launchDownloadUrl(String url) async {
     String fullUrl = url;
     if (url.startsWith('/')) {
-      fullUrl = '${ApiService.baseUrl}$url';
+      fullUrl = 'https://circularchain.vercel.app$url';
     }
-    final uri = Uri.parse(fullUrl);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
+    try {
+      final uri = Uri.parse(fullUrl);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      }
+    } catch (_) {}
   }
 }
