@@ -142,40 +142,40 @@ export default function Navbar() {
             </div>
 
             {/* Right: Actions (Field APK, List Scrap, Theme, Wallet) */}
-            <div className="flex items-center space-x-1.5 sm:space-x-2.5">
+            <div className="flex items-center space-x-1.5 sm:space-x-2.5 shrink-0">
               
               {/* Field APK CTA (Hidden on small mobile screens, available in Hamburger Drawer) */}
               <button
                 onClick={() => setIsApkModalOpen(true)}
-                className="hidden sm:inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-semibold font-sans rounded-full bg-emerald-500/10 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/25 hover:bg-emerald-500/20 transition-all cursor-pointer"
+                className="hidden md:inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-semibold font-sans rounded-full bg-emerald-500/10 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/25 hover:bg-emerald-500/20 transition-all cursor-pointer"
                 title="Download Android APK"
               >
                 <Smartphone className="w-3.5 h-3.5 text-emerald-500" />
-                <span className="hidden md:inline">Field APK</span>
+                <span>Field APK</span>
               </button>
 
-              {/* List Scrap CTA */}
+              {/* List Scrap CTA (Visible on sm+ screens; on mobile it's in bottom bar & drawer) */}
               <Link
                 href="/list"
-                className="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 text-xs font-bold font-sans rounded-full bg-emerald-500 hover:bg-emerald-400 text-zinc-950 transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)] hover:scale-102 cursor-pointer"
+                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold font-sans rounded-full bg-emerald-500 hover:bg-emerald-400 text-zinc-950 transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)] hover:scale-102 cursor-pointer"
               >
                 <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
-                <span className="hidden sm:inline">List Scrap</span>
+                <span>List Scrap</span>
               </Link>
 
-              {/* Theme Toggle Button */}
+              {/* Theme Toggle Button (Visible on sm+ screens; on mobile it's in drawer) */}
               <button
                 onClick={toggleTheme}
                 aria-label="Toggle Theme"
-                className="p-2 rounded-full text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-white/[0.06] transition-colors border border-zinc-200 dark:border-white/10 cursor-pointer"
+                className="hidden sm:inline-flex p-2 rounded-full text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-white/[0.06] transition-colors border border-zinc-200 dark:border-white/10 cursor-pointer"
               >
-                {theme === "dark" ? <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400" /> : <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-700" />}
+                {theme === "dark" ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-zinc-700" />}
               </button>
 
               {/* Web3 Wallet Button (Real Connect & Modal) */}
               <button
                 onClick={openModal}
-                className="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 rounded-full text-xs font-mono font-bold bg-zinc-100 dark:bg-white/[0.08] hover:bg-zinc-200 dark:hover:bg-white/[0.14] text-zinc-900 dark:text-white border border-zinc-300 dark:border-white/15 transition-all cursor-pointer shadow-sm active:scale-95"
+                className="inline-flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-mono font-bold bg-zinc-100 dark:bg-white/[0.08] hover:bg-zinc-200 dark:hover:bg-white/[0.14] text-zinc-900 dark:text-white border border-zinc-300 dark:border-white/15 transition-all cursor-pointer shadow-sm active:scale-95 shrink-0"
                 title={account ? `Connected: ${account}` : "Connect Real Web3 Wallet"}
               >
                 {account ? (
@@ -183,8 +183,8 @@ export default function Navbar() {
                 ) : (
                   <Wallet className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
                 )}
-                <span className="max-w-[85px] sm:max-w-none truncate">
-                  {isConnecting ? "Connecting..." : account ? truncatedAddr : "Connect Wallet"}
+                <span>
+                  {isConnecting ? "Connecting..." : account ? truncatedAddr : "Connect"}
                 </span>
                 {account && balance && (
                   <span className="hidden xl:inline-block text-[10px] text-emerald-600 dark:text-emerald-400 font-sans border-l border-zinc-300 dark:border-zinc-700 pl-1.5">
