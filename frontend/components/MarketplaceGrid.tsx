@@ -136,38 +136,40 @@ export default function MarketplaceGrid({
         </div>
 
         {/* Filter Pills */}
-        <div className="pt-3 border-t border-zinc-200 dark:border-white/[0.06] flex flex-wrap items-center gap-3 text-xs">
-          <div className="flex items-center gap-1.5">
-            <span className="text-zinc-500 dark:text-zinc-400 font-medium">Category:</span>
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="bg-zinc-100 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 rounded-lg px-2.5 py-1 text-zinc-800 dark:text-zinc-200 focus:border-emerald-500 focus:outline-none cursor-pointer"
-            >
-              {categories.map((c) => (
-                <option key={c.value} value={c.value}>
-                  {c.label}
-                </option>
-              ))}
-            </select>
+        <div className="pt-3 border-t border-zinc-200 dark:border-white/[0.06] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            <div className="flex items-center gap-1.5">
+              <span className="text-zinc-500 dark:text-zinc-400 font-medium">Category:</span>
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="bg-zinc-100 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 rounded-lg px-2.5 py-1 text-zinc-800 dark:text-zinc-200 focus:border-emerald-500 focus:outline-none cursor-pointer max-w-[150px] sm:max-w-none"
+              >
+                {categories.map((c) => (
+                  <option key={c.value} value={c.value}>
+                    {c.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="flex items-center gap-1.5">
+              <span className="text-zinc-500 dark:text-zinc-400 font-medium">Hub:</span>
+              <select
+                value={selectedRegion}
+                onChange={(e) => setSelectedRegion(e.target.value)}
+                className="bg-zinc-100 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 rounded-lg px-2.5 py-1 text-zinc-800 dark:text-zinc-200 focus:border-emerald-500 focus:outline-none cursor-pointer max-w-[140px] sm:max-w-none"
+              >
+                {regions.map((r) => (
+                  <option key={r.value} value={r.value}>
+                    {r.label}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
-          <div className="flex items-center gap-1.5">
-            <span className="text-zinc-500 dark:text-zinc-400 font-medium">Logistics Hub:</span>
-            <select
-              value={selectedRegion}
-              onChange={(e) => setSelectedRegion(e.target.value)}
-              className="bg-zinc-100 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 rounded-lg px-2.5 py-1 text-zinc-800 dark:text-zinc-200 focus:border-emerald-500 focus:outline-none cursor-pointer"
-            >
-              {regions.map((r) => (
-                <option key={r.value} value={r.value}>
-                  {r.label}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="flex items-center gap-1.5 ml-auto">
+          <div className="flex items-center gap-1.5 self-start sm:self-auto">
             <span className="text-zinc-500 dark:text-zinc-400 font-medium">Status:</span>
             <div className="inline-flex rounded-lg border border-zinc-200 dark:border-white/10 p-0.5 bg-zinc-100 dark:bg-white/[0.02]">
               <button
@@ -178,7 +180,7 @@ export default function MarketplaceGrid({
                     : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white"
                 }`}
               >
-                All Lots
+                All
               </button>
               <button
                 onClick={() => setSelectedStatus("listed")}
@@ -188,7 +190,7 @@ export default function MarketplaceGrid({
                     : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white"
                 }`}
               >
-                Open Lots
+                Open
               </button>
               <button
                 onClick={() => setSelectedStatus("transferred")}
@@ -212,7 +214,8 @@ export default function MarketplaceGrid({
           <span className="text-zinc-900 dark:text-white font-bold font-mono">
             {filteredAndSortedMaterials.length}
           </span>
-          <span>verified secondary material lots</span>
+          <span className="hidden sm:inline">verified secondary material lots</span>
+          <span className="sm:hidden">lots</span>
         </div>
 
         {(search || selectedCategory !== "all" || selectedRegion !== "all" || selectedStatus !== "all") && (
@@ -242,7 +245,7 @@ export default function MarketplaceGrid({
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {filteredAndSortedMaterials.map((item) => {
             const isTransferred = item.status === "transferred";
             const latestTx = item.transactions?.[0]?.tx_hash;

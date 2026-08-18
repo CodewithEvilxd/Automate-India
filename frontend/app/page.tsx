@@ -140,7 +140,7 @@ export default function Home() {
           </div>
 
           {/* Grand Headline with Emerald & Sunset Tangerine Balance */}
-          <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.08] text-zinc-900 dark:text-white">
+          <h1 className="font-display text-3xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight leading-[1.12] sm:leading-[1.08] text-zinc-900 dark:text-white">
             The Verifiable Ledger for{" "}
             <span className="bg-gradient-to-r from-zinc-900 via-emerald-600 to-orange-600 dark:from-white dark:via-emerald-400 dark:to-amber-400 bg-clip-text text-transparent">
               Industrial Scrap & Carbon Offsets
@@ -148,15 +148,15 @@ export default function Home() {
           </h1>
 
           {/* Subtitle */}
-          <p className="mt-6 text-lg sm:text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed font-normal">
+          <p className="mt-4 sm:mt-6 text-base sm:text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed font-normal px-2">
             Eliminate circularity fraud with AI vision impurity analysis, live Indian MCX commodity pricing, statutory CPCB EPR compliance, and smart contract ledger verification.
           </p>
 
           {/* CTA Buttons */}
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row flex-wrap items-center justify-center gap-2.5 sm:gap-3 px-2">
             <Link
               href="/marketplace"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-display font-bold text-sm tracking-wide shadow-lg shadow-emerald-500/20 hover:scale-105 transition-all"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-display font-bold text-sm tracking-wide shadow-lg shadow-emerald-500/20 hover:scale-102 transition-all"
             >
               <span>Explore Marketplace</span>
               <ArrowRight className="w-4 h-4" />
@@ -164,7 +164,7 @@ export default function Home() {
 
             <button
               onClick={() => setIsApkModalOpen(true)}
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-white/[0.08] dark:text-white dark:hover:bg-white/[0.14] border border-zinc-700 dark:border-white/10 font-display font-semibold text-sm transition-all shadow-sm hover:scale-105 group"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-white/[0.08] dark:text-white dark:hover:bg-white/[0.14] border border-zinc-700 dark:border-white/10 font-display font-semibold text-sm transition-all shadow-sm hover:scale-102 group cursor-pointer"
             >
               <Smartphone className="w-4 h-4 text-orange-400 shrink-0 group-hover:scale-110 transition-transform" />
               <span>Get Android App</span>
@@ -175,7 +175,7 @@ export default function Home() {
 
             <Link
               href="/epr-calculator"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white dark:bg-[#121215] hover:bg-zinc-100 dark:hover:bg-[#18181B] border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white font-display font-semibold text-sm transition-all shadow-sm hover:scale-105"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-white dark:bg-[#121215] hover:bg-zinc-100 dark:hover:bg-[#18181B] border border-zinc-200 dark:border-white/10 text-zinc-900 dark:text-white font-display font-semibold text-sm transition-all shadow-sm hover:scale-102"
             >
               <Scale className="w-4 h-4 text-emerald-500" />
               <span>Simulate EPR</span>
@@ -183,7 +183,7 @@ export default function Home() {
 
             <Link
               href="/verify"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-transparent hover:bg-zinc-100 dark:hover:bg-white/[0.04] border border-zinc-300 dark:border-white/10 text-zinc-700 dark:text-zinc-300 font-display font-medium text-sm transition-all"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-transparent hover:bg-zinc-100 dark:hover:bg-white/[0.04] border border-zinc-300 dark:border-white/10 text-zinc-700 dark:text-zinc-300 font-display font-medium text-sm transition-all"
             >
               <ShieldCheck className="w-4 h-4 text-amber-500" />
               <span>Verify On-Chain</span>
@@ -198,26 +198,26 @@ export default function Home() {
         />
 
         {/* Live MCX Commodity Benchmark Ticker Bar */}
-        <div className="mt-16 rounded-2xl glass-panel p-4 border border-zinc-200 dark:border-white/10 shadow-xl">
-          <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-white/[0.06]">
+        <div className="mt-12 sm:mt-16 rounded-2xl glass-panel p-4 border border-zinc-200 dark:border-white/10 shadow-xl">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-3 border-b border-zinc-200 dark:border-white/[0.06] gap-2">
             <div className="flex items-center gap-2">
-              <span className="relative flex h-2 w-2">
+              <span className="relative flex h-2 w-2 shrink-0">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
-              <span className="font-mono text-xs font-bold uppercase tracking-wider text-zinc-800 dark:text-zinc-200">
-                Live Indian Commodity Scrap Index (MCX Benchmark)
+              <span className="font-mono text-xs font-bold uppercase tracking-wider text-zinc-800 dark:text-zinc-200 truncate">
+                Live Indian Commodity Index (MCX)
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="inline-block w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse" />
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse shrink-0" />
               <span className="font-mono text-[10px] text-zinc-500 dark:text-zinc-400">
                 Auto-Synced Real-Time Pricing
               </span>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 pt-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3 pt-3">
             {commodities.map((item, idx) => {
               const isOrange = item.type === "orange";
               return (
