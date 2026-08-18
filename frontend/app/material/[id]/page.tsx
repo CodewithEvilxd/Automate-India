@@ -12,6 +12,7 @@ import ContaminationHeatmap from "@/components/ContaminationHeatmap";
 import MatchmakingCard from "@/components/MatchmakingCard";
 import FraudSentinelBadge from "@/components/FraudSentinelBadge";
 import EPRReportModal from "@/components/EPRReportModal";
+import { useWallet } from "@/context/WalletContext";
 import { DEMO_ORGANIZATIONS } from "@/lib/demo-data";
 import {
   Loader2,
@@ -36,6 +37,7 @@ export default function MaterialDetail({
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params);
+  const { account, openModal } = useWallet();
   const [material, setMaterial] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [verifying, setVerifying] = useState(false);
@@ -52,7 +54,7 @@ export default function MaterialDetail({
     fetch(`/api/materials/${id}`)
       .then((res) => res.json())
       .then((data) => {
-        if (!data.error) setMaterial(data);
+        setMaterial(data);
         setLoading(false);
       })
       .catch((err) => {
@@ -64,15 +66,22 @@ export default function MaterialDetail({
   const requestTransfer = async () => {
     setVerifying(true);
     setErrorMsg("");
-    setVerificationStep("Connecting MetaMask wallet to sign consensus request...");
+    setVerificationStep("Verifying Web3 wallet signature & authorization...");
 
     try {
-      if (!(window as any).ethereum) {
-        throw new Error("Please install MetaMask to request a verified transfer.");
+      let buyerWallet = account;
+      if (!buyerWallet && typeof window !== "undefined" && (window as any).ethereum) {
+        try {
+          const provider = new ethers.BrowserProvider((window as any).ethereum);
+          const signer = await provider.getSigner();
+          buyerWallet = await signer.getAddress();
+        } catch {}
       }
-      const provider = new ethers.BrowserProvider((window as any).ethereum);
-      const signer = await provider.getSigner();
-      const buyerWallet = await signer.getAddress();
+
+      if (!buyerWallet) {
+        openModal();
+        throw new Error("Please connect your Web3 wallet to verify and claim this material lot.");
+      }
 
       if (buyerWallet.toLowerCase() === material.owner_wallet.toLowerCase()) {
         throw new Error("You already own this material lot!");

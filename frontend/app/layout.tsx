@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { WalletProvider } from "@/context/WalletContext";
 import MobileBottomNav from "@/components/MobileBottomNav";
 
 export const metadata: Metadata = {
@@ -37,8 +38,10 @@ export default function RootLayout({
     <html lang="en" className="h-full antialiased dark overflow-x-clip w-full max-w-full" suppressHydrationWarning>
       <body className="min-h-full flex flex-col antialiased selection:bg-emerald-500/20 selection:text-zinc-950 dark:selection:bg-emerald-500/30 dark:selection:text-emerald-100 overflow-x-clip w-full max-w-full relative pb-16 lg:pb-0" suppressHydrationWarning>
         <ThemeProvider>
-          {children}
-          <MobileBottomNav />
+          <WalletProvider>
+            {children}
+            <MobileBottomNav />
+          </WalletProvider>
         </ThemeProvider>
       </body>
     </html>

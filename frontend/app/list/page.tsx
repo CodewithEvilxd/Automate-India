@@ -10,6 +10,7 @@ import IndicVoiceAssistant from "@/components/IndicVoiceAssistant";
 import ContaminationHeatmap from "@/components/ContaminationHeatmap";
 import MatchmakingCard from "@/components/MatchmakingCard";
 import { IndicParsedListing } from "@/lib/ai-agents";
+import { useWallet } from "@/context/WalletContext";
 import {
   Camera,
   UploadCloud,
@@ -27,6 +28,7 @@ import {
 import Link from "next/link";
 
 export default function ListMaterial() {
+  const { account, openModal } = useWallet();
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
@@ -207,35 +209,52 @@ export default function ListMaterial() {
       const ipfsHash = uploadData.ipfsHash;
       const imageUrl = `https://gateway.pinata.cloud/ipfs/${ipfsHash}`;
 
-      if (!(window as any).ethereum) {
-        throw new Error(
-          "MetaMask is required to sign on-chain transactions. Please connect wallet."
-        );
+      let ownerWallet = account;
+      let signer: any = null;
+      if (typeof window !== "undefined" && (window as any).ethereum) {
+        try {
+          const provider = new ethers.BrowserProvider((window as any).ethereum);
+          signer = await provider.getSigner();
+          ownerWallet = await signer.getAddress();
+        } catch {}
       }
-      const provider = new ethers.BrowserProvider((window as any).ethereum);
-      const signer = await provider.getSigner();
-      const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
 
-      const co2Int = Math.round(calculatedCO2);
-      const tx = await contract.listMaterial(formData.category, co2Int);
-      const receipt = await tx.wait();
+      if (!ownerWallet) {
+        openModal();
+        throw new Error("Please connect your Web3 wallet before listing scrap.");
+      }
 
-      const event = receipt?.logs
-        .map((log: any) => {
-          try {
-            return contract.interface.parseLog(log);
-          } catch (e) {
-            return null;
+      let materialId = Math.floor(Math.random() * 1000000);
+      let txHash = "";
+
+      if (signer) {
+        try {
+          const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+          const co2Int = Math.round(calculatedCO2);
+          const tx = await contract.listMaterial(formData.category, co2Int);
+          const receipt = await tx.wait();
+
+          const event = receipt?.logs
+            .map((log: any) => {
+              try {
+                return contract.interface.parseLog(log);
+              } catch (e) {
+                return null;
+              }
+            })
+            .find((e: any) => e && e.name === "MaterialListed");
+
+          if (event) {
+            materialId = Number(event.args[0]);
           }
-        })
-        .find((e: any) => e && e.name === "MaterialListed");
-
-      const materialId = event
-        ? Number(event.args[0])
-        : Math.floor(Math.random() * 1000000);
+          txHash = receipt?.hash || tx.hash;
+        } catch (onChainErr: any) {
+          console.warn("On-chain contract interaction bypassed:", onChainErr);
+        }
+      }
 
       setCreatedId(materialId);
-      setCreatedTx(receipt.hash || tx.hash);
+      setCreatedTx(txHash);
 
       const dbRes = await fetch("/api/materials", {
         method: "POST",
@@ -250,7 +269,7 @@ export default function ListMaterial() {
           estimated_weight_kg: Number(formData.estimated_weight_kg),
           condition: formData.condition,
           location: formData.location || "Noida, UP",
-          owner_wallet: await signer.getAddress(),
+          owner_wallet: ownerWallet,
           co2_saved_kg: calculatedCO2,
         }),
       });

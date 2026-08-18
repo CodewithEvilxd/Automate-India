@@ -27,12 +27,13 @@ import {
 } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 import ApkDownloadModal from "./ApkDownloadModal";
+import WalletModal from "./WalletModal";
+import { useWallet, POLYGON_AMOY_CHAIN_ID } from "@/context/WalletContext";
 import { SpotlightNavbar } from "./ui/spotlight-navbar";
 import { cn } from "@/lib/utils";
 
 export default function Navbar() {
-  const [account, setAccount] = useState<string | null>(null);
-  const [connecting, setConnecting] = useState(false);
+  const { account, balance, isConnecting, openModal, isCorrectNetwork, chainId } = useWallet();
   const [isApkModalOpen, setIsApkModalOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -54,47 +55,6 @@ export default function Navbar() {
       document.body.style.overflow = "unset";
     };
   }, [mobileMenuOpen]);
-
-  useEffect(() => {
-    if (typeof window !== "undefined" && (window as any).ethereum) {
-      const eth = (window as any).ethereum;
-      eth
-        .request({ method: "eth_accounts" })
-        .then((accounts: string[]) => {
-          if (accounts.length > 0) {
-            setAccount(accounts[0]);
-          }
-        })
-        .catch(() => {});
-
-      const handleAccountsChanged = (accounts: string[]) => {
-        setAccount(accounts.length > 0 ? accounts[0] : null);
-      };
-
-      eth.on("accountsChanged", handleAccountsChanged);
-      return () => {
-        eth.removeListener("accountsChanged", handleAccountsChanged);
-      };
-    }
-  }, []);
-
-  const connectWallet = async () => {
-    if (typeof window === "undefined" || !(window as any).ethereum) {
-      setAccount("0x742d35Cc6634C0532925a3b844Bc454e4438f44e");
-      return;
-    }
-    setConnecting(true);
-    try {
-      const provider = new ethers.BrowserProvider((window as any).ethereum);
-      const signer = await provider.getSigner();
-      const addr = await signer.getAddress();
-      setAccount(addr);
-    } catch (e: any) {
-      setAccount("0x742d35Cc6634C0532925a3b844Bc454e4438f44e");
-    } finally {
-      setConnecting(false);
-    }
-  };
 
   const truncatedAddr = account
     ? `${account.substring(0, 6)}...${account.substring(account.length - 4)}`
@@ -212,15 +172,25 @@ export default function Navbar() {
                 {theme === "dark" ? <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400" /> : <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-700" />}
               </button>
 
-              {/* MetaMask / Web3 Wallet Button */}
+              {/* Web3 Wallet Button (Real Connect & Modal) */}
               <button
-                onClick={connectWallet}
-                disabled={connecting}
-                className="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 rounded-full text-xs font-mono font-bold bg-zinc-100 dark:bg-white/[0.08] hover:bg-zinc-200 dark:hover:bg-white/[0.14] text-zinc-900 dark:text-white border border-zinc-300 dark:border-white/15 transition-all cursor-pointer shadow-sm"
-                title="Connect Web3 Wallet"
+                onClick={openModal}
+                className="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 rounded-full text-xs font-mono font-bold bg-zinc-100 dark:bg-white/[0.08] hover:bg-zinc-200 dark:hover:bg-white/[0.14] text-zinc-900 dark:text-white border border-zinc-300 dark:border-white/15 transition-all cursor-pointer shadow-sm active:scale-95"
+                title={account ? `Connected: ${account}` : "Connect Real Web3 Wallet"}
               >
-                <Wallet className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                <span className="max-w-[75px] sm:max-w-none truncate">{connecting ? "..." : truncatedAddr || "Connect"}</span>
+                {account ? (
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+                ) : (
+                  <Wallet className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                )}
+                <span className="max-w-[85px] sm:max-w-none truncate">
+                  {isConnecting ? "Connecting..." : account ? truncatedAddr : "Connect Wallet"}
+                </span>
+                {account && balance && (
+                  <span className="hidden xl:inline-block text-[10px] text-emerald-600 dark:text-emerald-400 font-sans border-l border-zinc-300 dark:border-zinc-700 pl-1.5">
+                    {balance} MATIC
+                  </span>
+                )}
               </button>
             </div>
           </div>
@@ -361,10 +331,17 @@ export default function Navbar() {
               {/* Wallet & List Actions Grid */}
               <div className="grid grid-cols-2 gap-2.5">
                 <button
-                  onClick={connectWallet}
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    openModal();
+                  }}
                   className="flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-zinc-200 dark:bg-white/[0.08] hover:bg-zinc-300 dark:hover:bg-white/[0.14] text-xs font-mono font-bold text-zinc-900 dark:text-white border border-zinc-300 dark:border-white/10 transition-all cursor-pointer truncate"
                 >
-                  <Wallet className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                  {account ? (
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+                  ) : (
+                    <Wallet className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                  )}
                   <span className="truncate">{account ? truncatedAddr : "Connect Wallet"}</span>
                 </button>
 
@@ -409,6 +386,9 @@ export default function Navbar() {
         isOpen={isApkModalOpen}
         onClose={() => setIsApkModalOpen(false)}
       />
+
+      {/* Real Web3 Wallet Connect Modal */}
+      <WalletModal />
     </>
   );
 }
