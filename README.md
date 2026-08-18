@@ -3,6 +3,7 @@
 <div align="center">
 
 [![Next.js](https://img.shields.io/badge/Next.js-16.3.0_(Turbopack)-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![YouTube Demo](https://img.shields.io/badge/YouTube_Video-Watch_Walkthrough_(8m)-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/VdttZQ61Y3g)
 [![React](https://img.shields.io/badge/React-19.0.0-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Solidity](https://img.shields.io/badge/Solidity-0.8.20-363636?style=for-the-badge&logo=solidity&logoColor=white)](https://soliditylang.org/)
@@ -17,27 +18,37 @@
   <b>Transforming India’s $40 Billion Unorganized Scrap Economy into a Cryptographically Verified, AI-Graded, and Liquid Digital Asset Class.</b>
 </p>
 
-[Live Web DApp](http://localhost:3000) • [Marketplace](http://localhost:3000/marketplace) • [EPR Simulator](http://localhost:3000/epr-calculator) • [Field Manual Docs](http://localhost:3000/docs) • [Android APK](http://localhost:3000/circularchain.apk)
+[YouTube Demo](https://youtu.be/VdttZQ61Y3g) • [Live Web DApp](http://localhost:3000) • [Marketplace](http://localhost:3000/marketplace) • [EPR Simulator](http://localhost:3000/epr-calculator) • [Field Manual Docs](http://localhost:3000/docs) • [Android APK](http://localhost:3000/circularchain.apk)
 
 </div>
 
 ---
 
-## 🎬 Live Product Demonstration (Interactive Video Player)
+## 🎬 Live Product Demonstration & Video Walkthrough
 
 <div align="center">
 
-<video src="https://raw.githubusercontent.com/CodewithEvilxd/Automate-India/master/frontend/public/DEMO/export-1787051039864.mp4" controls="controls" width="100%" style="max-width: 960px; aspect-ratio: 16/10; border-radius: 14px; box-shadow: 0 14px 40px rgba(0,0,0,0.35); border: 2px solid #10B981;" poster="frontend/public/DEMO/demo_poster.png">
+<a href="https://youtu.be/VdttZQ61Y3g" target="_blank" title="Watch CircularChain Complete Demonstration on YouTube">
+  <img src="https://img.youtube.com/vi/VdttZQ61Y3g/maxresdefault.jpg" alt="CircularChain YouTube Video Walkthrough" width="100%" style="max-width: 960px; aspect-ratio: 16/9; border-radius: 14px; box-shadow: 0 14px 45px rgba(0,0,0,0.4); border: 2px solid #10B981;" />
+</a>
+
+<br/><br/>
+
+<a href="https://youtu.be/VdttZQ61Y3g" target="_blank">
+  <img src="https://img.shields.io/badge/YouTube-Watch_Full_8--Minute_Walkthrough-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Watch on YouTube" />
+</a>
+
+<br/><br/>
+
+<video src="https://raw.githubusercontent.com/CodewithEvilxd/Automate-India/master/frontend/public/DEMO/export-1787051039864.mp4" controls="controls" width="100%" style="max-width: 960px; aspect-ratio: 16/10; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.15);" poster="https://img.youtube.com/vi/VdttZQ61Y3g/maxresdefault.jpg">
   <source src="frontend/public/DEMO/export-1787051039864.mp4" type="video/mp4">
   <source src="https://raw.githubusercontent.com/CodewithEvilxd/Automate-India/master/frontend/public/DEMO/export-1787051039864.mp4" type="video/mp4">
-  <p>Your browser does not support HTML5 video. <a href="frontend/public/DEMO/export-1787051039864.mp4"><b>Click here to download and play the full HD demonstration video (MP4)</b></a>.</p>
+  <p>Your browser does not support HTML5 video. <a href="https://youtu.be/VdttZQ61Y3g"><b>Watch on YouTube</b></a> or <a href="frontend/public/DEMO/export-1787051039864.mp4"><b>download the full HD video (MP4)</b></a>.</p>
 </video>
 
-<br/>
-
 <p align="center">
-  <b>▶️ Click Play above for full audio, volume, pause & seek controls</b> | <a href="frontend/public/DEMO/export-1787051039864.mp4"><b>Stream / Download Full HD 1080p MP4</b></a><br/>
-  <sub>Full 8-Minute End-to-End Walkthrough demonstrating the 6 Autonomous AI Agents, Live MCX Commodity Oracle, Web3 Persistent Wallet, and CPCB Statutory Simulator.</sub>
+  <b>▶️ <a href="https://youtu.be/VdttZQ61Y3g">Watch on YouTube (https://youtu.be/VdttZQ61Y3g)</a></b> | <a href="frontend/public/DEMO/export-1787051039864.mp4"><b>Direct MP4 Download</b></a><br/>
+  <sub>Complete 8-Minute End-to-End Walkthrough demonstrating the 6 Autonomous AI Agents, Live MCX Commodity Oracle, Web3 Persistent Wallet, and CPCB Statutory Simulator.</sub>
 </p>
 
 </div>
