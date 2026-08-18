@@ -17,7 +17,21 @@
   <b>Transforming India’s $40 Billion Unorganized Scrap Economy into a Cryptographically Verified, AI-Graded, and Liquid Digital Asset Class.</b>
 </p>
 
-[Live Web DApp](http://localhost:3000) • [Marketplace](http://localhost:3000/marketplace) • [EPR Simulator](http://localhost:3000/epr-calculator) • [Field Manual Docs](http://localhost:3000/docs) • [Android APK](http://localhost:3000/circularchain.apk)
+[Live Web DApp](http://localhost:3000) • [Marketplace](http://localhost:3000/marketplace) • [EPR Simulator](http://localhost:3000/epr-calculator) • [Field Manual Docs](http://localhost:3000/docs) • [Android APK](http://localhost:3000/circularchain.apk) • [Demo Video](frontend/public/DEMO/export-1787051039864.mp4)
+
+</div>
+
+---
+
+## 🎬 Live Product Demonstration & Video Walkthrough
+
+<div align="center">
+
+[![CircularChain Live Video Walkthrough](frontend/public/DEMO/demo_poster.png)](frontend/public/DEMO/export-1787051039864.mp4)
+
+<p align="center">
+  <sub>🎥 <b>Click image above or <a href="frontend/public/DEMO/export-1787051039864.mp4">watch / download full HD video (MP4)</a></b> to experience the complete 8-minute end-to-end walkthrough of the AI Agents, Live MCX Oracle, and Web3 DApp.</sub>
+</p>
 
 </div>
 
@@ -25,8 +39,9 @@
 
 ## 📑 Table of Contents
 
-1. [Executive Summary](#-executive-summary)
-2. [The $40 Billion Crisis & Problem Statement](#-the-40-billion-crisis--problem-statement)
+1. [Live Product Demonstration & Video Walkthrough](#-live-product-demonstration--video-walkthrough)
+2. [Executive Summary](#-executive-summary)
+3. [The $40 Billion Crisis & Problem Statement](#-the-40-billion-crisis--problem-statement)
 3. [Design Thinking Framework (5 Stages)](#-design-thinking-framework-5-stages)
 4. [System Architecture & Data Flow](#-system-architecture--data-flow)
 5. [The 6 Autonomous AI Agents](#-the-6-autonomous-ai-agents)
