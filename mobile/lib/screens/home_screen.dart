@@ -155,37 +155,42 @@ class _HomeScreenState extends State<HomeScreen> {
                 tooltip: 'Toggle Theme',
                 onPressed: () => _userState.toggleTheme(),
               ),
-
-              // Wallet Button
               GestureDetector(
                 onTap: () => WalletConnectModal.show(context),
                 child: Container(
                   margin: const EdgeInsets.symmetric(vertical: 11, horizontal: 3),
-                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                   decoration: BoxDecoration(
-                    color: AppTheme.emerald.withOpacity(0.15),
+                    color: _walletService.isConnected
+                        ? AppTheme.emerald.withOpacity(0.15)
+                        : AppTheme.orange.withOpacity(0.15),
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: AppTheme.emerald.withOpacity(0.4)),
+                    border: Border.all(
+                      color: _walletService.isConnected ? AppTheme.emerald : AppTheme.orange,
+                      width: 1.2,
+                    ),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.account_balance_wallet, size: 12, color: AppTheme.emerald),
+                      Icon(
+                        Icons.account_balance_wallet,
+                        size: 12,
+                        color: _walletService.isConnected ? AppTheme.emerald : AppTheme.orange,
+                      ),
                       const SizedBox(width: 4),
                       Text(
-                        _walletService.isConnected ? _walletService.shortAddress : 'WALLET',
+                        _walletService.isConnected ? _walletService.shortAddress : 'CONNECT',
                         style: AppTheme.fontMono(
                           fontSize: 9.5,
                           fontWeight: FontWeight.bold,
-                          color: AppTheme.emerald,
+                          color: _walletService.isConnected ? AppTheme.emerald : AppTheme.orange,
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
-
-              // Verify QR Scanner
               IconButton(
                 padding: const EdgeInsets.symmetric(horizontal: 4),
                 constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
@@ -218,19 +223,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // User Role & Language Chip
                         _buildUserRoleBanner(isDark, cardBg, textMain, textMuted, border),
                         const SizedBox(height: 12),
-
-                        // SPCB Hub Selector
                         _buildHubSelector(isDark, cardBg, textMain, textMuted, border),
                         const SizedBox(height: 14),
-
-                        // Executive Impact Metrics Grid
                         _buildImpactMetrics(isDark, textMain, textMuted, border),
                         const SizedBox(height: 18),
-
-                        // Quick Action Matrix
                         Text(
                           'QUICK COMMAND MATRIX',
                           style: AppTheme.fontMono(
@@ -243,16 +241,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         const SizedBox(height: 10),
                         _buildQuickActionMatrix(isDark, cardBg, textMain, textMuted, border),
                         const SizedBox(height: 18),
-
-                        // 6-Agent Autonomous Status Radar
                         _buildAgentRadar(isDark, cardBg, textMain, textMuted, border),
                         const SizedBox(height: 18),
-
-                        // Live MCX Commodity Scrap Ticker
                         _buildMcxTicker(isDark, cardBg, textMain, textMuted, border),
                         const SizedBox(height: 18),
-
-                        // Featured Verified Lots Header
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -283,9 +275,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 10),
-
-                        // Featured Lots List
+                        const SizedBox(height: 12),
                         if (_featuredMaterials.isEmpty)
                           Container(
                             padding: const EdgeInsets.all(24),
@@ -303,7 +293,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           )
                         else
                           ..._featuredMaterials.map((mat) => _buildMaterialCard(mat, isDark, cardBg, textMain, textMuted, border)).toList(),
-
                         const SizedBox(height: 24),
                       ],
                     ),
@@ -314,10 +303,15 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // User Role & Language Bar
   Widget _buildUserRoleBanner(bool isDark, Color cardBg, Color textMain, Color textMuted, Color border) {
+    final roleColor = _userState.selectedRole == UserRole.aggregator
+        ? AppTheme.orange
+        : _userState.selectedRole == UserRole.recycler
+            ? AppTheme.emerald
+            : AppTheme.teal;
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: cardBg,
         borderRadius: BorderRadius.circular(14),
@@ -329,12 +323,20 @@ class _HomeScreenState extends State<HomeScreen> {
           Row(
             children: [
               Container(
-                padding: const EdgeInsets.all(6),
+                padding: const EdgeInsets.all(7),
                 decoration: BoxDecoration(
-                  color: AppTheme.orange.withOpacity(0.18),
+                  color: roleColor.withOpacity(0.18),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: const Icon(Icons.person_pin, color: AppTheme.orange, size: 16),
+                child: Icon(
+                  _userState.selectedRole == UserRole.aggregator
+                      ? Icons.storefront
+                      : _userState.selectedRole == UserRole.recycler
+                          ? Icons.factory
+                          : Icons.business,
+                  color: roleColor,
+                  size: 16,
+                ),
               ),
               const SizedBox(width: 10),
               Column(
@@ -345,13 +347,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: AppTheme.fontMono(
                       fontSize: 9.5,
                       fontWeight: FontWeight.w800,
-                      color: AppTheme.orange,
+                      color: roleColor,
                     ),
                   ),
                   Text(
-                    '${_userState.userName} · ${_userState.languageName}',
+                    '${_userState.displayName} · ${_userState.languageName}',
                     style: AppTheme.fontSans(
-                      fontSize: 11,
+                      fontSize: 11.5,
                       fontWeight: FontWeight.bold,
                       color: textMain,
                     ),
@@ -361,58 +363,13 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           TextButton(
-            onPressed: () {
-              // Role switcher dialog
-              showModalBottomSheet(
-                context: context,
-                backgroundColor: AppTheme.getSurface(isDark),
-                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-                builder: (ctx) => Container(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'SWITCH OPERATING ROLE',
-                        style: AppTheme.fontMono(fontSize: 11, fontWeight: FontWeight.bold, color: textMuted),
-                      ),
-                      const SizedBox(height: 12),
-                      ListTile(
-                        leading: const Icon(Icons.storefront, color: AppTheme.orange),
-                        title: Text('Grassroots Aggregator / Kabadiwala', style: AppTheme.fontSans(fontWeight: FontWeight.bold, color: textMain)),
-                        onTap: () {
-                          _userState.setRole(UserRole.aggregator);
-                          Navigator.pop(ctx);
-                        },
-                      ),
-                      ListTile(
-                        leading: const Icon(Icons.factory, color: AppTheme.emerald),
-                        title: Text('Certified Recycler & Smelter', style: AppTheme.fontSans(fontWeight: FontWeight.bold, color: textMain)),
-                        onTap: () {
-                          _userState.setRole(UserRole.recycler);
-                          Navigator.pop(ctx);
-                        },
-                      ),
-                      ListTile(
-                        leading: const Icon(Icons.business, color: AppTheme.teal),
-                        title: Text('OEM / Corporate Compliance Officer', style: AppTheme.fontSans(fontWeight: FontWeight.bold, color: textMain)),
-                        onTap: () {
-                          _userState.setRole(UserRole.oem);
-                          Navigator.pop(ctx);
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
+            onPressed: () => _showProfileEditModal(context, isDark, textMain, textMuted, border),
             style: TextButton.styleFrom(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               minimumSize: Size.zero,
             ),
             child: Text(
-              'SWITCH',
+              'EDIT PROFILE',
               style: AppTheme.fontMono(
                 fontSize: 10,
                 fontWeight: FontWeight.bold,
@@ -425,7 +382,171 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // SPCB Hub Selector
+  void _showProfileEditModal(BuildContext context, bool isDark, Color textMain, Color textMuted, Color border) {
+    final nameCtrl = TextEditingController(text: _userState.userName);
+    String selectedSpcb = _userState.spcbJurisdiction;
+    UserRole selectedRole = _userState.selectedRole;
+    String selectedLang = _userState.selectedLanguage;
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: AppTheme.getSurface(isDark),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      builder: (ctx) => StatefulBuilder(
+        builder: (context, setModalState) => Padding(
+          padding: EdgeInsets.only(
+            left: 20,
+            right: 20,
+            top: 20,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'EDIT PROFILE & PREFERENCES',
+                      style: AppTheme.fontMono(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.emerald),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close, size: 18),
+                      onPressed: () => Navigator.pop(ctx),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Text('YOUR NAME OR ENTERPRISE', style: AppTheme.fontMono(fontSize: 10, fontWeight: FontWeight.bold, color: textMuted)),
+                const SizedBox(height: 6),
+                TextField(
+                  controller: nameCtrl,
+                  style: AppTheme.fontSans(fontSize: 13, color: textMain),
+                  decoration: InputDecoration(
+                    hintText: 'e.g. Ramesh Kumar / Star Recycling',
+                    hintStyle: AppTheme.fontSans(fontSize: 12, color: textMuted.withOpacity(0.5)),
+                    filled: true,
+                    fillColor: AppTheme.getSurfaceRaised(isDark),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: border)),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  ),
+                ),
+                const SizedBox(height: 14),
+                Text('SPCB JURISDICTION', style: AppTheme.fontMono(fontSize: 10, fontWeight: FontWeight.bold, color: textMuted)),
+                const SizedBox(height: 6),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  decoration: BoxDecoration(
+                    color: AppTheme.getSurfaceRaised(isDark),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: border),
+                  ),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      value: selectedSpcb,
+                      isExpanded: true,
+                      dropdownColor: AppTheme.getSurface(isDark),
+                      items: UserStateService.availableSpcbHubs.map((hub) => DropdownMenuItem(value: hub, child: Text(hub, style: AppTheme.fontSans(fontSize: 12, color: textMain)))).toList(),
+                      onChanged: (val) {
+                        if (val != null) setModalState(() => selectedSpcb = val);
+                      },
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 14),
+                Text('OPERATING ROLE', style: AppTheme.fontMono(fontSize: 10, fontWeight: FontWeight.bold, color: textMuted)),
+                const SizedBox(height: 6),
+                Row(
+                  children: [
+                    _buildRoleChip(UserRole.aggregator, 'Aggregator', selectedRole, (r) => setModalState(() => selectedRole = r), AppTheme.orange),
+                    const SizedBox(width: 8),
+                    _buildRoleChip(UserRole.recycler, 'Recycler', selectedRole, (r) => setModalState(() => selectedRole = r), AppTheme.emerald),
+                    const SizedBox(width: 8),
+                    _buildRoleChip(UserRole.oem, 'OEM', selectedRole, (r) => setModalState(() => selectedRole = r), AppTheme.teal),
+                  ],
+                ),
+                const SizedBox(height: 14),
+                Text('LANGUAGE', style: AppTheme.fontMono(fontSize: 10, fontWeight: FontWeight.bold, color: textMuted)),
+                const SizedBox(height: 6),
+                Wrap(
+                  spacing: 6,
+                  children: [
+                    {'code': 'hi', 'label': 'हिन्दी'},
+                    {'code': 'mr', 'label': 'मराठी'},
+                    {'code': 'ta', 'label': 'தமிழ்'},
+                    {'code': 'te', 'label': 'తెలుగు'},
+                    {'code': 'bn', 'label': 'বাংলা'},
+                    {'code': 'en', 'label': 'English'},
+                  ].map((l) {
+                    final isSel = selectedLang == l['code'];
+                    return ChoiceChip(
+                      label: Text(l['label']!, style: AppTheme.fontSans(fontSize: 11, color: isSel ? Colors.black : textMain, fontWeight: FontWeight.bold)),
+                      selected: isSel,
+                      selectedColor: AppTheme.emerald,
+                      onSelected: (_) => setModalState(() => selectedLang = l['code']!),
+                    );
+                  }).toList(),
+                ),
+                const SizedBox(height: 18),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppTheme.emerald,
+                      foregroundColor: Colors.black,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                    onPressed: () {
+                      _userState.updateProfile(
+                        name: nameCtrl.text,
+                        spcbHub: selectedSpcb,
+                        role: selectedRole,
+                        language: selectedLang,
+                      );
+                      Navigator.pop(ctx);
+                    },
+                    child: Text('SAVE PROFILE CHANGES', style: AppTheme.fontSans(fontWeight: FontWeight.bold, fontSize: 12)),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRoleChip(UserRole role, String label, UserRole selected, Function(UserRole) onSelect, Color color) {
+    final isSelected = selected == role;
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => onSelect(role),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          decoration: BoxDecoration(
+            color: isSelected ? color.withOpacity(0.2) : Colors.transparent,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: isSelected ? color : Colors.white24),
+          ),
+          child: Center(
+            child: Text(
+              label,
+              style: AppTheme.fontSans(
+                fontSize: 11,
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                color: isSelected ? color : Colors.white70,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildHubSelector(bool isDark, Color cardBg, Color textMain, Color textMuted, Color border) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
@@ -453,7 +574,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           DropdownButtonHideUnderline(
             child: DropdownButton<String>(
-              value: _activeHub,
+              value: UserStateService.availableSpcbHubs.contains(_userState.spcbJurisdiction)
+                  ? _userState.spcbJurisdiction
+                  : UserStateService.availableSpcbHubs.first,
               dropdownColor: AppTheme.getSurface(isDark),
               icon: const Icon(Icons.arrow_drop_down, size: 18, color: AppTheme.emerald),
               style: AppTheme.fontSans(
@@ -461,14 +584,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 fontWeight: FontWeight.w700,
                 color: textMain,
               ),
-              items: _hubs.map((hub) {
+              items: UserStateService.availableSpcbHubs.map((hub) {
                 return DropdownMenuItem<String>(
                   value: hub,
                   child: Text(hub),
                 );
               }).toList(),
               onChanged: (val) {
-                if (val != null) setState(() => _activeHub = val);
+                if (val != null) {
+                  _userState.setSpcbHub(val);
+                }
               },
             ),
           ),
@@ -477,7 +602,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // 4 Stat Cards
   Widget _buildImpactMetrics(bool isDark, Color textMain, Color textMuted, Color border) {
     return Column(
       children: [

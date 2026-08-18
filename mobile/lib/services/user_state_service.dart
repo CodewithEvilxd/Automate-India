@@ -17,9 +17,24 @@ class UserStateService extends ChangeNotifier {
   bool _isDarkMode = true;
   bool _hasCompletedOnboarding = false;
   UserRole _selectedRole = UserRole.aggregator;
-  String _selectedLanguage = 'hi'; // Default to Hindi for inclusive grassroots experience
-  String _userName = 'Ramesh Kumar';
-  String _userLocation = 'Noida Sector 62, UP';
+  String _selectedLanguage = 'hi'; // Default Hindi
+  String _userName = '';           // Empty by default (asks user or displays role)
+  String _userLocation = 'Delhi / NCR';
+  String _spcbJurisdiction = 'DPCC (Delhi NCR Hub)';
+
+  static const List<String> availableSpcbHubs = [
+    'DPCC (Delhi NCR Hub)',
+    'UPPCB (Noida / UP Hub)',
+    'MPCB (Mumbai / Pune Cluster)',
+    'GPCB (Sanand / Ahmedabad Zone)',
+    'KSPCB (Bengaluru Industrial Hub)',
+    'TNPCB (Chennai / Coimbatore Cluster)',
+    'RSPCB (Jaipur / Bhiwadi Zone)',
+    'WBPCB (Kolkata / Asansol Belt)',
+    'PSPCB (Ludhiana Industrial Hub)',
+    'TSPCB (Hyderabad Cluster)',
+    'HSPCB (Gurugram / Manesar Hub)',
+  ];
 
   // Getters
   bool get isDarkMode => _isDarkMode;
@@ -28,6 +43,21 @@ class UserStateService extends ChangeNotifier {
   String get selectedLanguage => _selectedLanguage;
   String get userName => _userName;
   String get userLocation => _userLocation;
+  String get spcbJurisdiction => _spcbJurisdiction;
+
+  String get displayName {
+    if (_userName.trim().isNotEmpty) {
+      return _userName.trim();
+    }
+    switch (_selectedRole) {
+      case UserRole.aggregator:
+        return 'Independent Aggregator';
+      case UserRole.recycler:
+        return 'Registered Smelter Unit';
+      case UserRole.oem:
+        return 'Corporate Enterprise User';
+    }
+  }
 
   String get roleDisplayName {
     switch (_selectedRole) {
@@ -77,8 +107,9 @@ class UserStateService extends ChangeNotifier {
       final roleIdx = prefs.getInt('app_user_role') ?? 0;
       _selectedRole = UserRole.values[roleIdx.clamp(0, UserRole.values.length - 1)];
       _selectedLanguage = prefs.getString('app_language') ?? 'hi';
-      _userName = prefs.getString('app_user_name') ?? 'Ramesh Kumar';
-      _userLocation = prefs.getString('app_user_loc') ?? 'Noida Sector 62, UP';
+      _userName = prefs.getString('app_user_name') ?? '';
+      _userLocation = prefs.getString('app_user_loc') ?? 'Delhi / NCR';
+      _spcbJurisdiction = prefs.getString('app_spcb_hub') ?? 'DPCC (Delhi NCR Hub)';
       notifyListeners();
     } catch (_) {}
   }
@@ -92,6 +123,7 @@ class UserStateService extends ChangeNotifier {
       await prefs.setString('app_language', _selectedLanguage);
       await prefs.setString('app_user_name', _userName);
       await prefs.setString('app_user_loc', _userLocation);
+      await prefs.setString('app_spcb_hub', _spcbJurisdiction);
     } catch (_) {}
   }
 
@@ -101,8 +133,36 @@ class UserStateService extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setDarkMode(bool val) {
-    _isDarkMode = val;
+  void setRole(UserRole role) {
+    _selectedRole = role;
+    _saveState();
+    notifyListeners();
+  }
+
+  void setLanguage(String langCode) {
+    _selectedLanguage = langCode;
+    _saveState();
+    notifyListeners();
+  }
+
+  void updateProfile({
+    String? name,
+    String? location,
+    UserRole? role,
+    String? language,
+    String? spcbHub,
+  }) {
+    if (name != null) _userName = name.trim();
+    if (location != null) _userLocation = location.trim();
+    if (role != null) _selectedRole = role;
+    if (language != null) _selectedLanguage = language;
+    if (spcbHub != null) _spcbJurisdiction = spcbHub;
+    _saveState();
+    notifyListeners();
+  }
+
+  void setSpcbHub(String hub) {
+    _spcbJurisdiction = hub;
     _saveState();
     notifyListeners();
   }
@@ -115,25 +175,6 @@ class UserStateService extends ChangeNotifier {
 
   void resetOnboarding() {
     _hasCompletedOnboarding = false;
-    _saveState();
-    notifyListeners();
-  }
-
-  void setRole(UserRole role) {
-    _selectedRole = role;
-    _saveState();
-    notifyListeners();
-  }
-
-  void setLanguage(String lang) {
-    _selectedLanguage = lang;
-    _saveState();
-    notifyListeners();
-  }
-
-  void setUserProfile(String name, String location) {
-    _userName = name;
-    _userLocation = location;
     _saveState();
     notifyListeners();
   }

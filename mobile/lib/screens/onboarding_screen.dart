@@ -17,7 +17,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   final UserStateService _userState = UserStateService();
   final WalletService _walletService = WalletService();
+  final TextEditingController _nameController = TextEditingController();
+
   int _currentPage = 0;
+  String _selectedSpcb = 'DPCC (Delhi NCR Hub)';
 
   final List<Map<String, dynamic>> _slides = [
     {
@@ -61,14 +64,28 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     },
     {
       'badge': 'CUSTOMIZED EXPERIENCE',
-      'title': 'Select Your Role & Language',
+      'title': 'Setup Your Profile & SPCB Region',
       'subtitle': 'Tailored Tools for Every Circular Economy Stakeholder',
-      'desc': 'Configure your primary operating language and industry profile for localized voice commands and statutory compliance filings.',
+      'desc': 'Configure your actual name, SPCB operating hub, and language for localized voice commands and statutory compliance filings.',
       'icon': Icons.person_pin,
       'accentColor': AppTheme.purple,
       'isRoleSelector': true,
     },
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController.text = _userState.userName;
+    _selectedSpcb = _userState.spcbJurisdiction;
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _pageController.dispose();
+    super.dispose();
+  }
 
   void _nextPage() {
     if (_currentPage < _slides.length - 1) {
@@ -82,6 +99,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void _finishOnboarding() {
+    _userState.updateProfile(
+      name: _nameController.text.trim(),
+      spcbHub: _selectedSpcb,
+    );
     _userState.completeOnboarding();
     widget.onFinish();
   }
@@ -195,7 +216,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       );
                     }),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 16),
 
                   // Action Button
                   Row(
@@ -238,7 +259,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             children: [
                               Text(
                                 _currentPage == _slides.length - 1
-                                    ? 'LAUNCH PROTOCOL'
+                                    ? 'LAUNCH COMMAND CENTER'
                                     : 'CONTINUE',
                                 style: AppTheme.fontSans(
                                   fontSize: 13,
@@ -400,6 +421,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Widget _buildRoleSelectorSlide(bool isDark, Color textMain, Color textMuted) {
+    final border = AppTheme.getBorder(isDark);
+    final surface = AppTheme.getSurfaceRaised(isDark);
+
     return AnimatedBuilder(
       animation: Listenable.merge([_userState, _walletService]),
       builder: (context, _) {
@@ -426,19 +450,84 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 12),
 
+              // 1. Enter Actual Name / Business Name
               Text(
-                'Select Operating Role',
+                'Your Name or Enterprise Name (Optional)',
                 style: AppTheme.fontSans(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w900,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w800,
                   color: textMain,
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 6),
+              TextField(
+                controller: _nameController,
+                style: AppTheme.fontSans(fontSize: 13, color: textMain),
+                decoration: InputDecoration(
+                  hintText: 'e.g. Ramesh Kumar / Star Recycling / Leave blank',
+                  hintStyle: AppTheme.fontSans(fontSize: 12, color: textMuted.withOpacity(0.6)),
+                  filled: true,
+                  fillColor: surface,
+                  prefixIcon: Icon(Icons.badge_outlined, color: AppTheme.emerald, size: 18),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: border)),
+                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: border)),
+                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppTheme.emerald, width: 1.5)),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                ),
+              ),
+              const SizedBox(height: 14),
 
-              // Role Cards
+              // 2. Select SPCB State Jurisdiction
+              Text(
+                'SPCB State Jurisdiction',
+                style: AppTheme.fontSans(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w800,
+                  color: textMain,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                decoration: BoxDecoration(
+                  color: surface,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: border),
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    value: _selectedSpcb,
+                    isExpanded: true,
+                    dropdownColor: surface,
+                    icon: const Icon(Icons.arrow_drop_down, color: AppTheme.emerald),
+                    style: AppTheme.fontSans(fontSize: 12.5, fontWeight: FontWeight.bold, color: textMain),
+                    items: UserStateService.availableSpcbHubs.map((hub) {
+                      return DropdownMenuItem<String>(
+                        value: hub,
+                        child: Text(hub),
+                      );
+                    }).toList(),
+                    onChanged: (val) {
+                      if (val != null) setState(() => _selectedSpcb = val);
+                    },
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              // 3. Select Operating Role
+              Text(
+                'Select Operating Role',
+                style: AppTheme.fontSans(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w800,
+                  color: textMain,
+                ),
+              ),
+              const SizedBox(height: 8),
+
               _buildRoleCard(
                 role: UserRole.aggregator,
                 title: 'Grassroots Aggregator / Kabadiwala',
@@ -468,7 +557,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               Text(
                 'Primary Language',
                 style: AppTheme.fontSans(
-                  fontSize: 14,
+                  fontSize: 13,
                   fontWeight: FontWeight.w800,
                   color: textMain,
                 ),
@@ -495,10 +584,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       decoration: BoxDecoration(
                         color: isSelected
                             ? AppTheme.emerald.withOpacity(0.2)
-                            : AppTheme.getSurfaceRaised(isDark),
+                            : surface,
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
-                          color: isSelected ? AppTheme.emerald : AppTheme.getBorder(isDark),
+                          color: isSelected ? AppTheme.emerald : border,
                           width: isSelected ? 1.5 : 1,
                         ),
                       ),
@@ -521,19 +610,23 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: AppTheme.getSurfaceRaised(isDark),
+                  color: surface,
                   borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: AppTheme.getBorder(isDark)),
+                  border: Border.all(color: border),
                 ),
                 child: Row(
                   children: [
                     Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: AppTheme.orange.withOpacity(0.2),
+                        color: _walletService.isConnected ? AppTheme.emerald.withOpacity(0.2) : AppTheme.orange.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: const Icon(Icons.account_balance_wallet, color: AppTheme.orange, size: 20),
+                      child: Icon(
+                        Icons.account_balance_wallet,
+                        color: _walletService.isConnected ? AppTheme.emerald : AppTheme.orange,
+                        size: 20,
+                      ),
                     ),
                     const SizedBox(width: 10),
                     Expanded(
@@ -541,26 +634,32 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            _walletService.isConnected ? 'Wallet Connected' : 'Connect Polygon Wallet',
+                            _walletService.isConnected ? 'Wallet Connected' : 'Connect Polygon Amoy Wallet',
                             style: AppTheme.fontSans(fontWeight: FontWeight.bold, fontSize: 12, color: textMain),
                           ),
                           Text(
                             _walletService.isConnected
                                 ? _walletService.shortAddress
-                                : 'Polygon Amoy (80002) · Gasless',
+                                : 'Optional · Can connect anytime from Dashboard',
                             style: AppTheme.fontMono(fontSize: 10, color: textMuted),
                           ),
                         ],
                       ),
                     ),
-                    TextButton(
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: _walletService.isConnected ? AppTheme.emerald.withOpacity(0.2) : AppTheme.orange,
+                        foregroundColor: _walletService.isConnected ? AppTheme.emerald : Colors.white,
+                        elevation: 0,
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      ),
                       onPressed: () => WalletConnectModal.show(context),
                       child: Text(
-                        _walletService.isConnected ? 'CHANGE' : 'CONNECT',
+                        _walletService.isConnected ? 'CONNECTED' : 'CONNECT',
                         style: AppTheme.fontMono(
-                          fontSize: 11,
+                          fontSize: 10.5,
                           fontWeight: FontWeight.bold,
-                          color: AppTheme.emerald,
                         ),
                       ),
                     ),
