@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import '../models/material_model.dart';
 import '../services/api_service.dart';
+import '../services/update_service.dart';
 import '../services/user_state_service.dart';
 import '../services/wallet_service.dart';
 import '../theme/app_theme.dart';
 import '../widgets/category_badge_widget.dart';
+import '../widgets/in_app_update_modal.dart';
 import '../widgets/verification_stamp_widget.dart';
 import '../widgets/wallet_connect_modal.dart';
 import 'material_detail_screen.dart';
@@ -23,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final ApiService _apiService = ApiService();
   final UserStateService _userState = UserStateService();
   final WalletService _walletService = WalletService();
+  final UpdateService _updateService = UpdateService();
 
   List<MaterialItem> _featuredMaterials = [];
   List<Map<String, dynamic>> _mcxList = [];
@@ -44,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _featuredMaterials = _apiService.getFallbackMaterials().take(4).toList();
     _mcxList = ApiService.fallbackMcx;
     _loadDashboardData();
+    _updateService.checkForUpdates();
   }
 
   Future<void> _loadDashboardData() async {
@@ -66,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: Listenable.merge([_userState, _walletService]),
+      animation: Listenable.merge([_userState, _walletService, _updateService]),
       builder: (context, _) {
         final isDark = _userState.isDarkMode;
         final bg = AppTheme.getBackground(isDark);
@@ -223,6 +227,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // OTA In-App Update Banner
+                        if (_updateService.hasUpdate && !_updateService.hasDismissedBanner && _updateService.latestInfo != null) ...[
+                          _buildUpdateBanner(_updateService.latestInfo!, isDark, cardBg, textMain, textMuted, border),
+                          const SizedBox(height: 12),
+                        ],
+
                         _buildUserRoleBanner(isDark, cardBg, textMain, textMuted, border),
                         const SizedBox(height: 12),
                         _buildHubSelector(isDark, cardBg, textMain, textMuted, border),
@@ -300,6 +310,70 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
         );
       },
+    );
+  }
+
+  Widget _buildUpdateBanner(UpdateInfo info, bool isDark, Color cardBg, Color textMain, Color textMuted, Color border) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            AppTheme.emerald.withOpacity(0.2),
+            AppTheme.orange.withOpacity(0.15),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: AppTheme.emerald.withOpacity(0.5)),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(7),
+            decoration: BoxDecoration(
+              color: AppTheme.emerald.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: const Icon(Icons.system_update_alt, color: AppTheme.emerald, size: 18),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'NEW UPDATE AVAILABLE (v${info.latestVersion})',
+                  style: AppTheme.fontMono(fontSize: 9.5, fontWeight: FontWeight.w900, color: AppTheme.emerald),
+                ),
+                Text(
+                  '${info.releaseNotes.first} · ${info.apkSizeMb}',
+                  style: AppTheme.fontSans(fontSize: 11, color: textMain, fontWeight: FontWeight.w600),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.emerald,
+              foregroundColor: Colors.black,
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              minimumSize: Size.zero,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            ),
+            onPressed: () => InAppUpdateModal.show(context, info),
+            child: Text('UPDATE', style: AppTheme.fontSans(fontSize: 10.5, fontWeight: FontWeight.bold)),
+          ),
+          const SizedBox(width: 4),
+          IconButton(
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(minWidth: 24, minHeight: 24),
+            icon: Icon(Icons.close, size: 16, color: textMuted),
+            onPressed: () => _updateService.dismissBanner(),
+          ),
+        ],
+      ),
     );
   }
 
@@ -489,6 +563,59 @@ class _HomeScreenState extends State<HomeScreen> {
                       onSelected: (_) => setModalState(() => selectedLang = l['code']!),
                     );
                   }).toList(),
+                ),
+                const SizedBox(height: 16),
+
+                // In-App OTA Update Checker Card
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: AppTheme.getSurfaceRaised(isDark),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: border),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.autorenew_rounded, size: 18, color: AppTheme.emerald),
+                          const SizedBox(width: 8),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('APP VERSION & UPDATES', style: AppTheme.fontMono(fontSize: 9, fontWeight: FontWeight.bold, color: textMuted)),
+                              Text('v${UpdateService.currentVersion} (Installed)', style: AppTheme.fontSans(fontSize: 11.5, fontWeight: FontWeight.bold, color: textMain)),
+                            ],
+                          ),
+                        ],
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppTheme.orange.withOpacity(0.18),
+                          foregroundColor: AppTheme.orange,
+                          elevation: 0,
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            side: BorderSide(color: AppTheme.orange.withOpacity(0.5)),
+                          ),
+                        ),
+                        onPressed: () async {
+                          Navigator.pop(ctx);
+                          final info = await _updateService.checkForUpdates(forceCheck: true);
+                          if (info != null && context.mounted) {
+                            InAppUpdateModal.show(context, info);
+                          } else if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Your app is up to date on version v2.5.0!')),
+                            );
+                          }
+                        },
+                        child: Text('CHECK OTA', style: AppTheme.fontMono(fontSize: 10, fontWeight: FontWeight.bold)),
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 18),
                 SizedBox(

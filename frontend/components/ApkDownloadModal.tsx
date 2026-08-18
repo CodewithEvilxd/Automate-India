@@ -30,7 +30,7 @@ export default function ApkDownloadModal({ isOpen, onClose }: ApkDownloadModalPr
     setDownloadStarted(true);
     const link = document.createElement("a");
     link.href = "/circularchain.apk";
-    link.download = "CircularChain-v2.4.0.apk";
+    link.download = "CircularChain-v2.6.0.apk";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -60,11 +60,11 @@ export default function ApkDownloadModal({ isOpen, onClose }: ApkDownloadModalPr
                   CircularChain for Android
                 </h3>
                 <span className="px-2 py-0.5 text-[10px] font-mono font-bold rounded-md bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-                  v2.4.0
+                  v2.6.0 OTA
                 </span>
               </div>
               <p className="text-xs text-zinc-400 mt-0.5">
-                AI Vision Scrap Grading · Indic Voice · Polygon Amoy
+                AI Vision Scrap Grading · Indic Voice · Polygon Amoy · OTA In-App Updates
               </p>
             </div>
           </div>
@@ -90,14 +90,14 @@ export default function ApkDownloadModal({ isOpen, onClose }: ApkDownloadModalPr
                   <span>Direct Install</span>
                 </div>
                 <p className="text-xs text-zinc-400 leading-relaxed mb-4">
-                  Universal Android release package with hardware acceleration.
+                  Universal Android release package with hardware acceleration &amp; In-App Auto-Updates.
                 </p>
               </div>
 
               <div>
                 <div className="text-[11px] font-mono text-zinc-500 mb-2 flex items-center justify-between">
                   <span>File size:</span>
-                  <span className="text-zinc-300 font-semibold">49.1 MB</span>
+                  <span className="text-zinc-300 font-semibold">48.2 MB</span>
                 </div>
                 <button
                   onClick={handleDownload}
@@ -143,7 +143,7 @@ export default function ApkDownloadModal({ isOpen, onClose }: ApkDownloadModalPr
           {/* Native Mobile Capabilities */}
           <div className="p-3.5 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
             <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-500 mb-2.5 flex items-center gap-1.5">
-              <Zap className="w-3 h-3 text-amber-400" /> v2.5 Enterprise Features
+              <Zap className="w-3 h-3 text-amber-400" /> v2.6 Enterprise Features
             </div>
             <div className="grid grid-cols-2 gap-2 text-xs text-zinc-300">
               <div className="flex items-center gap-2">
@@ -156,19 +156,19 @@ export default function ApkDownloadModal({ isOpen, onClose }: ApkDownloadModalPr
               </div>
               <div className="flex items-center gap-2">
                 <Layers className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                <span className="truncate">Polygon Amoy Wallet &amp; Faucet</span>
+                <span className="truncate">Web3 Connect &amp; Custom 0x</span>
               </div>
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-3.5 h-3.5 text-orange-400 shrink-0" />
-                <span className="truncate">CPCB Form 1 EPR Quotas</span>
+                <span className="truncate">11 State SPCB Hubs</span>
               </div>
               <div className="flex items-center gap-2">
                 <Sparkles className="w-3.5 h-3.5 text-teal-400 shrink-0" />
-                <span className="truncate">In-App Field Docs &amp; FAQs</span>
+                <span className="truncate">In-App OTA Auto-Updater</span>
               </div>
               <div className="flex items-center gap-2">
                 <Zap className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                <span className="truncate">Dark/Light Mode + Roles</span>
+                <span className="truncate">Dark/Light Mode + Profile</span>
               </div>
             </div>
           </div>

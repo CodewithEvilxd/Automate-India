@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import '../services/update_service.dart';
 import '../services/user_state_service.dart';
 import '../theme/app_theme.dart';
+import '../widgets/in_app_update_modal.dart';
 
 class DocsScreen extends StatefulWidget {
   const DocsScreen({Key? key}) : super(key: key);
@@ -688,6 +690,75 @@ class _DocsScreenState extends State<DocsScreen> with SingleTickerProviderStateM
             ),
           );
         }),
+        const SizedBox(height: 20),
+
+        // OTA Software Version Card
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: AppTheme.getSurfaceRaised(isDark),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppTheme.emerald.withOpacity(0.4)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(7),
+                        decoration: BoxDecoration(
+                          color: AppTheme.emerald.withOpacity(0.18),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Icon(Icons.system_update_rounded, color: AppTheme.emerald, size: 18),
+                      ),
+                      const SizedBox(width: 10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('CIRCULARCHAIN MOBILE', style: AppTheme.fontSans(fontSize: 12.5, fontWeight: FontWeight.w800, color: textMain)),
+                          Text('Installed: v${UpdateService.currentVersion} (Build #${UpdateService.currentVersionCode})', style: AppTheme.fontMono(fontSize: 9.5, color: textMuted)),
+                        ],
+                      ),
+                    ],
+                  ),
+                  ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppTheme.emerald,
+                      foregroundColor: Colors.black,
+                      elevation: 0,
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    ),
+                    icon: const Icon(Icons.refresh, size: 14),
+                    label: Text('CHECK OTA', style: AppTheme.fontSans(fontSize: 10.5, fontWeight: FontWeight.bold)),
+                    onPressed: () async {
+                      final updateService = UpdateService();
+                      final info = await updateService.checkForUpdates(forceCheck: true);
+                      if (info != null && context.mounted) {
+                        InAppUpdateModal.show(context, info);
+                      } else if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('App is currently up to date on version v2.5.0!')),
+                        );
+                      }
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Text(
+                'Over-The-Air (OTA) continuous delivery engine checks for signed updates on every launch and verifies APK checksums automatically.',
+                style: AppTheme.fontSans(fontSize: 10.5, color: textMuted, height: 1.3),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 24),
       ],
     );
   }
