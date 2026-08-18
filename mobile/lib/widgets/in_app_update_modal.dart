@@ -66,6 +66,7 @@ class _InAppUpdateModalState extends State<InAppUpdateModal> {
 
   Future<void> _triggerInstall() async {
     await Future.delayed(const Duration(milliseconds: 400));
+    _updateService.markUpdated();
     await _updateService.launchDownloadUrl(widget.info.apkDownloadUrl);
     if (mounted) {
       Navigator.pop(context);

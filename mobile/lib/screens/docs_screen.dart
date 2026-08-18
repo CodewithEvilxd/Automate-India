@@ -108,7 +108,7 @@ class _DocsScreenState extends State<DocsScreen> with SingleTickerProviderStateM
               ),
             ),
             Text(
-              'ARCHITECTURAL BLUEPRINT v2.4',
+              'ARCHITECTURAL BLUEPRINT v2.6',
               style: AppTheme.fontMono(
                 fontSize: 9,
                 color: AppTheme.emerald,
@@ -738,12 +738,24 @@ class _DocsScreenState extends State<DocsScreen> with SingleTickerProviderStateM
                     label: Text('CHECK OTA', style: AppTheme.fontSans(fontSize: 10.5, fontWeight: FontWeight.bold)),
                     onPressed: () async {
                       final updateService = UpdateService();
-                      final info = await updateService.checkForUpdates(forceCheck: true);
+                      final info = await updateService.checkForUpdates(isManualCheck: true);
                       if (info != null && context.mounted) {
                         InAppUpdateModal.show(context, info);
                       } else if (context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('App is currently up to date on version v2.5.0!')),
+                          SnackBar(
+                            backgroundColor: AppTheme.emerald,
+                            content: Row(
+                              children: [
+                                const Icon(Icons.check_circle_rounded, color: Colors.black, size: 18),
+                                const SizedBox(width: 8),
+                                Text(
+                                  'CircularChain is up to date (v${UpdateService.currentVersion})',
+                                  style: AppTheme.fontSans(color: Colors.black, fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
                         );
                       }
                     },

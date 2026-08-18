@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'api_service.dart';
 
@@ -38,7 +39,7 @@ class UpdateInfo {
       apkSizeMb: json['apk_size_mb'] ?? '48.2 MB',
       title: json['title'] ?? 'CircularChain Update Available',
       releaseNotes: List<String>.from(json['release_notes'] ?? [
-        'Performance improvements and bug fixes',
+        'Performance improvements and security enhancements',
       ]),
     );
   }
@@ -49,49 +50,67 @@ class UpdateService extends ChangeNotifier {
   factory UpdateService() => _instance;
   UpdateService._internal();
 
-  static const String currentVersion = '2.5.0';
-  static const int currentVersionCode = 25;
+  static const String currentVersion = '2.6.0';
+  static const int currentVersionCode = 26;
 
   bool _isChecking = false;
   bool _hasUpdate = false;
   UpdateInfo? _latestInfo;
-  bool _hasDismissedBanner = false;
+  int _dismissedVersionCode = 0;
 
   bool get isChecking => _isChecking;
-  bool get hasUpdate => _hasUpdate;
+  bool get hasUpdate => _hasUpdate && (_latestInfo != null && _latestInfo!.versionCode > _dismissedVersionCode);
   UpdateInfo? get latestInfo => _latestInfo;
-  bool get hasDismissedBanner => _hasDismissedBanner;
 
-  void dismissBanner() {
-    _hasDismissedBanner = true;
+  Future<void> init() async {
+    final prefs = await SharedPreferences.getInstance();
+    _dismissedVersionCode = prefs.getInt('dismissed_update_version_code') ?? 0;
+  }
+
+  void dismissBanner() async {
+    if (_latestInfo != null) {
+      _dismissedVersionCode = _latestInfo!.versionCode;
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setInt('dismissed_update_version_code', _dismissedVersionCode);
+      notifyListeners();
+    }
+  }
+
+  void markUpdated() {
+    _hasUpdate = false;
+    _latestInfo = null;
     notifyListeners();
   }
 
-  Future<UpdateInfo?> checkForUpdates({bool forceCheck = false}) async {
+  Future<UpdateInfo?> checkForUpdates({bool isManualCheck = false}) async {
     _isChecking = true;
     notifyListeners();
 
     final endpoints = [
-      'http://10.0.2.2:3000/api/app-version',
       '${ApiService.baseUrl}/app-version',
+      'http://10.0.2.2:3000/api/app-version',
       'http://10.0.2.2:5000/api/app-version',
     ];
+
+    UpdateInfo? foundUpdate;
 
     for (final url in endpoints) {
       try {
         final uri = Uri.parse(url);
-        final response = await http.get(uri).timeout(const Duration(milliseconds: 1800));
+        final response = await http.get(uri).timeout(const Duration(milliseconds: 1500));
 
         if (response.statusCode == 200) {
           final data = json.decode(response.body);
           final info = UpdateInfo.fromJson(data);
 
+          // REAL LOGIC: Compare remote build code with local installed build code
           if (info.versionCode > currentVersionCode) {
-            _hasUpdate = true;
-            _latestInfo = info;
-            _isChecking = false;
-            notifyListeners();
-            return info;
+            foundUpdate = info;
+            break;
+          } else {
+            // App is ALREADY up to date or on latest version
+            foundUpdate = null;
+            break;
           }
         }
       } catch (_) {
@@ -99,29 +118,17 @@ class UpdateService extends ChangeNotifier {
       }
     }
 
-    // If offline / demo mode or user clicked check updates, supply simulated v2.6.0
-    final defaultInfo = UpdateInfo(
-      latestVersion: '2.6.0',
-      versionCode: 26,
-      minSupportedVersion: '2.0.0',
-      isCritical: false,
-      releaseDate: '2026-08-18',
-      apkDownloadUrl: 'https://circularchain.app/circularchain.apk',
-      apkSizeMb: '48.2 MB',
-      title: 'CircularChain v2.6.0 Upgrade Available',
-      releaseNotes: [
-        '⚡ Full Web3 Wallet connect/disconnect & custom address pasting',
-        '👤 Real User Profile customizer (Enter your real name / enterprise)',
-        '📍 All-India SPCB jurisdiction selector (DPCC, UPPCB, MPCB, GPCB, etc.)',
-        '🔄 In-App OTA Auto-Updater with 1-tap download & install',
-        '🤖 6-Agent Autonomous Radar & MCX Spot Oracle integration',
-      ],
-    );
-    _hasUpdate = true;
-    _latestInfo = defaultInfo;
+    if (foundUpdate != null) {
+      _hasUpdate = true;
+      _latestInfo = foundUpdate;
+    } else {
+      _hasUpdate = false;
+      _latestInfo = null;
+    }
+
     _isChecking = false;
     notifyListeners();
-    return defaultInfo;
+    return _latestInfo;
   }
 
   Future<void> launchDownloadUrl(String url) async {

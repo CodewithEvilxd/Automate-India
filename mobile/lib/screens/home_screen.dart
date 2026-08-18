@@ -603,12 +603,24 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         onPressed: () async {
                           Navigator.pop(ctx);
-                          final info = await _updateService.checkForUpdates(forceCheck: true);
+                          final info = await _updateService.checkForUpdates(isManualCheck: true);
                           if (info != null && context.mounted) {
                             InAppUpdateModal.show(context, info);
                           } else if (context.mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Your app is up to date on version v2.5.0!')),
+                              SnackBar(
+                                backgroundColor: AppTheme.emerald,
+                                content: Row(
+                                  children: [
+                                    const Icon(Icons.check_circle_rounded, color: Colors.black, size: 18),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      'CircularChain is up to date (v${UpdateService.currentVersion})',
+                                      style: AppTheme.fontSans(color: Colors.black, fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             );
                           }
                         },
