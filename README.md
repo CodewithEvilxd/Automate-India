@@ -27,12 +27,18 @@
 
 <div align="center">
 
-<video src="frontend/public/DEMO/export-1787051039864.mp4" controls="controls" width="100%" style="max-width: 920px; aspect-ratio: 16/10; border-radius: 14px; box-shadow: 0 12px 35px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.12);" poster="frontend/public/DEMO/demo_poster.png">
+<a href="frontend/public/DEMO/export-1787051039864.mp4" title="Watch Full HD Walkthrough Video">
+  <img src="frontend/public/DEMO/live_demo.gif" alt="CircularChain Live Video Walkthrough" width="100%" style="max-width: 920px; aspect-ratio: 16/10; border-radius: 14px; box-shadow: 0 12px 40px rgba(0,0,0,0.35); border: 2px solid rgba(16,185,129,0.35);" />
+</a>
+
+<br/><br/>
+
+<video src="frontend/public/DEMO/export-1787051039864.mp4" controls="controls" width="100%" style="max-width: 920px; aspect-ratio: 16/10; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.15);" poster="frontend/public/DEMO/demo_poster.png">
   <p>Your browser does not support HTML5 video. <a href="frontend/public/DEMO/export-1787051039864.mp4"><b>Click here to download and play the full HD demonstration video (MP4)</b></a>.</p>
 </video>
 
 <p align="center">
-  <sub>🎥 <b>Full 8-Minute End-to-End Walkthrough</b>: Demonstrating the 6 Autonomous AI Agents, Live MCX Commodity Oracle, Web3 Persistent Wallet, In-App Continuous OTA Updater, and CPCB Statutory Simulator.</sub>
+  <sub>▶️ <b>Live Product Demo Auto-Playing Above</b> | <a href="frontend/public/DEMO/export-1787051039864.mp4"><b>Click to Stream / Download Full 1080p Video (MP4)</b></a> | Complete 8-Minute End-to-End Walkthrough of the 6 AI Agents, Live MCX Oracle & Web3 DApp.</sub>
 </p>
 
 </div>
