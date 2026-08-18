@@ -228,7 +228,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // OTA In-App Update Banner
-                        if (_updateService.hasUpdate && !_updateService.hasDismissedBanner && _updateService.latestInfo != null) ...[
+                        if (_updateService.hasUpdate && _updateService.latestInfo != null) ...[
                           _buildUpdateBanner(_updateService.latestInfo!, isDark, cardBg, textMain, textMuted, border),
                           const SizedBox(height: 12),
                         ],
@@ -1146,59 +1146,116 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         },
         borderRadius: BorderRadius.circular(16),
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Image Header with Category & Verification Overlay
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
+                  child: Container(
+                    height: 120,
+                    width: double.infinity,
+                    color: isDark ? const Color(0xFF090D14) : const Color(0xFFE5DFD5),
+                    child: Image.network(
+                      mat.imageUrl,
+                      height: 120,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                : null,
+                            strokeWidth: 2,
+                            color: AppTheme.emerald,
+                          ),
+                        );
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          height: 120,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                AppTheme.emerald.withOpacity(0.2),
+                                isDark ? const Color(0xFF0D121B) : const Color(0xFFE5DFD5),
+                              ],
+                            ),
+                          ),
+                          child: const Center(
+                            child: Icon(Icons.recycling_rounded, size: 32, color: AppTheme.emerald),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 8,
+                  left: 8,
+                  child: CategoryBadgeWidget(category: mat.category),
+                ),
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: VerificationStampWidget(status: mat.verificationStatus),
+                ),
+              ],
+            ),
+
+            // Card Body
+            Padding(
+              padding: const EdgeInsets.all(14),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CategoryBadgeWidget(category: mat.category),
-                  VerificationStampWidget(status: mat.verificationStatus),
+                  Text(
+                    mat.title,
+                    style: AppTheme.fontSans(fontSize: 13.5, fontWeight: FontWeight.w800, color: textMain),
+                  ),
+                  const SizedBox(height: 6),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(Icons.scale, size: 14, color: AppTheme.orange),
+                          const SizedBox(width: 4),
+                          Text(
+                            '${mat.weightKg.toStringAsFixed(0)} kg',
+                            style: AppTheme.fontSans(fontSize: 12, fontWeight: FontWeight.bold, color: textMain),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          const Icon(Icons.eco, size: 14, color: AppTheme.emerald),
+                          const SizedBox(width: 4),
+                          Text(
+                            '${mat.co2SavedKg.toStringAsFixed(1)} kg CO₂e',
+                            style: AppTheme.fontSans(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.emerald),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            mat.location,
+                            style: AppTheme.fontSans(fontSize: 11, color: textMuted),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ],
               ),
-              const SizedBox(height: 10),
-              Text(
-                mat.title,
-                style: AppTheme.fontSans(fontSize: 13.5, fontWeight: FontWeight.w800, color: textMain),
-              ),
-              const SizedBox(height: 6),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      const Icon(Icons.scale, size: 14, color: AppTheme.orange),
-                      const SizedBox(width: 4),
-                      Text(
-                        '${mat.weightKg.toStringAsFixed(0)} kg',
-                        style: AppTheme.fontSans(fontSize: 12, fontWeight: FontWeight.bold, color: textMain),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      const Icon(Icons.eco, size: 14, color: AppTheme.emerald),
-                      const SizedBox(width: 4),
-                      Text(
-                        '${mat.co2SavedKg.toStringAsFixed(1)} kg CO₂e',
-                        style: AppTheme.fontSans(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.emerald),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        mat.location,
-                        style: AppTheme.fontSans(fontSize: 11, color: textMuted),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

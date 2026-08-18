@@ -75,8 +75,24 @@ class _WalletConnectModalState extends State<WalletConnectModal> {
   }
 
   Future<void> _handleConnectWallet(String walletType, {String? customAddress}) async {
+    if (customAddress != null && customAddress.isNotEmpty) {
+      final cleanAddr = customAddress.trim();
+      final regex = RegExp(r'^0x[a-fA-F0-9]{40}$');
+      if (!regex.hasMatch(cleanAddr)) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Colors.redAccent,
+            content: Text(
+              'Invalid EVM Address! Must start with 0x and have 40 hexadecimal characters.',
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+          ),
+        );
+        return;
+      }
+    }
+
     setState(() => _isConnecting = true);
-    await Future.delayed(const Duration(milliseconds: 700));
     await _walletService.connect(walletType, customAddress: customAddress);
     if (mounted) {
       setState(() {
@@ -87,11 +103,26 @@ class _WalletConnectModalState extends State<WalletConnectModal> {
         SnackBar(
           backgroundColor: AppTheme.emerald,
           content: Text(
-            'Connected to Polygon Amoy with $walletType!',
+            'Connected to Polygon Amoy with $walletType!\nBalance: ${_walletService.polBalance.toStringAsFixed(3)} POL',
             style: AppTheme.fontSans(color: Colors.black, fontWeight: FontWeight.bold),
           ),
         ),
       );
+    }
+  }
+
+  Future<void> _openExternalWalletApp(String uri) async {
+    try {
+      final url = Uri.parse(uri);
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Could not open external wallet app. Please ensure it is installed.'),
+          ),
+        );
+      }
     }
   }
 
@@ -284,11 +315,11 @@ class _WalletConnectModalState extends State<WalletConnectModal> {
             ),
             child: Row(
               children: [
-                const Icon(Icons.info_outline, color: AppTheme.orange, size: 20),
+                const Icon(Icons.shield_outlined, color: AppTheme.orange, size: 20),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    'Connect a Polygon Amoy testnet wallet to claim free tokens, mint lots on-chain, and record verifiable CPCB ESG audits.',
+                    'Connect your real Polygon address or launch MetaMask / Trust Wallet to sync live on-chain POL balances, mint scrap lots, and sign CPCB audits.',
                     style: AppTheme.fontSans(fontSize: 11.5, color: textMain, height: 1.3),
                   ),
                 ),
@@ -298,47 +329,53 @@ class _WalletConnectModalState extends State<WalletConnectModal> {
           const SizedBox(height: 16),
 
           Text(
-            'CHOOSE CONNECTION METHOD',
+            'CHOOSE REAL CONNECTION METHOD',
             style: AppTheme.fontMono(fontSize: 10, fontWeight: FontWeight.bold, color: textMuted, letterSpacing: 0.6),
           ),
           const SizedBox(height: 10),
 
-          // Option 1: MetaMask
+          // Option 1: Real MetaMask Connection
           _buildWalletConnectCard(
-            title: 'MetaMask',
-            subtitle: 'Connect via EVM Browser or In-App Wallet',
+            title: 'MetaMask Mobile App',
+            subtitle: 'Open MetaMask app or sync your personal Polygon account',
             icon: Icons.shield_rounded,
             color: AppTheme.orange,
             isDark: isDark,
             surface: surface,
             border: border,
-            onTap: () => _handleConnectWallet('MetaMask'),
+            onTap: () {
+              _openExternalWalletApp('https://metamask.app.link/dapp/circularchain.vercel.app');
+              _handleConnectWallet('MetaMask Mobile');
+            },
           ),
           const SizedBox(height: 10),
 
-          // Option 2: 1-Click Instant Burner Wallet (For Aggregators)
-          _buildWalletConnectCard(
-            title: 'Instant 1-Click Burner Wallet',
-            subtitle: 'Recommended for Kabadiwalas & Field Operators (Zero Gas)',
-            icon: Icons.bolt_rounded,
-            color: AppTheme.emerald,
-            isDark: isDark,
-            surface: surface,
-            border: border,
-            onTap: () => _handleConnectWallet('Instant Burner Wallet'),
-          ),
-          const SizedBox(height: 10),
-
-          // Option 3: Coinbase / Trust Wallet
+          // Option 2: Trust Wallet / Coinbase
           _buildWalletConnectCard(
             title: 'Trust Wallet / Coinbase',
-            subtitle: 'Multi-Chain EVM Self-Custody Protocol',
+            subtitle: 'Deep-link to Trust Wallet EVM session on Polygon',
             icon: Icons.account_balance_wallet_outlined,
             color: AppTheme.teal,
             isDark: isDark,
             surface: surface,
             border: border,
-            onTap: () => _handleConnectWallet('Trust Wallet'),
+            onTap: () {
+              _openExternalWalletApp('https://link.trustwallet.com/open_url?coin_id=60&url=https://circularchain.vercel.app');
+              _handleConnectWallet('Trust Wallet');
+            },
+          ),
+          const SizedBox(height: 10),
+
+          // Option 3: Instant Non-Custodial Keypair
+          _buildWalletConnectCard(
+            title: 'Instant Non-Custodial Keypair',
+            subtitle: 'Recommended for Field Operators & Kabadiwalas (Zero Gas)',
+            icon: Icons.bolt_rounded,
+            color: AppTheme.emerald,
+            isDark: isDark,
+            surface: surface,
+            border: border,
+            onTap: () => _handleConnectWallet('Instant Polygon Keypair'),
           ),
           const SizedBox(height: 10),
 
@@ -358,11 +395,11 @@ class _WalletConnectModalState extends State<WalletConnectModal> {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.edit_note, size: 18, color: textMuted),
+                        Icon(Icons.edit_note, size: 18, color: AppTheme.emerald),
                         const SizedBox(width: 10),
                         Text(
-                          'Paste My Own Ethereum / Polygon Address (0x...)',
-                          style: AppTheme.fontSans(fontSize: 11.5, fontWeight: FontWeight.w600, color: textMain),
+                          'Paste My Real Polygon / EVM Address (0x...)',
+                          style: AppTheme.fontSans(fontSize: 11.5, fontWeight: FontWeight.w700, color: textMain),
                         ),
                       ],
                     ),
@@ -377,45 +414,73 @@ class _WalletConnectModalState extends State<WalletConnectModal> {
               decoration: BoxDecoration(
                 color: surface,
                 borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: AppTheme.emerald.withOpacity(0.4)),
+                border: Border.all(color: AppTheme.emerald.withOpacity(0.5), width: 1.3),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'ENTER POLYGON AMOY PUBLIC ADDRESS',
-                    style: AppTheme.fontMono(fontSize: 9.5, fontWeight: FontWeight.bold, color: AppTheme.emerald),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'PASTE REAL POLYGON / ETHEREUM ADDRESS',
+                        style: AppTheme.fontMono(fontSize: 9.5, fontWeight: FontWeight.bold, color: AppTheme.emerald),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: AppTheme.emerald.withOpacity(0.15),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text('LIVE RPC SYNC', style: AppTheme.fontMono(fontSize: 8, fontWeight: FontWeight.w800, color: AppTheme.emerald)),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 8),
                   TextField(
                     controller: _customAddressController,
                     style: AppTheme.fontMono(fontSize: 12, color: textMain),
                     decoration: InputDecoration(
-                      hintText: '0x71C49B283A412695d130aA849c2598374e9F0082',
+                      hintText: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e',
                       hintStyle: AppTheme.fontMono(fontSize: 11, color: textMuted.withOpacity(0.5)),
                       filled: true,
                       fillColor: cardBg,
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: border)),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.paste_rounded, size: 18, color: AppTheme.emerald),
+                        tooltip: 'Paste Clipboard',
+                        onPressed: () async {
+                          final clip = await Clipboard.getData(Clipboard.kTextPlain);
+                          if (clip?.text != null) {
+                            setState(() => _customAddressController.text = clip!.text!.trim());
+                          }
+                        },
+                      ),
                     ),
                   ),
                   const SizedBox(height: 10),
                   Row(
                     children: [
                       Expanded(
-                        child: ElevatedButton(
+                        child: ElevatedButton.icon(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppTheme.emerald,
                             foregroundColor: Colors.black,
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                             padding: const EdgeInsets.symmetric(vertical: 11),
                           ),
-                          onPressed: () {
-                            if (_customAddressController.text.trim().isNotEmpty) {
-                              _handleConnectWallet('Custom EVM Wallet', customAddress: _customAddressController.text.trim());
-                            }
-                          },
-                          child: Text('CONNECT ADDRESS', style: AppTheme.fontSans(fontWeight: FontWeight.bold, fontSize: 12)),
+                          icon: _isConnecting
+                              ? const SizedBox(width: 14, height: 14, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.black))
+                              : const Icon(Icons.link, size: 16),
+                          label: Text(_isConnecting ? 'FETCHING RPC...' : 'SYNC REAL ADDRESS', style: AppTheme.fontSans(fontWeight: FontWeight.bold, fontSize: 11.5)),
+                          onPressed: _isConnecting
+                              ? null
+                              : () {
+                                  if (_customAddressController.text.trim().isNotEmpty) {
+                                    _handleConnectWallet('Real EVM Wallet', customAddress: _customAddressController.text.trim());
+                                  }
+                                },
                         ),
                       ),
                       const SizedBox(width: 8),
@@ -544,6 +609,61 @@ class _WalletConnectModalState extends State<WalletConnectModal> {
                     ),
                   ],
                 ),
+
+                // Live On-Chain Action Row
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton.icon(
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: AppTheme.emerald,
+                          side: BorderSide(color: AppTheme.emerald.withOpacity(0.4)),
+                          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                        ),
+                        icon: _walletService.isSyncing
+                            ? const SizedBox(width: 12, height: 12, child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.emerald))
+                            : const Icon(Icons.sync, size: 14),
+                        label: Text(
+                          _walletService.isSyncing ? 'SYNCING RPC...' : 'SYNC ON-CHAIN RPC',
+                          style: AppTheme.fontMono(fontSize: 9.5, fontWeight: FontWeight.bold),
+                        ),
+                        onPressed: _walletService.isSyncing
+                            ? null
+                            : () async {
+                                await _walletService.refreshOnChainBalance();
+                                if (mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      backgroundColor: AppTheme.emerald,
+                                      content: Text(
+                                        'Synced with Polygon RPC! Balance: ${_walletService.polBalance.toStringAsFixed(4)} POL',
+                                        style: AppTheme.fontSans(color: Colors.black, fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: textMain,
+                        side: BorderSide(color: border),
+                        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      ),
+                      icon: const Icon(Icons.open_in_new, size: 14),
+                      label: Text('POLYGONSCAN', style: AppTheme.fontMono(fontSize: 9.5, fontWeight: FontWeight.bold)),
+                      onPressed: () {
+                        final url = Uri.parse('https://amoy.polygonscan.com/address/${_walletService.address}');
+                        launchUrl(url, mode: LaunchMode.externalApplication);
+                      },
+                    ),
+                  ],
+                ),
+
                 Divider(color: border, height: 16),
 
                 // Balances Grid

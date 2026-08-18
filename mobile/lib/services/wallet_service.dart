@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WalletTransaction {
@@ -62,18 +64,20 @@ class WalletService extends ChangeNotifier {
   String _address = '';
   String _networkName = 'Polygon Amoy Testnet';
   int _chainId = 80002;
-  String _rpcUrl = 'https://rpc-amoy.polygon.technology';
+  String _rpcUrl = 'https://polygon-amoy.drpc.org';
 
   double _polBalance = 0.0;
   double _circBalance = 0.0;
   double _carbonCreditsTons = 0.0;
   double _avoidedPenaltiesInr = 0.0;
   bool _gaslessSponsored = true;
+  bool _isSyncing = false;
 
   final List<WalletTransaction> _transactions = [];
 
   // Getters
   bool get isConnected => _isConnected;
+  bool get isSyncing => _isSyncing;
   String get activeWalletType => _activeWalletType;
   String get address => _address;
   String get shortAddress {
@@ -105,6 +109,10 @@ class WalletService extends ChangeNotifier {
       _avoidedPenaltiesInr = prefs.getDouble('wallet_penalties') ?? 0.0;
       _gaslessSponsored = prefs.getBool('wallet_gasless') ?? true;
       notifyListeners();
+
+      if (_isConnected && _address.isNotEmpty) {
+        refreshOnChainBalance();
+      }
     } catch (_) {}
   }
 
@@ -122,7 +130,63 @@ class WalletService extends ChangeNotifier {
     } catch (_) {}
   }
 
-  // Connect via Web3 provider (MetaMask, Coinbase, Trust Wallet, or Custom Address / Burner)
+  // Live RPC Query to fetch real on-chain POL balance from Polygon Amoy
+  Future<double> fetchOnChainPolBalance(String targetAddress) async {
+    if (targetAddress.trim().isEmpty || !targetAddress.startsWith('0x')) return 0.0;
+
+    final endpoints = [
+      'https://polygon-amoy.drpc.org',
+      'https://polygon-amoy-bor-rpc.publicnode.com',
+      'https://rpc.ankr.com/polygon_amoy',
+    ];
+
+    for (final endpoint in endpoints) {
+      try {
+        final response = await http.post(
+          Uri.parse(endpoint),
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode({
+            'jsonrpc': '2.0',
+            'method': 'eth_getBalance',
+            'params': [targetAddress.trim(), 'latest'],
+            'id': 1,
+          }),
+        ).timeout(const Duration(seconds: 4));
+
+        if (response.statusCode == 200) {
+          final Map<String, dynamic> data = json.decode(response.body);
+          if (data['result'] != null) {
+            final hexVal = data['result'] as String;
+            final cleanHex = hexVal.startsWith('0x') ? hexVal.substring(2) : hexVal;
+            final wei = BigInt.tryParse(cleanHex, radix: 16) ?? BigInt.zero;
+            final pol = wei.toDouble() / 1e18;
+            return pol;
+          }
+        }
+      } catch (_) {}
+    }
+    return 0.0;
+  }
+
+  // Refresh live on-chain balance
+  Future<void> refreshOnChainBalance() async {
+    if (!_isConnected || _address.isEmpty) return;
+    _isSyncing = true;
+    notifyListeners();
+
+    try {
+      final realPol = await fetchOnChainPolBalance(_address);
+      if (realPol > 0.0 || _polBalance == 0.0) {
+        _polBalance = realPol;
+      }
+      await _saveWalletState();
+    } catch (_) {} finally {
+      _isSyncing = false;
+      notifyListeners();
+    }
+  }
+
+  // Connect via Web3 provider (MetaMask, Trust Wallet, Custom Address, or Native Keypair)
   Future<void> connect(String walletType, {String? customAddress}) async {
     _isConnected = true;
     _activeWalletType = walletType;
@@ -140,9 +204,15 @@ class WalletService extends ChangeNotifier {
       _address = gen;
     }
 
-    // Initialize with starter gas so the user can begin transacting immediately
-    if (_polBalance == 0.0 && _circBalance == 0.0) {
+    // Fetch real balance from chain
+    final realPol = await fetchOnChainPolBalance(_address);
+    if (realPol > 0.0) {
+      _polBalance = realPol;
+    } else if (_polBalance == 0.0) {
       _polBalance = 0.500;
+    }
+
+    if (_circBalance == 0.0) {
       _circBalance = 250.0;
     }
 

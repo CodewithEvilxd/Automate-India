@@ -145,20 +145,42 @@ class _MaterialDetailScreenState extends State<MaterialDetailScreen> {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(16),
-                      child: Image.network(
-                        m.imageUrl,
+                      child: Container(
                         height: 210,
                         width: double.infinity,
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => Container(
-                          height: 180,
-                          decoration: BoxDecoration(
-                            color: cardBg,
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: border),
-                          ),
-                          child: Center(
-                            child: Icon(Icons.inventory_2_outlined, size: 48, color: textMuted),
+                        color: isDark ? const Color(0xFF090D14) : const Color(0xFFE5DFD5),
+                        child: Image.network(
+                          m.imageUrl,
+                          height: 210,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return Center(
+                              child: CircularProgressIndicator(
+                                value: loadingProgress.expectedTotalBytes != null
+                                    ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                    : null,
+                                strokeWidth: 2,
+                                color: AppTheme.emerald,
+                              ),
+                            );
+                          },
+                          errorBuilder: (_, __, ___) => Container(
+                            height: 210,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  AppTheme.emerald.withOpacity(0.25),
+                                  isDark ? const Color(0xFF0D121B) : const Color(0xFFE5DFD5),
+                                ],
+                              ),
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(color: border),
+                            ),
+                            child: const Center(
+                              child: Icon(Icons.recycling_rounded, size: 54, color: AppTheme.emerald),
+                            ),
                           ),
                         ),
                       ),

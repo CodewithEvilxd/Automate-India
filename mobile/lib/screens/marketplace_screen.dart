@@ -108,6 +108,11 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
             ),
             actions: [
               IconButton(
+                icon: const Icon(Icons.refresh, color: AppTheme.emerald, size: 20),
+                tooltip: 'Refresh Lots',
+                onPressed: _loadMaterials,
+              ),
+              IconButton(
                 icon: const Icon(Icons.account_balance_wallet, color: AppTheme.emerald, size: 20),
                 onPressed: () => WalletConnectModal.show(context),
               ),
@@ -221,19 +226,104 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                               ),
                             ),
                           )
-                        : ListView.builder(
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                            itemCount: items.length,
-                            itemBuilder: (context, idx) {
-                              final mat = items[idx];
-                              return _buildMarketCard(mat, isDark, cardBg, textMain, textMuted, border);
-                            },
+                        : RefreshIndicator(
+                            color: AppTheme.emerald,
+                            onRefresh: _loadMaterials,
+                            child: ListView.builder(
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                              itemCount: items.length,
+                              itemBuilder: (context, idx) {
+                                final mat = items[idx];
+                                return _buildMarketCard(mat, isDark, cardBg, textMain, textMuted, border);
+                              },
+                            ),
                           ),
               ),
             ],
           ),
         );
       },
+    );
+  }
+
+  Widget _buildCategoryFallbackVisual(String category, bool isDark) {
+    IconData icon;
+    Color color;
+    String label;
+
+    switch (category.toLowerCase()) {
+      case 'aluminum':
+        icon = Icons.architecture;
+        color = AppTheme.orange;
+        label = 'SECONDARY ALUMINUM';
+        break;
+      case 'copper':
+        icon = Icons.electrical_services;
+        color = const Color(0xFFD97706);
+        label = 'ELECTROLYTIC COPPER';
+        break;
+      case 'steel':
+        icon = Icons.precision_manufacturing;
+        color = const Color(0xFF64748B);
+        label = 'HMS STRUCTURAL STEEL';
+        break;
+      case 'plastic_pet':
+        icon = Icons.local_drink;
+        color = AppTheme.teal;
+        label = 'rPET BOTTLE FLAKES';
+        break;
+      case 'plastic_hdpe':
+        icon = Icons.inventory;
+        color = const Color(0xFF0284C7);
+        label = 'GRANULATED HDPE';
+        break;
+      case 'electronic':
+        icon = Icons.memory;
+        color = AppTheme.purple;
+        label = 'E-WASTE PCB SCRAP';
+        break;
+      case 'paper':
+        icon = Icons.inventory_2;
+        color = const Color(0xFFCA8A04);
+        label = 'OCC CORRUGATED PAPER';
+        break;
+      default:
+        icon = Icons.all_inclusive;
+        color = AppTheme.emerald;
+        label = 'CIRCULAR MATERIAL LOT';
+    }
+
+    return Container(
+      height: 130,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            color.withOpacity(0.25),
+            isDark ? const Color(0xFF0D121B) : const Color(0xFFE5DFD5),
+          ],
+        ),
+      ),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 36, color: color),
+            const SizedBox(height: 6),
+            Text(
+              label,
+              style: AppTheme.fontMono(
+                fontSize: 9.5,
+                fontWeight: FontWeight.bold,
+                color: color,
+                letterSpacing: 0.5,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -253,59 +343,102 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
           );
         },
         borderRadius: BorderRadius.circular(16),
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Image Header with Category & Verification Overlay
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
+                  child: Container(
+                    height: 130,
+                    width: double.infinity,
+                    color: isDark ? const Color(0xFF090D14) : const Color(0xFFE5DFD5),
+                    child: Image.network(
+                      mat.imageUrl,
+                      height: 130,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                : null,
+                            strokeWidth: 2,
+                            color: AppTheme.emerald,
+                          ),
+                        );
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        return _buildCategoryFallbackVisual(mat.category, isDark);
+                      },
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 10,
+                  left: 10,
+                  child: CategoryBadgeWidget(category: mat.category),
+                ),
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: VerificationStampWidget(status: mat.verificationStatus),
+                ),
+              ],
+            ),
+
+            // Card Body
+            Padding(
+              padding: const EdgeInsets.all(14),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CategoryBadgeWidget(category: mat.category),
-                  VerificationStampWidget(status: mat.verificationStatus),
+                  Text(
+                    mat.title,
+                    style: AppTheme.fontSans(fontSize: 13.5, fontWeight: FontWeight.w800, color: textMain),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    mat.description,
+                    style: AppTheme.fontSans(fontSize: 11, color: textMuted),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('AVAILABLE MASS', style: AppTheme.fontMono(fontSize: 8.5, color: textMuted)),
+                          Text('${mat.weightKg.toStringAsFixed(0)} kg', style: AppTheme.fontSans(fontSize: 13, fontWeight: FontWeight.w900, color: AppTheme.orange)),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('SCOPE 3 OFFSET', style: AppTheme.fontMono(fontSize: 8.5, color: textMuted)),
+                          Text('+${mat.co2SavedKg.toStringAsFixed(1)} kg', style: AppTheme.fontSans(fontSize: 13, fontWeight: FontWeight.w900, color: AppTheme.emerald)),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text('LOCATION', style: AppTheme.fontMono(fontSize: 8.5, color: textMuted)),
+                          Text(mat.location, style: AppTheme.fontSans(fontSize: 11, fontWeight: FontWeight.bold, color: textMain)),
+                        ],
+                      ),
+                    ],
+                  ),
                 ],
               ),
-              const SizedBox(height: 10),
-              Text(
-                mat.title,
-                style: AppTheme.fontSans(fontSize: 13.5, fontWeight: FontWeight.w800, color: textMain),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                mat.description,
-                style: AppTheme.fontSans(fontSize: 11, color: textMuted),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('AVAILABLE MASS', style: AppTheme.fontMono(fontSize: 8.5, color: textMuted)),
-                      Text('${mat.weightKg.toStringAsFixed(0)} kg', style: AppTheme.fontSans(fontSize: 13, fontWeight: FontWeight.w900, color: AppTheme.orange)),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('SCOPE 3 OFFSET', style: AppTheme.fontMono(fontSize: 8.5, color: textMuted)),
-                      Text('+${mat.co2SavedKg.toStringAsFixed(1)} kg', style: AppTheme.fontSans(fontSize: 13, fontWeight: FontWeight.w900, color: AppTheme.emerald)),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text('LOCATION', style: AppTheme.fontMono(fontSize: 8.5, color: textMuted)),
-                      Text(mat.location, style: AppTheme.fontSans(fontSize: 11, fontWeight: FontWeight.bold, color: textMain)),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
