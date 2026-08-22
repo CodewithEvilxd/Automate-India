@@ -23,8 +23,8 @@ def init_dataset_structure(base_dir="./scrap_data"):
         os.makedirs(os.path.join(base_dir, "images", split), exist_ok=True)
         os.makedirs(os.path.join(base_dir, "labels", split), exist_ok=True)
     
-    print(f"✅ Directory structure initialized under '{base_dir}'")
-    print("📁 Ready to receive raw Mandi photos or TACO / Mendeley dataset downloads.")
+    print(f"Directory structure initialized under '{base_dir}'")
+    print("Ready to receive raw Mandi photos or TACO / Mendeley dataset downloads.")
 
 if __name__ == "__main__":
     init_dataset_structure()

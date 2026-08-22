@@ -9,7 +9,7 @@ import os
 
 def analyze_scrap(image_path):
     if not os.path.exists(image_path):
-        print(f"❌ Error: File not found at {image_path}")
+        print(f"Error: File not found at {image_path}")
         return
 
     lower = os.path.basename(image_path).lower()
@@ -79,7 +79,7 @@ def analyze_scrap(image_path):
         }
 
     print("\n========================================================")
-    print(" 🔬 CircularChain Agent 1 Vision Inference Results")
+    print(" CircularChain Agent 1 Vision Inference Results")
     print("========================================================")
     print(json.dumps(result, indent=2))
 
