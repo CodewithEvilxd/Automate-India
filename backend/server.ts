@@ -545,26 +545,27 @@ app.get("/api/app-version", (_req: Request, res: Response) => {
     min_supported_version: "2.0.0",
     is_critical: false,
     release_date: "2026-08-22",
-    apk_download_url: "http://localhost:3000/circularchain.apk",
+    apk_download_url: "https://circularchain-web.vercel.app/circularchain.apk",
     apk_size_mb: "50.85 MB",
     title: "CircularChain Field APK v2.6.0 Upgrade Available",
     release_notes: [
-      "Real Web3 Polygon Amoy RPC live sync & MetaMask deep linking",
-      "6-Agent Autonomous Consensus Mesh & Live MCX Commodity Oracle",
+      "Real Web3 Polygon Amoy RPC live sync and MetaMask deep linking",
+      "6-Agent Autonomous Consensus Mesh and Live MCX Commodity Oracle",
       "On-Device Offline OCR for scanning weighbridge slips",
       "Indic Multilingual Voice Ingestion (Hindi, Tamil, Telugu, Marathi, Bengali)",
-      "Continuous In-App OTA Auto-Updater with 1-tap download & install"
+      "Continuous In-App OTA Auto-Updater with 1-tap download and install"
     ]
   });
 });
 
 app.listen(PORT, () => {
   console.log(`\n======================================================`);
-  console.log(` 🚀 CircularChain Unified Backend API is running!`);
-  console.log(` 📡 Web URL: http://localhost:${PORT}`);
-  console.log(` 📱 Mobile URL: http://10.0.2.2:${PORT}/api or http://localhost:${PORT}/api`);
-  console.log(` 🔗 Polygon Amoy Contract: ${CONTRACT_ADDRESS}`);
-  console.log(` 🧠 Multi-Agent Consensus Core: Online (6/6 Agents Active)`);
+  console.log(` CircularChain Unified Backend Protocol API Online`);
+  console.log(` Production Web URL: https://circularchain-web.vercel.app`);
+  console.log(` Local Web URL: http://localhost:${PORT}`);
+  console.log(` Mobile Bridge URL: http://10.0.2.2:${PORT}/api`);
+  console.log(` Polygon Amoy Contract: ${CONTRACT_ADDRESS}`);
+  console.log(` Multi-Agent Consensus Core: Online (6/6 Agents Active)`);
   console.log(`======================================================\n`);
 });
 

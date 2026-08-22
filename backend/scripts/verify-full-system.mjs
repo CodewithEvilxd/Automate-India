@@ -1,6 +1,12 @@
+/**
+ * CircularChain End-to-End System Verification Suite
+ * Production URL: https://circularchain-web.vercel.app
+ */
+
 async function runE2EVerification() {
   console.log("\n=======================================================");
-  console.log("  🚀 CIRCULARCHAIN LIVE E2E FULL SYSTEM VALIDATION");
+  console.log("  CIRCULARCHAIN PRODUCTION E2E SYSTEM VALIDATION");
+  console.log("  Production Web: https://circularchain-web.vercel.app");
   console.log("=======================================================\n");
 
   let passed = 0;
@@ -12,13 +18,13 @@ async function runE2EVerification() {
       const res = await fetch(url);
       const text = await res.text();
       if (res.status === 200 && (expectedSubstring ? text.includes(expectedSubstring) || text.includes("<html") : true)) {
-        console.log(`  ✅ PASS: ${name} (HTTP 200 OK - Page Loaded)`);
+        console.log(`  [PASS] ${name} (HTTP 200 OK - Page Loaded)`);
         passed++;
       } else {
-        console.log(`  ❌ FAIL: ${name} (Status: ${res.status})`);
+        console.log(`  [FAIL] ${name} (Status: ${res.status})`);
       }
     } catch (err) {
-      console.log(`  ❌ FAIL: ${name} Error: ${err.message}`);
+      console.log(`  [FAIL] ${name} Error: ${err.message}`);
     }
   }
 
@@ -40,13 +46,13 @@ async function runE2EVerification() {
     const res = await fetch("http://localhost:5000/api/health");
     const json = await res.json();
     if (json.status === "online" && json.network.includes("Polygon Amoy")) {
-      console.log(`  ✅ PASS: API Health Check (Status: ${json.status}, Network: ${json.network})`);
+      console.log(`  [PASS] API Health Check (Status: ${json.status}, Network: ${json.network})`);
       passed++;
     } else {
-      console.log("  ❌ FAIL: Health check response unexpected:", json);
+      console.log("  [FAIL] Health check response unexpected:", json);
     }
   } catch (err) {
-    console.log("  ❌ FAIL: Health check error:", err.message);
+    console.log("  [FAIL] Health check error:", err.message);
   }
 
   // Materials
@@ -55,16 +61,16 @@ async function runE2EVerification() {
     const res = await fetch("http://localhost:5000/api/materials");
     const json = await res.json();
     if (Array.isArray(json) && json.length >= 6) {
-      console.log(`  ✅ PASS: Live Materials Inventory (${json.length} verified lots loaded)`);
+      console.log(`  [PASS] Live Materials Inventory (${json.length} verified lots loaded)`);
       passed++;
     } else {
-      console.log("  ❌ FAIL: Materials response unexpected:", json);
+      console.log("  [FAIL] Materials response unexpected:", json);
     }
   } catch (err) {
-    console.log("  ❌ FAIL: Materials fetch error:", err.message);
+    console.log("  [FAIL] Materials fetch error:", err.message);
   }
 
-  // Feature 1: AI Matchmaking & MCX Scrap Price Oracle
+  // Agent 03: Matchmaker & MCX Scrap Price Oracle
   total++;
   try {
     const res = await fetch("http://localhost:5000/api/matchmaking", {
@@ -73,17 +79,17 @@ async function runE2EVerification() {
       body: JSON.stringify({ category: "aluminum", weightKg: 450, location: "Noida, UP" }),
     });
     const json = await res.json();
-    if (json.estimated_lot_value_inr === 96750 && json.net_carbon_abated_kg > 0) {
-      console.log(`  ✅ PASS: Agent 3 Matchmaker (Lot Val: ₹${json.estimated_lot_value_inr}, Unit: ₹${json.unit_price_inr_per_kg}/kg, Net Carbon ROI: +${json.net_carbon_abated_kg} kg CO₂e)`);
+    if (json.segregated_market_value_inr === 96750 && json.net_carbon_abated_kg > 0) {
+      console.log(`  [PASS] Agent 03 Matchmaker (Lot Val: INR ${json.segregated_market_value_inr}, Unit: INR ${json.mandi_spot_rate_inr_per_kg}/kg, Net Carbon ROI: +${json.net_carbon_abated_kg} kg CO2e)`);
       passed++;
     } else {
-      console.log("  ❌ FAIL: Matchmaking calculation unexpected:", json);
+      console.log("  [FAIL] Matchmaking calculation unexpected:", json);
     }
   } catch (err) {
-    console.log("  ❌ FAIL: Matchmaker error:", err.message);
+    console.log("  [FAIL] Matchmaker error:", err.message);
   }
 
-  // Feature 4: On-Chain Fraud Sentinel
+  // Agent 05: Cryptographic Fraud Sentinel
   total++;
   try {
     const resClean = await fetch("http://localhost:5000/api/fraud-sentinel", {
@@ -113,16 +119,16 @@ async function runE2EVerification() {
     const jsonWash = await resWash.json();
 
     if (jsonClean.risk_level === "LOW" && jsonWash.risk_level === "HIGH") {
-      console.log(`  ✅ PASS: Agent 5 Fraud Sentinel (Clean: ${jsonClean.risk_level} Risk, Wash Trade: ${jsonWash.risk_level} Risk with Anomaly Flag)`);
+      console.log(`  [PASS] Agent 05 Fraud Sentinel (Clean: ${jsonClean.risk_level} Risk, Wash Trade: ${jsonWash.risk_level} Risk with Anomaly Flag)`);
       passed++;
     } else {
-      console.log("  ❌ FAIL: Fraud Sentinel output unexpected:", { clean: jsonClean, wash: jsonWash });
+      console.log("  [FAIL] Fraud Sentinel output unexpected:", { clean: jsonClean, wash: jsonWash });
     }
   } catch (err) {
-    console.log("  ❌ FAIL: Fraud Sentinel error:", err.message);
+    console.log("  [FAIL] Fraud Sentinel error:", err.message);
   }
 
-  // Feature 5: Multilingual Indic Voice & Chat Ingestion
+  // Agent 04: Multilingual Indic Voice & Chat Ingestion
   total++;
   try {
     const res = await fetch("http://localhost:5000/api/indic-parse", {
@@ -131,37 +137,37 @@ async function runE2EVerification() {
       body: JSON.stringify({ transcript: "Pune chakan factory se 800 kg washed PET plastic flakes ready hai" }),
     });
     const json = await res.json();
-    if (json.category === "plastic_pet" && json.estimated_weight_kg === 800 && json.location.includes("Pune")) {
-      console.log(`  ✅ PASS: Multilingual Indic Parser (Extracted Category: ${json.category}, Weight: ${json.estimated_weight_kg}kg, Location: ${json.location})`);
+    if (json.extracted_category === "plastic_pet" && json.extracted_weight_kg === 800 && json.extracted_location.includes("Pune")) {
+      console.log(`  [PASS] Agent 04 Indic Parser (Extracted Category: ${json.extracted_category}, Weight: ${json.extracted_weight_kg}kg, Location: ${json.extracted_location})`);
       passed++;
     } else {
-      console.log("  ❌ FAIL: Indic parser output unexpected:", json);
+      console.log("  [FAIL] Indic parser output unexpected:", json);
     }
   } catch (err) {
-    console.log("  ❌ FAIL: Indic parser error:", err.message);
+    console.log("  [FAIL] Indic parser error:", err.message);
   }
 
-  // Feature 2: Visual Contamination & Quality Classifier (Agent 1)
+  // Agent 01: Visual Contamination & Quality Classifier
   total++;
   try {
     const res = await fetch("http://localhost:5000/api/analyze", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ imageBase64: "data:image/jpeg;base64,dGVzdA==" }),
+      body: JSON.stringify({ imageBase64: "data:image/jpeg;base64,dGVzdA==", fileName: "Kachra-Vidhi.jpg" }),
     });
     const json = await res.json();
-    if (json.purity_percentage && json.recyclability_grade) {
-      console.log(`  ✅ PASS: Agent 1 Optical Quality Audit (Purity: ${json.purity_percentage}%, Grade: ${json.recyclability_grade}, Moisture: ${json.moisture_level})`);
+    if (json.certified_purity_percentage && json.recyclability_grade) {
+      console.log(`  [PASS] Agent 01 Optical Quality Audit (Purity: ${json.certified_purity_percentage}%, Grade: ${json.recyclability_grade}, Moisture: ${json.estimated_moisture_percentage}%)`);
       passed++;
     } else {
-      console.log("  ❌ FAIL: Agent 1 analysis output unexpected:", json);
+      console.log("  [FAIL] Agent 01 analysis output unexpected:", json);
     }
   } catch (err) {
-    console.log("  ❌ FAIL: Agent 1 analyze error:", err.message);
+    console.log("  [FAIL] Agent 01 analyze error:", err.message);
   }
 
   console.log("\n=======================================================");
-  console.log(`  📊 FINAL VERIFICATION: ${passed} / ${total} Checks Passed`);
+  console.log(`  FINAL VERIFICATION: ${passed} / ${total} Checks Passed`);
   console.log("=======================================================\n");
 
   process.exit(passed === total ? 0 : 1);
