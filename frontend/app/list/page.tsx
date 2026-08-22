@@ -118,7 +118,7 @@ export default function ListMaterial() {
           const res = await fetch("/api/analyze", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ imageBase64: base64 }),
+            body: JSON.stringify({ imageBase64: base64, fileName: file.name }),
           });
 
           const data = await res.json();
