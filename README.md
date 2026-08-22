@@ -208,6 +208,72 @@ flowchart TD
 └─────────┴───────────────────────────────┴───────────────────────────────────────────────┘
 ```
 
+### Detailed Agent Architecture Flowcharts
+
+#### Agent 01: Optical Quality Vision & Spatial Segmentation
+```mermaid
+flowchart LR
+    A[Image Buffer] --> B[Pixel Array Decoding]
+    B --> C[Shannon Entropy H = -Sum p_i log2 p_i]
+    B --> D[RGB Spectral Decomposition]
+    C & D --> E[Contour Spatial Polygon Masks]
+    E --> F[Constituent Mass Allocation]
+    F --> G[ISO 9001 Purity & Recyclability Grade]
+```
+
+#### Agent 02: Deterministic EPA WARM & ISO 14064 Carbon LCA
+```mermaid
+flowchart LR
+    A[Material Category & Mass M] --> B[US EPA WARM v15 Baseline Factor]
+    B --> C[Gross CO2 Abated = M x Factor]
+    A --> D[Transit Distance D & Vehicle EF]
+    D --> E[Logistics Penalty = D x EF]
+    C & E --> F[Net Scope 3 GHG Offset = Gross - Freight]
+    F --> G[CEA Grid kWh Displaced & Tree Equivalent]
+```
+
+#### Agent 03: Live Indian Commodity Mandi (MCX/IPEX) Oracle & Arbitrage
+```mermaid
+flowchart LR
+    A[Live MCX WebSocket Feed] --> B[Regional Mandi Spot Index]
+    B --> C[Multi-Stream Segregation Revenue]
+    B --> D[Unsegregated Baseline Valuation]
+    C & D --> E[Worker Upside Arbitrage % = Segregated - Unsegregated / Unsegregated]
+    E --> F[Automated Recycler Buyer Matching]
+```
+
+#### Agent 04: Indic Multilingual Voice & Colloquial Mandi NLP
+```mermaid
+flowchart LR
+    A[Voice Audio Stream] --> B[Indic Whisper Phonetic Acoustic Model]
+    B --> C[Colloquial Mandi Lexicon Normalizer]
+    C --> D[Mass & Unit Normalization to KG]
+    D --> E[Geographic Coordinate Resolution]
+    E --> F[Standardized JSON Listing Payload]
+```
+
+#### Agent 05: Cryptographic Fraud Radar Sentinel & GNN Wash-Trading Detector
+```mermaid
+flowchart LR
+    A[Specimen Image] --> B[64-Bit DCT Perceptual pHash]
+    B --> C[Anti-Duplicate Image Hash Table]
+    D[Transaction Tuple Sender, Receiver] --> E[Directed Graph Cycle GNN]
+    F[Declared Mass & Volume] --> G[Physical Bulk Density Sanity Check]
+    C & E & G --> H{Risk Score < 60/100?}
+    H -->|Yes| I[Approve Settlement]
+    H -->|No| J[Hold & Flag Anomaly Violation]
+```
+
+#### Agent 06: Statutory CPCB Extended Producer Responsibility (EPR) Shield
+```mermaid
+flowchart LR
+    A[Corporate Annual Consumption MT] --> B[MoEFCC 2026 Statutory Schedule]
+    B --> C[75% Mandatory Recycling Obligation]
+    B --> D[30% Mandatory PCR Content Quota]
+    C --> E[Avoided EC Statutory Penalty = MT x INR 25,000]
+    E --> F[1-Click CPCB Form 1 Audit PDF Package]
+```
+
 ---
 
 ## Core Platform Features & Real-Time Innovations
