@@ -275,7 +275,11 @@ app.post("/api/verify-transfer", async (req: Request, res: Response) => {
       success: true,
       txHash,
       certificate,
-      verification,
+      verification: {
+        verified: fraudAudit.is_approved,
+        confidence: 100 - fraudAudit.risk_score,
+        risk_score: fraudAudit.risk_score,
+      },
       fraudAudit,
       material: updated || material,
     });
