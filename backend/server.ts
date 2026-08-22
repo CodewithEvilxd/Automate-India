@@ -161,20 +161,13 @@ app.post("/api/materials", (req: Request, res: Response) => {
 });
 
 // ==========================================
-// 3. AI AGENT 1 - MULTI-MODAL COMPUTER VISION
+// 3. AI AGENT 1 - ADVANCED MULTI-MODAL COMPUTER VISION & LCA
 // ==========================================
-app.post("/api/analyze", async (req: Request, res: Response) => {
+app.post("/api/analyze", (req: Request, res: Response) => {
   try {
-    const imageBase64 = req.body.imageBase64 || req.body.image;
-    if (!imageBase64) {
-      return res.status(400).json({ error: "No image provided" });
-    }
-
-    const cleanBase64 = imageBase64.startsWith("data:")
-      ? imageBase64
-      : `data:image/jpeg;base64,${imageBase64}`;
-
-    const analysis = await classifyMaterial(cleanBase64);
+    const imageBase64 = req.body.imageBase64 || req.body.image || "";
+    const fileName = req.body.fileName || "";
+    const analysis = predictScrapImage(imageBase64, fileName);
     return res.json(analysis);
   } catch (error: any) {
     console.error("Agent 1 AI Analysis Error:", error);
@@ -553,16 +546,6 @@ app.post("/api/ml/predict", (req: Request, res: Response) => {
     }
     const prediction = predictScrapImage(imageBase64 || "", fileName || "");
     return res.json({ success: true, result: prediction });
-  } catch (error: any) {
-    return res.status(500).json({ error: error.message });
-  }
-});
-
-app.post("/api/analyze", (req: Request, res: Response) => {
-  try {
-    const { imageBase64, fileName } = req.body;
-    const prediction = predictScrapImage(imageBase64 || "", fileName || "");
-    return res.json(prediction);
   } catch (error: any) {
     return res.status(500).json({ error: error.message });
   }
