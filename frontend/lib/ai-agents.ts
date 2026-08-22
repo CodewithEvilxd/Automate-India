@@ -377,16 +377,22 @@ Only return raw JSON without markdown.`;
   else if (lower.includes("gurgaon") || lower.includes("gurugram") || lower.includes("manesar")) location = "Gurugram, HR";
   else if (lower.includes("bangalore") || lower.includes("bengaluru")) location = "Bengaluru, KA";
   else if (lower.includes("ahmedabad") || lower.includes("gujarat")) location = "Ahmedabad, GJ";
-  else if (lower.includes("chennai")) location = "Chennai, TN";
+  let title = `Aggregated ${category.toUpperCase()} Industrial Scrap Batch`;
+  if (category === "aluminum") title = "Industrial Clean Aluminum Extrusion Offcuts";
+  else if (category === "plastic_pet") title = "Hot-Washed Clear PET Bottle Flakes";
+  else if (category === "copper") title = "Heavy Pure Copper Berry Scrap Lot";
+  else if (category === "paper") title = "Baled Corrugated Cardboard (OCC)";
+  else if (category === "electronic") title = "Telecom Grade High-Density PCB Circuit Boards";
+  else if (category === "steel") title = "Heavy Melting Scrap (HMS 1 & 2)";
 
   return {
     category,
     estimated_weight_kg: weight,
     location,
-    title: `Aggregated ${category.toUpperCase()} Industrial Scrap Batch`,
+    title,
     description: `Verified secondary material lot ingested via Multilingual Indic Voice Assistant: "${transcript}"`,
     condition: "Good",
     raw_transcript: transcript,
-    confidence: 90,
+    confidence: 94,
   };
 }
