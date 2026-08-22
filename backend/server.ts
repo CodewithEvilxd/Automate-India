@@ -229,27 +229,20 @@ app.post("/api/verify-transfer", async (req: Request, res: Response) => {
       return res.status(404).json({ error: "Material lot not found" });
     }
 
-    const verification = await verifyTransaction(
-      material.category,
-      material.estimated_weight_kg || 0,
-      material.condition || "Unknown",
-      material.co2_saved_kg || 0
-    );
-
-    if (!verification.verified) {
-      return res.status(400).json({
-        error: "Verification failed by AI Agent 2",
-        reason: verification.flag_reason,
-      });
-    }
-
-    const fraudAudit = auditOnChainFraudRisk(
+    const fraudAudit = agent05FraudSentinel.auditTransaction(
       material.owner_wallet,
       buyerWallet,
       material.estimated_weight_kg || 0,
       material.co2_saved_kg || 0,
       material.category
     );
+
+    if (!fraudAudit.is_approved) {
+      return res.status(400).json({
+        error: "Verification failed by AI Agent 05 Fraud Sentinel",
+        reason: fraudAudit.anomaly_flags.join("; "),
+      });
+    }
 
     let txHash = "0x" + Math.random().toString(16).substring(2, 42).padEnd(64, "0");
     const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL;
@@ -269,12 +262,11 @@ app.post("/api/verify-transfer", async (req: Request, res: Response) => {
       }
     }
 
-    const certificate = await generateCertificate(
+    const certificate = agent06CPCBShield.generateCertificate(
       material.category,
       material.estimated_weight_kg || 0,
       material.co2_saved_kg || 0,
-      txHash,
-      new Date().toISOString()
+      txHash
     );
 
     const updated = updateMaterialStatus(materialId, buyerWallet, txHash);
@@ -500,7 +492,7 @@ app.post("/api/ml/predict", (req: Request, res: Response) => {
     if (!imageBase64 && !fileName) {
       return res.status(400).json({ error: "imageBase64 or fileName required for vision inference" });
     }
-    const prediction = predictScrapImage(imageBase64 || "", fileName || "");
+    const prediction = agent01Vision.analyzeImage(imageBase64 || "", fileName || "");
     return res.json({ success: true, result: prediction });
   } catch (error: any) {
     return res.status(500).json({ error: error.message });
@@ -513,7 +505,7 @@ app.post("/api/ml/predict", (req: Request, res: Response) => {
 app.post("/api/agents/orchestrate", async (req: Request, res: Response) => {
   try {
     const { imageBase64 = "", fileName = "", location = "Noida, UP" } = req.body;
-    const consensus = await orchestrateAllAgents(imageBase64, fileName, location);
+    const consensus = await orchestrateConsensusMesh(imageBase64, fileName, location);
     return res.json({ success: true, consensus });
   } catch (error: any) {
     return res.status(500).json({ error: error.message });
