@@ -22,6 +22,12 @@ import { calculateCO2Saved } from "./services/co2-calculator.js";
 import { CONTRACT_ADDRESS, CONTRACT_ABI } from "./services/contract.js";
 import { DEMO_ORGANIZATIONS } from "./services/demo-data.js";
 
+import {
+  getModelStatus,
+  startBackgroundTraining,
+  predictScrapImage,
+} from "./services/ml-vision-engine.js";
+
 dotenv.config();
 
 const app = express();
@@ -517,12 +523,58 @@ app.get("/api/stats", (_req: Request, res: Response) => {
   });
 });
 
+// ==========================================
+// 10. ML VISION MODEL & CONTINUOUS TRAINING
+// ==========================================
+app.get("/api/ml/status", (_req: Request, res: Response) => {
+  const status = getModelStatus();
+  return res.json({ success: true, model: status });
+});
+
+app.post("/api/ml/train", async (req: Request, res: Response) => {
+  try {
+    const epochs = Number(req.body.epochs) || 20;
+    const trainingResult = await startBackgroundTraining(epochs);
+    return res.json({
+      success: true,
+      message: `Autonomous scrap vision model training initiated for ${epochs} epochs.`,
+      training: trainingResult,
+    });
+  } catch (error: any) {
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/api/ml/predict", (req: Request, res: Response) => {
+  try {
+    const { imageBase64, fileName } = req.body;
+    if (!imageBase64 && !fileName) {
+      return res.status(400).json({ error: "imageBase64 or fileName required for vision inference" });
+    }
+    const prediction = predictScrapImage(imageBase64 || "", fileName || "");
+    return res.json({ success: true, result: prediction });
+  } catch (error: any) {
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/api/analyze", (req: Request, res: Response) => {
+  try {
+    const { imageBase64, fileName } = req.body;
+    const prediction = predictScrapImage(imageBase64 || "", fileName || "");
+    return res.json(prediction);
+  } catch (error: any) {
+    return res.status(500).json({ error: error.message });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`\n======================================================`);
   console.log(` 🚀 CircularChain Unified Backend API is running!`);
   console.log(` 📡 Web URL: http://localhost:${PORT}`);
   console.log(` 📱 Mobile URL: http://10.0.2.2:${PORT}/api or http://localhost:${PORT}/api`);
   console.log(` 🔗 Polygon Amoy Contract: ${CONTRACT_ADDRESS}`);
+  console.log(` 🧠 ML Vision Engine: Ready (YOLOv8 ScrapNet v2.6)`);
   console.log(`======================================================\n`);
 });
 
