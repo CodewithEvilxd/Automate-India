@@ -533,8 +533,28 @@ app.get("/api/agents/telemetry", (_req: Request, res: Response) => {
       network: "Polygon Amoy Testnet",
       chain_id: 80002,
       contract_address: CONTRACT_ADDRESS,
-      meta_transactions: "ERC-2771 Gasless Forwarder"
-    }
+      meta_transactions: "ERC-2771 Gasless Forwarder",
+    },
+  });
+});
+
+app.get("/api/app-version", (_req: Request, res: Response) => {
+  res.json({
+    latest_version: "2.6.0",
+    version_code: 26,
+    min_supported_version: "2.0.0",
+    is_critical: false,
+    release_date: "2026-08-22",
+    apk_download_url: "http://localhost:3000/circularchain.apk",
+    apk_size_mb: "50.85 MB",
+    title: "CircularChain Field APK v2.6.0 Upgrade Available",
+    release_notes: [
+      "Real Web3 Polygon Amoy RPC live sync & MetaMask deep linking",
+      "6-Agent Autonomous Consensus Mesh & Live MCX Commodity Oracle",
+      "On-Device Offline OCR for scanning weighbridge slips",
+      "Indic Multilingual Voice Ingestion (Hindi, Tamil, Telugu, Marathi, Bengali)",
+      "Continuous In-App OTA Auto-Updater with 1-tap download & install"
+    ]
   });
 });
 
