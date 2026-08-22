@@ -1,4 +1,4 @@
-# 🌐 CircularChain — Autonomous Web3 & Multi-Agent AI Circular Economy Protocol
+# CircularChain — Autonomous Web3 & Multi-Agent AI Circular Economy Protocol
 
 <div align="center">
 
@@ -15,7 +15,7 @@
 [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
 
 <p align="center">
-  <b>Transforming India’s $40 Billion Unorganized Scrap Economy into a Cryptographically Verified, AI-Graded, and Liquid Digital Asset Class.</b>
+  <b>Transforming India's $40 Billion Unorganized Scrap Economy into a Cryptographically Verified, AI-Graded, and Liquid Digital Asset Class.</b>
 </p>
 
 [YouTube Demo](https://youtu.be/VdttZQ61Y3g) • [Live Web DApp](http://localhost:3000) • [Marketplace](http://localhost:3000/marketplace) • [EPR Simulator](http://localhost:3000/epr-calculator) • [Field Manual Docs](http://localhost:3000/docs) • [Android APK](http://localhost:3000/circularchain.apk)
@@ -24,7 +24,7 @@
 
 ---
 
-## 🎬 Live Product Demonstration & Video Walkthrough
+## Live Product Demonstration & Video Walkthrough
 
 <div align="center">
 
@@ -47,7 +47,7 @@
 </video>
 
 <p align="center">
-  <b>▶️ <a href="https://youtu.be/VdttZQ61Y3g">Watch on YouTube (https://youtu.be/VdttZQ61Y3g)</a></b> | <a href="frontend/public/DEMO/export-1787051039864.mp4"><b>Direct MP4 Download</b></a><br/>
+  <b><a href="https://youtu.be/VdttZQ61Y3g">Watch on YouTube (https://youtu.be/VdttZQ61Y3g)</a></b> | <a href="frontend/public/DEMO/export-1787051039864.mp4"><b>Direct MP4 Download</b></a><br/>
   <sub>Complete 8-Minute End-to-End Walkthrough demonstrating the 6 Autonomous AI Agents, Live MCX Commodity Oracle, Web3 Persistent Wallet, and CPCB Statutory Simulator.</sub>
 </p>
 
@@ -55,51 +55,51 @@
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 
-1. [Executive Summary & High-Impact Pitch](#-executive-summary--high-impact-pitch)
-2. [The $40 Billion Crisis & Problem Breakdown](#-the-40-billion-crisis--problem-breakdown)
-3. [Design Thinking 5-Stage Framework](#-design-thinking-5-stage-framework)
-4. [System Architecture & Data Flow (Mermaid Diagram)](#-system-architecture--data-flow)
-5. [The 6 Autonomous AI Agents & Mathematical Foundations](#-the-6-autonomous-ai-agents--mathematical-foundations)
-6. [Core Platform Features & Real-Time Innovations](#-core-platform-features--real-time-innovations)
-7. [Mathematical Carbon Model (US EPA WARM v15)](#-mathematical-carbon-model-us-epa-warm-v15)
-8. [Comprehensive API Reference & Endpoints](#-comprehensive-api-reference--endpoints)
-9. [User Personas & Real-World Workflow Scenarios](#-user-personas--real-world-workflow-scenarios)
-10. [Monorepo Directory Structure](#-monorepo-directory-structure)
-11. [Installation & Local Run Guide](#-installation--local-run-guide)
-12. [Smart Contract & Web3 Ledger Specifications](#-smart-contract--web3-ledger-specifications)
-13. [Android Mobile Field Application & In-App OTA Engine](#-android-mobile-field-application--in-app-ota-engine)
-14. [Automated Verification & CI/CD Testing Suite](#-automated-verification--cicd-testing-suite)
-15. [Team & License](#-team--license)
+1. [Executive Summary & High-Impact Pitch](#executive-summary--high-impact-pitch)
+2. [The $40 Billion Crisis & Problem Breakdown](#the-40-billion-crisis--problem-breakdown)
+3. [Design Thinking 5-Stage Framework](#design-thinking-5-stage-framework)
+4. [System Architecture & Data Flow](#system-architecture--data-flow)
+5. [The 6 Autonomous AI Agents & Mathematical Foundations](#the-6-autonomous-ai-agents--mathematical-foundations)
+6. [Core Platform Features & Real-Time Innovations](#core-platform-features--real-time-innovations)
+7. [Mathematical Carbon Model (US EPA WARM v15)](#mathematical-carbon-model-us-epa-warm-v15)
+8. [Comprehensive API Reference & Endpoints](#comprehensive-api-reference--endpoints)
+9. [User Personas & Real-World Workflow Scenarios](#user-personas--real-world-workflow-scenarios)
+10. [Monorepo Directory Structure](#monorepo-directory-structure)
+11. [Installation & Local Run Guide](#installation--local-run-guide)
+12. [Smart Contract & Web3 Ledger Specifications](#smart-contract--web3-ledger-specifications)
+13. [Android Mobile Field Application & In-App OTA Engine](#android-mobile-field-application--in-app-ota-engine)
+14. [Automated Verification & CI/CD Testing Suite](#automated-verification--cicd-testing-suite)
+15. [Team & License](#team--license)
 
 ---
 
-## 🚀 Executive Summary & High-Impact Pitch
+## Executive Summary & High-Impact Pitch
 
 **CircularChain** is an enterprise-grade, decentralized circular economy marketplace and industrial secondary raw material ledger engineered for **Automate India 2026**.
 
 It bridges India's **5 Million+ informal waste pickers (kabadiwalas)** with institutional manufacturing enterprises (**Tata Motors, Reliance, Unilever, Automobile OEMs**) by deploying:
 
-* 📈 **Real-Time MCX Commodity Oracles**: Streaming live mandi spot prices over WebSockets to ensure transparent, middleman-free fair value.
-* 🔬 **Autonomous Optical Vision Quality Engine (YOLOv8 + ViT)**: Evaluating pixel-by-pixel surface contamination %, moisture fraction, and ISO 9001 recyclability grades.
-* 🌿 **Deterministic EPA WARM Carbon Accounting**: Eliminating non-deterministic generative hallucinations with exact Scope 3 GHG reduction math.
-* ⛓️ **Polygon Amoy Smart Contracts**: Delivering gasless meta-transactions, decentralized escrow, and immutable IPFS audit trails.
-* 🎙️ **Indic Multilingual Voice NLP**: Transcribing colloquial mandi slang across 5 regional languages (Hindi, Tamil, Telugu, Marathi, Bengali) into structured listings in under 10 seconds.
-* 📱 **Offline Android Field App**: Featuring on-device MobileNet OCR for scanning remote weighbridge slips with zero internet connectivity.
+* **Real-Time MCX Commodity Oracles**: Streaming live mandi spot prices over WebSockets to ensure transparent, middleman-free fair value.
+* **Autonomous Optical Vision Quality Engine (YOLOv8 + ViT)**: Evaluating pixel-by-pixel surface contamination %, moisture fraction, and ISO 9001 recyclability grades.
+* **Deterministic EPA WARM Carbon Accounting**: Eliminating non-deterministic generative hallucinations with exact Scope 3 GHG reduction math.
+* **Polygon Amoy Smart Contracts**: Delivering gasless meta-transactions, decentralized escrow, and immutable IPFS audit trails.
+* **Indic Multilingual Voice NLP**: Transcribing colloquial mandi slang across 5 regional languages (Hindi, Tamil, Telugu, Marathi, Bengali) into structured listings in under 10 seconds.
+* **Offline Android Field App**: Featuring on-device MobileNet OCR for scanning remote weighbridge slips with zero internet connectivity.
 
 ---
 
-## 🚨 The $40 Billion Crisis & Problem Breakdown
+## The $40 Billion Crisis & Problem Breakdown
 
-India generates over **62 Million Metric Tons** of solid waste annually. Despite a **$40 Billion (₹3.3 Lakh Crore)** secondary raw material market, **90% of the value chain remains unorganized, unrecorded, and fragmented**.
+India generates over **62 Million Metric Tons** of solid waste annually. Despite a **$40 Billion (INR 3.3 Lakh Crore)** secondary raw material market, **90% of the value chain remains unorganized, unrecorded, and fragmented**.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
 │                              THE 3 SYSTEMIC BREAKDOWNS                                 │
 ├───────────────────────────────┬──────────────────────────────┬─────────────────────────┤
 │ 1. KABADIWALA EXPLOITATION   │ 2. CORPORATE GREENWASHING    │ 3. CPCB REGULATORY FINES │
-│ • 5M+ informal collectors     │ • $12.4B annual fraud        │ • ₹25,000 / Metric Ton   │
+│ • 5M+ informal collectors     │ • $12.4B annual fraud        │ • INR 25,000 / MT        │
 │ • 40% predatory middleman cut │ • Fake paper & Photoshop slip│   statutory penalty      │
 │ • 0 real-time price awareness │ • Double-counted certificates│ • MoEFCC PWM 2026 quota  │
 └───────────────────────────────┴──────────────────────────────┴─────────────────────────┘
@@ -112,11 +112,11 @@ India generates over **62 Million Metric Tons** of solid waste annually. Despite
 Manufacturing enterprises purchasing secondary scrap for ESG mandates rely on fragmented paper invoices. The sector is plagued by **Photoshopped weighbridge receipts and duplicate certificates**, where single scrap shipments are sold to multiple corporate buyers simultaneously.
 
 ### 3. MoEFCC 2026 Statutory Compliance Penalties
-Under the **Plastic Waste Management (PWM) Rules 2026** and **E-Waste Management Rules**, brands face a mandatory **75% recycling obligation**. Non-compliance triggers Central Pollution Control Board (CPCB) **Environmental Compensation (EC) fines of ₹25,000 per MT**.
+Under the **Plastic Waste Management (PWM) Rules 2026** and **E-Waste Management Rules**, brands face a mandatory **75% recycling obligation**. Non-compliance triggers Central Pollution Control Board (CPCB) **Environmental Compensation (EC) fines of INR 25,000 per MT**.
 
 ---
 
-## 🎨 Design Thinking 5-Stage Framework
+## Design Thinking 5-Stage Framework
 
 CircularChain was designed from the ground up using Stanford's **5-Stage Design Thinking Methodology**:
 
@@ -140,7 +140,7 @@ graph LR
 
 ---
 
-## 🏗️ System Architecture & Data Flow
+## System Architecture & Data Flow
 
 ```mermaid
 flowchart TD
@@ -179,7 +179,7 @@ flowchart TD
 
 ---
 
-## 🤖 The 6 Autonomous AI Agents & Mathematical Foundations
+## The 6 Autonomous AI Agents & Mathematical Foundations
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
@@ -187,41 +187,41 @@ flowchart TD
 ├─────────┬───────────────────────────────┬───────────────────────────────────────────────┤
 │ Agent   │ Subsystem Name                │ Core Technology, Algorithms & Responsibilities │
 ├─────────┼───────────────────────────────┼───────────────────────────────────────────────┤
-│ **01**  │ **Optical Quality Vision**    │ YOLOv8 + Vision Transformer (ViT). Computes   │
+│ 01      │ Optical Quality Vision        │ YOLOv8 + Vision Transformer (ViT). Computes   │
 │         │                               │ pixel-level surface contamination %, moisture │
 │         │                               │ fraction & ISO 9001 recyclability grades.     │
 ├─────────┼───────────────────────────────┼───────────────────────────────────────────────┤
-│ **02**  │ **EPA WARM Carbon Math**      │ US EPA WARM v15 Life-Cycle Assessment.        │
+│ 02      │ EPA WARM Carbon Math          │ US EPA WARM v15 Life-Cycle Assessment.        │
 │         │                               │ Deterministic Scope 3 GHG CO2e offset math.   │
 ├─────────┼───────────────────────────────┼───────────────────────────────────────────────┤
-│ **03**  │ **MCX Spot & Logistics**      │ WebSocket live ticker stream + Haversine      │
+│ 03      │ MCX Spot & Logistics          │ WebSocket live ticker stream + Haversine      │
 │         │                               │ distance routing to calculate net carbon ROI. │
 ├─────────┼───────────────────────────────┼───────────────────────────────────────────────┤
-│ **04**  │ **Indic Voice NLP Bridge**    │ Whisper fine-tuned on Indic dialects (Hi, Ta, │
+│ 04      │ Indic Voice NLP Bridge        │ Whisper fine-tuned on Indic dialects (Hi, Ta, │
 │         │                               │ Te, Mr, Bn); parses slang into clean forms.   │
 ├─────────┼───────────────────────────────┼───────────────────────────────────────────────┤
-│ **05**  │ **Fraud Radar Sentinel**      │ pHash perceptual hashing & anomaly graph GNNs │
+│ 05      │ Fraud Radar Sentinel          │ pHash perceptual hashing & anomaly graph GNNs │
 │         │                               │ to reject duplicate invoices and wash-trades. │
 ├─────────┼───────────────────────────────┼───────────────────────────────────────────────┤
-│ **06**  │ **CPCB Statutory EPR Shield** │ MoEFCC PWM 2026 rules engine; computes 75%   │
-│         │                               │ recycling quota & ₹ Lakhs penalty avoidance.  │
+│ 06      │ CPCB Statutory EPR Shield     │ MoEFCC PWM 2026 rules engine; computes 75%   │
+│         │                               │ recycling quota & INR Lakhs penalty avoidance.│
 └─────────┴───────────────────────────────┴───────────────────────────────────────────────┘
 ```
 
 ---
 
-## 💎 Core Platform Features & Real-Time Innovations
+## Core Platform Features & Real-Time Innovations
 
 ### 1. Real-Time MCX Commodity Live Ticker
 Continuous spot price telemetry for 8 industrial scrap commodities:
-* **Aluminum 6063 Extrusions**: ₹215 / kg
-* **Heavy Copper Berry**: ₹760 / kg
-* **Hot-Washed PET Flakes**: ₹48 / kg
-* **Rigid HDPE Regrind**: ₹62 / kg
-* **Heavy Melting Steel (HMS 1/2)**: ₹38 / kg
-* **Corrugated Cardboard (OCC)**: ₹14 / kg
-* **Printed Circuit Board E-Waste**: ₹340 / kg
-* **Lithium Battery Black Mass (NMC)**: ₹1,250 / kg
+* **Aluminum 6063 Extrusions**: INR 215 / kg
+* **Heavy Copper Berry**: INR 760 / kg
+* **Hot-Washed PET Flakes**: INR 48 / kg
+* **Rigid HDPE Regrind**: INR 62 / kg
+* **Heavy Melting Steel (HMS 1/2)**: INR 38 / kg
+* **Corrugated Cardboard (OCC)**: INR 14 / kg
+* **Printed Circuit Board E-Waste**: INR 340 / kg
+* **Lithium Battery Black Mass (NMC)**: INR 1,250 / kg
 
 ### 2. Universal Web3 Wallet Engine & Session Persistence
 * **Universal Multi-Provider**: Injected wallets (MetaMask, Trust Wallet, OKX) + Custom Verified EVM Address with `ethers.getAddress()` checksum validation.
@@ -239,12 +239,12 @@ Continuous spot price telemetry for 8 industrial scrap commodities:
 
 ### 5. Statutory CPCB EPR Compliance Simulator (`/epr-calculator`)
 * Computes corporate recycling obligations under MoEFCC Plastic & E-Waste Rules 2026.
-* Live Environmental Compensation (EC) penalty avoidance calculation (e.g., **₹76.5 Lakhs saved** on 1,200 MT consumption).
+* Live Environmental Compensation (EC) penalty avoidance calculation (e.g., **INR 76.5 Lakhs saved** on 1,200 MT consumption).
 * 1-click audit-ready PDF export for statutory submission.
 
 ---
 
-## 🧮 Mathematical Carbon Model (US EPA WARM v15)
+## Mathematical Carbon Model (US EPA WARM v15)
 
 To guarantee institutional audit compliance, CircularChain rejects non-deterministic LLM carbon estimations and implements the **US EPA Waste Reduction Model (WARM v15)**:
 
@@ -268,21 +268,23 @@ Where:
 
 ---
 
-## 🌐 Comprehensive API Reference & Endpoints
+## Comprehensive API Reference & Endpoints
 
 | HTTP Method | Route | Description | Response Payload |
 | :--- | :--- | :--- | :--- |
 | `GET` | `/api/mcx-oracle` | Real-time spot price streams for 8 scrap commodities | Array of commodity symbols, INR/kg prices & 24h shifts |
 | `GET` | `/api/materials` | Fetches active verified scrap lots | Array of scrap lot objects with IPFS photos & carbon math |
 | `GET` | `/api/materials/[id]` | Fetches single lot inspection & on-chain proof | Deep lot object, contamination heatmap & audit hashes |
-| `POST` | `/api/cpcb` | Computes MoEFCC 2026 EPR obligations & EC penalty | Statutory targets, carbon credits & avoided penalty in ₹ |
+| `POST` | `/api/cpcb` | Computes MoEFCC 2026 EPR obligations & EC penalty | Statutory targets, carbon credits & avoided penalty in INR |
 | `GET` | `/api/app-version` | In-app continuous OTA updater endpoint | Release version `v2.6.0`, changelog & binary download URL |
 | `POST` | `/api/analyze` | AI Computer Vision quality inspection engine | Surface contamination %, moisture & ISO grade |
 | `POST` | `/api/verify-transfer` | Verifies cryptographic on-chain lot settlement | Blockchain tx hash, block number & IPFS confirmation |
+| `GET` | `/api/ml/status` | ML Vision training status & mAP accuracy | Current epoch, loss, dataset samples, model version |
+| `POST` | `/api/ml/train` | Triggers background model fine-tuning | Asynchronous training confirmation & epoch progress |
 
 ---
 
-## 👥 User Personas & Real-World Workflow Scenarios
+## User Personas & Real-World Workflow Scenarios
 
 ### Persona 1: Ramesh — Informal Scrap Collector (Noida Sector 63)
 * **Goal**: Sell 450 kg Aluminum offcuts without getting cheated by local middlemen.
@@ -290,7 +292,7 @@ Where:
   1. Opens Android Field App with Hindi voice mode.
   2. Speaks: *"450 kilo clean aluminum patti scrap hai"*.
   3. App scans weighbridge ticket with Offline OCR.
-  4. Instant listing published at verified MCX rate (₹215/kg).
+  4. Instant listing published at verified MCX rate (INR 215/kg).
   5. Receives instant digital payout (+35% more than middleman offer).
 
 ### Persona 2: Priya — Chief Sustainability Officer (Tata Motors)
@@ -300,17 +302,17 @@ Where:
   2. Filters for ISO Grade A+ Aluminum Extrusions.
   3. Inspects Agent 01 Contamination Heatmap and EPA WARM carbon math.
   4. Claims lot via Polygon Amoy smart contract.
-  5. Downloads 1-Click Form 1 CPCB audit report saving ₹76.5 Lakhs in statutory penalty risk.
+  5. Downloads 1-Click Form 1 CPCB audit report saving INR 76.5 Lakhs in statutory penalty risk.
 
 ---
 
-## 📁 Monorepo Directory Structure
+## Monorepo Directory Structure
 
 ```text
 Automate-India/
 ├── frontend/                        # Next.js 16 Web Application (Turbopack + React 19)
 │   ├── app/                         # App Router (28 Static & Dynamic Routes)
-│   │   ├── api/                     # Edge API Routes (mcx-oracle, materials, cpcb, app-version)
+│   │   ├── api/                     # Edge API Routes (mcx-oracle, materials, cpcb, app-version, ml)
 │   │   ├── docs/                    # Technical Field Manual & 6-Agent Specification Pages
 │   │   ├── epr-calculator/          # Statutory CPCB EPR Simulator Page
 │   │   ├── leaderboard/             # Circular Economy Reputation & Rankings Page
@@ -328,7 +330,7 @@ Automate-India/
 ├── backend/                         # Express API & Polygon Amoy Hardhat Environment
 │   ├── contracts/                   # MaterialRegistry.sol & ScrapTransfer.sol
 │   ├── prisma/                      # schema.prisma (PostgreSQL ORM)
-│   ├── services/                    # AI Agent Services, EPA Math & Price Oracles
+│   ├── services/                    # ML Vision Engine, AI Agent Services & Price Oracles
 │   ├── server.ts                    # Backend REST API Server (Port 5000)
 │   └── hardhat.config.cjs           # Polygon Amoy Network Deployment Config
 │
@@ -337,13 +339,19 @@ Automate-India/
 │   ├── pubspec.yaml                 # Flutter Dependencies
 │   └── android/                     # Android Native Release Manifest & Build Scripts
 │
+├── ai_model/                        # Custom YOLOv8 Scrap Vision Model Training Pipeline
+│   ├── dataset_config.yaml          # 8 Industrial Scrap Class Definitions
+│   ├── train_scrap_model.py         # PyTorch / Ultralytics Training & ONNX/TFLite Exporter
+│   ├── infer_scrap_image.py         # Standalone Neural Vision Testing CLI
+│   └── README.md                    # Machine Learning Documentation
+│
 ├── .gitignore                       # Git Ignore Rules
 └── README.md                        # Project Documentation
 ```
 
 ---
 
-## 💻 Installation & Local Run Guide
+## Installation & Local Run Guide
 
 ### Prerequisites
 * **Node.js**: `v20.x` or `v22.x` / `v24.x`
@@ -407,7 +415,7 @@ flutter run
 
 ---
 
-## ⛓️ Smart Contract & Web3 Ledger Specifications
+## Smart Contract & Web3 Ledger Specifications
 
 * **Consensus Network**: Polygon Amoy Testnet (Proof-of-Stake)
 * **Chain ID**: `80002` (`0x13882`)
@@ -419,7 +427,7 @@ flutter run
 
 ---
 
-## 📱 Android Mobile Field Application & In-App OTA Engine
+## Android Mobile Field Application & In-App OTA Engine
 
 The repository includes a ready-to-install standalone Android binary located at [`frontend/public/circularchain.apk`](frontend/public/circularchain.apk) (50.85 MB).
 
@@ -430,7 +438,7 @@ The repository includes a ready-to-install standalone Android binary located at 
 
 ---
 
-## 🧪 Automated Verification & CI/CD Testing Suite
+## Automated Verification & CI/CD Testing Suite
 
 The repository has been verified across all 28 Next.js static and dynamic routes with **0 TypeScript and 0 build errors**.
 
@@ -441,9 +449,9 @@ npm run build
 
 ---
 
-## 👥 Team & License
+## Team & License
 
-Developed with ❤️ for **Automate India 2026** by Team **CircularChain**.
+Developed for **Automate India 2026** by Team **CircularChain**.
 
 * **Repository**: [https://github.com/CodewithEvilxd/Automate-India](https://github.com/CodewithEvilxd/Automate-India)
 * **License**: This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
@@ -451,5 +459,5 @@ Developed with ❤️ for **Automate India 2026** by Team **CircularChain**.
 ---
 
 <div align="center">
-  <b>Built for a Sustainable, Transparent, and Decentralized India 🇮🇳</b>
+  <b>Built for a Sustainable, Transparent, and Decentralized India</b>
 </div>
