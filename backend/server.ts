@@ -10,14 +10,14 @@ import {
   updateMaterialStatus,
 } from "./services/storage.js";
 import {
-  classifyMaterial,
-  verifyTransaction,
-  generateCertificate,
-  calculatePriceAndMatch,
-  auditOnChainFraudRisk,
-  parseIndicVoiceListing,
-  orchestrateAllAgents,
-} from "./services/ai-agents.js";
+  agent01Vision,
+  agent02CarbonLCA,
+  agent03MCXOracle,
+  agent04IndicVoice,
+  agent05FraudSentinel,
+  agent06CPCBShield,
+  orchestrateConsensusMesh,
+} from "./services/agents/index.js";
 import { calculateCO2Saved } from "./services/co2-calculator.js";
 import { CONTRACT_ADDRESS, CONTRACT_ABI } from "./services/contract.js";
 import { DEMO_ORGANIZATIONS } from "./services/demo-data.js";
@@ -25,7 +25,6 @@ import { DEMO_ORGANIZATIONS } from "./services/demo-data.js";
 import {
   getModelStatus,
   startBackgroundTraining,
-  predictScrapImage,
 } from "./services/ml-vision-engine.js";
 
 dotenv.config();
@@ -167,7 +166,7 @@ app.post("/api/analyze", (req: Request, res: Response) => {
   try {
     const imageBase64 = req.body.imageBase64 || req.body.image || "";
     const fileName = req.body.fileName || "";
-    const analysis = predictScrapImage(imageBase64, fileName);
+    const analysis = agent01Vision.analyzeImage(imageBase64, fileName);
     return res.json(analysis);
   } catch (error: any) {
     console.error("Agent 1 AI Analysis Error:", error);
@@ -368,47 +367,13 @@ app.post("/api/cpcb/calculate", (req: Request, res: Response) => {
   try {
     const {
       companyName = "Enterprise Partner",
-      piboRegistrationNo = "CPCB/PIBO/2026/08941",
-      state = "Uttar Pradesh (UPPCB)",
-      industry = "automotive",
       materialCategory = "aluminum",
       annualConsumptionMT = 350,
-      fiscalYear = "FY 2026-27",
     } = req.body;
-
-    const rule = CPCB_RULES[materialCategory] || CPCB_RULES.aluminum;
-
-    const mandatoryOffsetMT = Math.round(annualConsumptionMT * rule.targetRecyclingPct * 10) / 10;
-    const mandatoryOffsetKg = mandatoryOffsetMT * 1000;
-    const mandatoryPCRMassMT = Math.round(annualConsumptionMT * rule.mandatoryPCRContentPct * 10) / 10;
-    const carbonAbatementKg = Math.round(mandatoryOffsetKg * rule.epaWARMFactor);
-    const avoidedPenaltyINR = Math.round(mandatoryOffsetMT * rule.cpcbPenaltyPerMT);
-
-    res.json({
-      success: true,
-      data: {
-        assessment_id: `CPCB-EPR-ASSESS-${Date.now().toString().slice(-6)}`,
-        fiscal_year: fiscalYear,
-        jurisdiction: state,
-        pibo_registration_number: piboRegistrationNo,
-        corporate_entity: companyName,
-        target_industry: industry,
-        material_schedule: rule.schedule,
-        regulatory_authority: rule.ruleAuthority,
-        declared_consumption_mt: annualConsumptionMT,
-        mandated_recycling_target_percent: rule.targetRecyclingPct * 100,
-        mandated_offset_obligation_mt: mandatoryOffsetMT,
-        mandatory_pcr_recycled_content_percent: rule.mandatoryPCRContentPct * 100,
-        mandatory_pcr_mass_mt: mandatoryPCRMassMT,
-        verified_carbon_abatement_kg_co2e: carbonAbatementKg,
-        avoided_statutory_penalty_inr: avoidedPenaltyINR,
-        consensus_network: "Polygon Amoy Testnet (Chain ID 80002)",
-        timestamp_utc: new Date().toISOString(),
-        cpcb_portal_compliance_status: "100% AUDIT READY",
-      },
-    });
+    const assessment = agent06CPCBShield.simulateCorporateObligation(companyName, materialCategory, Number(annualConsumptionMT) || 350);
+    return res.json({ success: true, data: assessment });
   } catch (error: any) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 });
 
@@ -418,16 +383,7 @@ app.post("/api/cpcb/calculate", (req: Request, res: Response) => {
 app.get("/api/mcx-oracle", (_req: Request, res: Response) => {
   res.json({
     success: true,
-    commodities: [
-      { symbol: "ALUM-6063", name: "Aluminum Extrusions (6063 Scrap)", unitPriceINR: 215.0, unit: "kg", change: "+2.4%", trend: "up", exchange: "MCX Spot" },
-      { symbol: "CU-BERRY", name: "Copper Scrap (Heavy Berry No. 1)", unitPriceINR: 760.0, unit: "kg", change: "+1.8%", trend: "up", exchange: "MCX Continuous" },
-      { symbol: "PET-WASH", name: "PET Bottle Flakes (Hot Washed)", unitPriceINR: 48.0, unit: "kg", change: "+3.1%", trend: "up", exchange: "Indian Polymer Index" },
-      { symbol: "HDPE-BLU", name: "HDPE Regrind Granules (Blue Drums)", unitPriceINR: 58.0, unit: "kg", change: "-0.5%", trend: "down", exchange: "IPex Gujarat Hub" },
-      { symbol: "HMS-1-2", name: "Heavy Melting Steel Scrap (HMS 1/2)", unitPriceINR: 42.5, unit: "kg", change: "+0.9%", trend: "up", exchange: "SteelMint Index" },
-      { symbol: "OCC-11", name: "Corrugated Cardboard (OCC 11)", unitPriceINR: 14.5, unit: "kg", change: "+1.2%", trend: "up", exchange: "Paper Index India" },
-      { symbol: "PCB-IND", name: "Industrial Telecom Circuit Boards", unitPriceINR: 340.0, unit: "kg", change: "+4.5%", trend: "up", exchange: "E-Waste Metals Index" },
-      { symbol: "LI-NMC", name: "Lithium Black Mass (NMC/LFP Scrap)", unitPriceINR: 850.0, unit: "kg", change: "+5.2%", trend: "up", exchange: "Battery Waste Index" },
-    ],
+    commodities: agent03MCXOracle.getLiveCommodityBoard(),
   });
 });
 
@@ -437,7 +393,7 @@ app.get("/api/mcx-oracle", (_req: Request, res: Response) => {
 app.post("/api/matchmaking", (req: Request, res: Response) => {
   try {
     const { category, weightKg, location } = req.body;
-    const match = calculatePriceAndMatch(category || "aluminum", Number(weightKg) || 100, location || "Noida, UP");
+    const match = agent03MCXOracle.matchLot(category || "aluminum", Number(weightKg) || 100, location || "Noida, UP");
     return res.json(match);
   } catch (error: any) {
     return res.status(500).json({ error: error.message });
@@ -447,7 +403,7 @@ app.post("/api/matchmaking", (req: Request, res: Response) => {
 app.post("/api/fraud-sentinel", (req: Request, res: Response) => {
   try {
     const { fromWallet, toWallet, weightKg, claimedCo2, category } = req.body;
-    const audit = auditOnChainFraudRisk(
+    const audit = agent05FraudSentinel.auditTransaction(
       fromWallet || "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
       toWallet || "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
       Number(weightKg) || 450,
@@ -466,7 +422,7 @@ app.post("/api/indic-parse", async (req: Request, res: Response) => {
     if (!transcript) {
       return res.status(400).json({ error: "No voice transcript provided" });
     }
-    const parsed = await parseIndicVoiceListing(transcript);
+    const parsed = agent04IndicVoice.parseTranscript(transcript);
     return res.json(parsed);
   } catch (error: any) {
     return res.status(500).json({ error: error.message });
