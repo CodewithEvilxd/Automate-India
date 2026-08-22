@@ -1,0 +1,18 @@
+# CircularChain Autonomous YOLOv8 Industrial Scrap Vision Dataset Configuration
+# Standardized for TACO, Mendeley Waste Dataset & Mandi Ground Samples
+
+path: ./scrap_data
+train: images/train
+val: images/val
+test: images/test
+
+# 8 Core Industrial Secondary Material Classes & Contamination Labels
+names:
+  0: aluminum_extrusion
+  1: copper_berry_wire
+  2: plastic_pet_bottle
+  3: plastic_hdpe_container
+  4: paper_cardboard_occ
+  5: electronic_pcb_board
+  6: steel_heavy_melting
+  7: mixed_contaminated_waste
