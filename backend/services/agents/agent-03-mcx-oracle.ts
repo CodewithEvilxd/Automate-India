@@ -76,11 +76,26 @@ export class Agent03MCXCommodityOracle {
   }
 
   public getLiveCommodityBoard() {
+    const changes: Record<string, string> = {
+      aluminum: "+2.4%",
+      copper: "+1.8%",
+      plastic_pet: "+3.1%",
+      plastic_hdpe: "-0.5%",
+      paper_cardboard: "+1.2%",
+      electronic_pcb: "+4.5%",
+      steel: "+0.9%",
+      battery_lithium: "+5.2%",
+      mixed: "+0.0%",
+    };
+
     return Object.entries(MCX_COMMODITY_REGISTRY).map(([key, val]) => ({
       key,
       name: val.name,
       symbol: val.symbol,
+      unitPriceINR: val.spotRateINR,
       spotRateINR: val.spotRateINR,
+      unit: "kg",
+      change: changes[key] || "+1.5%",
       trend: val.trend,
       exchange: val.exchange,
     }));

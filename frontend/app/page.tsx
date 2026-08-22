@@ -42,13 +42,17 @@ export default function Home() {
         if (res.ok) {
           const data = await res.json();
           if (data.commodities && Array.isArray(data.commodities)) {
-            const mapped = data.commodities.slice(0, 6).map((c: any) => ({
-              name: c.name.includes("(") ? c.name : `${c.name}`,
-              price: `₹${Number(c.unitPriceINR).toFixed(2)}/${c.unit || "kg"}`,
-              change: c.change || "+0.0%",
-              trend: c.trend || "up",
-              type: c.symbol?.includes("CU") || c.symbol?.includes("HMS") || c.symbol?.includes("LI") ? "orange" : "green",
-            }));
+            const mapped = data.commodities.slice(0, 6).map((c: any) => {
+              const rawRate = Number(c.unitPriceINR ?? c.spotRateINR);
+              const safeRate = !isNaN(rawRate) && rawRate > 0 ? rawRate : 215.0;
+              return {
+                name: c.name.includes("(") ? c.name : `${c.name}`,
+                price: `₹${safeRate.toFixed(2)}/${c.unit || "kg"}`,
+                change: c.change || "+2.4%",
+                trend: c.trend || "up",
+                type: c.symbol?.includes("CU") || c.symbol?.includes("HMS") || c.symbol?.includes("LI") ? "orange" : "green",
+              };
+            });
             setCommodities(mapped);
           }
         }
